@@ -1,7 +1,28 @@
-import React, { useEffect } from 'react';
-import { Link, Outlet } from '@tanstack/react-router';
+import React, { useEffect, useState } from 'react';
+import { Link, Outlet, useLocation } from '@tanstack/react-router';
 
 const Nav = () => {
+  const location = useLocation();
+  const [hash, setHash] = useState('');
+  
+  useEffect(() => {
+    // Set initial hash
+    setHash(window.location.hash);
+    
+    // Listen for hash changes
+    const handleHashChange = () => setHash(window.location.hash);
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, [location.pathname]); // Re-run when pathname changes
+  
+  const isOnHome = location.pathname === '/';
+  const isOnCareers = location.pathname === '/careers';
+  const isOnResearch = isOnHome && hash === '#research';
+  const isOnProjects = isOnHome && hash === '#projects';
+  
+  const getLinkClass = (isActive) => 
+    `transition-colors underline-offset-4 ${isActive ? 'text-white underline' : 'hover:text-white hover:underline'}`;
+  
   return (
     <nav className="w-full z-50 py-6">
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
@@ -24,9 +45,11 @@ const Nav = () => {
           </div>
         </div>
         <div className="flex items-center gap-8 text-base font-medium text-stone-400 font-utility">
-          <a href="/#research" className="hover:text-white transition-colors hover:underline underline-offset-4">Research</a>
-          <a href="/#projects" className="hover:text-white transition-colors hover:underline underline-offset-4">Projects</a>
-          <Link to="/careers" className="hover:text-white transition-colors hover:underline underline-offset-4">Careers</Link>
+          <a href="/#research" className={getLinkClass(isOnResearch)}>Research</a>
+          <a href="/#projects" className={getLinkClass(isOnProjects)}>Projects</a>
+          <Link to="/careers" className={getLinkClass(isOnCareers)}>
+            Careers
+          </Link>
         </div>
       </div>
     </nav>
