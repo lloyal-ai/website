@@ -55,7 +55,7 @@ const Home = () => {
           </div>
 
           {/* Visual Side */}
-          <div className="md:w-1/2 bg-stone-900/50 relative border-l border-white/5 min-h-[450px] md:min-h-0">
+          <div className="md:w-1/2 bg-stone-900/50 relative border-l border-white/5 min-h-[460px] md:min-h-0">
             <div className="absolute inset-0 p-3 flex items-center justify-center">
               {/* Terminal Visualization */}
               <div className="w-full h-full border border-white/10 rounded-lg bg-[#050505] p-4 font-mono text-stone-400 relative overflow-hidden shadow-2xl group-hover:scale-[1.02] transition-transform duration-700 ease-out flex flex-col">
