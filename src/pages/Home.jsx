@@ -128,7 +128,7 @@ const Home = () => {
           <span className="font-utility text-xs text-stone-500 uppercase tracking-widest">Engineering</span>
           <article className="mt-4">
             <h3 className="font-utility font-bold text-2xl text-white mb-2 leading-tight">
-              InlinedVector: Yet another SBO container, but with a good reason
+              InlinedVector
             </h3>
             <p className="text-stone-500 text-xl mb-4">
               Optimizing memory layout for high-frequency tree search operations.
