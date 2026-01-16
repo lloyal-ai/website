@@ -55,7 +55,7 @@ const Home = () => {
           </div>
 
           {/* Visual Side */}
-          <div className="md:w-1/2 bg-stone-900/50 relative border-l border-white/5 min-h-[300px] md:min-h-0">
+          <div className="md:w-1/2 bg-stone-900/50 relative border-l border-white/5 min-h-[450px] md:min-h-0">
             <div className="absolute inset-0 p-3 flex items-center justify-center">
               {/* Terminal Visualization */}
               <div className="w-full h-full border border-white/10 rounded-lg bg-[#050505] p-4 font-mono text-stone-400 relative overflow-hidden shadow-2xl group-hover:scale-[1.02] transition-transform duration-700 ease-out flex flex-col">
@@ -94,7 +94,7 @@ const Home = () => {
                     <div className="text-stone-600 text-[10px] uppercase tracking-wider mb-2">search</div>
                     <div className="space-y-1 flex-1">
                       <div>◐ expanding...  38 nodes</div>
-                      <div>   CoAT: 3 chunks</div>
+                      <div>   Fused: 3 documents</div>
                       <div>◓ tier-1 <span className="text-emerald-500">✓</span> ent: 0.87</div>
                       <div className="text-red-400">✗ branch 2 (gate fail)</div>
                       <div>◑ backtrack d=1</div>
