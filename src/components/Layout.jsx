@@ -1,0 +1,91 @@
+import React, { useEffect } from 'react';
+import { Link, Outlet } from '@tanstack/react-router';
+
+const Nav = () => {
+  return (
+    <nav className="w-full z-50 py-6">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <Link to="/">
+            <img 
+              src="/image_e8ca2c.png" 
+              alt="LLoyal Labs Logo" 
+              className="h-8 w-auto object-contain"
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+              }}
+            />
+          </Link>
+          
+          <div className="flex items-center gap-4 h-6">
+            <Link to="/" className="font-sans text-xl tracking-tight text-white hidden md:block hover:text-stone-300 transition-colors">LLoyal Labs</Link>
+            <div className="h-4 w-px bg-stone-700 hidden lg:block"></div>
+            <span className="font-utility text-stone-500 text-base font-light hidden lg:block">Engineering AI's contact with reality.</span>
+          </div>
+        </div>
+        <div className="flex items-center gap-8 text-base font-medium text-stone-400 font-utility">
+          <a href="/#research" className="hover:text-white transition-colors hover:underline underline-offset-4">Research</a>
+          <a href="/#projects" className="hover:text-white transition-colors hover:underline underline-offset-4">Projects</a>
+          <Link to="/careers" className="hover:text-white transition-colors hover:underline underline-offset-4">Careers</Link>
+        </div>
+      </div>
+    </nav>
+  );
+};
+
+const Footer = () => {
+  return (
+    <footer className="py-16 border-t border-white/10 bg-[#0a0a0a]">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
+          <div className="col-span-1 md:col-span-2">
+            <Link to="/" className="font-sans text-2xl tracking-tight text-white block mb-6 hover:text-stone-300 transition-colors">LLoyal Labs</Link>
+            <p className="font-utility text-stone-500 text-base max-w-sm">
+              Engineering AI's contact with reality.
+            </p>
+          </div>
+          <div>
+            <h4 className="font-utility text-xs text-stone-400 uppercase tracking-widest mb-4">Projects</h4>
+            <ul className="space-y-3 text-sm text-stone-500 font-utility">
+              <li><a href="https://reasoning.run" className="hover:text-white transition-colors">reasoning.run</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-utility text-xs text-stone-400 uppercase tracking-widest mb-4">Company</h4>
+            <ul className="space-y-3 text-sm text-stone-500 font-utility">
+              <li><a href="https://github.com/lloyal-ai/" className="hover:text-white transition-colors">GitHub</a></li>
+              <li><a href="mailto:research@lloyal.ai" className="hover:text-white transition-colors">Email</a></li>
+            </ul>
+          </div>
+        </div>
+        <div className="mt-16 pt-8 border-t border-white/5 flex justify-between items-center text-sm text-stone-600 font-utility">
+          <div>&copy; 2025 LLoyal Labs Inc.</div>
+          <div className="flex gap-4">
+            <span>Melbourne, AU</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+const Layout = () => {
+  useEffect(() => {
+    document.documentElement.classList.add('dark');
+    document.body.style.backgroundColor = '#111111';
+    document.body.style.color = '#f0f0f0';
+  }, []);
+
+  return (
+    <div className="min-h-screen flex flex-col font-serif selection:bg-emerald-500/30 selection:text-emerald-200 overflow-x-hidden">
+      <Nav />
+      <main className="flex-grow">
+        <Outlet />
+      </main>
+      <Footer />
+    </div>
+  );
+};
+
+export default Layout;
+export { Nav, Footer };

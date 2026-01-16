@@ -1,8 +1,9 @@
-import LloyalLabs from './components/LloyalLabs'
-import './index.css'
+import { RouterProvider, Outlet } from '@tanstack/react-router';
+import { router } from './router';
+import './index.css';
 
 function App() {
-  return <LloyalLabs />
+  return <RouterProvider router={router} />;
 }
 
-export default App
+export default App;
