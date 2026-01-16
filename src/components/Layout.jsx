@@ -59,7 +59,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="mt-16 pt-8 border-t border-white/5 flex justify-between items-center text-sm text-stone-600 font-utility">
-          <div>&copy; 2025 LLoyal Labs Inc.</div>
+          <div>&copy; 2025 LLoyal Labs</div>
           <div className="flex gap-4">
             <span>Melbourne, AU</span>
           </div>
