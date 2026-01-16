@@ -56,38 +56,60 @@ const Home = () => {
 
           {/* Visual Side */}
           <div className="md:w-1/2 bg-stone-900/50 relative border-l border-white/5 min-h-[300px] md:min-h-0">
-            <div className="absolute inset-0 p-6 md:p-8 flex items-center justify-center">
+            <div className="absolute inset-0 p-3 flex items-center justify-center">
               {/* Terminal Visualization */}
-              <div className="w-full h-full border border-white/10 rounded-lg bg-[#050505] p-6 font-mono text-sm text-stone-400 relative overflow-hidden shadow-2xl group-hover:scale-[1.02] transition-transform duration-700 ease-out">
-                <div className="flex items-center gap-2 mb-4 border-b border-white/10 pb-4">
-                  <div className="w-3 h-3 rounded-full bg-red-500/20"></div>
-                  <div className="w-3 h-3 rounded-full bg-yellow-500/20"></div>
-                  <div className="w-3 h-3 rounded-full bg-emerald-500"></div>
-                  <span className="ml-auto text-stone-600">terminal</span>
+              <div className="w-full h-full border border-white/10 rounded-lg bg-[#050505] p-4 font-mono text-stone-400 relative overflow-hidden shadow-2xl group-hover:scale-[1.02] transition-transform duration-700 ease-out flex flex-col">
+                {/* Title bar */}
+                <div className="flex items-center gap-2 mb-3 border-b border-white/10 pb-3">
+                  <div className="w-2.5 h-2.5 rounded-full bg-red-500/20"></div>
+                  <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/20"></div>
+                  <div className="w-2.5 h-2.5 rounded-full bg-emerald-500"></div>
+                  <span className="ml-auto text-stone-600 text-xs">terminal</span>
                 </div>
-                <div className="space-y-3 opacity-90 leading-relaxed">
-                  <div>
-                    <span className="text-emerald-500 mr-2">➜</span>
-                    <span className="text-white">reasoning.run</span> --task "Analyze contract" --policy "No waivers"
+                
+                {/* Full-width command */}
+                <div className="text-xs mb-3">
+                  <span className="text-emerald-500 mr-1">➜</span>
+                  <span className="text-white">reasoning.run</span>
+                  <span className="text-stone-400"> llama3 "Find waivers in contract #6767" ./policy.js --CoT</span>
+                </div>
+                
+                {/* TUI takes over - split pane */}
+                <div className="flex-1 flex gap-3 text-xs leading-snug overflow-hidden border-t border-white/10 pt-3">
+                  {/* Left pane - Output */}
+                  <div className="flex-1 space-y-1.5 overflow-hidden">
+                    <div className="text-stone-300 mb-1">trunk 0x9F2A...</div>
+                    <div className="text-stone-400">├─ <span className="text-stone-600">[cont]</span> <span className="text-stone-500 italic">""</span> → The contract contains standard liability provisions in §3...</div>
+                    <div className="text-stone-400">├─ <span className="text-stone-600">[cont]</span> <span className="text-stone-500 italic">""</span> → Reviewing the waiver clauses, I find sections 4.1 through 4.3...</div>
+                    <div className="text-red-500/70 line-through">├─ <span>[cont]</span> <span className="italic">""</span> → Based on this analysis there are no waivers present...</div>
+                    <div className="text-stone-400">├─ <span className="text-amber-500">[crit]</span> <span className="text-amber-500 italic">"Wait, verify..."</span> → Actually, §4.2 uses "notwithstanding" which implies liability waiver by reference to §3...</div>
+                    <div className="text-stone-400">└─ <span className="text-stone-600">[cont]</span> <span className="text-stone-500 italic">""</span> → Therefore there are 2 implicit waivers in §4.2</div>
                   </div>
-                  <div className="text-stone-500">[INFO] Tree expansion: 42 nodes</div>
-                  <div>
-                    <span className="text-stone-500">[INFO] Verifying...</span> 
-                    <span className="text-red-400 ml-2">FAIL (Branch 2)</span>
-                  </div>
-                  <div className="text-stone-500">[INFO] Backtracking...</div>
-                  <div>
-                    <span className="text-stone-500">[INFO] Verifying...</span> 
-                    <span className="text-emerald-500 ml-2">PASS (Branch 5)</span>
-                  </div>
-                  <div className="mt-4 pt-2 border-t border-white/5">
-                    <span className="text-emerald-500 mr-2">➜</span>
-                    <span className="text-stone-300">Committed Trunk ID: 0x9F2...</span>
+                  
+                  {/* Divider */}
+                  <div className="w-px bg-white/10"></div>
+                  
+                  {/* Right pane - Live status + Stats */}
+                  <div className="w-[30%] flex flex-col text-stone-500">
+                    <div className="text-stone-600 text-[10px] uppercase tracking-wider mb-2">search</div>
+                    <div className="space-y-1 flex-1">
+                      <div>◐ expanding...  38 nodes</div>
+                      <div>   CoAT: 3 chunks</div>
+                      <div>◓ tier-1 <span className="text-emerald-500">✓</span> ent: 0.87</div>
+                      <div className="text-red-400">✗ branch 2 (gate fail)</div>
+                      <div>◑ backtrack d=1</div>
+                      <div>◓ tier-1 <span className="text-emerald-500">✓</span> ent: 0.94</div>
+                      <div className="text-emerald-500">✓ committed</div>
+                    </div>
+                    <div className="mt-auto pt-2 border-t border-white/5 text-stone-600">
+                      <div>38 nodes │ 1 rollback</div>
+                      <div>7.2s total</div>
+                    </div>
                   </div>
                 </div>
                 
                 {/* Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent pointer-events-none opacity-30"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent pointer-events-none opacity-20"></div>
               </div>
             </div>
           </div>
