@@ -1,0 +1,38 @@
+import React from 'react';
+
+const Logo = ({ 
+  size = 32, 
+  color = 'currentColor',
+  className = '',
+  ...props 
+}) => {
+  // Maintain aspect ratio (120:64 = 1.875:1)
+  const width = size * 1.875;
+  const height = size;
+
+  return (
+    <svg 
+      xmlns="http://www.w3.org/2000/svg" 
+      viewBox="0 0 120 64" 
+      fill={color}
+      width={width}
+      height={height}
+      className={className}
+      {...props}
+    >
+      {/* Left bracket [ */}
+      <path d="M0 0h20v8H8v48h12v8H0V0z"/>
+      
+      {/* First L */}
+      <path d="M28 8h8v40h16v8H28V8z"/>
+      
+      {/* Second L */}
+      <path d="M68 8h8v40h16v8H68V8z"/>
+      
+      {/* Right bracket ] */}
+      <path d="M100 0h20v64h-20v-8h12V8h-12V0z"/>
+    </svg>
+  );
+};
+
+export default Logo;

@@ -1,52 +1,88 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link, Outlet, useLocation } from '@tanstack/react-router';
+import Logo from './Logo';
 
 const Nav = () => {
   const location = useLocation();
-  const [hash, setHash] = useState('');
-  
-  useEffect(() => {
-    // Set initial hash
-    setHash(window.location.hash);
-    
-    // Listen for hash changes
-    const handleHashChange = () => setHash(window.location.hash);
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
-  }, [location.pathname]); // Re-run when pathname changes
+  const [activeSection, setActiveSection] = useState(null);
+  const navRef = useRef(null);
   
   const isOnHome = location.pathname === '/';
   const isOnCareers = location.pathname === '/careers';
-  const isOnResearch = isOnHome && hash === '#research';
-  const isOnProjects = isOnHome && hash === '#projects';
+  
+  useEffect(() => {
+    if (!isOnHome) {
+      setActiveSection(null);
+      return;
+    }
+    
+    // Get the nav height to use as the rootMargin offset
+    const navHeight = navRef.current?.offsetHeight || 80;
+    
+    const observerOptions = {
+      // Trigger when section top reaches the bottom of the sticky nav
+      rootMargin: `-${navHeight}px 0px -80% 0px`,
+      threshold: 0
+    };
+    
+    const observerCallback = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    };
+    
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+    
+    // Observe the sections
+    const projectsSection = document.getElementById('projects');
+    const researchSection = document.getElementById('research');
+    
+    if (projectsSection) observer.observe(projectsSection);
+    if (researchSection) observer.observe(researchSection);
+    
+    // Handle scroll to top - clear active section when at top
+    const handleScroll = () => {
+      if (window.scrollY < 100) {
+        setActiveSection(null);
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [isOnHome, location.pathname]);
+  
+  const isOnProjects = isOnHome && activeSection === 'projects';
+  const isOnResearch = isOnHome && activeSection === 'research';
   
   const getLinkClass = (isActive) => 
     `transition-colors underline-offset-4 ${isActive ? 'text-white underline' : 'hover:text-white hover:underline'}`;
   
   return (
-    <nav className="w-full z-50 py-6">
+    <nav 
+      ref={navRef}
+      className="w-full z-50 py-6 sticky top-0 bg-[#111111]/80 backdrop-blur-md border-b border-transparent transition-colors"
+    >
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <Link to="/">
-            <img 
-              src="/image_e8ca2c.png" 
-              alt="LLoyal Labs Logo" 
-              className="h-8 w-auto object-contain"
-              onError={(e) => {
-                e.currentTarget.style.display = 'none';
-              }}
-            />
+        <div className="flex items-center gap-3">
+          <Link to="/" className="flex items-center gap-3">
+            <Logo size={24} className="text-white md:hidden" />
+            <span className="font-sans text-xl tracking-tight text-white hidden md:block hover:text-stone-300 transition-colors">LLoyal Labs</span>
           </Link>
           
-          <div className="flex items-center gap-4 h-6">
-            <Link to="/" className="font-sans text-xl tracking-tight text-white hidden md:block hover:text-stone-300 transition-colors">LLoyal Labs</Link>
-            <div className="h-4 w-px bg-stone-700 hidden lg:block"></div>
-            <span className="font-utility text-stone-500 text-base font-light hidden lg:block">Engineering AI's contact with reality.</span>
+          <div className="hidden lg:flex items-center gap-4 h-6">
+            <div className="h-4 w-px bg-stone-700"></div>
+            <span className="font-utility text-stone-500 text-base font-light">Engineering AI's contact with reality.</span>
           </div>
         </div>
         <div className="flex items-center gap-8 text-base font-medium text-stone-400 font-utility">
-          <a href="/#research" className={getLinkClass(isOnResearch)}>Research</a>
           <a href="/#projects" className={getLinkClass(isOnProjects)}>Projects</a>
+          <a href="/#research" className={getLinkClass(isOnResearch)}>Research</a>
           <Link to="/careers" className={getLinkClass(isOnCareers)}>
             Careers
           </Link>
@@ -100,9 +136,9 @@ const Layout = () => {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col font-serif selection:bg-emerald-500/30 selection:text-emerald-200 overflow-x-hidden">
+    <div className="min-h-screen flex flex-col font-serif selection:bg-emerald-500/30 selection:text-emerald-200">
       <Nav />
-      <main className="flex-grow">
+      <main className="flex-grow overflow-x-hidden">
         <Outlet />
       </main>
       <Footer />
