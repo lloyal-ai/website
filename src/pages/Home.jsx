@@ -123,28 +123,48 @@ const Home = () => {
           <span className="font-utility text-xs uppercase tracking-widest text-stone-500">02</span>
         </div>
 
-        {/* Engineering Dispatch - stands alone */}
+        {/* Engineering Dispatches */}
         <div className="mb-16">
           <span className="font-utility text-xs text-stone-500 uppercase tracking-widest">Engineering</span>
-          <article className="mt-4">
-            <h3 className="font-utility font-bold text-2xl text-white mb-2 leading-tight">
-              InlinedVector
-            </h3>
-            <p className="text-stone-500 text-xl mb-4">
-              Optimizing memory layout for high-frequency tree search operations.
-            </p>
-            <div className="flex items-center gap-6 font-utility">
-              <a href="https://blog.lloyal.ai/inlinedvector-yet-another-sbo-container-but-with-a-good-reason" target="_blank" rel="noreferrer" className="text-sm text-stone-400 hover:text-emerald-400 transition-colors flex items-center gap-1">
-                Read dispatch <ArrowUpRight className="w-3 h-3" />
-              </a>
-              <a href="https://vcpkg.io/en/package/lloyal-ai-inlined-vector" target="_blank" rel="noreferrer" className="text-sm text-stone-400 hover:text-emerald-400 transition-colors flex items-center gap-1">
-                vcpkg <ArrowUpRight className="w-3 h-3" />
-              </a>
-              <a href="https://github.com/lloyal-ai/inlined-vector" target="_blank" rel="noreferrer" className="text-sm text-stone-400 hover:text-emerald-400 transition-colors flex items-center gap-1">
-                GitHub <ArrowUpRight className="w-3 h-3" />
-              </a>
-            </div>
-          </article>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
+            <article className="bg-white/[0.02] rounded-lg p-6">
+              <h3 className="font-utility font-bold text-2xl text-white mb-2 leading-tight">
+                liblloyal
+              </h3>
+              <p className="text-stone-500 text-xl mb-4">
+                Composable C++ primitives library for llama.cpp with advanced patterns (handle-based APIs, shared model weights, multi-sequence management) enabling applications from simple streaming to complex inference orchestration.
+              </p>
+              <div className="flex items-center gap-6 font-utility">
+                <a href="https://lloyal-ai.github.io/liblloyal/" target="_blank" rel="noreferrer" className="text-sm text-stone-400 hover:text-emerald-400 transition-colors flex items-center gap-1">
+                  Docs <ArrowUpRight className="w-3 h-3" />
+                </a>
+                <a href="https://github.com/lloyal-ai/liblloyal" target="_blank" rel="noreferrer" className="text-sm text-stone-400 hover:text-emerald-400 transition-colors flex items-center gap-1">
+                  GitHub <ArrowUpRight className="w-3 h-3" />
+                </a>
+              </div>
+            </article>
+
+            <article className="bg-white/[0.02] rounded-lg p-6">
+              <h3 className="font-utility font-bold text-2xl text-white mb-2 leading-tight">
+                InlinedVector
+              </h3>
+              <p className="text-stone-500 text-xl mb-4">
+                Optimizing memory layout for high-frequency tree search operations.
+              </p>
+              <div className="flex items-center gap-6 font-utility">
+                <a href="https://blog.lloyal.ai/inlinedvector-yet-another-sbo-container-but-with-a-good-reason" target="_blank" rel="noreferrer" className="text-sm text-stone-400 hover:text-emerald-400 transition-colors flex items-center gap-1">
+                  Read dispatch <ArrowUpRight className="w-3 h-3" />
+                </a>
+                <a href="https://vcpkg.io/en/package/lloyal-ai-inlined-vector" target="_blank" rel="noreferrer" className="text-sm text-stone-400 hover:text-emerald-400 transition-colors flex items-center gap-1">
+                  vcpkg <ArrowUpRight className="w-3 h-3" />
+                </a>
+                <a href="https://github.com/lloyal-ai/inlined-vector" target="_blank" rel="noreferrer" className="text-sm text-stone-400 hover:text-emerald-400 transition-colors flex items-center gap-1">
+                  GitHub <ArrowUpRight className="w-3 h-3" />
+                </a>
+              </div>
+            </article>
+          </div>
         </div>
 
         {/* Curated Research Section */}
