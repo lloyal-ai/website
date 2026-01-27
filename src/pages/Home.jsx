@@ -127,7 +127,7 @@ const Home = () => {
         <div className="mb-16">
           <span className="font-utility text-xs text-stone-500 uppercase tracking-widest">Engineering</span>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
             <article className="bg-white/[0.02] rounded-lg p-6">
               <h3 className="font-utility font-bold text-2xl text-white mb-2 leading-tight">
                 liblloyal
@@ -150,7 +150,7 @@ const Home = () => {
                 lloyal.node
               </h3>
               <p className="text-stone-500 text-xl mb-4">
-                Native bindings decoupling sampling from state management. Implement advanced patterns like Speculative Decoding, Semantic Entropy, and BlinkKV-style infinite context directly in JavaScript.
+                Inference with forkable state — KV cache, grammar, metrics all clone atomically. Entropy and surprisal mid-generation. Multi-sequence parallel exploration. The control surface llama.cpp exposes, in TypeScript.
               </p>
               <div className="flex items-center gap-6 font-utility">
                 <a href="https://lloyal-ai.github.io/lloyal.node/" target="_blank" rel="noreferrer" className="text-sm text-stone-400 hover:text-emerald-400 transition-colors flex items-center gap-1">
@@ -160,6 +160,23 @@ const Home = () => {
                   npm <ArrowUpRight className="w-3 h-3" />
                 </a>
                 <a href="https://github.com/lloyal-ai/lloyal.node" target="_blank" rel="noreferrer" className="text-sm text-stone-400 hover:text-emerald-400 transition-colors flex items-center gap-1">
+                  GitHub <ArrowUpRight className="w-3 h-3" />
+                </a>
+              </div>
+            </article>
+
+            <article className="bg-white/[0.02] rounded-lg p-6">
+              <h3 className="font-utility font-bold text-2xl text-white mb-2 leading-tight">
+                TSampler
+              </h3>
+              <p className="text-stone-500 text-xl mb-4">
+                Complete functional sampler chain in pure TypeScript with exact llama.cpp parity. Enables Test-Time Alignment (TTA) by fusing application logic (like N-gram trackers) with the probability distribution.
+              </p>
+              <div className="flex items-center gap-6 font-utility">
+                <a href="https://www.npmjs.com/package/@lloyal-labs/tsampler" target="_blank" rel="noreferrer" className="text-sm text-stone-400 hover:text-emerald-400 transition-colors flex items-center gap-1">
+                  npm <ArrowUpRight className="w-3 h-3" />
+                </a>
+                <a href="https://github.com/lloyal-ai/tsampler" target="_blank" rel="noreferrer" className="text-sm text-stone-400 hover:text-emerald-400 transition-colors flex items-center gap-1">
                   GitHub <ArrowUpRight className="w-3 h-3" />
                 </a>
               </div>
@@ -371,68 +388,7 @@ const Home = () => {
           </div>
 
 
-          {/* Prefix Dynamics - full width 2×2 slab */}
-          <div className="lg:col-span-3 bg-white/[0.02] rounded-lg p-6">
-            <h3 className="font-utility font-bold text-xl text-stone-500 mb-6">Prefix Dynamics</h3>
-            <div className="grid md:grid-cols-2 gap-10">
-              <div className="group">
-                <a href="https://arxiv.org/abs/2205.11916" target="_blank" rel="noreferrer" className="block">
-                  <h4 className="font-utility font-bold text-white text-lg mb-2 group-hover:text-emerald-400 transition-colors flex items-center gap-2">
-                    Large Language Models are Zero-Shot Reasoners <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </h4>
-                  <p className="text-stone-500 text-xl leading-relaxed mb-3">
-                    "Let's think step by step" yields 61pp accuracy gains.
-                  </p>
-                  <div className="flex justify-between items-center font-utility">
-                    <span className="text-stone-400 text-sm">Kojima et al. (2022)</span>
-                    <span className="text-stone-500 text-sm">NeurIPS</span>
-                  </div>
-                </a>
-              </div>
-              <div className="group">
-                <a href="https://arxiv.org/abs/2310.11324" target="_blank" rel="noreferrer" className="block">
-                  <h4 className="font-utility font-bold text-white text-lg mb-2 group-hover:text-emerald-400 transition-colors flex items-center gap-2">
-                    Quantifying Sensitivity to Spurious Features <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </h4>
-                  <p className="text-stone-500 text-xl leading-relaxed mb-3">
-                    76pp accuracy swings from formatting changes alone.
-                  </p>
-                  <div className="flex justify-between items-center font-utility">
-                    <span className="text-stone-400 text-sm">Sclar et al. (2024)</span>
-                    <span className="text-stone-500 text-sm">ICLR</span>
-                  </div>
-                </a>
-              </div>
-              <div className="group">
-                <a href="https://arxiv.org/abs/2211.01910" target="_blank" rel="noreferrer" className="block">
-                  <h4 className="font-utility font-bold text-white text-lg mb-2 group-hover:text-emerald-400 transition-colors flex items-center gap-2">
-                    LLMs Are Human-Level Prompt Engineers <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </h4>
-                  <p className="text-stone-500 text-xl leading-relaxed mb-3">
-                    APE: automatic prompt optimization via search.
-                  </p>
-                  <div className="flex justify-between items-center font-utility">
-                    <span className="text-stone-400 text-sm">Zhou et al. (2023)</span>
-                    <span className="text-stone-500 text-sm">ICLR</span>
-                  </div>
-                </a>
-              </div>
-              <div className="group">
-                <a href="https://arxiv.org/abs/2311.01460" target="_blank" rel="noreferrer" className="block">
-                  <h4 className="font-utility font-bold text-white text-lg mb-2 group-hover:text-emerald-400 transition-colors flex items-center gap-2">
-                    Training Language Models to Self-Correct <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </h4>
-                  <p className="text-stone-500 text-xl leading-relaxed mb-3">
-                    Self-correction via reinforcement learning.
-                  </p>
-                  <div className="flex justify-between items-center font-utility">
-                    <span className="text-stone-400 text-sm">Kumar et al. (2024)</span>
-                    <span className="text-stone-500 text-sm">ICLR</span>
-                  </div>
-                </a>
-              </div>
-            </div>
-          </div>
+
 
         </div>
       </section>
