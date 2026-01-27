@@ -127,7 +127,7 @@ const Home = () => {
         <div className="mb-16">
           <span className="font-utility text-xs text-stone-500 uppercase tracking-widest">Engineering</span>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-6">
             <article className="bg-white/[0.02] rounded-lg p-6">
               <h3 className="font-utility font-bold text-2xl text-white mb-2 leading-tight">
                 liblloyal
@@ -140,6 +140,26 @@ const Home = () => {
                   Docs <ArrowUpRight className="w-3 h-3" />
                 </a>
                 <a href="https://github.com/lloyal-ai/liblloyal" target="_blank" rel="noreferrer" className="text-sm text-stone-400 hover:text-emerald-400 transition-colors flex items-center gap-1">
+                  GitHub <ArrowUpRight className="w-3 h-3" />
+                </a>
+              </div>
+            </article>
+
+            <article className="bg-white/[0.02] rounded-lg p-6">
+              <h3 className="font-utility font-bold text-2xl text-white mb-2 leading-tight">
+                lloyal.node
+              </h3>
+              <p className="text-stone-500 text-xl mb-4">
+                Native bindings decoupling sampling from state management. Implement advanced patterns like Speculative Decoding, Semantic Entropy, and BlinkKV-style infinite context directly in JavaScript.
+              </p>
+              <div className="flex items-center gap-6 font-utility">
+                <a href="https://lloyal-ai.github.io/lloyal.node/" target="_blank" rel="noreferrer" className="text-sm text-stone-400 hover:text-emerald-400 transition-colors flex items-center gap-1">
+                  Docs <ArrowUpRight className="w-3 h-3" />
+                </a>
+                <a href="https://www.npmjs.com/package/@lloyal-labs/lloyal.node" target="_blank" rel="noreferrer" className="text-sm text-stone-400 hover:text-emerald-400 transition-colors flex items-center gap-1">
+                  npm <ArrowUpRight className="w-3 h-3" />
+                </a>
+                <a href="https://github.com/lloyal-ai/lloyal.node" target="_blank" rel="noreferrer" className="text-sm text-stone-400 hover:text-emerald-400 transition-colors flex items-center gap-1">
                   GitHub <ArrowUpRight className="w-3 h-3" />
                 </a>
               </div>
