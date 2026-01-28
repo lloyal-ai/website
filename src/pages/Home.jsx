@@ -130,27 +130,12 @@ const Home = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
             <article className="bg-white/[0.02] rounded-lg p-6">
               <h3 className="font-utility font-bold text-2xl text-white mb-2 leading-tight">
-                liblloyal
+                <a href="https://lloyal-ai.github.io/lloyal.node/" target="_blank" rel="noreferrer" className="hover:text-emerald-400 transition-colors">
+                  lloyal.node
+                </a>
               </h3>
               <p className="text-stone-500 text-xl mb-4">
-                Composable C++ primitives library for llama.cpp with advanced patterns (handle-based APIs, shared model weights, multi-sequence management) enabling applications from simple streaming to complex inference orchestration.
-              </p>
-              <div className="flex items-center gap-6 font-utility">
-                <a href="https://lloyal-ai.github.io/liblloyal/" target="_blank" rel="noreferrer" className="text-sm text-stone-400 hover:text-emerald-400 transition-colors flex items-center gap-1">
-                  Docs <ArrowUpRight className="w-3 h-3" />
-                </a>
-                <a href="https://github.com/lloyal-ai/liblloyal" target="_blank" rel="noreferrer" className="text-sm text-stone-400 hover:text-emerald-400 transition-colors flex items-center gap-1">
-                  GitHub <ArrowUpRight className="w-3 h-3" />
-                </a>
-              </div>
-            </article>
-
-            <article className="bg-white/[0.02] rounded-lg p-6">
-              <h3 className="font-utility font-bold text-2xl text-white mb-2 leading-tight">
-                lloyal.node
-              </h3>
-              <p className="text-stone-500 text-xl mb-4">
-                A llama.cpp control surface in TypeScript with atomic inference state forking. Real time rolling perplexity/entropy/surprisal and multi-sequence parallel exploration primitives.
+                A llama.cpp control surface in TypeScript with atomic inference state forking. Real time rolling perplexity/entropy/surprisal and multi-sequence parallel exploration.
               </p>
               <div className="flex items-center gap-6 font-utility">
                 <a href="https://lloyal-ai.github.io/lloyal.node/" target="_blank" rel="noreferrer" className="text-sm text-stone-400 hover:text-emerald-400 transition-colors flex items-center gap-1">
@@ -167,7 +152,28 @@ const Home = () => {
 
             <article className="bg-white/[0.02] rounded-lg p-6">
               <h3 className="font-utility font-bold text-2xl text-white mb-2 leading-tight">
-                TSampler
+                <a href="https://lloyal-ai.github.io/liblloyal/" target="_blank" rel="noreferrer" className="hover:text-emerald-400 transition-colors">
+                  liblloyal
+                </a>
+              </h3>
+              <p className="text-stone-500 text-xl mb-4">
+                Composable C++ primitives library for llama.cpp with advanced patterns (handle-based APIs, shared model weights, multi-sequence management) enabling applications from simple streaming to complex inference orchestration.
+              </p>
+              <div className="flex items-center gap-6 font-utility">
+                <a href="https://lloyal-ai.github.io/liblloyal/" target="_blank" rel="noreferrer" className="text-sm text-stone-400 hover:text-emerald-400 transition-colors flex items-center gap-1">
+                  Docs <ArrowUpRight className="w-3 h-3" />
+                </a>
+                <a href="https://github.com/lloyal-ai/liblloyal" target="_blank" rel="noreferrer" className="text-sm text-stone-400 hover:text-emerald-400 transition-colors flex items-center gap-1">
+                  GitHub <ArrowUpRight className="w-3 h-3" />
+                </a>
+              </div>
+            </article>
+
+            <article className="bg-white/[0.02] rounded-lg p-6">
+              <h3 className="font-utility font-bold text-2xl text-white mb-2 leading-tight">
+                <a href="https://www.npmjs.com/package/@lloyal-labs/tsampler" target="_blank" rel="noreferrer" className="hover:text-emerald-400 transition-colors">
+                  TSampler
+                </a>
               </h3>
               <p className="text-stone-500 text-xl mb-4">
                 Complete functional sampler chain in pure TypeScript with exact llama.cpp parity. Enables Test-Time Alignment (TTA) by fusing application logic (like N-gram trackers) with the probability distribution.
@@ -184,7 +190,9 @@ const Home = () => {
 
             <article className="bg-white/[0.02] rounded-lg p-6">
               <h3 className="font-utility font-bold text-2xl text-white mb-2 leading-tight">
-                InlinedVector
+                <a href="https://blog.lloyal.ai/inlinedvector-yet-another-sbo-container-but-with-a-good-reason" target="_blank" rel="noreferrer" className="hover:text-emerald-400 transition-colors">
+                  InlinedVector
+                </a>
               </h3>
               <p className="text-stone-500 text-xl mb-4">
                 Optimizing memory layout for high-frequency tree search operations.
