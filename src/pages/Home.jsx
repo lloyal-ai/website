@@ -150,7 +150,7 @@ const Home = () => {
                 lloyal.node
               </h3>
               <p className="text-stone-500 text-xl mb-4">
-                Inference with forkable state — KV cache, grammar, metrics all clone atomically. Entropy and surprisal mid-generation. Multi-sequence parallel exploration. The control surface llama.cpp exposes, in TypeScript.
+                A llama.cpp control surface in TypeScript with atomic inference state forking. Real time rolling perplexity/entropy/surprisal and multi-sequence parallel exploration primitives.
               </p>
               <div className="flex items-center gap-6 font-utility">
                 <a href="https://lloyal-ai.github.io/lloyal.node/" target="_blank" rel="noreferrer" className="text-sm text-stone-400 hover:text-emerald-400 transition-colors flex items-center gap-1">
