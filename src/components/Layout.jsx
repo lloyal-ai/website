@@ -8,7 +8,7 @@ const Nav = () => {
   const navRef = useRef(null);
   
   const isOnHome = location.pathname === '/';
-  const isOnCareers = location.pathname === '/careers';
+
   
   useEffect(() => {
     if (!isOnHome) {
@@ -83,46 +83,118 @@ const Nav = () => {
         <div className="flex items-center gap-8 text-base font-medium text-stone-400 font-utility">
           <a href="/#projects" className={getLinkClass(isOnProjects)}>Projects</a>
           <a href="/#research" className={getLinkClass(isOnResearch)}>Research</a>
-          <Link to="/careers" className={getLinkClass(isOnCareers)}>
-            Careers
-          </Link>
+
         </div>
       </div>
     </nav>
   );
 };
 
+import logoWhiteSquare from '../assets/logo-white-square.svg';
+
 const Footer = () => {
   return (
-    <footer className="py-16 border-t border-white/10 bg-[#0a0a0a]">
-      <div className="max-w-[1400px] mx-auto px-6 md:px-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
-          <div className="col-span-1 md:col-span-2">
-            <Link to="/" className="font-sans text-2xl tracking-tight text-white block mb-6 hover:text-stone-300 transition-colors">LLoyal Labs</Link>
-            <p className="font-utility text-stone-500 text-base max-w-sm">
-              Engineering AI's contact with reality.
-            </p>
+    <footer className="border-t border-white/10 bg-[#0a0a0a]">
+      {/* Main Footer Content */}
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-12">
+        <div className="flex flex-col lg:flex-row gap-12 lg:gap-16">
+          {/* Left Section - Logo + Email Signup (Vast.ai style) */}
+          <div className="flex-shrink-0">
+            <div className="flex flex-col sm:flex-row gap-6 sm:gap-8 items-start">
+              {/* Logo Box */}
+              <img 
+                src={logoWhiteSquare} 
+                alt="LLoyal Labs" 
+                className="w-16 h-16 rounded-xl flex-shrink-0"
+              />
+              
+              {/* Subscribe Section */}
+              <div className="w-full sm:w-[280px]">
+                <h4 className="font-utility text-white font-medium text-sm mb-4">
+                  Subscribe for our product updates.
+                </h4>
+                <form className="flex items-center gap-4 border-b border-stone-600 pb-2 mb-6 group focus-within:border-white transition-colors">
+                  <input 
+                    type="email" 
+                    placeholder="Enter your email"
+                    className="flex-1 bg-transparent text-white text-sm focus:outline-none font-utility placeholder:text-stone-500"
+                  />
+                  <button 
+                    type="submit"
+                    className="text-stone-400 hover:text-white transition-colors flex-shrink-0"
+                    aria-label="Subscribe"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                  </button>
+                </form>
+                <p className="font-utility text-stone-600 text-xs">
+                  &copy; 2026 LLoyal AI. All rights reserved.
+                </p>
+              </div>
+            </div>
           </div>
-          <div>
-            <h4 className="font-utility text-xs text-stone-400 uppercase tracking-widest mb-4">Projects</h4>
-            <ul className="space-y-3 text-sm text-stone-500 font-utility">
-              <li><a href="https://reasoning.run" className="hover:text-white transition-colors">reasoning.run</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-utility text-xs text-stone-400 uppercase tracking-widest mb-4">Company</h4>
-            <ul className="space-y-3 text-sm text-stone-500 font-utility">
-              <li><a href="https://github.com/lloyal-ai/" className="hover:text-white transition-colors">GitHub</a></li>
-              <li><a href="mailto:research@lloyal.ai" className="hover:text-white transition-colors">Email</a></li>
-            </ul>
+
+          {/* Right Section - Link Columns with wider gaps like Vast.ai */}
+          <div className="flex-1 flex flex-wrap gap-y-8 justify-between lg:justify-end lg:gap-x-16">
+            {/* Engineering */}
+            <div className="w-[45%] sm:w-auto">
+              <h4 className="font-utility text-xs text-white font-medium mb-4">Engineering</h4>
+              <ul className="space-y-2 text-sm text-stone-500 font-utility">
+                <li><a href="https://reasoning.run" className="hover:text-white transition-colors">reasoning.run</a></li>
+                <li><a href="https://lloyal-ai.github.io/lloyal.node/" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">lloyal.node</a></li>
+                <li><a href="https://lloyal-ai.github.io/liblloyal/" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">liblloyal</a></li>
+                <li><a href="https://www.npmjs.com/package/@lloyal-labs/tsampler" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">TSampler</a></li>
+              </ul>
+            </div>
+
+            {/* Resources */}
+            <div className="w-[45%] sm:w-auto">
+              <h4 className="font-utility text-xs text-white font-medium mb-4">Resources</h4>
+              <ul className="space-y-2 text-sm text-stone-500 font-utility">
+                <li><a href="https://lloyal-ai.github.io/lloyal.node/" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">Documentation</a></li>
+                <li><a href="https://blog.lloyal.ai/" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">Blog</a></li>
+                <li><a href="/#research" className="hover:text-white transition-colors">Research</a></li>
+              </ul>
+            </div>
+
+            {/* Community */}
+            <div className="w-[45%] sm:w-auto">
+              <h4 className="font-utility text-xs text-white font-medium mb-4">Community</h4>
+              <ul className="space-y-2 text-sm text-stone-500 font-utility">
+                <li><a href="https://github.com/lloyal-ai/" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">GitHub</a></li>
+                <li><a href="https://www.npmjs.com/org/lloyal-labs" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">npm</a></li>
+              </ul>
+            </div>
+
+            {/* Contact */}
+            <div className="w-[45%] sm:w-auto">
+              <h4 className="font-utility text-xs text-white font-medium mb-4">Contact</h4>
+              <ul className="space-y-2 text-sm text-stone-500 font-utility">
+                <li><a href="mailto:research@lloyal.ai" className="hover:text-white transition-colors">Get in touch</a></li>
+
+                <li><span className="text-stone-600">Melbourne, AU</span></li>
+              </ul>
+            </div>
           </div>
         </div>
-        <div className="mt-16 pt-8 border-t border-white/5 flex justify-between items-center text-sm text-stone-600 font-utility">
-          <div>&copy; 2025 LLoyal Labs</div>
-          <div className="flex gap-4">
-            <span>Melbourne, AU</span>
-          </div>
-        </div>
+      </div>
+
+      {/* Giant Brand Wordmark - Full container width */}
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 pb-8">
+        <svg viewBox="0 0 100 28" className="w-full h-auto font-sans" aria-hidden="true">
+          <text 
+            x="0" 
+            y="24" 
+            textLength="100" 
+            lengthAdjust="spacing"
+            className="fill-white/[0.04]"
+            style={{ fontSize: '28px', fontWeight: 700, letterSpacing: '-0.02em' }}
+          >
+            LLoyal
+          </text>
+        </svg>
       </div>
     </footer>
   );
