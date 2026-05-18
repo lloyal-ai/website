@@ -194,12 +194,35 @@ const Home = () => {
             {/* Content Side */}
             <div className="p-8 md:p-12 flex flex-col justify-center gap-8 md:w-1/2 z-10 relative">
               <div>
-                <h2 className="font-utility font-bold text-3xl md:text-4xl text-white mb-4">
+                <h2 className="font-utility font-bold text-3xl md:text-4xl text-white mb-3">
                   <span className="text-emerald-500 mr-1">&gt;</span> Harness Development Kit
                 </h2>
-                <p className="text-stone-400 text-xl leading-relaxed max-w-md">
-                  A full-stack agentic AI framework for llama.cpp. Agents are part of your application logic — same process, same memory, no network seam. 4.4× less compute than prompt-rebuilding frameworks.
+                <p className="text-stone-400 text-lg leading-relaxed max-w-md mb-6">
+                  Full-stack agentic AI framework for llama.cpp.
                 </p>
+                <ul className="space-y-2.5 max-w-md text-sm leading-relaxed font-utility">
+                  <li className="flex gap-3">
+                    <span className="text-emerald-500/70 flex-shrink-0">→</span>
+                    <span>
+                      <span className="text-white font-medium">Structured Concurrency</span>
+                      <span className="text-stone-500"> · scoped agents, automatic teardown</span>
+                    </span>
+                  </li>
+                  <li className="flex gap-3">
+                    <span className="text-emerald-500/70 flex-shrink-0">→</span>
+                    <span>
+                      <span className="text-white font-medium">Continuous-Context Agents</span>
+                      <span className="text-stone-500"> · shared KV state, zero-copy forks</span>
+                    </span>
+                  </li>
+                  <li className="flex gap-3">
+                    <span className="text-emerald-500/70 flex-shrink-0">→</span>
+                    <span>
+                      <span className="text-white font-medium">Retrieval-Interleaved Generation</span>
+                      <span className="text-stone-500"> · context assembled in-flight</span>
+                    </span>
+                  </li>
+                </ul>
               </div>
               <div>
                 <span className="font-utility inline-flex items-center gap-2 text-white border-b border-white/30 pb-1 group-hover:border-emerald-500 group-hover:text-emerald-400 transition-colors text-sm font-medium uppercase tracking-wide">
