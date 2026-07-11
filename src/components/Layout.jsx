@@ -83,6 +83,7 @@ const Nav = () => {
         <div className="flex items-center gap-8 text-base font-medium text-stone-400 font-utility">
           <a href="/#projects" className={getLinkClass(isOnProjects)}>Projects</a>
           <a href="/#research" className={getLinkClass(isOnResearch)}>Research</a>
+          <a href="/blog/" className={getLinkClass(false)}>Blog</a>
 
         </div>
       </div>
