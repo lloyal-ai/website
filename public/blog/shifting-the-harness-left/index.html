@@ -47,6 +47,8 @@
         --border: rgba(255, 255, 255, 0.1);
         --panel: rgba(255, 255, 255, 0.02);
         --measure: 42rem;
+        --breakout-card: 46rem;
+        --breakout-fig: 56rem;
         --content: 1000px;
         --site: 1400px;
         --font-serif: "Crimson Pro", Georgia, "Times New Roman", serif;
@@ -183,6 +185,7 @@
         .post { padding: 5rem 3rem 6rem; }
       }
 
+      .post-backrow { margin-bottom: 2.5rem; }
       .post-back {
         display: inline-flex;
         align-items: center;
@@ -194,12 +197,9 @@
         text-transform: uppercase;
         color: var(--stone-500);
         text-decoration: none;
-        margin-bottom: 2.5rem;
         transition: color 0.2s ease;
       }
       .post-back:hover { color: var(--white); }
-
-      .post-header { max-width: 46rem; margin: 0 auto; }
 
       .post-eyebrow {
         font-family: var(--font-utility);
@@ -239,25 +239,36 @@
 
       .post-body { margin-top: 3rem; }
 
-      /* Constrained prose */
-      .post-body > p,
-      .post-body > h2,
-      .post-body > blockquote,
-      .post-body > ul,
-      .post-body > ol,
-      .post-body > .card,
-      .post-body > .card-group,
-      .post-body > .post-coda {
+      /* ---------- Column system: one centered axis ----------
+         Every block in the article shares the same ~65ch column,
+         centered in the container. Breakout elements get a wider
+         max-width but keep margin-inline auto, so they overhang the
+         prose symmetrically about the SAME center axis. */
+      .post-backrow,
+      .post-header,
+      .post-body > * {
         max-width: var(--measure);
         margin-left: auto;
         margin-right: auto;
+      }
+
+      /* Breakout tier 1: pull-quote and link cards (2rem overhang per side) */
+      .post-body > .card--horizontal,
+      .post-body > .card-group,
+      .post-body > blockquote.pullquote {
+        max-width: var(--breakout-card);
+      }
+
+      /* Breakout tier 2: figures (7rem overhang per side) */
+      .post-body > figure.figure {
+        max-width: var(--breakout-fig);
       }
 
       .post-body p {
         font-size: 1.25rem;
         line-height: 1.75;
         color: var(--text);
-        margin: 0 0 1.6rem;
+        margin-block: 0 1.6rem;
         overflow-wrap: break-word;
       }
       .post-body p em { font-style: italic; color: #e9e4df; }
@@ -270,7 +281,7 @@
         line-height: 1.18;
         letter-spacing: -0.01em;
         color: var(--white);
-        margin: 3.75rem 0 1.4rem;
+        margin-block: 3.75rem 1.4rem;
       }
 
       code {
@@ -316,8 +327,7 @@
       blockquote.pullquote p { font-size: inherit; line-height: inherit; margin: 0; color: inherit; }
 
       hr.post-rule {
-        max-width: var(--measure);
-        margin: 3.5rem auto;
+        margin-block: 3.5rem;
         border: none;
         border-top: 1px solid var(--border);
       }
@@ -334,8 +344,7 @@
 
       /* ---------- Figures ---------- */
       figure.figure {
-        margin: 3.25rem 0;
-        max-width: 100%;
+        margin-block: 3.25rem;
       }
       figure.figure img {
         display: block;
@@ -352,7 +361,7 @@
         color: var(--stone-400);
         text-align: center;
         margin-top: 0.9rem;
-        max-width: 44rem;
+        max-width: var(--measure);
         margin-left: auto;
         margin-right: auto;
       }
@@ -443,7 +452,6 @@
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 1.1rem;
-        max-width: 46rem;
         margin: 2.75rem auto;
       }
       .card-group .card__icon { margin-bottom: 0.9rem; }
@@ -615,10 +623,12 @@
 
     <main>
       <article class="post">
-        <a class="post-back" href="/blog/">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-          Blog
-        </a>
+        <div class="post-backrow">
+          <a class="post-back" href="/blog/">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            Blog
+          </a>
+        </div>
 
         <header class="post-header">
           <p class="post-eyebrow">Dispatch</p>
