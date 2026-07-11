@@ -1,0 +1,861 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shifting the harness left: 10 concurrent GLM-5.2 agents for the compute of one | LLoyal Labs</title>
+    <meta name="description" content="How we served a deep-research app with 10 GLM-5.2 agents on one deployment — one shared KV context, one llama_decode per step, paid in memory not compute. Full trace, config, and cost receipt published." />
+    <meta name="theme-color" content="#111111" />
+    <link rel="canonical" href="https://lloyal.ai/blog/shifting-the-harness-left/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Shifting the harness left: 10 concurrent GLM-5.2 agents for the compute of one" />
+    <meta property="og:description" content="How we served a deep-research app with 10 GLM-5.2 agents on one deployment — one shared KV context, one llama_decode per step, paid in memory not compute. Full trace, config, and cost receipt published." />
+    <meta property="og:image" content="https://lloyal.ai/blog/assets/fanout-wide-still-web.png" />
+    <meta property="og:url" content="https://lloyal.ai/blog/shifting-the-harness-left/" />
+    <meta property="og:site_name" content="LLoyal Labs" />
+    <meta property="article:published_time" content="2026-07-11" />
+    <meta property="article:author" content="LLoyal Labs" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Shifting the harness left: 10 concurrent GLM-5.2 agents for the compute of one" />
+    <meta name="twitter:description" content="How we served a deep-research app with 10 GLM-5.2 agents on one deployment — one shared KV context, one llama_decode per step, paid in memory not compute. Full trace, config, and cost receipt published." />
+    <meta name="twitter:image" content="https://lloyal.ai/blog/assets/fanout-wide-still-web.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,200..900;1,200..900&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+
+    <style>
+      :root {
+        --bg: #111111;
+        --bg-footer: #0a0a0a;
+        --text: #f0f0f0;
+        --white: #ffffff;
+        --stone-300: #d6d3d1;
+        --stone-400: #a8a29e;
+        --stone-500: #78716c;
+        --stone-600: #57534e;
+        --stone-700: #44403c;
+        --emerald-500: #10b981;
+        --emerald-400: #34d399;
+        --emerald-300: #6ee7b7;
+        --emerald-200: #a7f3d0;
+        --border: rgba(255, 255, 255, 0.1);
+        --panel: rgba(255, 255, 255, 0.02);
+        --measure: 42rem;
+        --content: 1000px;
+        --site: 1400px;
+        --font-serif: "Crimson Pro", Georgia, "Times New Roman", serif;
+        --font-utility: "Quicksand", ui-sans-serif, system-ui, sans-serif;
+        --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+      }
+
+      *, *::before, *::after { box-sizing: border-box; }
+
+      html { -webkit-text-size-adjust: 100%; }
+
+      html, body {
+        max-width: 100%;
+        overflow-x: hidden;
+      }
+
+      body {
+        margin: 0;
+        background-color: var(--bg);
+        color: var(--text);
+        font-family: var(--font-serif);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      ::selection {
+        background: rgba(16, 185, 129, 0.3);
+        color: var(--emerald-200);
+      }
+
+      a { color: inherit; }
+
+      img { max-width: 100%; height: auto; }
+
+      /* ---------- Nav ---------- */
+      .site-nav {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        width: 100%;
+        padding: 1.25rem 0;
+        background: rgba(17, 17, 17, 0.8);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid transparent;
+      }
+      .nav-inner {
+        max-width: var(--site);
+        margin: 0 auto;
+        padding: 0 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+      }
+      .nav-brand {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        min-width: 0;
+      }
+      .nav-brand a.brand-link {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        text-decoration: none;
+      }
+      .nav-logo-mark { display: block; color: var(--white); }
+      .nav-wordmark {
+        display: none;
+        font-family: var(--font-sans);
+        font-size: 1.25rem;
+        letter-spacing: -0.02em;
+        color: var(--white);
+        transition: color 0.2s ease;
+      }
+      .brand-link:hover .nav-wordmark { color: var(--stone-300); }
+      .nav-tagline {
+        display: none;
+        align-items: center;
+        gap: 1rem;
+        height: 1.5rem;
+      }
+      .nav-divider { height: 1rem; width: 1px; background: var(--stone-700); }
+      .nav-tagline span {
+        font-family: var(--font-utility);
+        color: var(--stone-500);
+        font-size: 1rem;
+        font-weight: 300;
+      }
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        font-family: var(--font-utility);
+        font-size: 1rem;
+        font-weight: 500;
+        color: var(--stone-400);
+      }
+      .nav-links a {
+        text-decoration: none;
+        color: var(--stone-400);
+        text-underline-offset: 4px;
+        transition: color 0.2s ease;
+        white-space: nowrap;
+      }
+      .nav-links a:hover { color: var(--white); text-decoration: underline; }
+      .nav-links a.active { color: var(--white); text-decoration: underline; }
+
+      @media (min-width: 768px) {
+        .nav-inner { padding: 0 3rem; }
+        .nav-logo-mark { display: none; }
+        .nav-wordmark { display: block; }
+        .nav-links { gap: 2rem; }
+      }
+      @media (min-width: 1024px) {
+        .nav-tagline { display: flex; }
+      }
+
+      /* ---------- Main ---------- */
+      main { flex: 1 0 auto; overflow-x: hidden; }
+
+      .post {
+        max-width: var(--content);
+        margin: 0 auto;
+        padding: 3.5rem 1.5rem 5rem;
+      }
+      @media (min-width: 768px) {
+        .post { padding: 5rem 3rem 6rem; }
+      }
+
+      .post-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-family: var(--font-utility);
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        color: var(--stone-500);
+        text-decoration: none;
+        margin-bottom: 2.5rem;
+        transition: color 0.2s ease;
+      }
+      .post-back:hover { color: var(--white); }
+
+      .post-header { max-width: 46rem; margin: 0 auto; }
+
+      .post-eyebrow {
+        font-family: var(--font-utility);
+        font-size: 0.78rem;
+        font-weight: 500;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--emerald-400);
+        margin: 0 0 1.25rem;
+      }
+      h1.post-title {
+        font-family: var(--font-serif);
+        font-weight: 300;
+        font-size: clamp(2.1rem, 5.2vw, 3.4rem);
+        line-height: 1.08;
+        letter-spacing: -0.02em;
+        color: var(--white);
+        margin: 0 0 1.5rem;
+      }
+      .post-dek {
+        font-family: var(--font-serif);
+        font-weight: 300;
+        font-size: clamp(1.2rem, 2.6vw, 1.5rem);
+        line-height: 1.5;
+        color: var(--stone-300);
+        margin: 0 0 1.75rem;
+      }
+      .post-meta {
+        font-family: var(--font-utility);
+        font-size: 0.95rem;
+        color: var(--stone-500);
+        margin: 0;
+        padding-bottom: 2.5rem;
+        border-bottom: 1px solid var(--border);
+      }
+      .post-meta em { font-style: italic; }
+
+      .post-body { margin-top: 3rem; }
+
+      /* Constrained prose */
+      .post-body > p,
+      .post-body > h2,
+      .post-body > blockquote,
+      .post-body > ul,
+      .post-body > ol,
+      .post-body > .card,
+      .post-body > .card-group,
+      .post-body > .post-coda {
+        max-width: var(--measure);
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .post-body p {
+        font-size: 1.25rem;
+        line-height: 1.75;
+        color: var(--text);
+        margin: 0 0 1.6rem;
+        overflow-wrap: break-word;
+      }
+      .post-body p em { font-style: italic; color: #e9e4df; }
+      .post-body strong { font-weight: 700; color: var(--white); }
+
+      .post-body h2 {
+        font-family: var(--font-serif);
+        font-weight: 400;
+        font-size: clamp(1.55rem, 3.4vw, 2.05rem);
+        line-height: 1.18;
+        letter-spacing: -0.01em;
+        color: var(--white);
+        margin: 3.75rem 0 1.4rem;
+      }
+
+      code {
+        font-family: var(--font-mono);
+        font-size: 0.86em;
+        background: rgba(255, 255, 255, 0.07);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        color: #ece7e2;
+        padding: 0.12em 0.4em;
+        border-radius: 5px;
+        overflow-wrap: break-word;
+        word-break: break-word;
+      }
+
+      pre {
+        max-width: var(--measure);
+        margin: 2rem auto;
+        background: #0d0d0d;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 1.1rem 1.25rem;
+        overflow-x: auto;
+      }
+      pre code {
+        background: none;
+        border: none;
+        padding: 0;
+        font-size: 0.9rem;
+        line-height: 1.6;
+        white-space: pre;
+      }
+
+      blockquote.pullquote {
+        border-left: 3px solid var(--emerald-500);
+        background: rgba(16, 185, 129, 0.06);
+        border-radius: 0 10px 10px 0;
+        padding: 1.3rem 1.75rem;
+        margin: 2.5rem auto;
+        font-size: clamp(1.25rem, 2.6vw, 1.45rem);
+        line-height: 1.5;
+        color: #efeae5;
+      }
+      blockquote.pullquote p { font-size: inherit; line-height: inherit; margin: 0; color: inherit; }
+
+      hr.post-rule {
+        max-width: var(--measure);
+        margin: 3.5rem auto;
+        border: none;
+        border-top: 1px solid var(--border);
+      }
+
+      .post-coda {
+        margin-top: 2.5rem;
+      }
+      .post-coda p {
+        font-style: italic;
+        color: var(--stone-400);
+        font-size: 1.2rem;
+        line-height: 1.65;
+      }
+
+      /* ---------- Figures ---------- */
+      figure.figure {
+        margin: 3.25rem 0;
+        max-width: 100%;
+      }
+      figure.figure img {
+        display: block;
+        width: 100%;
+        height: auto;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        background: #0d0d0d;
+      }
+      figure.figure figcaption {
+        font-family: var(--font-utility);
+        font-size: 0.9rem;
+        line-height: 1.5;
+        color: var(--stone-400);
+        text-align: center;
+        margin-top: 0.9rem;
+        max-width: 44rem;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      figure.figure--hero .media {
+        position: relative;
+        aspect-ratio: 1600 / 583;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        overflow: hidden;
+        background-color: #0d0d0d;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+      }
+      figure.figure--hero .media img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border: none;
+        border-radius: 0;
+        background: none;
+      }
+
+      /* ---------- Cards ---------- */
+      .card {
+        display: block;
+        text-decoration: none;
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 1.4rem 1.6rem;
+        transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+      }
+      .card:hover {
+        border-color: rgba(16, 185, 129, 0.5);
+        background: rgba(255, 255, 255, 0.035);
+      }
+      .card__icon {
+        display: inline-flex;
+        color: var(--stone-300);
+        transition: color 0.2s ease;
+      }
+      .card:hover .card__icon { color: var(--emerald-400); }
+      .card__icon svg { width: 26px; height: 26px; display: block; }
+      .card__title {
+        display: block;
+        font-family: var(--font-utility);
+        font-weight: 700;
+        font-size: 1.05rem;
+        color: var(--white);
+        letter-spacing: -0.01em;
+      }
+      .card__body {
+        display: block;
+        font-family: var(--font-utility);
+        font-size: 0.95rem;
+        line-height: 1.55;
+        color: var(--stone-400);
+        margin-top: 0.35rem;
+      }
+      .card__body code {
+        font-size: 0.85em;
+        background: rgba(255, 255, 255, 0.06);
+      }
+      .card__arrow {
+        color: var(--stone-500);
+        transition: color 0.2s ease, transform 0.2s ease;
+        flex-shrink: 0;
+        align-self: center;
+      }
+      .card:hover .card__arrow { color: var(--emerald-400); transform: translateX(2px); }
+
+      /* Horizontal card */
+      .card--horizontal {
+        display: flex;
+        align-items: flex-start;
+        gap: 1.1rem;
+        margin: 2.75rem auto;
+      }
+      .card--horizontal .card__icon { padding-top: 0.15rem; }
+      .card--horizontal .card__content { flex: 1; min-width: 0; }
+
+      /* Card grid */
+      .card-group {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.1rem;
+        max-width: 46rem;
+        margin: 2.75rem auto;
+      }
+      .card-group .card__icon { margin-bottom: 0.9rem; }
+      @media (max-width: 640px) {
+        .card-group { grid-template-columns: 1fr; }
+      }
+
+      /* ---------- Footer ---------- */
+      .site-footer {
+        flex-shrink: 0;
+        border-top: 1px solid var(--border);
+        background: var(--bg-footer);
+      }
+      .footer-main {
+        max-width: var(--site);
+        margin: 0 auto;
+        padding: 3rem 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+      }
+      .footer-left { flex-shrink: 0; }
+      .footer-brand-row {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        align-items: flex-start;
+      }
+      .footer-logo-box {
+        width: 4rem;
+        height: 4rem;
+        border-radius: 0.75rem;
+        overflow: hidden;
+        flex-shrink: 0;
+      }
+      .footer-logo-box svg { width: 100%; height: 100%; display: block; }
+      .footer-subscribe { width: 100%; max-width: 280px; }
+      .footer-subscribe h4 {
+        font-family: var(--font-utility);
+        color: var(--white);
+        font-weight: 500;
+        font-size: 0.875rem;
+        margin: 0 0 1rem;
+      }
+      .footer-form {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        border-bottom: 1px solid var(--stone-600);
+        padding-bottom: 0.5rem;
+        margin-bottom: 1.5rem;
+        transition: border-color 0.2s ease;
+      }
+      .footer-form:focus-within { border-color: var(--white); }
+      .footer-form input {
+        flex: 1;
+        background: transparent;
+        border: none;
+        color: var(--white);
+        font-family: var(--font-utility);
+        font-size: 0.875rem;
+        min-width: 0;
+      }
+      .footer-form input::placeholder { color: var(--stone-500); }
+      .footer-form input:focus { outline: none; }
+      .footer-form button {
+        background: none;
+        border: none;
+        color: var(--stone-400);
+        cursor: pointer;
+        padding: 0;
+        display: inline-flex;
+        transition: color 0.2s ease;
+      }
+      .footer-form button:hover { color: var(--white); }
+      .footer-copyright {
+        font-family: var(--font-utility);
+        color: var(--stone-600);
+        font-size: 0.75rem;
+        margin: 0;
+      }
+      .footer-cols {
+        flex: 1;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+      }
+      .footer-col { width: 45%; }
+      .footer-col h4 {
+        font-family: var(--font-utility);
+        font-size: 0.75rem;
+        color: var(--white);
+        font-weight: 500;
+        margin: 0 0 1rem;
+      }
+      .footer-col ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        font-family: var(--font-utility);
+        font-size: 0.875rem;
+        color: var(--stone-500);
+      }
+      .footer-col a {
+        color: var(--stone-500);
+        text-decoration: none;
+        transition: color 0.2s ease;
+      }
+      .footer-col a:hover { color: var(--white); }
+      .footer-col span { color: var(--stone-600); }
+
+      .footer-wordmark {
+        max-width: var(--site);
+        margin: 0 auto;
+        padding: 0 1.5rem 2rem;
+      }
+      .footer-wordmark svg { width: 100%; height: auto; display: block; }
+      .footer-wordmark text {
+        fill: rgba(255, 255, 255, 0.04);
+        font-family: var(--font-sans);
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+
+      @media (min-width: 640px) {
+        .footer-brand-row { flex-direction: row; gap: 2rem; }
+        .footer-col { width: auto; }
+      }
+      @media (min-width: 768px) {
+        .footer-main { padding: 3rem 3rem; }
+        .footer-wordmark { padding: 0 3rem 2rem; }
+      }
+      @media (min-width: 1024px) {
+        .footer-main { flex-direction: row; gap: 4rem; }
+        .footer-cols { justify-content: flex-end; gap: 4rem; }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Nav -->
+    <nav class="site-nav">
+      <div class="nav-inner">
+        <div class="nav-brand">
+          <a class="brand-link" href="/" aria-label="LLoyal Labs home">
+            <svg class="nav-logo-mark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 64" fill="currentColor" width="45" height="24" aria-hidden="true">
+              <path d="M0 0h20v8H8v48h12v8H0V0z"/>
+              <path d="M28 8h8v40h16v8H28V8z"/>
+              <path d="M68 8h8v40h16v8H68V8z"/>
+              <path d="M100 0h20v64h-20v-8h12V8h-12V0z"/>
+            </svg>
+            <span class="nav-wordmark">LLoyal Labs</span>
+          </a>
+          <div class="nav-tagline">
+            <div class="nav-divider"></div>
+            <span>Engineering AI's contact with reality.</span>
+          </div>
+        </div>
+        <div class="nav-links">
+          <a href="/#projects">Projects</a>
+          <a href="/#research">Research</a>
+          <a href="/blog/" class="active" aria-current="page">Blog</a>
+        </div>
+      </div>
+    </nav>
+
+    <main>
+      <article class="post">
+        <a class="post-back" href="/blog/">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+          Blog
+        </a>
+
+        <header class="post-header">
+          <p class="post-eyebrow">Dispatch</p>
+          <h1 class="post-title">Shifting the harness left: 10 concurrent GLM-5.2 agents for the compute of one</h1>
+          <p class="post-dek">How we served a deep-research app with 10 GLM-5.2 agents on one deployment — one shared KV context, one llama_decode per step, paid in memory not compute. Full trace, config, and cost receipt published.</p>
+          <p class="post-meta"><em>Lloyal Labs — July 2026</em></p>
+        </header>
+
+        <div class="post-body">
+          <p>Ten agents, one GPU, one open model, working a real task: <em>"GLM-5.2 versus the top 10 frontier and open models, head to head."</em> Nine researchers and a synthesist, each one searching the web, reading pages, backing out when a source turns out to be about the wrong thing, and writing findings back to a report on disk.</p>
+
+          <p>The number that matters is this: in GPU compute per step, serving all ten agents cost us almost exactly what serving one costs. The tenth agent is close to free, and the reason it's free is the whole argument for how we build.</p>
+
+          <figure class="figure figure--hero">
+            <div class="media">
+              <img
+                id="hero-media"
+                src="/blog/assets/fanout-wide-still-web.png"
+                data-gif="/blog/assets/fanout-10agent-web.gif"
+                width="1600"
+                height="583"
+                loading="lazy"
+                decoding="async"
+                alt="Terminal recording of ten GLM-5.2 agents running concurrently on one deployment — nine researchers fanning out across the web and one synthesist, all decoding from a single shared KV context."
+              />
+            </div>
+            <figcaption>The run itself: ten agents forked from one GLM-5.2, one llama_decode per step.</figcaption>
+          </figure>
+
+          <a class="card card--horizontal" href="https://github.com/lloyal-ai/reasoning-run">
+            <span class="card__icon" aria-hidden="true">
+              <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+            </span>
+            <span class="card__content">
+              <span class="card__title">This run is public</span>
+              <span class="card__body">The trace, config, and full report are in the repo — run the same swarm with <code>npx reasoning.run</code>.</span>
+            </span>
+            <span class="card__arrow" aria-hidden="true">↗</span>
+          </a>
+
+          <h2>The bill you'd expect</h2>
+
+          <p>Serve ten agents the usual way and here's the shape of it. You stand up an inference server. Each agent is its own conversation, so each carries its own copy of the context — the same system prompt, the same tool schemas, the same background — and each is decoded on its own. Ten agents, ten copies of the context, ten streams of work for the GPU to interleave. The model sits behind a network; you call out to it and pay per token, per agent, in both directions. Concurrency is a multiplier on the bill, and it stays one — more agents, more cost, in a straight line, for as long as you run.</p>
+
+          <p>That's the world where the harness lives all the way to the right: out in ops, in infra, in a serving tier your application talks to from arm's length. The model is a meter you rent by the token.</p>
+
+          <p>We built the other thing. The quickest way to see why it's the other thing is a picture.</p>
+
+          <h2>One whiteboard, a room full of people</h2>
+
+          <p>Put the model's context — the system prompt, the tool definitions, the shared background every agent needs — on a whiteboard at the front of a room. Writing that board is the expensive part. You do it once.</p>
+
+          <p>Now fill the room with ten people. The wasteful way to brief them is to copy the whole board onto ten separate boards, one per person, ten times the writing. That's the serving bill above.</p>
+
+          <p>Or you leave the board where it is and everyone reads it. On that one board is the whole briefing — the background, the tools, and the roster of who's covering what, so each person knows what the others are handling and stays out of their lane. Each person keeps their own scratch pad for the part that's theirs. The costly thing, the briefing, is written down once and consulted in place. Ten people, one board, ten small pads.</p>
+
+          <p>Here's where the picture stops being a picture. In a real room, "everyone reads the same board" still means ten people each turning their heads and reading — ten separate acts. In our runtime it doesn't. The agents don't each get their own copy of the shared context and they don't each re-read it into their own memory. They point at the same cells, and each one still works out its own next token from that shared board plus its own pad — not from each other's pads. Adding an agent to the shared context is one bit set, a marker that says <em>this agent, too, is an owner of these cells.</em> No copy, no re-read, no recompute. The board was written once, and every agent thinks from that exact board.</p>
+
+          <p>So the fork is cheap where it counts: the expensive thing — the decoded context — isn't copied at all. Each new agent gets its own lightweight bookkeeping, but it shares the same cells, and reading them costs nothing to set up.</p>
+
+          <p>The pads stay private while the work runs. Each agent can see the room's assignments on the shared board, so nobody chases the same source twice, but the findings each one writes stay on its own pad — invisible to its siblings — until the end, when one last agent reads every pad at once and writes the report. Shared briefing, independent work, one fan-in at the finish.</p>
+
+          <h2>The receipt</h2>
+
+          <p>The picture earns a click; the mechanism has to hold the room. Here is what actually happens, and every claim traces to a line in our own inference kernel.</p>
+
+          <figure class="figure">
+            <img
+              src="/blog/assets/architecture-shift-left.png"
+              width="2320"
+              height="1360"
+              loading="lazy"
+              decoding="async"
+              alt="Architecture diagram showing one GLM-5.2 model process, one shared KV context board, and ten agent pads dispatched in a single llama_decode call."
+            />
+            <figcaption>One board, N pads, one dispatch — the model inside the harness process.</figcaption>
+          </figure>
+
+          <p>The runtime loads the frontier model once, into a single process, in memory — not across a network. The shared context is decoded once into the KV cache. Spawning agents two through ten is a <code>seq_cp</code>, which in one shared context means, verbatim from our kernel notes, <em>"no new cells, no buffer copy, zero decode/attention compute"</em> — it walks the shared cells and sets one more owner bit on each. A single physical cell can carry many owners at once, so the shared prompt is decoded a single time and every agent attends those same cells.</p>
+
+          <p>Then the swarm runs. On each generation step, every live agent decodes in one GPU dispatch — a single <code>llama_decode</code>, not ten. As far as the GPU is concerned there is no "ten sequences" dimension; there are token rows, each tagged with the agent that owns it, and one forward pass covers all of them. The cost model we built the runtime around falls straight out of that:</p>
+
+          <blockquote class="pullquote">
+            <p>Dispatch count is O(1) in agent count. Per-step wall-time scales with how full the cache is, not with how many agents are in it. Concurrency is free on compute and paid in space.</p>
+          </blockquote>
+
+          <p>The tenth agent adds one row and one O(1) bit-test per cell. Nowhere in the compute is there a multiplier on the number of agents. That's what "for the cost of one" means, stated exactly: one model load, one shared context, one dispatch per step. The expensive, redundant things every other stack re-pays for each agent, we pay once and share.</p>
+
+          <p>If you want the tell that it's fullness and not headcount, watch a long report decode near the end of a run. It's slow because the cache is full — the step costs cache-size times report-length, and report count doesn't enter into it. Two agents and ten agents decode at the same per-step speed. If concurrency cost compute, that wouldn't hold. It does.</p>
+
+          <h2>The honest floor</h2>
+
+          <p>So is the tenth agent actually free? On compute, near enough. But there's a real bill, and it's better you hear it from us than find it yourself: you pay in space, not compute.</p>
+
+          <p>Every agent that diverges grows its own private tail in the KV cache. Ten agents writing ten reports hold ten reports' worth of cells at their peak. The frontier model is paid for once, the shared context is paid for once, the dispatch stays O(1) — but the memory grows with the actual work the agents do. The ceiling on how many agents run at once isn't compute; it's how much KV cache fits on the box.</p>
+
+          <p>Which is the trade, put plainly: we turned a compute multiplier into a memory budget. On a box with room — two B200s, in this run — that budget is roomy, and the expensive thing, the frontier model's context, is computed exactly once however wide the swarm gets. A per-token cloud API can't make this trade at all, because it never hands you the shared cells to fork in the first place.</p>
+
+          <h2>Why this is "shifting the harness left"</h2>
+
+          <p>Look again at what was on that screen. Not a model endpoint being called from a distance. An application — a deep-research app with its own topology of agents, its own tool use, its own corrections when a search came back about the wrong thing — running with the model inside its own process.</p>
+
+          <p>A harness holds the thing it harnesses. In most stacks that phrase is decoration: the model lives at a vendor and the "harness" is glue around a remote call. In ours it's the literal architecture. The model runs inside the harness process, which is why the developer stops serving a model and starts serving an application. You write how the agents collaborate — chain, fanout, DAG — as ordinary code. Serving becomes a deployment choice rather than a rebuild. Concurrency, KV sharing, scheduling, and GPU execution live down in the runtime; you write the capability.</p>
+
+          <p>That's the left-shift: the unit you build moves from <em>an inference endpoint your app calls</em> to <em>an application your app is.</em> The serving machinery — the coordination plane, the GPU box — still does real work; what moves left is where you build, not whether operations exists. And it's the reason "for the cost of one" is possible at all. You can only share a context and fork it for free when the model lives in the harness. Push it back behind a network and every agent is a fresh conversation again, and you're back to copying the board ten times.</p>
+
+          <h2>The part you can check</h2>
+
+          <p>We didn't describe a system and hope you'd believe it. This post, and the campaign around it, was produced by the swarm it describes — agents forking one GLM-5.2 on one box, on rentable GPUs (2× B200 on RunPod; Scaleway too, more coming), writing real deliverables. The research run behind it is real, and its full output — the model comparison, the trace, the configuration — is published, so you can watch the nine agents fan out, see the corrections happen, and check the cost model against the cache occupancy yourself.</p>
+
+          <figure class="figure">
+            <img
+              src="/blog/assets/fanout-wide-still-web.png"
+              width="1600"
+              height="583"
+              loading="lazy"
+              decoding="async"
+              alt="Ten GLM-5.2 research agents fanned out in a single deployment, decoding in lockstep from one shared KV context."
+            />
+            <figcaption>Ten agents live on one deployment — the wide capture from the run.</figcaption>
+          </figure>
+
+          <p>The frontier model is finally open and good enough to run on your own hardware. GLM-5.2 is what makes "inside the harness" a real option instead of a compromise. Take that option and ten agents cost about what one does, because they share the one expensive thing and forking it is free.</p>
+
+          <p><strong>The run is public — read the trace, check the config, or run the swarm yourself.</strong></p>
+
+          <div class="card-group">
+            <a class="card" href="https://github.com/lloyal-ai/reasoning-run">
+              <span class="card__icon" aria-hidden="true">
+                <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+              </span>
+              <span class="card__title">Run the swarm yourself</span>
+              <span class="card__body"><code>npx reasoning.run</code> gets you running. The full trace, config, and cost report from this run are in the repo.</span>
+            </a>
+            <a class="card" href="https://www.npmjs.com/package/reasoning.run">
+              <span class="card__icon" aria-hidden="true">
+                <svg viewBox="0 0 27.23 27.23"><path fill="#cb3837" d="M0 0h27.23v27.23H0z"/><path fill="#fff" d="M5.8 21.75h7.86V9.98h3.93v11.77h3.93V5.8H5.8v15.95z"/></svg>
+              </span>
+              <span class="card__title">Install from npm</span>
+              <span class="card__body">The <code>reasoning.run</code> package, published and versioned.</span>
+            </a>
+          </div>
+
+          <hr class="post-rule" />
+
+          <div class="post-coda">
+            <p><em>Serve intelligence where your data lives. The model runs inside the harness — governed, forkable, and yours.</em></p>
+          </div>
+        </div>
+      </article>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="footer-main">
+        <div class="footer-left">
+          <div class="footer-brand-row">
+            <div class="footer-logo-box" aria-label="LLoyal Labs">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 136 136" aria-hidden="true">
+                <rect width="136" height="136" fill="#000"/>
+                <g transform="translate(8, 36)" fill="#fff">
+                  <path d="M0 0h20v8H8v48h12v8H0V0z"/>
+                  <path d="M28 8h8v40h16v8H28V8z"/>
+                  <path d="M68 8h8v40h16v8H68V8z"/>
+                  <path d="M100 0h20v64h-20v-8h12V8h-12V0z"/>
+                </g>
+              </svg>
+            </div>
+            <div class="footer-subscribe">
+              <h4>Subscribe for our product updates.</h4>
+              <form class="footer-form" onsubmit="return false;">
+                <input type="email" placeholder="Enter your email" aria-label="Enter your email" />
+                <button type="submit" aria-label="Subscribe">
+                  <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                </button>
+              </form>
+              <p class="footer-copyright">&copy; 2026 LLoyal AI. All rights reserved.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-cols">
+          <div class="footer-col">
+            <h4>Engineering</h4>
+            <ul>
+              <li><a href="https://hdk.lloyal.ai">HDK</a></li>
+              <li><a href="https://reasoning.run">reasoning.run</a></li>
+              <li><a href="https://lloyal-ai.github.io/lloyal.node/" target="_blank" rel="noreferrer">lloyal.node</a></li>
+              <li><a href="https://lloyal-ai.github.io/liblloyal/" target="_blank" rel="noreferrer">liblloyal</a></li>
+              <li><a href="https://www.npmjs.com/package/@lloyal-labs/tsampler" target="_blank" rel="noreferrer">TSampler</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Resources</h4>
+            <ul>
+              <li><a href="https://docs.lloyal.ai" target="_blank" rel="noreferrer">Documentation</a></li>
+              <li><a href="https://blog.lloyal.ai/" target="_blank" rel="noreferrer">Blog</a></li>
+              <li><a href="/#research">Research</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Community</h4>
+            <ul>
+              <li><a href="https://github.com/lloyal-ai/" target="_blank" rel="noreferrer">GitHub</a></li>
+              <li><a href="https://www.npmjs.com/org/lloyal-labs" target="_blank" rel="noreferrer">npm</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Contact</h4>
+            <ul>
+              <li><a href="mailto:research@lloyal.ai">Get in touch</a></li>
+              <li><span>Melbourne, AU</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-wordmark">
+        <svg viewBox="0 0 100 28" aria-hidden="true">
+          <text x="0" y="24" textLength="100" lengthAdjust="spacing">LLoyal</text>
+        </svg>
+      </div>
+    </footer>
+
+    <!-- Hero: show the still immediately, swap in the GIF only once it has fully downloaded. -->
+    <script>
+      (function () {
+        var el = document.getElementById('hero-media');
+        if (!el) return;
+        var gif = el.getAttribute('data-gif');
+        if (!gif) return;
+        // Respect reduced-motion: keep the still frame, never load the animation.
+        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var full = new Image();
+        full.onload = function () { el.src = gif; };
+        full.src = gif;
+      })();
+    </script>
+  </body>
+</html>
