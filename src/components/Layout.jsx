@@ -83,6 +83,7 @@ const Nav = () => {
         <div className="flex items-center gap-8 text-base font-medium text-stone-400 font-utility">
           <a href="/#projects" className={getLinkClass(isOnProjects)}>Projects</a>
           <a href="/#research" className={getLinkClass(isOnResearch)}>Research</a>
+          <a href="/blog/" className={getLinkClass(false)}>Blog</a>
 
         </div>
       </div>
@@ -155,7 +156,7 @@ const Footer = () => {
               <h4 className="font-utility text-xs text-white font-medium mb-4">Resources</h4>
               <ul className="space-y-2 text-sm text-stone-500 font-utility">
                 <li><a href="https://docs.lloyal.ai" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">Documentation</a></li>
-                <li><a href="https://blog.lloyal.ai/" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">Blog</a></li>
+                <li><a href="/blog/" className="hover:text-white transition-colors">Blog</a></li>
                 <li><a href="/#research" className="hover:text-white transition-colors">Research</a></li>
               </ul>
             </div>

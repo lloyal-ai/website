@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog | LLoyal Labs</title>
+    <meta name="description" content="Dispatches from LLoyal Labs — engineering AI's contact with reality." />
+    <meta name="theme-color" content="#111111" />
+    <link rel="canonical" href="https://lloyal.ai/blog/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Blog | LLoyal Labs" />
+    <meta property="og:description" content="Dispatches from LLoyal Labs — engineering AI's contact with reality." />
+    <meta property="og:image" content="https://lloyal.ai/blog/assets/fanout-wide-still-web.png" />
+    <meta property="og:url" content="https://lloyal.ai/blog/" />
+    <meta property="og:site_name" content="LLoyal Labs" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Blog | LLoyal Labs" />
+    <meta name="twitter:description" content="Dispatches from LLoyal Labs — engineering AI's contact with reality." />
+    <meta name="twitter:image" content="https://lloyal.ai/blog/assets/fanout-wide-still-web.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,200..900;1,200..900&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+
+    <style>
+      :root {
+        --bg: #111111;
+        --bg-footer: #0a0a0a;
+        --text: #f0f0f0;
+        --white: #ffffff;
+        --stone-300: #d6d3d1;
+        --stone-400: #a8a29e;
+        --stone-500: #78716c;
+        --stone-600: #57534e;
+        --stone-700: #44403c;
+        --emerald-500: #10b981;
+        --emerald-400: #34d399;
+        --emerald-200: #a7f3d0;
+        --border: rgba(255, 255, 255, 0.1);
+        --panel: rgba(255, 255, 255, 0.02);
+        --content: 1000px;
+        --site: 1400px;
+        --font-serif: "Crimson Pro", Georgia, "Times New Roman", serif;
+        --font-utility: "Quicksand", ui-sans-serif, system-ui, sans-serif;
+        --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      }
+
+      *, *::before, *::after { box-sizing: border-box; }
+      html { -webkit-text-size-adjust: 100%; }
+      html, body { max-width: 100%; overflow-x: hidden; }
+
+      body {
+        margin: 0;
+        background-color: var(--bg);
+        color: var(--text);
+        font-family: var(--font-serif);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+      ::selection { background: rgba(16, 185, 129, 0.3); color: var(--emerald-200); }
+      a { color: inherit; }
+
+      /* ---------- Nav ---------- */
+      .site-nav {
+        position: sticky; top: 0; z-index: 50; width: 100%;
+        padding: 1.25rem 0;
+        background: rgba(17, 17, 17, 0.8);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid transparent;
+      }
+      .nav-inner {
+        max-width: var(--site); margin: 0 auto; padding: 0 1.5rem;
+        display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      }
+      .nav-brand { display: flex; align-items: center; gap: 0.75rem; min-width: 0; }
+      .nav-brand a.brand-link { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
+      .nav-logo-mark { display: block; color: var(--white); }
+      .nav-wordmark {
+        display: none; font-family: var(--font-sans); font-size: 1.25rem;
+        letter-spacing: -0.02em; color: var(--white); transition: color 0.2s ease;
+      }
+      .brand-link:hover .nav-wordmark { color: var(--stone-300); }
+      .nav-tagline { display: none; align-items: center; gap: 1rem; height: 1.5rem; }
+      .nav-divider { height: 1rem; width: 1px; background: var(--stone-700); }
+      .nav-tagline span { font-family: var(--font-utility); color: var(--stone-500); font-size: 1rem; font-weight: 300; }
+      .nav-links {
+        display: flex; align-items: center; gap: 1.5rem;
+        font-family: var(--font-utility); font-size: 1rem; font-weight: 500; color: var(--stone-400);
+      }
+      .nav-links a {
+        text-decoration: none; color: var(--stone-400); text-underline-offset: 4px;
+        transition: color 0.2s ease; white-space: nowrap;
+      }
+      .nav-links a:hover { color: var(--white); text-decoration: underline; }
+      .nav-links a.active { color: var(--white); text-decoration: underline; }
+
+      @media (min-width: 768px) {
+        .nav-inner { padding: 0 3rem; }
+        .nav-logo-mark { display: none; }
+        .nav-wordmark { display: block; }
+        .nav-links { gap: 2rem; }
+      }
+      @media (min-width: 1024px) { .nav-tagline { display: flex; } }
+
+      /* ---------- Main ---------- */
+      main { flex: 1 0 auto; overflow-x: hidden; }
+      .blog-index {
+        max-width: var(--content); margin: 0 auto;
+        padding: 4rem 1.5rem 5rem;
+      }
+      @media (min-width: 768px) { .blog-index { padding: 6rem 3rem 6rem; } }
+
+      .blog-head { border-bottom: 1px solid var(--border); padding-bottom: 2.25rem; margin-bottom: 2.5rem; }
+      .blog-eyebrow {
+        font-family: var(--font-utility); font-size: 0.78rem; font-weight: 500;
+        letter-spacing: 0.18em; text-transform: uppercase; color: var(--emerald-400);
+        margin: 0 0 1rem;
+      }
+      h1.blog-title {
+        font-family: var(--font-serif); font-weight: 300;
+        font-size: clamp(2.6rem, 7vw, 4.5rem); line-height: 0.95;
+        letter-spacing: -0.02em; color: var(--white); margin: 0 0 1.25rem;
+      }
+      .blog-intro {
+        font-family: var(--font-serif); font-weight: 300;
+        font-size: clamp(1.15rem, 2.4vw, 1.45rem); line-height: 1.55;
+        color: var(--stone-400); margin: 0; max-width: 40rem;
+      }
+
+      .entry {
+        display: block; text-decoration: none;
+        border: 1px solid var(--border); border-radius: 16px;
+        background: var(--panel); padding: 2rem;
+        transition: border-color 0.2s ease, background 0.2s ease;
+      }
+      .entry:hover { border-color: rgba(16, 185, 129, 0.5); background: rgba(255, 255, 255, 0.035); }
+      .entry-meta {
+        font-family: var(--font-utility); font-size: 0.8rem; font-weight: 600;
+        letter-spacing: 0.06em; text-transform: uppercase; color: var(--stone-500);
+        margin: 0 0 1rem;
+      }
+      .entry-title {
+        font-family: var(--font-serif); font-weight: 400;
+        font-size: clamp(1.6rem, 3.6vw, 2.2rem); line-height: 1.15;
+        letter-spacing: -0.01em; color: var(--white); margin: 0 0 0.9rem;
+        transition: color 0.2s ease;
+      }
+      .entry:hover .entry-title { color: var(--emerald-200); }
+      .entry-desc {
+        font-family: var(--font-serif); font-size: 1.2rem; line-height: 1.6;
+        color: var(--stone-400); margin: 0 0 1.5rem; max-width: 42rem;
+      }
+      .entry-cta {
+        display: inline-flex; align-items: center; gap: 0.5rem;
+        font-family: var(--font-utility); font-size: 0.85rem; font-weight: 600;
+        letter-spacing: 0.04em; text-transform: uppercase; color: var(--stone-300);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.3); padding-bottom: 0.25rem;
+        transition: color 0.2s ease, border-color 0.2s ease;
+      }
+      .entry:hover .entry-cta { color: var(--emerald-400); border-color: var(--emerald-500); }
+      @media (min-width: 768px) { .entry { padding: 2.75rem; } }
+
+      /* ---------- Footer ---------- */
+      .site-footer { flex-shrink: 0; border-top: 1px solid var(--border); background: var(--bg-footer); }
+      .footer-main {
+        max-width: var(--site); margin: 0 auto; padding: 3rem 1.5rem;
+        display: flex; flex-direction: column; gap: 3rem;
+      }
+      .footer-left { flex-shrink: 0; }
+      .footer-brand-row { display: flex; flex-direction: column; gap: 1.5rem; align-items: flex-start; }
+      .footer-logo-box { width: 4rem; height: 4rem; border-radius: 0.75rem; overflow: hidden; flex-shrink: 0; }
+      .footer-logo-box svg { width: 100%; height: 100%; display: block; }
+      .footer-subscribe { width: 100%; max-width: 280px; }
+      .footer-subscribe h4 { font-family: var(--font-utility); color: var(--white); font-weight: 500; font-size: 0.875rem; margin: 0 0 1rem; }
+      .footer-form {
+        display: flex; align-items: center; gap: 1rem;
+        border-bottom: 1px solid var(--stone-600); padding-bottom: 0.5rem;
+        margin-bottom: 1.5rem; transition: border-color 0.2s ease;
+      }
+      .footer-form:focus-within { border-color: var(--white); }
+      .footer-form input {
+        flex: 1; background: transparent; border: none; color: var(--white);
+        font-family: var(--font-utility); font-size: 0.875rem; min-width: 0;
+      }
+      .footer-form input::placeholder { color: var(--stone-500); }
+      .footer-form input:focus { outline: none; }
+      .footer-form button {
+        background: none; border: none; color: var(--stone-400); cursor: pointer;
+        padding: 0; display: inline-flex; transition: color 0.2s ease;
+      }
+      .footer-form button:hover { color: var(--white); }
+      .footer-copyright { font-family: var(--font-utility); color: var(--stone-600); font-size: 0.75rem; margin: 0; }
+      .footer-cols { flex: 1; display: flex; flex-wrap: wrap; gap: 2rem; }
+      .footer-col { width: 45%; }
+      .footer-col h4 { font-family: var(--font-utility); font-size: 0.75rem; color: var(--white); font-weight: 500; margin: 0 0 1rem; }
+      .footer-col ul {
+        list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.5rem;
+        font-family: var(--font-utility); font-size: 0.875rem; color: var(--stone-500);
+      }
+      .footer-col a { color: var(--stone-500); text-decoration: none; transition: color 0.2s ease; }
+      .footer-col a:hover { color: var(--white); }
+      .footer-col span { color: var(--stone-600); }
+      .footer-wordmark { max-width: var(--site); margin: 0 auto; padding: 0 1.5rem 2rem; }
+      .footer-wordmark svg { width: 100%; height: auto; display: block; }
+      .footer-wordmark text { fill: rgba(255, 255, 255, 0.04); font-family: var(--font-sans); font-size: 28px; font-weight: 700; letter-spacing: -0.02em; }
+
+      @media (min-width: 640px) {
+        .footer-brand-row { flex-direction: row; gap: 2rem; }
+        .footer-col { width: auto; }
+      }
+      @media (min-width: 768px) {
+        .footer-main { padding: 3rem 3rem; }
+        .footer-wordmark { padding: 0 3rem 2rem; }
+      }
+      @media (min-width: 1024px) {
+        .footer-main { flex-direction: row; gap: 4rem; }
+        .footer-cols { justify-content: flex-end; gap: 4rem; }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Nav -->
+    <nav class="site-nav">
+      <div class="nav-inner">
+        <div class="nav-brand">
+          <a class="brand-link" href="/" aria-label="LLoyal Labs home">
+            <svg class="nav-logo-mark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 64" fill="currentColor" width="45" height="24" aria-hidden="true">
+              <path d="M0 0h20v8H8v48h12v8H0V0z"/>
+              <path d="M28 8h8v40h16v8H28V8z"/>
+              <path d="M68 8h8v40h16v8H68V8z"/>
+              <path d="M100 0h20v64h-20v-8h12V8h-12V0z"/>
+            </svg>
+            <span class="nav-wordmark">LLoyal Labs</span>
+          </a>
+          <div class="nav-tagline">
+            <div class="nav-divider"></div>
+            <span>Engineering AI's contact with reality.</span>
+          </div>
+        </div>
+        <div class="nav-links">
+          <a href="/#projects">Projects</a>
+          <a href="/#research">Research</a>
+          <a href="/blog/" class="active" aria-current="page">Blog</a>
+        </div>
+      </div>
+    </nav>
+
+    <main>
+      <div class="blog-index">
+        <div class="blog-head">
+          <p class="blog-eyebrow">Dispatches</p>
+          <h1 class="blog-title">Blog</h1>
+          <p class="blog-intro">Field notes from building the harness — what happens when the model runs inside the application, not behind a network.</p>
+        </div>
+
+        <a class="entry" href="/blog/shifting-the-harness-left/">
+          <p class="entry-meta">Lloyal Labs — July 2026</p>
+          <h2 class="entry-title">Shifting the harness left: 10 concurrent GLM-5.2 agents for the compute of one</h2>
+          <p class="entry-desc">How we served a deep-research app with 10 GLM-5.2 agents on one deployment — one shared KV context, one llama_decode per step, paid in memory not compute. Full trace, config, and cost receipt published.</p>
+          <span class="entry-cta">
+            Read dispatch
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+          </span>
+        </a>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="footer-main">
+        <div class="footer-left">
+          <div class="footer-brand-row">
+            <div class="footer-logo-box" aria-label="LLoyal Labs">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 136 136" aria-hidden="true">
+                <rect width="136" height="136" fill="#000"/>
+                <g transform="translate(8, 36)" fill="#fff">
+                  <path d="M0 0h20v8H8v48h12v8H0V0z"/>
+                  <path d="M28 8h8v40h16v8H28V8z"/>
+                  <path d="M68 8h8v40h16v8H68V8z"/>
+                  <path d="M100 0h20v64h-20v-8h12V8h-12V0z"/>
+                </g>
+              </svg>
+            </div>
+            <div class="footer-subscribe">
+              <h4>Subscribe for our product updates.</h4>
+              <form class="footer-form" onsubmit="return false;">
+                <input type="email" placeholder="Enter your email" aria-label="Enter your email" />
+                <button type="submit" aria-label="Subscribe">
+                  <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                </button>
+              </form>
+              <p class="footer-copyright">&copy; 2026 LLoyal AI. All rights reserved.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-cols">
+          <div class="footer-col">
+            <h4>Engineering</h4>
+            <ul>
+              <li><a href="https://hdk.lloyal.ai">HDK</a></li>
+              <li><a href="https://reasoning.run">reasoning.run</a></li>
+              <li><a href="https://lloyal-ai.github.io/lloyal.node/" target="_blank" rel="noreferrer">lloyal.node</a></li>
+              <li><a href="https://lloyal-ai.github.io/liblloyal/" target="_blank" rel="noreferrer">liblloyal</a></li>
+              <li><a href="https://www.npmjs.com/package/@lloyal-labs/tsampler" target="_blank" rel="noreferrer">TSampler</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Resources</h4>
+            <ul>
+              <li><a href="https://docs.lloyal.ai" target="_blank" rel="noreferrer">Documentation</a></li>
+              <li><a href="/blog/">Blog</a></li>
+              <li><a href="/#research">Research</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Community</h4>
+            <ul>
+              <li><a href="https://github.com/lloyal-ai/" target="_blank" rel="noreferrer">GitHub</a></li>
+              <li><a href="https://www.npmjs.com/org/lloyal-labs" target="_blank" rel="noreferrer">npm</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Contact</h4>
+            <ul>
+              <li><a href="mailto:research@lloyal.ai">Get in touch</a></li>
+              <li><span>Melbourne, AU</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-wordmark">
+        <svg viewBox="0 0 100 28" aria-hidden="true">
+          <text x="0" y="24" textLength="100" lengthAdjust="spacing">LLoyal</text>
+        </svg>
+      </div>
+    </footer>
+  </body>
+</html>
