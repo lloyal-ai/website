@@ -156,7 +156,7 @@ const Footer = () => {
               <h4 className="font-utility text-xs text-white font-medium mb-4">Resources</h4>
               <ul className="space-y-2 text-sm text-stone-500 font-utility">
                 <li><a href="https://docs.lloyal.ai" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">Documentation</a></li>
-                <li><a href="https://blog.lloyal.ai/" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">Blog</a></li>
+                <li><a href="/blog/" className="hover:text-white transition-colors">Blog</a></li>
                 <li><a href="/#research" className="hover:text-white transition-colors">Research</a></li>
               </ul>
             </div>
