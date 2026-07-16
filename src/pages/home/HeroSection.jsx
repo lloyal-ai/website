@@ -60,10 +60,10 @@ const HeroSection = ({ intent, onIntentChange }) => {
                 way (only its internal accents change). The toggle-driven
                 primary/secondary CTA slots from plan §2 are the second
                 button and the quiet-link beneath it. */}
-            <a className="button button-light" href="#same-harness">
+            <a className="button button-line" href="#same-harness">
               See the same application
             </a>
-            <a className="button button-line" href={copy.primaryCta.href}>
+            <a className="button button-light" href={copy.primaryCta.href}>
               {copy.primaryCta.label}
             </a>
           </div>
