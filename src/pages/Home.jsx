@@ -7,12 +7,11 @@ import ProofSection from './home/ProofSection';
 import ShipSection from './home/ShipSection';
 import './home/home.css';
 
-// `intent` will grow a setter + a real toggle UI in a later phase
-// (IntentToggle.jsx + intentCopy.js, per the homepage port plan §2/§5 Phase 3).
-// For now it's a static default so `data-intent` is already wired for that
-// follow-up without over-building a toggle nothing consumes yet.
 const Home = () => {
-  const [intent] = useState('build');
+  // Default = build (developer-led GTM, North Star = installs/week), per
+  // plan §2. `data-intent` on the wrapper drives the CSS-only proof/emphasis
+  // accents in home.css; `setIntent` is lifted into HeroSection's toggle.
+  const [intent, setIntent] = useState('build');
 
   // Prototype scroll-reveal: the shipped styles.css marks elements with
   // `.reveal` but defines no corresponding visual state for it (no gating
@@ -44,7 +43,7 @@ const Home = () => {
 
   return (
     <div className="lloyal-home" data-intent={intent}>
-      <HeroSection />
+      <HeroSection intent={intent} onIntentChange={setIntent} />
       <ComparisonSection />
       <CodeSection />
       <ProductPathSection />

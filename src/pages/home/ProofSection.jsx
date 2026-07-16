@@ -11,7 +11,7 @@ const ProofSection = () => {
         </div>
 
         <div className="receipt-grid">
-          <article className="receipt reveal">
+          <article className="receipt reveal" data-receipt="01">
             <div className="receipt-number">01</div>
             <div className="receipt-tag">SCALE DOWN</div>
             <h3>The harness amplifies the model.</h3>
@@ -43,7 +43,7 @@ const ProofSection = () => {
             </a>
           </article>
 
-          <article className="receipt reveal">
+          <article className="receipt reveal" data-receipt="02">
             <div className="receipt-number">02</div>
             <div className="receipt-tag">SCALE UP</div>
             <h3>The harness compounds the model.</h3>

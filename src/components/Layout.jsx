@@ -2,29 +2,45 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Link, Outlet, useLocation } from '@tanstack/react-router';
 import Logo from './Logo';
 
+// Section text links (Vercel-style) — label deliberately doesn't mirror the
+// id 1:1 for two of these (Code → #build, Build → #product) per the
+// homepage port plan §1b; that's intentional, not a typo.
+const NAV_LINKS = [
+  { label: 'Difference', id: 'difference' },
+  { label: 'Code', id: 'build' },
+  { label: 'Build', id: 'product' },
+  { label: 'Proof', id: 'proof' },
+];
+
+// Includes 'ship' so the active-section tracking stays correct while
+// scrolled through that section, even though no nav text link targets it
+// (its content is the two conversion buttons instead) — simplest option
+// per the plan's "your call" on how to handle it.
+const OBSERVED_SECTION_IDS = ['difference', 'build', 'product', 'proof', 'ship'];
+
 const Nav = () => {
   const location = useLocation();
   const [activeSection, setActiveSection] = useState(null);
   const navRef = useRef(null);
-  
+
   const isOnHome = location.pathname === '/';
 
-  
+
   useEffect(() => {
     if (!isOnHome) {
       setActiveSection(null);
       return;
     }
-    
+
     // Get the nav height to use as the rootMargin offset
     const navHeight = navRef.current?.offsetHeight || 80;
-    
+
     const observerOptions = {
       // Trigger when section top reaches the bottom of the sticky nav
       rootMargin: `-${navHeight}px 0px -80% 0px`,
       threshold: 0
     };
-    
+
     const observerCallback = (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -32,59 +48,91 @@ const Nav = () => {
         }
       });
     };
-    
+
     const observer = new IntersectionObserver(observerCallback, observerOptions);
-    
+
     // Observe the sections
-    const projectsSection = document.getElementById('projects');
-    const researchSection = document.getElementById('research');
-    
-    if (projectsSection) observer.observe(projectsSection);
-    if (researchSection) observer.observe(researchSection);
-    
+    OBSERVED_SECTION_IDS.forEach((id) => {
+      const section = document.getElementById(id);
+      if (section) observer.observe(section);
+    });
+
     // Handle scroll to top - clear active section when at top
     const handleScroll = () => {
       if (window.scrollY < 100) {
         setActiveSection(null);
       }
     };
-    
+
     window.addEventListener('scroll', handleScroll, { passive: true });
-    
+
     return () => {
       observer.disconnect();
       window.removeEventListener('scroll', handleScroll);
     };
   }, [isOnHome, location.pathname]);
-  
-  const isOnProjects = isOnHome && activeSection === 'projects';
-  const isOnResearch = isOnHome && activeSection === 'research';
-  
-  const getLinkClass = (isActive) => 
+
+  const getLinkClass = (isActive) =>
     `transition-colors underline-offset-4 ${isActive ? 'text-white underline' : 'hover:text-white hover:underline'}`;
-  
+
   return (
-    <nav 
+    <nav
       ref={navRef}
       className="w-full z-50 py-6 sticky top-0 bg-[#080808]/80 backdrop-blur-md border-b border-transparent transition-colors"
     >
-      <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <Link to="/" className="flex items-center gap-3">
             <Logo size={24} className="text-white md:hidden" />
             <span className="font-sans text-xl tracking-tight text-white hidden md:block hover:text-stone-300 transition-colors">LLoyal Labs</span>
           </Link>
-          
+
           <div className="hidden lg:flex items-center gap-4 h-6">
             <div className="h-4 w-px bg-stone-700"></div>
             <span className="font-utility text-stone-500 text-base font-light">Engineering AI's contact with reality.</span>
           </div>
         </div>
-        <div className="flex items-center gap-8 text-base font-medium text-stone-400 font-utility">
-          <a href="/#projects" className={getLinkClass(isOnProjects)}>Projects</a>
-          <a href="/#research" className={getLinkClass(isOnResearch)}>Research</a>
-          <a href="/blog/" className={getLinkClass(false)}>Blog</a>
 
+        {/*
+          Plain <a href="/#id"> anchors, not TanStack <Link>: on the home
+          page the browser handles the hash scroll natively (honoring
+          `scroll-margin-top`); off home they navigate to `/` with the hash,
+          which the browser resolves on load. TanStack Router doesn't
+          intercept native anchors, so this needs no router wiring.
+          flex-wrap (not a hamburger menu — none exists today) is the mobile
+          treatment: at narrow widths the links/buttons reflow onto a second
+          line instead of a menu the current design has no precedent for.
+        */}
+        <div className="flex flex-wrap items-center justify-end gap-x-5 gap-y-2 md:gap-x-8">
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 md:gap-x-8 text-sm md:text-base font-medium text-stone-400 font-utility">
+            {NAV_LINKS.map((link) => (
+              <a
+                key={link.id}
+                href={`/#${link.id}`}
+                className={getLinkClass(isOnHome && activeSection === link.id)}
+              >
+                {link.label}
+              </a>
+            ))}
+            <a href="/blog/" className={getLinkClass(false)}>Blog</a>
+          </div>
+
+          <div className="flex items-center gap-2.5">
+            <a
+              href="https://hdk.lloyal.ai"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center justify-center h-9 px-4 rounded-full border border-stone-600 text-stone-300 text-sm font-utility font-medium tracking-tight whitespace-nowrap transition-colors hover:border-white hover:text-white"
+            >
+              Explore HDK
+            </a>
+            <a
+              href="/#partner-form"
+              className="inline-flex items-center justify-center h-9 px-4 rounded-full bg-[#efede6] text-[#0a0a0a] text-sm font-utility font-medium tracking-tight whitespace-nowrap transition-colors hover:bg-white"
+            >
+              Build with Lloyal
+            </a>
+          </div>
         </div>
       </div>
     </nav>
@@ -157,7 +205,6 @@ const Footer = () => {
               <ul className="space-y-2 text-sm text-stone-500 font-utility">
                 <li><a href="https://docs.lloyal.ai" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">Documentation</a></li>
                 <li><a href="/blog/" className="hover:text-white transition-colors">Blog</a></li>
-                <li><a href="/#research" className="hover:text-white transition-colors">Research</a></li>
               </ul>
             </div>
 

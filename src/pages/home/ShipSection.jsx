@@ -15,13 +15,13 @@ const ShipSection = () => {
           </div>
 
           <div className="paths-grid reveal conversion-paths">
-            <article>
+            <article data-path="build">
               <span>BUILD</span>
               <h3>Start with the developer platform.</h3>
               <p>Scaffold a harness, inspect the runtime and extend the application with signed AgentApps.</p>
               <a href="#product">See the developer path →</a>
             </article>
-            <article>
+            <article data-path="deploy">
               <span>DEPLOY</span>
               <h3>Choose the compute boundary.</h3>
               <p>
@@ -30,7 +30,7 @@ const ShipSection = () => {
               </p>
               <a href="#product">See the product shape →</a>
             </article>
-            <article>
+            <article data-path="partner">
               <span>PARTNER</span>
               <h3>Build an intelligent product capability.</h3>
               <p>Turn one high-value capability into a production harness integrated into the product your customers already use.</p>

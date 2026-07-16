@@ -1,11 +1,18 @@
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
+import IntentToggle from './IntentToggle';
+import intentCopy from './intentCopy';
 
 // app.js `[data-event-label]` ticker equivalent — cycles the same 5 labels
 // every 1800ms, skipped under prefers-reduced-motion.
 const EVENT_LABELS = ['agent:spawn', 'branch:fork', 'tool:result', 'spine:extend', 'agent:complete'];
 
-const HeroSection = () => {
+// id shared between IntentToggle's tabs (aria-controls) and the copy region
+// below (the tabpanel they control).
+const HERO_PANEL_ID = 'hero-intent-panel';
+
+const HeroSection = ({ intent, onIntentChange }) => {
   const [eventLabel, setEventLabel] = useState(EVENT_LABELS[0]);
+  const copy = intentCopy[intent];
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
@@ -22,40 +29,48 @@ const HeroSection = () => {
   return (
     <section className="hero" id="top">
       <div className="wrap hero-copy reveal">
-        <p className="kicker">A programming surface for intelligence</p>
-        <p className="hero-proof-label">
-          <code>reasoning.run</code> — one application built on Lloyal
-        </p>
-        <h1>
-          One application.
-          <br />
-          <span>4B at the edge.</span>
-          <br />
-          Ten agents at the
-          <br />
-          frontier.
-        </h1>
-        <p className="hero-bridge">Not two model integrations. One TypeScript harness spanning both.</p>
-        <p className="hero-dek">
-          Lloyal brings live model execution into the application itself, letting one intelligent program
-          contract to edge-scale weights or expand into a frontier agent population.
-        </p>
-        <div className="hero-actions">
-          <a className="button button-light" href="#same-harness">
-            See the same application
-          </a>
-          <a className="button button-line" href="#ship">
-            Build with Lloyal
+        <IntentToggle intent={intent} onChange={onIntentChange} panelId={HERO_PANEL_ID} />
+
+        {/* The toggled copy region. `.hero-copy`'s DOM shape (this wrapper,
+            every child element, every href target) is identical for both
+            intents — only text content, hrefs and emphasis classes swap,
+            per the plan's "one DOM, toggled content" contract. */}
+        <div aria-labelledby={`intent-tab-${intent}`} id={HERO_PANEL_ID} role="tabpanel">
+          <p className="kicker">{copy.kicker}</p>
+          <p className="hero-proof-label">
+            <code>{copy.proofLabel.code}</code> {copy.proofLabel.suffix}
+          </p>
+          <h1>
+            {copy.h1.map((line, index) => (
+              <Fragment key={line.text}>
+                {index > 0 && <br />}
+                {line.emphasis ? <span>{line.text}</span> : line.text}
+              </Fragment>
+            ))}
+          </h1>
+          <p className="hero-bridge">{copy.bridge}</p>
+          <p className="hero-dek">{copy.dek}</p>
+          <div className="hero-actions">
+            {/* Static across both intents — it just scrolls to the proof
+                visual immediately below, which is equally relevant either
+                way (only its internal accents change). The toggle-driven
+                primary/secondary CTA slots from plan §2 are the second
+                button and the quiet-link beneath it. */}
+            <a className="button button-light" href="#same-harness">
+              See the same application
+            </a>
+            <a className="button button-line" href={copy.primaryCta.href}>
+              {copy.primaryCta.label}
+            </a>
+          </div>
+          <a
+            className="quiet-link"
+            href={copy.secondaryCta.href}
+            {...(copy.secondaryCta.external ? { rel: 'noreferrer', target: '_blank' } : {})}
+          >
+            {copy.secondaryCta.label} <span>{copy.secondaryCta.arrow}</span>
           </a>
         </div>
-        <a
-          className="quiet-link"
-          href="https://github.com/lloyal-ai/reasoning-run"
-          rel="noreferrer"
-          target="_blank"
-        >
-          Inspect the TypeScript application <span>↗</span>
-        </a>
       </div>
 
       <div
