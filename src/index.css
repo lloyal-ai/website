@@ -10,7 +10,15 @@
    §4 since scroll-behavior/scroll-snap-type on `html` cannot be scoped
    to a descendant. */
 :root {
-  --nav-h: 70px;
+  /* Matches the live nav's measured height at 1280×800 / 1440×900 (both
+     ≥821px, single-line layout) — 70px undershot the real 85px nav
+     (py-6 = 48px vertical padding + content), which was letting anchored
+     content land ~15px under the sticky nav. Note the nav itself isn't
+     perfectly constant across every desktop width (its flex-wrap layout
+     bumps to 117px at some in-between widths, e.g. ~1024px, before a
+     second link row collapses back to one line) — 85px is exact at both
+     mandated validation viewports, close enough elsewhere. */
+  --nav-h: 85px;
 }
 
 html {
@@ -22,11 +30,33 @@ html {
     scroll-snap-type: y mandatory;
   }
 
-  .lloyal-home section,
+  /* A `section` that contains its own `[data-snap]` sub-blocks is excluded
+     from snapping itself — leaving it a snap target too would put a second,
+     near-duplicate stop right at (or just above) its first child's stop,
+     which is exactly the "stuck between two stops" oscillation the port
+     plan §4 warns about. Sections with no sub-blocks (e.g. the code
+     section) still snap as a whole. */
+  .lloyal-home section:not(:has([data-snap])),
   .lloyal-home [data-snap] {
     scroll-snap-align: start;
     scroll-snap-stop: always;
     scroll-margin-top: var(--nav-h);
+  }
+
+  /* Tail-trap fix: the footer lives outside `.lloyal-home` (Layout.jsx
+     renders it as a sibling of <main>), so it has no snap-align of its own
+     — with the LAST in-home stop (the partner band) mandatory-snapped and
+     nothing beyond it to snap toward, continued scrolling stalled with the
+     footer permanently below the fold (confirmed empirically: scrollTo the
+     document's true max scroll position, then a further wheel gesture,
+     both left the footer unreached). Giving the footer itself a snap-align
+     makes it the final stop, so it's reached the same discrete way as
+     every other stop instead of being an unreachable tail. `:has()` scopes
+     this to routes that actually render `.lloyal-home` (only the home
+     page), leaving other routes' footers un-snapped. */
+  body:has(.lloyal-home) footer {
+    scroll-snap-align: end;
+    scroll-snap-stop: always;
   }
 }
 

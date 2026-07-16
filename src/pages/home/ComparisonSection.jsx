@@ -2,42 +2,48 @@ const ComparisonSection = () => {
   return (
     <section className="comparison section" id="difference">
       <div className="wrap">
-        <div className="comparison-intro reveal">
-          <p className="section-index">01 / BARE VS HARNESSED</p>
-          <div className="category-contrast">
-            <article className="contrast-panel contrast-bare">
-              <div className="contrast-panel-head">
-                <span>BARE MODEL</span>
-                <em>model → endpoint → tokens</em>
-              </div>
-              <h2>
-                <span>Self-host a bare model.</span>
-                <strong>You get an endpoint for tokens.</strong>
-              </h2>
-            </article>
-            <article className="contrast-panel contrast-harnessed">
-              <div className="contrast-panel-head">
-                <span>HARNESSED MODEL</span>
-                <em>model + application → product surfaces</em>
-              </div>
-              <h2>
-                <span>Self-host a harnessed model.</span>
-                <strong>You get one intelligent application across your product surfaces.</strong>
-              </h2>
-            </article>
+        {/* Intro + lede grouped into one sub-snap stop — each is short
+            enough (~300px combined at 1280×800) to share a slide; the
+            wrapper is a real content block (both children render visible
+            copy), not an empty sentinel. */}
+        <div className="comparison-row" data-snap>
+          <div className="comparison-intro reveal">
+            <p className="section-index">01 / BARE VS HARNESSED</p>
+            <div className="category-contrast">
+              <article className="contrast-panel contrast-bare">
+                <div className="contrast-panel-head">
+                  <span>BARE MODEL</span>
+                  <em>model → endpoint → tokens</em>
+                </div>
+                <h2>
+                  <span>Self-host a bare model.</span>
+                  <strong>You get an endpoint for tokens.</strong>
+                </h2>
+              </article>
+              <article className="contrast-panel contrast-harnessed">
+                <div className="contrast-panel-head">
+                  <span>HARNESSED MODEL</span>
+                  <em>model + application → product surfaces</em>
+                </div>
+                <h2>
+                  <span>Self-host a harnessed model.</span>
+                  <strong>You get one intelligent application across your product surfaces.</strong>
+                </h2>
+              </article>
+            </div>
+          </div>
+
+          <div className="comparison-lede reveal">
+            <p>
+              Both run on your infrastructure. The difference is what you deploy: a model waiting behind an
+              endpoint, or a model combined with the application program that defines its specialists,
+              capabilities, authority and continuation.
+            </p>
+            <strong>CLI, desktop and web become surfaces over the same intelligent application.</strong>
           </div>
         </div>
 
-        <div className="comparison-lede reveal">
-          <p>
-            Both run on your infrastructure. The difference is what you deploy: a model waiting behind an
-            endpoint, or a model combined with the application program that defines its specialists,
-            capabilities, authority and continuation.
-          </p>
-          <strong>CLI, desktop and web become surfaces over the same intelligent application.</strong>
-        </div>
-
-        <div className="comparison-grid reveal">
+        <div className="comparison-grid reveal" data-snap>
           <article className="comparison-card">
             <div className="comparison-label">HOSTED BARE MODEL</div>
             <h3>Consume tokens</h3>
@@ -88,7 +94,7 @@ const ComparisonSection = () => {
           </article>
         </div>
 
-        <div className="comparison-conclusion reveal">
+        <div className="comparison-conclusion reveal" data-snap>
           <span>Same weights. Same infrastructure.</span>
           <strong>Bare models expose tokens. Harnessed models carry the application.</strong>
         </div>

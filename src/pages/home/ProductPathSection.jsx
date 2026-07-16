@@ -2,21 +2,28 @@ const ProductPathSection = () => {
   return (
     <section className="product-path section" id="product">
       <div className="wrap">
-        <div className="section-head reveal">
-          <p className="section-index">03 / FROM APPLICATION TO PRODUCT</p>
-          <h2>
-            Create the intelligent application.
-            <br />
-            Wire the product around it.
-          </h2>
+        {/* Headline + lede grouped into one sub-snap stop (short combined
+            span at 1280×800); the command/scaffold cards and the execution
+            band each get their own stop below — real measured content,
+            not the 2-way split the plan sketched, since the combined
+            headline+cards span is taller than one viewport. */}
+        <div className="product-intro" data-snap>
+          <div className="section-head reveal">
+            <p className="section-index">03 / FROM APPLICATION TO PRODUCT</p>
+            <h2>
+              Create the intelligent application.
+              <br />
+              Wire the product around it.
+            </h2>
+          </div>
+
+          <p className="product-lede reveal">
+            <code>harness.dev create</code> scaffolds the headless application today. The product shape in
+            development wires that same program into CLI, Desktop and Web without re-authoring its intelligence.
+          </p>
         </div>
 
-        <p className="product-lede reveal">
-          <code>harness.dev create</code> scaffolds the headless application today. The product shape in
-          development wires that same program into CLI, Desktop and Web without re-authoring its intelligence.
-        </p>
-
-        <div className="product-entry-grid">
+        <div className="product-entry-grid" data-snap>
           <article className="command-card reveal">
             <div className="status-line">
               <span className="status status-live">AVAILABLE NOW</span>
@@ -77,7 +84,7 @@ const ProductPathSection = () => {
           </article>
         </div>
 
-        <div className="execution-band reveal">
+        <div className="execution-band reveal" data-snap>
           <div>
             <span>BUILT FOR MODELS YOU CAN RUN</span>
             <p>

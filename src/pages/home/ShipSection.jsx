@@ -3,7 +3,7 @@ import PartnerForm from './PartnerForm';
 const ShipSection = () => {
   return (
     <section className="ship section" id="ship">
-      <div className="start-band">
+      <div className="start-band" data-snap>
         <div className="wrap ship-wrap">
           <div className="section-head reveal">
             <p className="section-index">05 / START</p>
@@ -40,7 +40,7 @@ const ShipSection = () => {
         </div>
       </div>
 
-      <div className="partner-band">
+      <div className="partner-band" data-snap>
         <div className="wrap ship-wrap">
           <div className="ship-grid">
             <div className="ship-copy reveal">

@@ -632,6 +632,89 @@
     padding-top: 11px;
   }
 
+  /* .category-contrast: bare-vs-harnessed two-up, ported to the file's
+     hairline-card vocabulary. Unlike .comparison-grid/.receipt-grid (which
+     draw seams with border-right on all-but-last), this one uses the
+     grid-gap-as-seam technique — gap:1px over a var(--line) background —
+     since there are exactly two panels and no "last child" to special-case. */
+  .category-contrast {
+    margin-top: clamp(28px, 3.4vw, 40px);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+
+  .contrast-panel {
+    padding: clamp(28px, 4vw, 48px);
+    display: flex;
+    flex-direction: column;
+    background: rgba(10, 10, 10, 0.82);
+  }
+
+  /* Accent for the panel the page argues FOR — same lift/inset-hairline
+     recipe as the [data-intent] emphasis treatments above (rgba(242, 241,
+     237, ...) tints of --ink/--cream), so it reads as "the same kind of
+     emphasis" elsewhere in the file without introducing a new hue. */
+  .contrast-harnessed {
+    background: rgba(242, 241, 237, 0.03);
+    box-shadow: inset 0 0 0 1px rgba(242, 241, 237, 0.16);
+  }
+
+  .contrast-panel-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .contrast-panel-head span {
+    color: #96938d;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .contrast-panel-head em {
+    color: #77746e;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-style: normal;
+    letter-spacing: 0.03em;
+    text-align: right;
+  }
+
+  .contrast-panel h2 {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .contrast-panel h2 span {
+    display: block;
+    color: var(--muted);
+    font-size: clamp(15px, 1.4vw, 18px);
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+  }
+
+  .contrast-panel h2 strong {
+    display: block;
+    color: var(--ink);
+    font-size: clamp(22px, 2.2vw, 32px);
+    font-weight: 620;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+  }
+
   .comparison-lede {
     max-width: 980px;
     margin: 54px 0 0 298px;
@@ -1109,6 +1192,19 @@
     border-right: 1px solid var(--line);
   }
 
+  /* `.receipt > *` must precede `.receipt-number` in source order: both
+     selectors have identical specificity (one class each — the universal
+     `*` contributes nothing), so with `.receipt-number` declared second its
+     `position: absolute` would lose the `position` cascade to `.receipt >
+     *`'s `position: relative`, pulling the big background digit into the
+     document flow and inflating the card's height by ~120px+. Absolute
+     positioning is load-bearing here — it's a background watermark, not
+     stacked content. */
+  .receipt > * {
+    position: relative;
+    z-index: 1;
+  }
+
   .receipt-number {
     position: absolute;
     right: 30px;
@@ -1118,11 +1214,6 @@
     font-weight: 700;
     line-height: 1;
     letter-spacing: -0.08em;
-  }
-
-  .receipt > * {
-    position: relative;
-    z-index: 1;
   }
 
   .receipt h3 {
@@ -1446,6 +1537,158 @@
     }
   }
 
+  /* Scroll-snap sub-stop sizing (port plan §4/Phase 5). Scoped to the same
+     ≥821px breakpoint as the snap layer itself (src/index.css) — mobile
+     free-scrolls the sections in their original continuous-flow rhythm
+     (untouched below), so none of this should leak under 821px. Every
+     rule here either (a) lets a snap target's content sit centered in
+     `min-height: calc(100dvh - var(--nav-h))` instead of the fixed
+     `.section`/band padding that was making each section taller than the
+     viewport (the audited "trap" heights), or (b) zeroes a margin/padding
+     that only made sense in the old single continuous-scroll layout once
+     its element became its own standalone slide. */
+  @media (min-width: 821px) {
+    [data-snap] {
+      min-height: calc(100dvh - var(--nav-h));
+    }
+
+    /* Hero: hero-copy + hero-proof (#same-harness) are independent stops
+       (see index.css's `:has()` exclusion — `.hero` itself no longer
+       snaps). Hero copy is content-tall enough at 1280×800 that it needs
+       the outer section's old clamp() padding gone entirely; hero-proof
+       keeps a little clearance so `.proof-caption` (absolutely positioned
+       34px below the proof grid) doesn't collide with the border below. */
+    .hero {
+      padding: 0 0 48px;
+    }
+
+    /* Hero copy's content (kicker/toggle/proof-label/h1/bridge/dek/actions/
+       quiet-link) is only ~5% taller than the 1280×800 budget once it's
+       its own stop — closing that gap with font-size cuts would be a
+       typographic redesign, so this trims the inter-element rhythm
+       instead (same elements, same order, slightly tighter spacing). */
+    .hero-copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .intent-toggle {
+      margin-bottom: 22px;
+    }
+
+    .hero-proof-label {
+      margin: 14px 0 12px;
+    }
+
+    .hero-bridge {
+      margin-top: 28px;
+    }
+
+    .hero-actions {
+      margin-top: 24px;
+    }
+
+    .quiet-link {
+      margin-top: 14px;
+    }
+
+    .hero-proof {
+      margin-top: 0;
+      align-content: center;
+    }
+
+    /* #difference: intro+lede row / 3-card grid / conclusion. */
+    .comparison.section {
+      padding: 0;
+    }
+
+    .comparison-row {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .comparison-grid {
+      margin-top: 0;
+      align-content: center;
+    }
+
+    .comparison-conclusion {
+      /* `align-content` is a no-op on a single-line flex container under
+         the default `flex-wrap: nowrap` (it only centers *multiple* flex
+         lines) — this row only ever has two items and plenty of width, so
+         `wrap` never visibly wraps them, it just makes the single line
+         count as centerable. */
+      flex-wrap: wrap;
+      align-content: center;
+    }
+
+    /* #build has no sub-blocks — the whole section is still the one stop
+       (per index.css, a section with no `[data-snap]` children keeps
+       auto-snapping), it just needs the same centering treatment. */
+    .code-section.section {
+      padding: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    /* #product: intro / command+scaffold grid / execution band. The plan
+       sketched a 2-way split; measurement showed headline+lede+grid
+       combined is taller than one viewport at 1280×800, so the headline
+       gets its own stop instead of sharing one with the cards. */
+    .product-path.section {
+      padding: 0;
+    }
+
+    .product-intro {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .product-entry-grid {
+      margin-top: 0;
+      align-content: center;
+    }
+
+    .execution-band {
+      margin-top: 0;
+      align-content: center;
+    }
+
+    /* #proof: headline / receipt-grid (see ProofSection.jsx for why the
+       receipts stay one side-by-side stop rather than splitting in two). */
+    .proof.section {
+      padding: 0;
+    }
+
+    .section-head[data-snap] {
+      align-content: center;
+    }
+
+    .receipt-grid {
+      margin-top: 0;
+      align-content: center;
+    }
+
+    /* #ship: START band / partner band — already two real elements. The
+       START band's content (headline + 3-path grid) is ~12px over budget
+       at 1280×800 once padding is zeroed; trim the grid's own top margin
+       to close it rather than touching the cards. */
+    .start-band,
+    .partner-band {
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .start-band .paths-grid {
+      margin-top: 55px;
+    }
+  }
+
   @media (max-width: 1100px) {
     .section-head {
       grid-template-columns: 190px 1fr;
@@ -1527,6 +1770,20 @@
     .comparison-lede,
     .product-lede {
       margin: 35px 0 0;
+    }
+
+    .category-contrast {
+      grid-template-columns: 1fr;
+    }
+
+    .contrast-panel-head {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+    }
+
+    .contrast-panel-head em {
+      text-align: left;
     }
 
     .comparison-grid,

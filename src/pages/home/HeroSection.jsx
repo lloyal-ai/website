@@ -28,7 +28,11 @@ const HeroSection = ({ intent, onIntentChange }) => {
 
   return (
     <section className="hero" id="top">
-      <div className="wrap hero-copy reveal">
+      {/* Hero copy is its own sub-snap stop (data-snap) — at 1280×800 hero
+          copy + the proof visual together exceed one viewport, so `.hero`
+          itself is excluded from snapping (see index.css's `:has()`
+          exclusion) and each of its two children snaps independently. */}
+      <div className="wrap hero-copy reveal" data-snap>
         <IntentToggle intent={intent} onChange={onIntentChange} panelId={HERO_PANEL_ID} />
 
         {/* The toggled copy region. `.hero-copy`'s DOM shape (this wrapper,
@@ -76,6 +80,7 @@ const HeroSection = ({ intent, onIntentChange }) => {
       <div
         aria-label="The same deep-research harness across edge and frontier compute"
         className="wrap hero-proof reveal"
+        data-snap
         id="same-harness"
       >
         <div className="proof-pane edge-pane">

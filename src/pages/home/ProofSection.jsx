@@ -5,12 +5,22 @@ const ProofSection = () => {
   return (
     <section className="proof section" id="proof">
       <div className="wrap">
-        <div className="section-head reveal">
+        {/* Two sub-snap stops. The plan sketched "receipt 01 / receipt 02"
+            as separate stops, but the receipts sit side by side in a
+            2-column grid at desktop widths (same vertical position) — they
+            can't be independent *vertical* snap stops without restacking
+            the layout. Measured instead: fixing the `.receipt-number`
+            cascade bug below (it was rendering in-flow, not as an absolute
+            watermark, inflating each receipt ~120px) brings the whole
+            side-by-side `.receipt-grid` comfortably under one viewport, so
+            it stays a single stop matching the prototype's spread; the
+            headline gets its own stop in front of it. */}
+        <div className="section-head reveal" data-snap>
           <p className="section-index">04 / THE RECEIPTS</p>
           <h2>One programming surface. Two radically different compute envelopes.</h2>
         </div>
 
-        <div className="receipt-grid">
+        <div className="receipt-grid" data-snap>
           <article className="receipt reveal" data-receipt="01">
             <div className="receipt-number">01</div>
             <div className="receipt-tag">SCALE DOWN</div>

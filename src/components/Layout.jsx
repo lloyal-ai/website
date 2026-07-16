@@ -260,7 +260,23 @@ const Layout = () => {
     <div className="min-h-screen flex flex-col font-serif selection:bg-emerald-500/30 selection:text-emerald-200">
       <a href="#main" className="skip">Skip to content</a>
       <Nav />
-      <main id="main" className="flex-grow overflow-x-hidden">
+      {/* `overflow-x-clip`, not `overflow-x-hidden`: setting only one of
+          overflow-x/-y to `hidden` (or `auto`/`scroll`) forces the *other*
+          axis's computed value to `auto` per the CSS Overflow spec — can't
+          be undone by explicitly setting `overflow-y: visible`, the
+          coupling is unconditional for those values. That was silently
+          turning `<main>` into an "auto" scroll container, and having that
+          ambiguous extra scroll container in the ancestor chain broke the
+          document scroller's mandatory scroll-snap: wheel gestures stopped
+          landing on snap points at all (reproduced identically in a
+          static, JS-free snapshot of the built page, so it wasn't a React
+          timing issue) — see the homepage port plan §4/Phase 5 for the
+          snap layer this depends on. `clip` was built for exactly this: it
+          clips paint without ever establishing a scroll container, so it
+          doesn't trigger the coupling (verified: overflow-y stays
+          `visible`, wheel-driven snap keeps landing correctly) while still
+          guarding against horizontal bleed. */}
+      <main id="main" className="flex-grow overflow-x-clip">
         <Outlet />
       </main>
       <Footer />
