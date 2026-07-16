@@ -66,7 +66,7 @@ const Nav = () => {
   return (
     <nav 
       ref={navRef}
-      className="w-full z-50 py-6 sticky top-0 bg-[#111111]/80 backdrop-blur-md border-b border-transparent transition-colors"
+      className="w-full z-50 py-6 sticky top-0 bg-[#080808]/80 backdrop-blur-md border-b border-transparent transition-colors"
     >
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -95,7 +95,7 @@ import logoWhiteSquare from '../assets/logo-white-square.svg';
 
 const Footer = () => {
   return (
-    <footer className="border-t border-white/10 bg-[#0a0a0a]">
+    <footer className="border-t border-white/10 bg-[#070707]">
       {/* Main Footer Content */}
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-12">
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-16">
@@ -205,14 +205,15 @@ const Footer = () => {
 const Layout = () => {
   useEffect(() => {
     document.documentElement.classList.add('dark');
-    document.body.style.backgroundColor = '#111111';
+    document.body.style.backgroundColor = '#080808';
     document.body.style.color = '#f0f0f0';
   }, []);
 
   return (
     <div className="min-h-screen flex flex-col font-serif selection:bg-emerald-500/30 selection:text-emerald-200">
+      <a href="#main" className="skip">Skip to content</a>
       <Nav />
-      <main className="flex-grow overflow-x-hidden">
+      <main id="main" className="flex-grow overflow-x-hidden">
         <Outlet />
       </main>
       <Footer />
