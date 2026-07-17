@@ -1,0 +1,949 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>You already know this architecture. It shipped in 2007. | LLoyal Labs</title>
+    <meta name="description" content="Lloyal's serving stack maps noun for noun onto the stack that carried Rails for two decades — Rack→binding, Puma→host, Unicorn→relay, config.ru→driver. The map, and the forces behind each mapping." />
+    <meta name="theme-color" content="#111111" />
+    <link rel="canonical" href="https://lloyal.ai/blog/you-already-know-this-architecture/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="You already know this architecture. It shipped in 2007." />
+    <meta property="og:description" content="Lloyal's serving stack maps noun for noun onto the stack that carried Rails for two decades — Rack→binding, Puma→host, Unicorn→relay, config.ru→driver. The map, and the forces behind each mapping." />
+    <meta property="og:image" content="https://lloyal.ai/blog/assets/rails-og-card.png" />
+    <meta property="og:url" content="https://lloyal.ai/blog/you-already-know-this-architecture/" />
+    <meta property="og:site_name" content="LLoyal Labs" />
+    <meta property="article:published_time" content="2026-07-17" />
+    <meta property="article:author" content="LLoyal Labs" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="You already know this architecture. It shipped in 2007." />
+    <meta name="twitter:description" content="Lloyal's serving stack maps noun for noun onto the stack that carried Rails for two decades — Rack→binding, Puma→host, Unicorn→relay, config.ru→driver. The map, and the forces behind each mapping." />
+    <meta name="twitter:image" content="https://lloyal.ai/blog/assets/rails-og-card.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,200..900;1,200..900&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+
+    <style>
+      :root {
+        --bg: #111111;
+        --bg-footer: #0a0a0a;
+        --text: #f0f0f0;
+        --white: #ffffff;
+        --stone-300: #d6d3d1;
+        --stone-400: #a8a29e;
+        --stone-500: #78716c;
+        --stone-600: #57534e;
+        --stone-700: #44403c;
+        --emerald-500: #10b981;
+        --emerald-400: #34d399;
+        --emerald-300: #6ee7b7;
+        --emerald-200: #a7f3d0;
+        --border: rgba(255, 255, 255, 0.1);
+        --panel: rgba(255, 255, 255, 0.02);
+        --measure: 42rem;
+        --breakout-card: 46rem;
+        --breakout-fig: 56rem;
+        --content: 1000px;
+        --site: 1400px;
+        --font-serif: "Crimson Pro", Georgia, "Times New Roman", serif;
+        --font-utility: "Quicksand", ui-sans-serif, system-ui, sans-serif;
+        --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+      }
+
+      *, *::before, *::after { box-sizing: border-box; }
+
+      html { -webkit-text-size-adjust: 100%; }
+
+      html, body {
+        max-width: 100%;
+        overflow-x: hidden;
+      }
+
+      body {
+        margin: 0;
+        background-color: var(--bg);
+        color: var(--text);
+        font-family: var(--font-serif);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      ::selection {
+        background: rgba(16, 185, 129, 0.3);
+        color: var(--emerald-200);
+      }
+
+      a { color: inherit; }
+
+      img { max-width: 100%; height: auto; }
+
+      /* ---------- Nav ---------- */
+      .site-nav {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        width: 100%;
+        padding: 1.25rem 0;
+        background: rgba(17, 17, 17, 0.8);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid transparent;
+      }
+      .nav-inner {
+        max-width: var(--site);
+        margin: 0 auto;
+        padding: 0 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+      }
+      .nav-brand {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        min-width: 0;
+      }
+      .nav-brand a.brand-link {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        text-decoration: none;
+      }
+      .nav-logo-mark { display: block; color: var(--white); }
+      .nav-wordmark {
+        display: none;
+        font-family: var(--font-sans);
+        font-size: 1.25rem;
+        letter-spacing: -0.02em;
+        color: var(--white);
+        transition: color 0.2s ease;
+      }
+      .brand-link:hover .nav-wordmark { color: var(--stone-300); }
+      .nav-tagline {
+        display: none;
+        align-items: center;
+        gap: 1rem;
+        height: 1.5rem;
+      }
+      .nav-divider { height: 1rem; width: 1px; background: var(--stone-700); }
+      .nav-tagline span {
+        font-family: var(--font-utility);
+        color: var(--stone-500);
+        font-size: 1rem;
+        font-weight: 300;
+      }
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        font-family: var(--font-utility);
+        font-size: 1rem;
+        font-weight: 500;
+        color: var(--stone-400);
+      }
+      .nav-links a {
+        text-decoration: none;
+        color: var(--stone-400);
+        text-underline-offset: 4px;
+        transition: color 0.2s ease;
+        white-space: nowrap;
+      }
+      .nav-links a:hover { color: var(--white); text-decoration: underline; }
+      .nav-links a.active { color: var(--white); text-decoration: underline; }
+
+      @media (min-width: 768px) {
+        .nav-inner { padding: 0 3rem; }
+        .nav-logo-mark { display: none; }
+        .nav-wordmark { display: block; }
+        .nav-links { gap: 2rem; }
+      }
+      @media (min-width: 1024px) {
+        .nav-tagline { display: flex; }
+      }
+
+      /* ---------- Main ---------- */
+      main { flex: 1 0 auto; overflow-x: hidden; }
+
+      .post {
+        max-width: var(--content);
+        margin: 0 auto;
+        padding: 3.5rem 1.5rem 5rem;
+      }
+      @media (min-width: 768px) {
+        .post { padding: 5rem 3rem 6rem; }
+      }
+
+      .post-backrow { margin-bottom: 2.5rem; }
+      .post-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-family: var(--font-utility);
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        color: var(--stone-500);
+        text-decoration: none;
+        transition: color 0.2s ease;
+      }
+      .post-back:hover { color: var(--white); }
+
+      .post-eyebrow {
+        font-family: var(--font-utility);
+        font-size: 0.78rem;
+        font-weight: 500;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--emerald-400);
+        margin: 0 0 1.25rem;
+      }
+      h1.post-title {
+        font-family: var(--font-serif);
+        font-weight: 300;
+        font-size: clamp(2.1rem, 5.2vw, 3.4rem);
+        line-height: 1.08;
+        letter-spacing: -0.02em;
+        color: var(--white);
+        margin: 0 0 1.5rem;
+      }
+      .post-dek {
+        font-family: var(--font-serif);
+        font-weight: 300;
+        font-size: clamp(1.2rem, 2.6vw, 1.5rem);
+        line-height: 1.5;
+        color: var(--stone-300);
+        margin: 0 0 1.75rem;
+      }
+      .post-meta {
+        font-family: var(--font-utility);
+        font-size: 0.95rem;
+        color: var(--stone-500);
+        margin: 0;
+        padding-bottom: 2.5rem;
+        border-bottom: 1px solid var(--border);
+      }
+      .post-meta em { font-style: italic; }
+
+      .post-body { margin-top: 3rem; }
+
+      /* ---------- Column system: one centered axis ----------
+         Every block in the article shares the same ~65ch column,
+         centered in the container. Breakout elements get a wider
+         max-width but keep margin-inline auto, so they overhang the
+         prose symmetrically about the SAME center axis. */
+      .post-backrow,
+      .post-header,
+      .post-body > * {
+        max-width: var(--measure);
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      /* Breakout tier 1: pull-quote and link cards (2rem overhang per side) */
+      .post-body > .card--horizontal,
+      .post-body > .card-group,
+      .post-body > blockquote.pullquote {
+        max-width: var(--breakout-card);
+      }
+
+      /* Breakout tier 2: figures (7rem overhang per side) */
+      .post-body > figure.figure {
+        max-width: var(--breakout-fig);
+      }
+
+      .post-body p {
+        font-size: 1.25rem;
+        line-height: 1.75;
+        color: var(--text);
+        margin-block: 0 1.6rem;
+        overflow-wrap: break-word;
+      }
+      .post-body p em { font-style: italic; color: #e9e4df; }
+      .post-body strong { font-weight: 700; color: var(--white); }
+
+      .post-body h2 {
+        font-family: var(--font-serif);
+        font-weight: 400;
+        font-size: clamp(1.55rem, 3.4vw, 2.05rem);
+        line-height: 1.18;
+        letter-spacing: -0.01em;
+        color: var(--white);
+        margin-block: 3.75rem 1.4rem;
+      }
+
+      code {
+        font-family: var(--font-mono);
+        font-size: 0.86em;
+        background: rgba(255, 255, 255, 0.07);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        color: #ece7e2;
+        padding: 0.12em 0.4em;
+        border-radius: 5px;
+        overflow-wrap: break-word;
+        word-break: break-word;
+      }
+
+      pre {
+        max-width: var(--measure);
+        margin: 2rem auto;
+        background: #0d0d0d;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 1.1rem 1.25rem;
+        overflow-x: auto;
+      }
+      pre code {
+        background: none;
+        border: none;
+        padding: 0;
+        font-size: 0.9rem;
+        line-height: 1.6;
+        white-space: pre;
+      }
+
+      blockquote.pullquote {
+        border-left: 3px solid var(--emerald-500);
+        background: rgba(16, 185, 129, 0.06);
+        border-radius: 0 10px 10px 0;
+        padding: 1.3rem 1.75rem;
+        margin: 2.5rem auto;
+        font-size: clamp(1.25rem, 2.6vw, 1.45rem);
+        line-height: 1.5;
+        color: #efeae5;
+      }
+      blockquote.pullquote p { font-size: inherit; line-height: inherit; margin: 0; color: inherit; }
+
+      hr.post-rule {
+        margin-block: 3.5rem;
+        border: none;
+        border-top: 1px solid var(--border);
+      }
+
+      .post-coda {
+        margin-top: 2.5rem;
+      }
+      .post-coda p {
+        font-style: italic;
+        color: var(--stone-400);
+        font-size: 1.2rem;
+        line-height: 1.65;
+      }
+
+      /* ---------- Figures ---------- */
+      figure.figure {
+        margin-block: 3.25rem;
+      }
+      figure.figure img {
+        display: block;
+        width: 100%;
+        height: auto;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        background: #0d0d0d;
+      }
+      figure.figure figcaption {
+        font-family: var(--font-utility);
+        font-size: 0.9rem;
+        line-height: 1.5;
+        color: var(--stone-400);
+        text-align: center;
+        margin-top: 0.9rem;
+        max-width: var(--measure);
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      figure.figure--hero .media {
+        position: relative;
+        aspect-ratio: 1600 / 583;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        overflow: hidden;
+        background-color: #0d0d0d;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+      }
+      figure.figure--hero .media img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border: none;
+        border-radius: 0;
+        background: none;
+      }
+
+      /* ---------- Table ---------- */
+      .table-scroll {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+      }
+      table {
+        width: 100%;
+        min-width: 640px;
+        border-collapse: collapse;
+      }
+      thead th {
+        font-family: var(--font-utility);
+        font-size: 0.78rem;
+        font-weight: 600;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+        color: var(--stone-400);
+        text-align: left;
+        padding: 0.85rem 1rem;
+        border-bottom: 1px solid var(--border);
+        white-space: nowrap;
+      }
+      tbody td {
+        font-family: var(--font-serif);
+        font-size: 1.08rem;
+        line-height: 1.55;
+        color: var(--text);
+        padding: 0.85rem 1rem;
+        border-bottom: 1px solid var(--border);
+        vertical-align: top;
+      }
+      tbody tr:last-child td { border-bottom: none; }
+      tbody td:nth-child(2) { color: var(--white); }
+      table code { font-size: 0.82em; }
+
+      /* ---------- Cards ---------- */
+      .card {
+        display: block;
+        text-decoration: none;
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 1.4rem 1.6rem;
+        transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+      }
+      .card:hover {
+        border-color: rgba(16, 185, 129, 0.5);
+        background: rgba(255, 255, 255, 0.035);
+      }
+      .card__icon {
+        display: inline-flex;
+        color: var(--stone-300);
+        transition: color 0.2s ease;
+      }
+      .card:hover .card__icon { color: var(--emerald-400); }
+      .card__icon svg { width: 26px; height: 26px; display: block; }
+      .card__title {
+        display: block;
+        font-family: var(--font-utility);
+        font-weight: 700;
+        font-size: 1.05rem;
+        color: var(--white);
+        letter-spacing: -0.01em;
+      }
+      .card__body {
+        display: block;
+        font-family: var(--font-utility);
+        font-size: 0.95rem;
+        line-height: 1.55;
+        color: var(--stone-400);
+        margin-top: 0.35rem;
+      }
+      .card__body code {
+        font-size: 0.85em;
+        background: rgba(255, 255, 255, 0.06);
+      }
+      .card__arrow {
+        color: var(--stone-500);
+        transition: color 0.2s ease, transform 0.2s ease;
+        flex-shrink: 0;
+        align-self: center;
+      }
+      .card:hover .card__arrow { color: var(--emerald-400); transform: translateX(2px); }
+
+      /* Horizontal card */
+      .card--horizontal {
+        display: flex;
+        align-items: flex-start;
+        gap: 1.1rem;
+        margin: 2.75rem auto;
+      }
+      .card--horizontal .card__icon { padding-top: 0.15rem; }
+      .card--horizontal .card__content { flex: 1; min-width: 0; }
+
+      /* Card grid */
+      .card-group {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.1rem;
+        margin: 2.75rem auto;
+      }
+      .card-group .card__icon { margin-bottom: 0.9rem; }
+      @media (max-width: 640px) {
+        .card-group { grid-template-columns: 1fr; }
+      }
+
+      /* ---------- Footer ---------- */
+      .site-footer {
+        flex-shrink: 0;
+        border-top: 1px solid var(--border);
+        background: var(--bg-footer);
+      }
+      .footer-main {
+        max-width: var(--site);
+        margin: 0 auto;
+        padding: 3rem 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+      }
+      .footer-left { flex-shrink: 0; }
+      .footer-brand-row {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        align-items: flex-start;
+      }
+      .footer-logo-box {
+        width: 4rem;
+        height: 4rem;
+        border-radius: 0.75rem;
+        overflow: hidden;
+        flex-shrink: 0;
+      }
+      .footer-logo-box svg { width: 100%; height: 100%; display: block; }
+      .footer-subscribe { width: 100%; max-width: 280px; }
+      .footer-subscribe h4 {
+        font-family: var(--font-utility);
+        color: var(--white);
+        font-weight: 500;
+        font-size: 0.875rem;
+        margin: 0 0 1rem;
+      }
+      .footer-form {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        border-bottom: 1px solid var(--stone-600);
+        padding-bottom: 0.5rem;
+        margin-bottom: 1.5rem;
+        transition: border-color 0.2s ease;
+      }
+      .footer-form:focus-within { border-color: var(--white); }
+      .footer-form input {
+        flex: 1;
+        background: transparent;
+        border: none;
+        color: var(--white);
+        font-family: var(--font-utility);
+        font-size: 0.875rem;
+        min-width: 0;
+      }
+      .footer-form input::placeholder { color: var(--stone-500); }
+      .footer-form input:focus { outline: none; }
+      .footer-form button {
+        background: none;
+        border: none;
+        color: var(--stone-400);
+        cursor: pointer;
+        padding: 0;
+        display: inline-flex;
+        transition: color 0.2s ease;
+      }
+      .footer-form button:hover { color: var(--white); }
+      .footer-copyright {
+        font-family: var(--font-utility);
+        color: var(--stone-600);
+        font-size: 0.75rem;
+        margin: 0;
+      }
+      .footer-cols {
+        flex: 1;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+      }
+      .footer-col { width: 45%; }
+      .footer-col h4 {
+        font-family: var(--font-utility);
+        font-size: 0.75rem;
+        color: var(--white);
+        font-weight: 500;
+        margin: 0 0 1rem;
+      }
+      .footer-col ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        font-family: var(--font-utility);
+        font-size: 0.875rem;
+        color: var(--stone-500);
+      }
+      .footer-col a {
+        color: var(--stone-500);
+        text-decoration: none;
+        transition: color 0.2s ease;
+      }
+      .footer-col a:hover { color: var(--white); }
+      .footer-col span { color: var(--stone-600); }
+
+      .footer-wordmark {
+        max-width: var(--site);
+        margin: 0 auto;
+        padding: 0 1.5rem 2rem;
+      }
+      .footer-wordmark svg { width: 100%; height: auto; display: block; }
+      .footer-wordmark text {
+        fill: rgba(255, 255, 255, 0.04);
+        font-family: var(--font-sans);
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+
+      @media (min-width: 640px) {
+        .footer-brand-row { flex-direction: row; gap: 2rem; }
+        .footer-col { width: auto; }
+      }
+      @media (min-width: 768px) {
+        .footer-main { padding: 3rem 3rem; }
+        .footer-wordmark { padding: 0 3rem 2rem; }
+      }
+      @media (min-width: 1024px) {
+        .footer-main { flex-direction: row; gap: 4rem; }
+        .footer-cols { justify-content: flex-end; gap: 4rem; }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Nav -->
+    <nav class="site-nav">
+      <div class="nav-inner">
+        <div class="nav-brand">
+          <a class="brand-link" href="/" aria-label="LLoyal Labs home">
+            <svg class="nav-logo-mark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 64" fill="currentColor" width="45" height="24" aria-hidden="true">
+              <path d="M0 0h20v8H8v48h12v8H0V0z"/>
+              <path d="M28 8h8v40h16v8H28V8z"/>
+              <path d="M68 8h8v40h16v8H68V8z"/>
+              <path d="M100 0h20v64h-20v-8h12V8h-12V0z"/>
+            </svg>
+            <span class="nav-wordmark">LLoyal Labs</span>
+          </a>
+          <div class="nav-tagline">
+            <div class="nav-divider"></div>
+            <span>Engineering AI's contact with reality.</span>
+          </div>
+        </div>
+        <div class="nav-links">
+          <a href="/#difference">Why</a>
+          <a href="/#build">How it works</a>
+          <a href="/#product">Run it</a>
+          <a href="/#compute">Compute</a>
+          <a href="/blog/" class="active" aria-current="page">Blog</a>
+        </div>
+      </div>
+    </nav>
+
+    <main>
+      <article class="post">
+        <div class="post-backrow">
+          <a class="post-back" href="/blog/">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            Blog
+          </a>
+        </div>
+
+        <header class="post-header">
+          <p class="post-eyebrow">Dispatch</p>
+          <h1 class="post-title">You already know this architecture. It shipped in 2007.</h1>
+          <p class="post-dek">The plumbing is familiar. The Model is not.</p>
+          <p class="post-meta"><em>Lloyal Labs — July 2026</em></p>
+        </header>
+
+        <div class="post-body">
+          <p>We describe the Lloyal harness as <a href="https://lloyal.ai">MVC with a live LLM as the Model</a>: your product surfaces are the Views, the harness — ordinary TypeScript — is the Controller, and a resident model holds the live generative state. That analogy keeps paying, so we followed it down a layer. It turns out the <em>serving</em> stack maps too — almost noun for noun — onto the stack that carried Ruby on Rails for two decades.</p>
+
+          <p>This isn't a coincidence, and it isn't branding. The same forces that shaped Rails' stack — many frontends, many ways to serve, one application that must not care — act on any platform that puts a program between users and a resource. When the forces are the same, the load-bearing shapes converge. What follows is the map, and for each mapping, the <em>why</em>: the force that produced the Rails piece, and how the same force — sometimes amplified — produces ours.</p>
+
+          <p>If you ever deployed a Rails app, you already hold Lloyal's architecture in your head. You just know the pieces by their old names.</p>
+
+          <figure class="figure">
+            <img
+              src="/blog/assets/rails-map.png"
+              width="2320"
+              height="1360"
+              loading="lazy"
+              decoding="async"
+              alt="Diagram mapping the Rails serving stack to Lloyal's, noun for noun: Rails to the harness, Rack to the binding, Puma to the host, Unicorn to the relay, config.ru to the driver, Basecamp to reasoning.run."
+            />
+            <figcaption>Noun for noun: the stack that carried Rails, and the one that carries a resident model.</figcaption>
+          </figure>
+
+          <h2>The map</h2>
+
+          <figure class="figure figure--table">
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr>
+                    <th>You knew it as</th>
+                    <th>In Lloyal it's</th>
+                    <th>What it is</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><a href="https://github.com/rails/rails" target="_blank" rel="noreferrer">Rails</a> — the application</td>
+                    <td>the <strong>harness</strong> (<a href="https://www.npmjs.com/package/reasoning.run" target="_blank" rel="noreferrer">reasoning.run</a> is ours)</td>
+                    <td>your application: one headless program that owns the pipeline, the policies, and the model underneath it</td>
+                  </tr>
+                  <tr>
+                    <td><a href="https://github.com/rack/rack" target="_blank" rel="noreferrer">Rack</a> — one tiny interface between every framework and every server</td>
+                    <td><a href="https://www.npmjs.com/org/lloyal-labs" target="_blank" rel="noreferrer"><code>@lloyal-labs/binding</code></a></td>
+                    <td>one tiny interface between every harness and every surface</td>
+                  </tr>
+                  <tr>
+                    <td><a href="https://puma.io/" target="_blank" rel="noreferrer">Puma</a> — many requests multiplexed in one process</td>
+                    <td><code>@lloyal-labs/host</code></td>
+                    <td>many sessions multiplexed over one resident model</td>
+                  </tr>
+                  <tr>
+                    <td><a href="https://yhbt.net/unicorn/" target="_blank" rel="noreferrer">Unicorn</a> — process isolation; each worker handles one request at a time</td>
+                    <td><code>@lloyal-labs/relay</code></td>
+                    <td>isolation by OS process, one harness per connection</td>
+                  </tr>
+                  <tr>
+                    <td><a href="https://guides.rubyonrails.org/rails_on_rack.html" target="_blank" rel="noreferrer"><code>config.ru</code></a> — five generated lines wiring app to server</td>
+                    <td>the <strong>driver</strong></td>
+                    <td>a few generated lines wiring harness to host</td>
+                  </tr>
+                  <tr>
+                    <td><code>rails new</code> → <code>rails server</code></td>
+                    <td><code>harness.dev create</code> → your harness's own bin</td>
+                    <td>scaffold <em>your</em> application, boot it locally in one command <em>(scaffold in development)</em></td>
+                  </tr>
+                  <tr>
+                    <td><a href="https://basecamp.com/" target="_blank" rel="noreferrer">Basecamp</a> — the application Rails was <a href="https://en.wikipedia.org/wiki/Ruby_on_Rails" target="_blank" rel="noreferrer">extracted from</a></td>
+                    <td><a href="https://reasoning.run">reasoning.run</a> — the application the harness contract was extracted from</td>
+                    <td>the working product that came first; the framework is its generalization</td>
+                  </tr>
+                  <tr>
+                    <td>Gems</td>
+                    <td><a href="https://apps.lloyal.ai">AgentApps</a></td>
+                    <td>installable capabilities — ours arrive signed</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </figure>
+
+          <h2>Rack, but for intelligence</h2>
+
+          <p>Rack's insight was almost embarrassingly small. Every Ruby web framework and every Ruby web server agreed on <a href="https://github.com/rack/rack/blob/main/SPEC.rdoc" target="_blank" rel="noreferrer">one method</a>:</p>
+
+          <pre><code>app.call(env)  # =&gt; [status, headers, body]</code></pre>
+
+          <p><strong>Why it had to exist.</strong> Before Rack, Ruby had an N×M problem: every framework needed bespoke glue for every server. Rails had its adapters, Merb had its own, Camping had its own — and every new server meant every framework wrote another one. Rack collapsed the matrix: N frameworks and M servers each conform to one contract, and N×M integrations become N+M adapters. That single method is why Rails never cared whether it ran under WEBrick, Unicorn, Puma, or a Heroku dyno. The server became a deployment decision instead of an application decision.</p>
+
+          <p>We hit the same matrix from the other side. A harness needs to reach a terminal, a desktop app, a browser, and a script — and it needs to run in-process, across a fork boundary, and across a network. Four surfaces, three process topologies: without a seam, that's every surface knowing every placement. With one, it's four adapters against one contract:</p>
+
+          <figure class="figure">
+            <img
+              src="/blog/assets/rails-nxm.png"
+              width="2320"
+              height="1360"
+              loading="lazy"
+              decoding="async"
+              alt="Diagram showing four surfaces and three process topologies tangled in an N-by-M integration matrix on the left, collapsing to a single binding seam with N plus M adapters on the right."
+            />
+            <figcaption>N surfaces × M topologies collapses to N + M adapters against one contract — Rack's move, replayed.</figcaption>
+          </figure>
+
+          <pre><code>type Binding&lt;E, C&gt; = (
+  bus: EventBus&lt;E&gt;,           // events flow down: harness → surface
+  dispatch: (c: C) =&gt; void,   // commands flow up: surface → harness
+  bootstrap: E[],
+) =&gt; () =&gt; void;              // dispose</code></pre>
+
+          <p><strong>Why the shape differs from Rack's.</strong> Rack is request/response because a web app is silent until asked. A harness isn't. A resident model <em>runs</em>: agents spawn and finish, tokens stream, memory pressure rises and recovers — the application has things to say when nobody asked. So the contract is a stream, not a cycle: events flow down continuously, commands interject upward. The two extra pieces are there because transports are physical: <code>bootstrap</code> exists so a surface's first paint already reflects reality (no flash of empty state while events catch up), and the returned <code>dispose</code> exists because sockets die and processes get killed — every adapter must tear down cleanly when its transport dies ungracefully, and the contract makes that non-optional.</p>
+
+          <p>Four adapters conform today: <code>render</code> (the terminal UI), <code>ndjson</code> (a stdout stream for scripting), <code>ipc</code> (across a process fork), and <code>wss</code> (across the network — the transport ships today; the browser product built on it is in development). And the consequence is measurable rather than rhetorical: the same <code>reasoning.run</code> — unchanged, same package — is currently the CLI <em>and</em> the engine inside the <a href="https://reasoning.run">Artifact</a> desktop app. When our desktop client adopted the published package, it deleted a twelve-thousand-line vendored fork and replaced it with a dependency line. Twelve thousand lines is what the N×M matrix costs when you pay it by hand. One interface is what it costs when you don't.</p>
+
+          <h2>Puma and Unicorn, but for models</h2>
+
+          <p>Rails deployment eventually settled into two philosophies, and it's worth remembering they <em>coexisted</em> — neither ever won, because they answer different questions.</p>
+
+          <p><a href="https://yhbt.net/unicorn/" target="_blank" rel="noreferrer">Unicorn</a>'s doctrine: isolate by OS process. Each worker is its own world; the kernel is your safety boundary; a crashed worker takes nothing with it. <a href="https://github.com/puma/puma" target="_blank" rel="noreferrer">Puma</a>'s doctrine: multiplex. Many requests share one process and its memory; you accept a shared fate in exchange for density.</p>
+
+          <p><strong>Why the same fork appears here — with the dial turned up.</strong> The tradeoff behind Puma-vs-Unicorn is isolation versus the cost of duplicating the shared resource. For a web server, that shared resource is modest: a boot-time framework heap, some connection pools — duplicating it per worker is affordable, which is why Unicorn was ever viable. For a resident model, the shared resource is the <em>weights</em> — for a frontier-class model, hundreds of gigabytes of loaded parameters. Duplicating that per user isn't a performance preference; it's arithmetic that decides whether multi-user serving exists at all. A model that fills most of a GPU box fits exactly once. So the two philosophies return, but the stakes invert which one is default:</p>
+
+          <p><code>@lloyal-labs/relay</code> is the Unicorn answer: fork one harness process per connection, each with its own residency. Maximum isolation, honest economics when the box serves one user — and the right shape when the user <em>is</em> the tenant.</p>
+
+          <p><code>@lloyal-labs/host</code> is the Puma answer: load the model <strong>once</strong>, and run N sessions as structured children over that single residency — each session with its own context, its own KV state, its own agent population. The weights that would cost hundreds of gigabytes per user cost them once per box.</p>
+
+          <figure class="figure">
+            <img
+              src="/blog/assets/rails-host-relay.png"
+              width="2320"
+              height="1360"
+              loading="lazy"
+              decoding="async"
+              alt="Diagram comparing the relay shape — one harness process per connection, each with its own model residency — with the host shape: one resident model with N sessions multiplexed over a single residency."
+            />
+            <figcaption>Same fork, higher stakes: the relay isolates by OS process; the host runs N sessions over one residency.</figcaption>
+          </figure>
+
+          <p><strong>Why there's a queue in front of it.</strong> A web request occupies bounded worker capacity for a short interval, and a server can trade latency for throughput across thousands of them. A resident-model session is different: its KV cache reserves a physical slice of GPU memory for as long as the session lives. Capacity is a hard integer, not a soft target. So the host runs a small FIFO with explicit admission: a session is <em>queued</em>, then <em>warming</em>, then <em>live</em> — and the client can see which. It's the honest version of what a web load balancer hides: when the box is full, you know you're waiting and why.</p>
+
+          <p><strong>Why both ship rather than one winning.</strong> Same reason Unicorn survived Puma: isolation is sometimes the requirement, not the compromise. A regulated deployment that wants kernel-enforced boundaries between sessions picks the relay shape. A team serving its own users from one box picks the host shape. The choice is an operator's line in a config — the harness, per the contract above, cannot tell which one it's living in.</p>
+
+          <p>(Two honest labels, in the spirit of our status badges: the binding layer ships today and powers both of our surfaces. The host core is built and published at 0.1.0; the web surface it exists to serve is in development.)</p>
+
+          <h2>config.ru, but for harnesses</h2>
+
+          <p>Nobody thinks about <code>config.ru</code>. It's five generated lines that wire your application to whatever serves it:</p>
+
+          <pre><code>require_relative "config/environment"
+run Rails.application</code></pre>
+
+          <p><strong>Why a file this small has a name.</strong> Because of what it lets the two sides <em>not know</em>. Puma doesn't import Rails; Rails doesn't import Puma; <code>config.ru</code> is the only place both names appear. That non-knowledge is load-bearing: it's why Puma serves every framework and Rails runs under every server.</p>
+
+          <p>Our equivalent is the <strong>driver</strong> — the short generated file that hands a specific harness to the host: how to materialise a session, how to run one. The host imports no harness and no SDK; the harness imports no host; the driver is the only file that knows both. The payoff is the same as Rails', plus one that matters more here: because the host only ever sees the driver's little interface, the entire serving lifecycle — admission, queueing, teardown, failure containment — is tested against a <em>fake</em> harness, with no model and no GPU in the loop. The most dangerous layer of the stack is the one that never needs the expensive hardware to be verified. Like <code>config.ru</code>, you will read the driver once out of curiosity and never edit it.</p>
+
+          <h2>What you actually write</h2>
+
+          <p>Here's the part that matters if you're building on this. A Rails developer in 2007 wrote models, controllers, and views. They did not write Rack adapters, did not configure Unicorn's preforking, did not think about the server's accept loop. The stack beneath them was deep — and invisible.</p>
+
+          <p>Same deal here. A harness author works with <strong>three concepts</strong>: the runtime, AgentApps, and their harness — one generator function:</p>
+
+          <pre><code>export function* harness(ctx, events, commands) {
+  // enable your apps, run your pipeline,
+  // emit your events, handle your commands
+}</code></pre>
+
+          <p><strong>Why the center is code, not configuration.</strong> Rails' deepest doctrine wasn't MVC — it was <a href="https://rubyonrails.org/doctrine" target="_blank" rel="noreferrer">convention over configuration</a>: decide the boring things once, in the framework, so the author's file contains only what's genuinely theirs. We hold that line at every boundary — surfaces, wiring, serving are conventions and generated files — and deliberately <em>not</em> at the center, because for an intelligent application, the center is the product. How your agents collaborate, when a human must approve, what happens when memory runs short, which evidence is trusted — that's behaviour, and behaviour is what programming languages are for. Frameworks that reduce the center to prompt files and config make the easy things easy by making the essential things inexpressible. So the harness is a program — a generator, because <a href="https://github.com/thefrontside/effection" target="_blank" rel="noreferrer">structured concurrency</a> is the honest shape for a thing that spawns agents, waits on humans, and must clean up whatever happens: an agent's lifetime is a scope; cancel the scope and everything inside it — including its slice of the model's memory — is released, guaranteed, by construction.</p>
+
+          <p>Everything in the table above sits <em>below</em> that generator. You never import the binding. You never meet the relay or the host. The driver is generated. Where your harness runs — a laptop terminal, a desktop app, a shared GPU box — is a deployment decision, not an application decision. Rack's promise, kept for a different Model.</p>
+
+          <h2>Extracted, not designed</h2>
+
+          <p>One more parallel, and it's the one that explains why the others hold. Rails was not designed as a framework. It was <a href="https://en.wikipedia.org/wiki/Ruby_on_Rails" target="_blank" rel="noreferrer">extracted from Basecamp</a> — a working application shipped first, and the framework was pulled out of what that application had already proven it needed. That's why Rails' conventions fit real work: every abstraction had carried production weight before it had a name.</p>
+
+          <p>The harness contract has the same lineage. reasoning.run — our deep-research application — existed first, running in terminals and inside our desktop app. The <code>harness(ctx, events, commands)</code> entrypoint, the binding contract, the runner seam: each was extracted from that working application, not sketched in advance of one. Where we <em>haven't</em> yet earned a generalization, we say so — the full scaffold ships once a second harness has proved which parts are genuinely conventional, for the same reason Rails waited for patterns to repeat inside Basecamp before naming them conventions.</p>
+
+          <h2>Where the analogy bends</h2>
+
+          <p>Every good analogy earns trust by admitting where it stops, so: Rails' Model was an Active Record object backed by rows in a database — durable state you query. Ours is a live language model, and that difference is not cosmetic. Three things exist here that have no Rails noun:</p>
+
+          <p><strong>The Model thinks.</strong> ActiveRecord waits for a query. A resident model runs — which is why the binding contract is a stream rather than a request cycle, all the way down.</p>
+
+          <p><strong>The Model forks.</strong> When a session spawns ten agents, they aren't ten connections re-reading the conversation. They fork the live attention state: each new agent inherits the entire decoded context in O(1), the way a process inherits memory at <code>fork()</code> — decoded once, shared physically, diverging from there. There is no database analogue, because rows don't have a working memory to inherit.</p>
+
+          <p><strong>The Model persists differently.</strong> A database persists by writing. Attention state can be snapshotted — but a snapshot is bound to the exact model, quantization, and backend that produced it; it is not a portable record the way a database row is. Sessions here persist by <em>reconstruction</em>: park a session as text, wake it later — on the same machine or a different one — and rebuild the live state from what was kept. The research behind that mechanism is published; the short version is that bounded reconstruction holds quality within a few percent of never having parked at all.</p>
+
+          <p>No web framework ever had a Model with a mind. That's the one genuinely new thing here — and it's precisely <em>because</em> it's new that everything around it is deliberately old. Familiarity is a budget. We spent none of it on the plumbing, so all of it is available for the part that's never existed before.</p>
+
+          <p>Rails proved you don't make a platform legible by making its core trivial — Rack, Puma, and Unicorn were never trivial. You make it legible by making the <em>author's</em> surface small and the topology someone else's job.</p>
+
+          <p><code>rails new</code> for harnesses is coming. Our Basecamp you can run today, in one command:</p>
+
+          <pre><code>npx reasoning.run</code></pre>
+
+          <hr class="post-rule" />
+
+          <div class="post-coda">
+            <p><em><a href="https://www.npmjs.com/package/reasoning.run" target="_blank" rel="noreferrer">reasoning.run</a> is MIT; the runtime and SDK are Fair Source; the harness.dev CLI is Apache-2.0. The docs are at <a href="https://docs.lloyal.ai" target="_blank" rel="noreferrer">docs.lloyal.ai</a>, the code at <a href="https://github.com/lloyal-ai" target="_blank" rel="noreferrer">github.com/lloyal-ai</a>.</em></p>
+          </div>
+        </div>
+      </article>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="footer-main">
+        <div class="footer-left">
+          <div class="footer-brand-row">
+            <div class="footer-logo-box" aria-label="LLoyal Labs">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 136 136" aria-hidden="true">
+                <rect width="136" height="136" fill="#000"/>
+                <g transform="translate(8, 36)" fill="#fff">
+                  <path d="M0 0h20v8H8v48h12v8H0V0z"/>
+                  <path d="M28 8h8v40h16v8H28V8z"/>
+                  <path d="M68 8h8v40h16v8H68V8z"/>
+                  <path d="M100 0h20v64h-20v-8h12V8h-12V0z"/>
+                </g>
+              </svg>
+            </div>
+            <div class="footer-subscribe">
+              <h4>Subscribe for our product updates.</h4>
+              <form class="footer-form" onsubmit="return false;">
+                <input type="email" placeholder="Enter your email" aria-label="Enter your email" />
+                <button type="submit" aria-label="Subscribe">
+                  <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                </button>
+              </form>
+              <p class="footer-copyright">&copy; 2026 LLoyal AI. All rights reserved.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-cols">
+          <div class="footer-col">
+            <h4>Engineering</h4>
+            <ul>
+              <li><a href="https://hdk.lloyal.ai">HDK</a></li>
+              <li><a href="https://reasoning.run">reasoning.run</a></li>
+              <li><a href="https://lloyal-ai.github.io/lloyal.node/" target="_blank" rel="noreferrer">lloyal.node</a></li>
+              <li><a href="https://lloyal-ai.github.io/liblloyal/" target="_blank" rel="noreferrer">liblloyal</a></li>
+              <li><a href="https://www.npmjs.com/package/@lloyal-labs/tsampler" target="_blank" rel="noreferrer">TSampler</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Resources</h4>
+            <ul>
+              <li><a href="https://docs.lloyal.ai" target="_blank" rel="noreferrer">Documentation</a></li>
+              <li><a href="/blog/">Blog</a></li>
+              <li><a href="/#compute">Compute</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Community</h4>
+            <ul>
+              <li><a href="https://github.com/lloyal-ai/" target="_blank" rel="noreferrer">GitHub</a></li>
+              <li><a href="https://www.npmjs.com/org/lloyal-labs" target="_blank" rel="noreferrer">npm</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Contact</h4>
+            <ul>
+              <li><a href="mailto:research@lloyal.ai">Get in touch</a></li>
+              <li><span>Melbourne, AU</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-wordmark">
+        <svg viewBox="0 0 100 28" aria-hidden="true">
+          <text x="0" y="24" textLength="100" lengthAdjust="spacing">LLoyal</text>
+        </svg>
+      </div>
+    </footer>
+  </body>
+</html>
