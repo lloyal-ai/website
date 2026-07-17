@@ -74,7 +74,7 @@ section[id], [id="same-harness"], [id="partner-form"] { scroll-margin-top: 76px;
 .mobile-nav { border-top: 1px solid var(--line-soft); padding: 18px var(--gutter) 24px; background: rgba(8,8,8,.98); }
 .mobile-nav a { display: block; padding: 9px 0; color: var(--muted); }
 
-.hero { padding: clamp(82px, 10vw, 150px) 0 clamp(92px, 10vw, 150px); border-bottom: 1px solid var(--line-soft); }
+.hero { padding: clamp(44px, 5vw, 84px) 0 clamp(92px, 10vw, 150px); border-bottom: 1px solid var(--line-soft); }
 .hero-copy { max-width: 1320px; text-align: center; }
 .kicker, .section-index, .comparison-label, .receipt-tag, .status-line, .execution-band > div > span, .paths-grid article > span {
   margin: 0;
