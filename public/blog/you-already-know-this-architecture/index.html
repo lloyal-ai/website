@@ -855,7 +855,7 @@ run Rails.application</code></pre>
 
           <p><strong>The Model forks.</strong> When a session spawns ten agents, they aren't ten connections re-reading the conversation. They fork the live attention state: each new agent inherits the entire decoded context in O(1), the way a process inherits memory at <code>fork()</code> — decoded once, shared physically, diverging from there. There is no database analogue, because rows don't have a working memory to inherit.</p>
 
-          <p><strong>The Model persists differently.</strong> A database persists by writing. Attention state can be snapshotted — but a snapshot is bound to the exact model, quantization, and backend that produced it; it is not a portable record the way a database row is. Sessions here persist by <em>reconstruction</em>: park a session as text, wake it later — on the same machine or a different one — and rebuild the live state from what was kept. The <a href="https://lloyal.ai/research/">research</a> behind that mechanism is published; the short version is that bounded reconstruction holds quality within a few percent of never having parked at all.</p>
+          <p><strong>The Model persists differently.</strong> A database persists by writing. Attention state can be snapshotted — but a snapshot is bound to the exact model, quantization, and backend that produced it; it is not a portable record the way a database row is. Sessions here persist by <em>reconstruction</em>: park a session as text, wake it later — on the same machine or a different one — and rebuild the live state from what was kept. The research behind that mechanism is published; the short version is that bounded reconstruction holds quality within a few percent of never having parked at all.</p>
 
           <p>No web framework ever had a Model with a mind. That's the one genuinely new thing here — and it's precisely <em>because</em> it's new that everything around it is deliberately old. Familiarity is a budget. We spent none of it on the plumbing, so all of it is available for the part that's never existed before.</p>
 
@@ -868,7 +868,7 @@ run Rails.application</code></pre>
           <hr class="post-rule" />
 
           <div class="post-coda">
-            <p><em><a href="https://www.npmjs.com/package/reasoning.run" target="_blank" rel="noreferrer">reasoning.run</a> is MIT; the runtime and SDK are Fair Source; the harness.dev CLI is Apache-2.0. The docs are at <a href="https://docs.lloyal.ai" target="_blank" rel="noreferrer">docs.lloyal.ai</a>, the code at <a href="https://github.com/lloyal-ai" target="_blank" rel="noreferrer">github.com/lloyal-ai</a>, and the research behind the resident-model claims at <a href="https://lloyal.ai/research/">lloyal.ai/research</a>.</em></p>
+            <p><em><a href="https://www.npmjs.com/package/reasoning.run" target="_blank" rel="noreferrer">reasoning.run</a> is MIT; the runtime and SDK are Fair Source; the harness.dev CLI is Apache-2.0. The docs are at <a href="https://docs.lloyal.ai" target="_blank" rel="noreferrer">docs.lloyal.ai</a>, the code at <a href="https://github.com/lloyal-ai" target="_blank" rel="noreferrer">github.com/lloyal-ai</a>.</em></p>
           </div>
         </div>
       </article>
