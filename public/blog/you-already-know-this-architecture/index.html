@@ -672,28 +672,16 @@
         <header class="post-header">
           <p class="post-eyebrow">Dispatch</p>
           <h1 class="post-title">You already know this architecture. It shipped in 2007.</h1>
-          <p class="post-dek">The plumbing is familiar. The Model is not.</p>
+          <p class="post-dek">Familiar plumbing, novel use-case.</p>
           <p class="post-meta"><em>Lloyal Labs — July 2026</em></p>
         </header>
 
         <div class="post-body">
-          <p>We describe the Lloyal harness as <a href="https://lloyal.ai">MVC with a live LLM as the Model</a>: your product surfaces are the Views, the harness — ordinary TypeScript — is the Controller, and a resident model holds the live generative state. That analogy keeps paying, so we followed it down a layer. It turns out the <em>serving</em> stack maps too — almost noun for noun — onto the stack that carried Ruby on Rails for two decades.</p>
+          <p>The best analogy to describe a Lloyal harness is: <a href="https://lloyal.ai">MVC with a live LLM as the Model</a> — your product surfaces are the Views, the harness — ordinary TypeScript — is the Controller, and a resident model holds the live generative state. That analogy keeps paying, so we followed it down a layer. It turns out the <em>serving</em> stack maps too — almost noun for noun — onto the stack that carried Ruby on Rails for two decades.</p>
 
           <p>This isn't a coincidence, and it isn't branding. The same forces that shaped Rails' stack — many frontends, many ways to serve, one application that must not care — act on any platform that puts a program between users and a resource. When the forces are the same, the load-bearing shapes converge. What follows is the map, and for each mapping, the <em>why</em>: the force that produced the Rails piece, and how the same force — sometimes amplified — produces ours.</p>
 
           <p>If you ever deployed a Rails app, you already hold Lloyal's architecture in your head. You just know the pieces by their old names.</p>
-
-          <figure class="figure">
-            <img
-              src="/blog/assets/rails-map.png"
-              width="2320"
-              height="1360"
-              loading="lazy"
-              decoding="async"
-              alt="Diagram mapping the Rails serving stack to Lloyal's, noun for noun: Rails to the harness, Rack to the binding, Puma to the host, Unicorn to the relay, config.ru to the driver, Basecamp to reasoning.run."
-            />
-            <figcaption>Noun for noun: the stack that carried Rails, and the one that carries a resident model.</figcaption>
-          </figure>
 
           <h2>The map</h2>
 
@@ -708,11 +696,6 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td><a href="https://github.com/rails/rails" target="_blank" rel="noreferrer">Rails</a> — the application</td>
-                    <td>the <strong>harness</strong> (<a href="https://www.npmjs.com/package/reasoning.run" target="_blank" rel="noreferrer">reasoning.run</a> is ours)</td>
-                    <td>your application: one headless program that owns the pipeline, the policies, and the model underneath it</td>
-                  </tr>
                   <tr>
                     <td><a href="https://github.com/rack/rack" target="_blank" rel="noreferrer">Rack</a> — one tiny interface between every framework and every server</td>
                     <td><a href="https://www.npmjs.com/org/lloyal-labs" target="_blank" rel="noreferrer"><code>@lloyal-labs/binding</code></a></td>
@@ -864,6 +847,23 @@ run Rails.application</code></pre>
           <p><code>rails new</code> for harnesses is coming. Our Basecamp you can run today, in one command:</p>
 
           <pre><code>npx reasoning.run</code></pre>
+
+          <div class="card-group">
+            <a class="card" href="https://github.com/lloyal-ai/reasoning-run" target="_blank" rel="noreferrer">
+              <span class="card__icon" aria-hidden="true">
+                <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+              </span>
+              <span class="card__title">Run our Basecamp yourself</span>
+              <span class="card__body">The working application the harness contract was extracted from — source, docs, and issues in the open.</span>
+            </a>
+            <a class="card" href="https://www.npmjs.com/package/reasoning.run" target="_blank" rel="noreferrer">
+              <span class="card__icon" aria-hidden="true">
+                <svg viewBox="0 0 27.23 27.23"><path fill="#cb3837" d="M0 0h27.23v27.23H0z"/><path fill="#fff" d="M5.8 21.75h7.86V9.98h3.93v11.77h3.93V5.8H5.8v15.95z"/></svg>
+              </span>
+              <span class="card__title">Install from npm</span>
+              <span class="card__body">The <code>reasoning.run</code> package, published and versioned.</span>
+            </a>
+          </div>
 
           <hr class="post-rule" />
 
