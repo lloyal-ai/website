@@ -1,18 +1,324 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/favicon.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LLoyal Labs | Engineering AI's Contact with Reality</title>
-    <meta name="description" content="LLoyal Labs is an applied research organization exploring what happens when AI systems are forced to survive contact with reality." />
-    <meta name="theme-color" content="#111111" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,200..900;1,200..900&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="Lloyal is a programming surface for intelligence: one intelligent application from a 4B edge model to a ten-agent frontier population." name="description"/>
+<meta content="#080808" name="theme-color"/>
+<title>LLoyal Labs — A programming surface for intelligence</title>
+<link href="/styles.css" rel="stylesheet"/>
+<link rel="icon" href="/favicon.png"/>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header" data-header="">
+<div class="wrap header-inner">
+<a aria-label="LLoyal Labs home" class="wordmark" href="#top">
+<strong>LLoyal</strong><span>Labs</span>
+</a>
+<p class="brand-line">Engineering AI's contact with reality.</p>
+<nav aria-label="Primary" class="desktop-nav"><a href="#difference">Why</a><a href="#build">How it works</a><a href="#product">Run it</a><a href="#compute">Compute</a><a href="https://docs.lloyal.ai/" rel="noreferrer" target="_blank">Docs ↗</a><a href="https://github.com/lloyal-ai" rel="noreferrer" target="_blank">GitHub ↗</a></nav>
+<a class="header-cta" href="#partner">Build with Lloyal</a>
+<button aria-controls="mobile-nav" aria-expanded="false" class="menu-button" data-menu-button="" type="button">
+<span></span><span></span><span class="sr-only">Open menu</span>
+</button>
+</div>
+<nav class="mobile-nav" data-mobile-nav="" hidden="" id="mobile-nav"><a href="#difference">Why</a><a href="#build">How it works</a><a href="#product">Run it</a><a href="#compute">Compute</a><a href="https://docs.lloyal.ai/" rel="noreferrer" target="_blank">Docs ↗</a><a href="https://github.com/lloyal-ai" rel="noreferrer" target="_blank">GitHub ↗</a><a href="#partner">Build with Lloyal</a></nav>
+</header>
+<main id="main">
+<section class="hero" id="top">
+<div class="wrap hero-copy reveal">
+<p class="kicker">A programming surface for intelligence</p>
+<p class="hero-proof-label"><code>reasoning.run</code> — one application built on Lloyal</p>
+<h1>One application.<br/><span>4B at the edge.</span><br/>Ten agents at the<br/>frontier.</h1>
+<p class="hero-bridge">Not two model integrations. One TypeScript harness spanning both.</p>
+<p class="hero-dek">Lloyal brings live model execution into the application itself, letting one intelligent program contract to edge-scale weights or expand into a frontier agent population.</p>
+<div class="hero-actions">
+<a class="button button-light" href="#ship">Choose your path</a>
+<a class="button button-line" href="#partner">Build with Lloyal</a>
+</div>
+<a class="quiet-link" href="https://github.com/lloyal-ai/reasoning-run" rel="noreferrer" target="_blank">Inspect the TypeScript application <span>↗</span></a>
+</div>
+<div aria-label="The same deep-research harness across edge and frontier compute" class="wrap hero-proof reveal" id="same-harness">
+<div class="proof-pane edge-pane">
+<div class="pane-head">
+<div><span>EDGE</span><strong>Qwen 3.5 · 4B</strong></div>
+<em>on-device</em>
+</div>
+<div aria-hidden="true" class="terminal-mini">
+<p><i>01</i> preflight: 2 sources</p>
+<p><i>02</i> plan: 5 research tasks</p>
+<p class="live"><i>03</i> agentPool: 5 branches</p>
+<p><i>04</i> tools: search · fetch · rerank</p>
+<p><i>05</i> synthesize: complete</p>
+</div>
+<div class="pane-metric capability-metric">
+<strong>4B → APP</strong>
+<span>planning · agents<br/>tools · recovery · synthesis</span>
+</div>
+</div>
+<div class="harness-spine">
+<div class="spine-label">ONE APPLICATION</div>
+<div class="spine-code">
+<span>preflight()</span>
+<span>plan()</span>
+<span>agentPool()</span>
+<span>policy()</span>
+<span>synthesize()</span>
+<span>commitTurn()</span>
+</div>
+<div class="spine-events">
+<b data-event-label="">agent:spawn</b>
+<i></i>
+</div>
+<small>same program · same AgentApps · same event contract</small>
+</div>
+<div class="proof-pane frontier-pane">
+<div class="pane-head">
+<div><span>FRONTIER</span><strong>GLM-5.2 · 2×B200</strong></div>
+<em>hosted</em>
+</div>
+<div aria-label="Ten concurrent agents sharing a model context" class="agent-field">
+<div class="shared-board">SHARED KV</div>
+<div aria-hidden="true" class="agents">
+<i>1</i><i>2</i><i>3</i><i>4</i><i>5</i><i>6</i><i>7</i><i>8</i><i>9</i><i>10</i>
+</div>
+</div>
+<div class="pane-metric frontier-metric">
+<strong>10 → 1</strong>
+<span>ten live agents<br/>one model dispatch per step</span>
+</div>
+</div>
+<p class="proof-caption">
+          Two real runs. One flagship application built on Lloyal, spanning both extremes.
+        </p>
+</div>
+</section>
+<section class="comparison section" id="difference">
+<div class="wrap">
+<div class="comparison-intro reveal">
+<p class="section-index">01 / BARE VS HARNESSED</p>
+</div>
+<div class="comparison-grid reveal">
+<article class="comparison-card">
+<div class="comparison-label">HOSTED BARE MODEL</div>
+<h3>Consume tokens</h3>
+<div class="comparison-stack">
+<span>Application</span><b>↓</b><span>Agent framework</span><b>↓</b>
+<span class="request-box">N model API runs</span><b>↓</b><span class="endpoint-box">Claude · OpenAI · Gemini</span>
+</div>
+<p>The provider serves the model. Your product assembles behaviour around its responses.</p>
+</article>
+<article class="comparison-card">
+<div class="comparison-label">SELF-HOSTED BARE MODEL</div>
+<h3>Serve tokens privately</h3>
+<div class="comparison-stack">
+<span>Application</span><b>↓</b><span>Agent framework</span><b>↓</b>
+<span class="request-box">N inference requests</span><b>↓</b><span class="endpoint-box">Private GLM-5.2 endpoint</span>
+</div>
+<p>The weights and data move inside your infrastructure. The product still receives tokens through an endpoint.</p>
+</article>
+<article class="comparison-card lloyal-comparison">
+<div class="comparison-label">LLOYAL · HARNESSED MODEL</div>
+<h3>Run the intelligent application</h3>
+<div class="comparison-stack">
+<span>Product surfaces</span><b>↓</b>
+<span class="application-box">One intelligent application<br/><small>harness · policy · capabilities · branch topology</small></span><b>↓</b>
+<span class="population-box">One live model-state population</span><b>↓</b><span class="resident-box">Resident model execution</span>
+</div>
+<p>Model execution and product behaviour run as one application across CLI, desktop and web.</p>
+</article>
+</div>
+<div class="comparison-conclusion reveal">
+<span>Same weights. Same infrastructure.</span>
+<strong>Bare models expose tokens. Harnessed models carry the application.</strong>
+</div>
+</div>
+</section>
+<section class="code-section section" id="build">
+<div class="wrap code-grid">
+<div class="code-copy reveal">
+<p class="section-index">02 / THE PROGRAMMING SURFACE</p>
+<h2>MVC, with a live LLM as the Model.</h2>
+<p>Your product surfaces are the Views. Your harness is the Controller—ordinary TypeScript defining how the application's intelligence collaborates, acts, recovers and continues. Beneath it, a resident LLM holds the live generative state.</p>
+<div aria-label="Views, controller, model — how the pieces stack" class="mvc-ladder">
+<div class="mvc-row"><span class="mvc-role">Views</span><div class="mvc-what"><strong>CLI · Desktop · Web</strong><small>product surfaces</small></div></div>
+<div aria-hidden="true" class="mvc-arrow">↓</div>
+<div class="mvc-row"><span class="mvc-role">Controller</span><div class="mvc-what"><strong>Lloyal harness</strong><small>typescript · policy · capabilities · control flow</small></div></div>
+<div aria-hidden="true" class="mvc-arrow">↓</div>
+<div class="mvc-row"><span class="mvc-role">Model</span><div class="mvc-what"><strong>Resident LLM</strong><small>shared context · live branches · generative state</small></div></div>
+</div>
+<p class="code-tagline"><strong>Program intelligent behaviour—not just prompts and calls.</strong></p>
+<div class="inline-links"><a href="https://github.com/lloyal-ai/reasoning-run" rel="noreferrer" target="_blank">Inspect the flagship application ↗</a><a href="https://docs.lloyal.ai/" rel="noreferrer" target="_blank">Read the HDK docs ↗</a></div></div>
+<div class="code-side reveal">
+<p class="code-kicker">This is what the Controller looks like:</p>
+<div aria-label="Illustrative TypeScript harness code" class="code-card">
+<div class="code-head"><span>incident-harness.ts</span><em>TypeScript + Effection</em></div>
+<pre><code><span class="kw">export function*</span> incidentHarness(incident) {
+  <span class="kw">const</span> evidence = <span class="kw">yield*</span> parallel([
+    inspectTelemetry(incident),
+    searchServiceHistory(incident),
+    reviewTechnicalManuals(incident),
+  ]);
+
+  <span class="kw">const</span> assessment = <span class="kw">yield*</span> reconcile(evidence);
+
+  <span class="kw">if</span> (assessment.requiresApproval) {
+    <span class="kw">return yield*</span> requestOperatorDecision(assessment);
+  }
+
+  <span class="kw">return yield*</span> proposeRemediation(assessment);
+}</code></pre>
+<div class="code-foot">
+<span>shared live context</span><span>structured cancellation</span><span>policy-governed actions</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="ship section" id="ship"><div class="start-band">
+<div class="wrap ship-wrap">
+<div class="section-head reveal">
+<p class="section-index">03 / START</p>
+<h2>Start with the platform. Or build an intelligent product capability with us.</h2>
+<p>Use the shipped developer tooling yourself, follow the deployment path as it lands, or work directly with Lloyal to make a high-value capability part of the product your customers already use.</p>
+</div>
+<div class="paths-grid reveal conversion-paths">
+<article><span>BUILD</span><h3>Start with the developer platform.</h3><p>Scaffold a harness, inspect the runtime and extend the application with signed AgentApps.</p><a href="#product">See the developer path →</a></article>
+<article><span>DEPLOY</span><h3>Choose the compute boundary.</h3><p>The product path spans local execution today and managed, BYOC or self-hosted GPU deployment as the deploy surface lands.</p><a href="#compute">See the compute envelopes →</a></article>
+<article><span>PARTNER</span><h3>Build an intelligent product capability.</h3><p>Turn one high-value capability into a production harness integrated into the product your customers already use.</p><a href="#partner">Build with Lloyal →</a></article>
+</div>
+</div>
+</div></section><section class="product-path section" id="product">
+<div class="wrap">
+<div class="section-head reveal">
+<p class="section-index">04 / FROM APPLICATION TO PRODUCT</p>
+<h2>Create the intelligent application.<br/>Wire the product around it.</h2>
+</div>
+<p class="product-lede reveal"><code>harness.dev create</code> scaffolds the headless application today. The same program can then project into CLI, Desktop and Web without re-authoring its intelligence.</p>
+<div class="product-entry-grid">
+<article class="command-card reveal">
+<div class="status-line"><span class="status status-live">AVAILABLE NOW</span><em>developer entry point</em></div>
+<h3>Start with the application program.</h3>
+<div aria-label="Create a new Lloyal harness project" class="command-shell">
+<span>$</span><code>npx harness.dev create claims-review</code>
+</div>
+<p>Creates a runnable TypeScript harness with model configuration, parallel research, synthesis and a signed AgentApp. Point it at a local GGUF and run it.</p>
+<div class="command-actions">
+<a href="https://docs.lloyal.ai/" rel="noreferrer" target="_blank">Read the getting-started path ↗</a>
+<a href="https://github.com/lloyal-ai/hdk" rel="noreferrer" target="_blank">Inspect HDK ↗</a>
+</div>
+</article>
+<article class="scaffold-card reveal">
+<div class="status-line"><span class="status status-building">IN DEVELOPMENT</span><em>unified scaffold</em></div>
+<h3>One harness. Three product surfaces.</h3>
+<div aria-label="One headless harness wired into CLI, desktop and web front ends" class="scaffold-map">
+<div class="scaffold-core">
+<span>HEADLESS HARNESS</span>
+<strong>orchestration · policy · AgentApps</strong>
+<small>event / command contract</small>
+</div>
+<div aria-hidden="true" class="scaffold-lines"><i></i><i></i><i></i></div>
+<div class="surface-stack">
+<div><span>CLI</span><small>terminal projection</small></div>
+<div><span>DESKTOP</span><small>installed application</small></div>
+<div><span>WEB</span><small>cloud or self-hosted</small></div>
+</div>
+</div>
+<p>Each interface projects the same headless entrypoint. The shell changes; the intelligent application does not.</p>
+</article>
+</div>
+<div class="execution-band reveal">
+<div>
+<span>BUILT FOR MODELS YOU CAN RUN</span>
+<p>Run the weights on-device, on a workstation, in your cloud account or inside customer infrastructure.</p>
+</div>
+<div aria-label="Licensing and trust model" class="license-strip">
+<span>Apache <code>harness.dev</code> CLI</span>
+<span>FSL runtime</span>
+<span>Reviewed &amp; signed AgentApps</span>
+</div>
+</div>
+</div>
+</section>
+<section class="proof section" id="compute">
+<div class="wrap">
+<div class="section-head reveal">
+<p class="section-index">05 / COMPUTE</p>
+<h2>One programming surface. Two radically different compute envelopes.</h2>
+</div>
+<div class="receipt-grid">
+<article class="receipt reveal">
+<div class="receipt-number">01</div>
+<div class="receipt-tag">SCALE DOWN</div>
+<h3>The harness amplifies the model.</h3>
+<p>A quantised 4B model runs planning, human review, multi-agent investigation, tools, pressure-aware recovery and synthesis—not a local chatbot.</p>
+<dl>
+<div><dt>Model</dt><dd>Qwen 3.5 4B · quantised</dd></div>
+<div><dt>Directional RACE</dt><dd>0.405</dd></div>
+<div><dt>Reference anchor</dt><dd>Claude 3.7 · 0.422</dd></div>
+</dl>
+<p class="fineprint">Directional English subset — the 4B scored 4 of the benchmark's 5 English tasks (task 83 planner-stalled); not a leaderboard submission or same-task Claude comparison. Citation grounding was the identified weakness.</p>
+<a href="/edge-evaluation.pdf" target="_blank">Read the evaluation <span>↗</span></a>
+</article>
+<article class="receipt reveal">
+<div class="receipt-number">02</div>
+<div class="receipt-tag">SCALE UP</div>
+<h3>The harness compounds the model.</h3>
+<p><strong class="receipt-lead">Ten agents. One model dispatch per step.</strong> One GLM-5.2 deployment advanced ten research agents over a shared decoded context as one live branch population.</p>
+<dl>
+<div><dt>Concurrent agents</dt><dd>10</dd></div>
+<div><dt>Model deployment</dt><dd>1</dd></div>
+<div><dt>Shared contexts</dt><dd>1</dd></div>
+<div><dt>Decode dispatches</dt><dd>1 per generation step</dd></div>
+</dl>
+<p class="fineprint">Fan-out still consumes KV capacity and generated tokens. It does not duplicate the resident model or reconstruct the shared prefix for every agent.</p>
+<a href="/blog/shifting-the-harness-left/" rel="noreferrer" target="_blank">Read the run report and cost receipt <span>↗</span></a>
+</article>
+</div>
+</div>
+</section>
+<section class="ship section" id="partner">
+
+<div class="partner-band">
+<div class="wrap ship-wrap">
+<div class="ship-grid">
+<div class="ship-copy reveal">
+<p class="section-index">DESIGN PARTNERS</p>
+<h2>Build the part of your product that thinks.</h2>
+<p class="large-copy">We work with software companies to turn one high-value product capability into a harnessed intelligent application—integrated into the existing product and deployable across the environments its customers require.</p>
+<div class="engagement">
+<span>One product capability</span><span>One product integration</span><span>Private AgentApps</span><span>Two or more placements</span><span>6–10 weeks</span>
+</div>
+</div>
+<form class="partner-form reveal" data-partner-form="" id="partner-form">
+<label>Company<input autocomplete="organization" name="company" required=""/></label>
+<label>Your name<input autocomplete="name" name="name" required=""/></label>
+<label>Email<input autocomplete="email" name="email" required="" type="email"/></label>
+<label>What should your product be able to do?<textarea name="capability" required="" rows="4"></textarea></label>
+<label>Where must it run?<input name="placement" placeholder="e.g. desktop, customer VPC and hosted GPU"/></label>
+<button class="button button-light" type="submit">Build with Lloyal</button>
+<p class="form-note">Goes straight to the founders — a reply within one business day.</p>
+</form>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer>
+<div class="wrap footer-top">
+<div>
+<a class="wordmark footer-mark" href="#top"><strong>LLoyal</strong><span>Labs</span></a>
+<p>Engineering AI's contact with reality.</p>
+</div>
+<div class="footer-links">
+<div><span>Engineering</span><a href="https://hdk.lloyal.ai/">HDK</a><a href="https://reasoning.run/">reasoning.run</a><a href="https://docs.lloyal.ai/">Documentation</a></div>
+<div><span>Blog</span><a href="/blog/">Blog</a></div>
+<div><span>Community</span><a href="https://github.com/lloyal-ai">GitHub</a><a href="https://www.npmjs.com/org/lloyal-labs">npm</a><a href="https://apps.lloyal.ai/">AgentApps</a></div>
+</div>
+</div>
+<div class="wrap footer-bottom"><span>© 2026 LLoyal AI. All rights reserved.</span><span>Melbourne, Australia</span></div>
+</footer>
+<script src="/app.js"></script>
+</body>
 </html>
