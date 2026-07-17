@@ -683,18 +683,6 @@
 
           <p>If you ever deployed a Rails app, you already hold Lloyal's architecture in your head. You just know the pieces by their old names.</p>
 
-          <figure class="figure">
-            <img
-              src="/blog/assets/rails-map.png"
-              width="2320"
-              height="1360"
-              loading="lazy"
-              decoding="async"
-              alt="Diagram mapping the Rails serving stack to Lloyal's, noun for noun: Rails to the harness, Rack to the binding, Puma to the host, Unicorn to the relay, config.ru to the driver, Basecamp to reasoning.run."
-            />
-            <figcaption>Noun for noun: the stack that carried Rails, and the one that carries a resident model.</figcaption>
-          </figure>
-
           <h2>The map</h2>
 
           <figure class="figure figure--table">
@@ -708,11 +696,6 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td><a href="https://github.com/rails/rails" target="_blank" rel="noreferrer">Rails</a> — the application</td>
-                    <td>the <strong>harness</strong> (<a href="https://www.npmjs.com/package/reasoning.run" target="_blank" rel="noreferrer">reasoning.run</a> is ours)</td>
-                    <td>your application: one headless program that owns the pipeline, the policies, and the model underneath it</td>
-                  </tr>
                   <tr>
                     <td><a href="https://github.com/rack/rack" target="_blank" rel="noreferrer">Rack</a> — one tiny interface between every framework and every server</td>
                     <td><a href="https://www.npmjs.com/org/lloyal-labs" target="_blank" rel="noreferrer"><code>@lloyal-labs/binding</code></a></td>
