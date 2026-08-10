@@ -3,11 +3,645 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<meta content="Lloyal is a programming surface for intelligence: one intelligent application from a 4B edge model to a ten-agent frontier population." name="description"/>
+<meta content="Lloyal is the Vertical Inference platform: model execution becomes application state, governed through ordinary TypeScript and deployed from device to frontier compute." name="description"/>
 <meta content="#080808" name="theme-color"/>
-<title>LLoyal Labs — A programming surface for intelligence</title>
+<title>LLoyal Labs — Vertical Inference</title>
 <link href="/styles.css" rel="stylesheet"/>
 <link rel="icon" href="/favicon.png"/>
+
+<style>
+/* Vertical Inference category hero */
+.hero-copy.hero-editorial {
+  display: grid;
+  grid-template-columns: minmax(0, .82fr) minmax(420px, 1fr);
+  gap: clamp(56px, 8vw, 138px);
+  align-items: end;
+  max-width: 1480px;
+  padding-top: clamp(48px, 7vw, 112px);
+  text-align: left;
+}
+.hero-category .kicker { margin-bottom: clamp(28px, 4vw, 58px); }
+.hero .hero-category h1 {
+  max-width: none;
+  margin: 0;
+  font-size: clamp(76px, 9.2vw, 148px);
+  line-height: .82;
+  letter-spacing: -.075em;
+  text-wrap: initial;
+}
+.hero-category-dek {
+  margin: clamp(26px, 3vw, 42px) 0 0;
+  color: #aaa7a1;
+  font-size: clamp(21px, 1.75vw, 29px);
+  line-height: 1.2;
+  letter-spacing: -.035em;
+}
+.hero-definition {
+  padding: clamp(28px, 3.2vw, 48px) 0 3px;
+  border-top: 1px solid #3a3936;
+}
+.hero-definition h2 {
+  max-width: 760px;
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(32px, 3.25vw, 52px);
+  font-weight: 620;
+  line-height: 1.02;
+  letter-spacing: -.055em;
+}
+.hero-definition > p {
+  max-width: 710px;
+  margin: 22px 0 0;
+  color: var(--muted);
+  font-size: clamp(15px, 1.15vw, 18px);
+  line-height: 1.58;
+}
+.hero-definition > p + p { margin-top: 12px; }
+.hero-definition strong { color: var(--ink); font-weight: 620; }
+.hero-definition .hero-actions { justify-content: flex-start; margin-top: 30px; }
+.hero-definition .quiet-link { margin-top: 18px; }
+.platform-anatomy {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  max-width: 1480px;
+  margin-top: clamp(72px, 8vw, 124px);
+  border-block: 1px solid var(--line);
+}
+.platform-anatomy article {
+  min-height: 150px;
+  padding: 26px 24px 30px;
+  border-right: 1px solid var(--line);
+}
+.platform-anatomy article:first-child { border-left: 1px solid var(--line); }
+.platform-anatomy span {
+  display: block;
+  color: #96938d;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .17em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+.platform-anatomy strong {
+  display: block;
+  margin-top: 28px;
+  color: #d8d5cf;
+  font-size: clamp(15px, 1.2vw, 19px);
+  font-weight: 560;
+  line-height: 1.35;
+  letter-spacing: -.025em;
+}
+.platform-anatomy > p {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 18px 24px;
+  border: 1px solid var(--line);
+  border-bottom: 0;
+  color: var(--ink);
+  font-size: clamp(17px, 1.45vw, 23px);
+  font-weight: 620;
+  letter-spacing: -.035em;
+  text-align: center;
+}
+.hero .platform-anatomy + .hero-proof { margin-top: clamp(34px, 4vw, 58px); }
+
+@media (max-width: 980px) {
+  .hero-copy.hero-editorial {
+    grid-template-columns: 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+  .hero .hero-category h1 { font-size: clamp(78px, 16vw, 132px); }
+  .hero-definition { max-width: 760px; }
+  .platform-anatomy { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .platform-anatomy article:nth-child(2) { border-right: 1px solid var(--line); }
+  .platform-anatomy article:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+  .platform-anatomy article:nth-child(3) { border-left: 1px solid var(--line); }
+}
+@media (max-width: 560px) {
+  .hero-copy.hero-editorial { padding-top: 36px; gap: 46px; }
+  .hero .hero-category h1 { font-size: clamp(66px, 22vw, 102px); }
+  .hero-category-dek { max-width: 300px; }
+  .hero-definition h2 { font-size: clamp(32px, 9.7vw, 46px); }
+  .hero-definition .hero-actions { display: grid; }
+  .platform-anatomy { grid-template-columns: 1fr; margin-top: 64px; }
+  .platform-anatomy article,
+  .platform-anatomy article:first-child,
+  .platform-anatomy article:nth-child(3) {
+    min-height: 0;
+    border: 1px solid var(--line);
+    border-bottom: 0;
+  }
+  .platform-anatomy strong { margin-top: 15px; }
+  .platform-anatomy > p { text-align: left; }
+}
+</style>
+<style>
+/* AgentApps capability layer and final conversion */
+.platform-anatomy { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.platform-anatomy article { padding-inline: 20px; }
+.platform-anatomy article small {
+  display: block;
+  margin-top: 16px;
+  color: #817e78;
+  font-size: 11px;
+  line-height: 1.5;
+}
+.anatomy-agentapps { background: #0d0d0d; }
+
+.agentapps-section {
+  color: #111;
+  background: var(--cream);
+  border-bottom: 1px solid #c8c3b8;
+}
+.agentapps-head {
+  display: grid;
+  grid-template-columns: minmax(150px, .33fr) minmax(0, 1fr);
+  gap: clamp(40px, 7vw, 120px);
+}
+.agentapps-head .section-index { color: #77736c; padding-top: 11px; }
+.agentapps-head h2 {
+  max-width: 950px;
+  margin: 0;
+  color: #050505;
+  font-size: clamp(50px, 6vw, 94px);
+  line-height: .91;
+  letter-spacing: -.067em;
+}
+.agentapps-head p {
+  max-width: 850px;
+  margin: 34px 0 0;
+  color: #625e57;
+  font-size: clamp(17px, 1.35vw, 21px);
+  line-height: 1.55;
+}
+.capability-modes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: clamp(58px, 7vw, 104px);
+  border-block: 1px solid #c8c3b8;
+}
+.capability-modes article {
+  min-height: 280px;
+  padding: 30px;
+  border-right: 1px solid #c8c3b8;
+}
+.capability-modes article:first-child { border-left: 1px solid #c8c3b8; }
+.capability-modes span,
+.admission-bridge span {
+  color: #77736c;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .17em;
+}
+.capability-modes h3 {
+  max-width: 360px;
+  margin: 68px 0 0;
+  color: #090909;
+  font-size: clamp(27px, 2.35vw, 38px);
+  line-height: .98;
+  letter-spacing: -.052em;
+}
+.capability-modes p {
+  margin: 22px 0 0;
+  color: #68645d;
+  font-size: 15px;
+  line-height: 1.55;
+}
+.admission-bridge {
+  display: grid;
+  grid-template-columns: minmax(0, 1.18fr) minmax(300px, .82fr);
+  gap: clamp(42px, 7vw, 120px);
+  align-items: center;
+  margin-top: clamp(42px, 5vw, 76px);
+  padding: clamp(34px, 4vw, 58px);
+  color: var(--ink);
+  background: #090909;
+}
+.admission-bridge h3 {
+  margin: 20px 0 0;
+  font-size: clamp(29px, 3.1vw, 48px);
+  line-height: 1;
+  letter-spacing: -.05em;
+}
+.admission-bridge p {
+  margin: 0;
+  color: #aaa7a1;
+  font-size: clamp(15px, 1.15vw, 18px);
+  line-height: 1.6;
+}
+.agentapp-contract {
+  display: grid;
+  grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr);
+  gap: 60px;
+  padding: 30px 0 0;
+}
+.agentapp-contract p,
+.agentapp-contract > strong {
+  margin: 0;
+  color: #615d56;
+  font-size: 15px;
+  line-height: 1.55;
+}
+.agentapp-contract p strong { color: #111; }
+.agentapp-contract > strong {
+  color: #111;
+  font-size: clamp(19px, 1.7vw, 27px);
+  line-height: 1.25;
+  letter-spacing: -.035em;
+}
+
+.final-start-band .section-head {
+  grid-template-columns: minmax(150px, .25fr) minmax(0, 1fr);
+  row-gap: 26px;
+}
+.final-start-band .section-head > p:last-child {
+  grid-column: 2;
+  max-width: 760px;
+  margin: 0;
+}
+.final-start-band .conversion-paths {
+  grid-template-columns: minmax(0, 1.45fr) minmax(320px, .85fr);
+  margin-top: clamp(56px, 6vw, 88px);
+}
+.final-start-band .conversion-paths article { min-height: 360px; }
+.final-start-band .build-path { border-left: 1px solid #c8c3b8; }
+.conversion-command {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 520px;
+  margin-top: 40px;
+  padding: 18px 20px;
+  color: #f0eee8;
+  background: #0a0a0a;
+  font-family: var(--mono);
+  font-size: clamp(14px, 1.3vw, 19px);
+}
+.conversion-command b { color: #77736c; font-weight: 400; }
+.final-start-band .conversion-paths article > p { max-width: 570px; }
+
+@media (max-width: 1100px) {
+  .platform-anatomy { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .platform-anatomy article {
+    border: 1px solid var(--line);
+    border-bottom: 0;
+  }
+  .platform-anatomy article:nth-child(5) { grid-column: 1 / -1; }
+}
+@media (max-width: 820px) {
+  .agentapps-head,
+  .admission-bridge,
+  .agentapp-contract,
+  .final-start-band .section-head { grid-template-columns: 1fr; }
+  .agentapps-head { gap: 30px; }
+  .capability-modes { grid-template-columns: 1fr; }
+  .capability-modes article,
+  .capability-modes article:first-child {
+    min-height: 0;
+    border: 1px solid #c8c3b8;
+    border-bottom: 0;
+  }
+  .capability-modes article:last-child { border-bottom: 1px solid #c8c3b8; }
+  .capability-modes h3 { margin-top: 40px; }
+  .final-start-band .section-head > p:last-child { grid-column: 1; }
+  .final-start-band .conversion-paths { grid-template-columns: 1fr; }
+  .final-start-band .conversion-paths article { min-height: 0; }
+}
+@media (max-width: 560px) {
+  .platform-anatomy { grid-template-columns: 1fr; }
+  .platform-anatomy article:nth-child(5) { grid-column: auto; }
+  .agentapps-head h2 { font-size: clamp(48px, 14vw, 68px); }
+  .capability-modes article { padding: 24px; }
+  .admission-bridge { padding: 28px 24px; }
+  .agentapp-contract { gap: 24px; }
+}
+</style>
+<style>
+/* Compressed vertical rhythm after narrative consolidation */
+.hero { padding-bottom: clamp(72px, 7vw, 110px); }
+.hero-copy.hero-editorial { padding-top: clamp(36px, 5vw, 76px); }
+.platform-anatomy { margin-top: clamp(52px, 5.5vw, 82px); }
+.hero .platform-anatomy + .hero-proof { margin-top: clamp(28px, 3vw, 44px); }
+
+.section { padding: clamp(72px, 6.5vw, 108px) 0; }
+.code-grid { align-items: start; }
+.code-copy h2 { margin-top: 20px; }
+.code-copy > p:not(.section-index) { margin-top: 20px; }
+.mvc-ladder { margin-top: 22px; padding: 14px 0; }
+.mvc-arrow { padding-block: 5px; }
+.code-tagline { margin-top: 18px; }
+.inline-links { margin-top: 24px; }
+.agentapps-head p { margin-top: 24px; }
+.capability-modes { margin-top: clamp(44px, 5vw, 72px); }
+.capability-modes article { min-height: 230px; padding: 28px; }
+.capability-modes h3 {
+  margin: 0;
+  color: #090909;
+  font-size: clamp(36px, 3.35vw, 54px);
+  line-height: .92;
+  letter-spacing: -.06em;
+  text-transform: none;
+}
+.capability-modes p {
+  max-width: 390px;
+  margin-top: 32px;
+  font-size: 16px;
+}
+.capability-modes p strong {
+  display: block;
+  margin-bottom: 8px;
+  color: #171717;
+  font-size: 18px;
+  font-weight: 620;
+  line-height: 1.25;
+  letter-spacing: -.025em;
+}
+.admission-bridge { margin-top: clamp(34px, 4vw, 54px); }
+.agentapp-contract { padding-top: 24px; }
+
+.final-start-band { padding-block: clamp(72px, 6.5vw, 104px); }
+.final-start-band .conversion-paths { margin-top: clamp(42px, 4.5vw, 64px); }
+.final-start-band .conversion-paths article { min-height: 320px; }
+.partner-band { padding-block: clamp(72px, 6.5vw, 104px); }
+
+@media (max-width: 820px) {
+  .section,
+  .final-start-band,
+  .partner-band { padding-block: 68px; }
+  .code-grid { gap: 46px; }
+  .capability-modes article { min-height: 0; }
+}
+@media (max-width: 560px) {
+  .section,
+  .final-start-band,
+  .partner-band { padding-block: 56px; }
+  .hero { padding-bottom: 64px; }
+  .capability-modes h3 { font-size: 42px; }
+  .capability-modes p { margin-top: 24px; }
+}
+</style>
+<style>
+/* Compact self-service exit before the product-team close */
+.developer-entry {
+  color: #111;
+  background: #ded9cf;
+  border-bottom: 1px solid #bdb7ab;
+}
+.developer-entry-inner {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) minmax(320px, 480px) auto;
+  gap: clamp(28px, 4vw, 64px);
+  align-items: center;
+  min-height: 156px;
+  padding-block: 30px;
+}
+.developer-entry span {
+  color: #6d6962;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .17em;
+}
+.developer-entry p {
+  max-width: 490px;
+  margin: 12px 0 0;
+  color: #56524c;
+  font-size: 15px;
+  line-height: 1.45;
+}
+.developer-command {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 19px 22px;
+  color: #f0eee8;
+  background: #090909;
+  font-family: var(--mono);
+  font-size: clamp(14px, 1.2vw, 18px);
+  white-space: nowrap;
+}
+.developer-command b { color: #77736c; font-weight: 400; }
+.developer-entry a {
+  color: #171717;
+  font-size: 13px;
+  font-weight: 620;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #8e897f;
+  white-space: nowrap;
+}
+.developer-entry a:hover { border-color: #111; }
+
+@media (max-width: 980px) {
+  .developer-entry-inner {
+    grid-template-columns: 1fr auto;
+  }
+  .developer-command { grid-column: 1; }
+  .developer-entry a { grid-column: 2; grid-row: 2; }
+}
+@media (max-width: 680px) {
+  .developer-entry-inner {
+    grid-template-columns: 1fr;
+    gap: 22px;
+    padding-block: 34px;
+  }
+  .developer-command,
+  .developer-entry a {
+    grid-column: 1;
+    grid-row: auto;
+  }
+  .developer-command { white-space: normal; }
+  .developer-entry a { justify-self: start; }
+}
+</style>
+<style>
+/* Primary product-led activation */
+.build-entry {
+  padding: clamp(78px, 7.5vw, 124px) 0;
+  color: var(--ink);
+  background: #080808;
+  border-bottom: 1px solid var(--line);
+}
+.build-entry-grid {
+  display: grid;
+  grid-template-columns: minmax(360px, .78fr) minmax(520px, 1.22fr);
+  gap: clamp(58px, 7vw, 118px);
+  align-items: center;
+}
+.build-entry-copy .section-index { padding-top: 0; }
+.build-entry-copy h2 {
+  max-width: 700px;
+  margin: 25px 0 0;
+  color: var(--ink);
+  font-size: clamp(58px, 6.2vw, 98px);
+  font-weight: 680;
+  line-height: .88;
+  letter-spacing: -.07em;
+}
+.build-entry-copy > p:not(.section-index) {
+  max-width: 610px;
+  margin: 30px 0 0;
+  color: #aaa7a1;
+  font-size: clamp(17px, 1.35vw, 21px);
+  line-height: 1.55;
+}
+.build-command {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: center;
+  margin-top: 42px;
+  padding: 24px 26px;
+  color: #111;
+  background: var(--cream);
+  font-family: var(--mono);
+}
+.build-command > span { color: #77736c; font-size: 22px; }
+.build-command code {
+  overflow-wrap: anywhere;
+  color: #111;
+  font-size: clamp(18px, 1.55vw, 25px);
+  line-height: 1.3;
+}
+.build-command button {
+  padding: 9px 12px;
+  border: 1px solid #aaa49a;
+  color: #111;
+  background: transparent;
+  font: 600 10px var(--mono);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.build-command button:hover { border-color: #111; }
+.build-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+.build-meta span {
+  padding: 7px 9px;
+  border: 1px solid #302f2d;
+  color: #85827c;
+  font: 8px var(--mono);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.build-entry-copy > a {
+  display: inline-block;
+  margin-top: 28px;
+  padding-bottom: 5px;
+  color: #dedbd4;
+  border-bottom: 1px solid #5d5a55;
+  font-size: 13px;
+}
+.build-entry-copy > a:hover { color: #fff; border-color: #fff; }
+
+.scaffold-shot {
+  min-width: 0;
+  margin: 0;
+  border: 1px solid #343331;
+  background: #06060d;
+  box-shadow: 0 34px 90px rgba(0,0,0,.45);
+}
+.scaffold-shot-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 12px 15px;
+  border-bottom: 1px solid #29282f;
+  color: #aaa7a1;
+  font: 9px var(--mono);
+  letter-spacing: .11em;
+  text-transform: uppercase;
+}
+.scaffold-shot-head em { color: #67646f; font-style: normal; }
+.scaffold-shot-viewport {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+  background: #050510;
+}
+.scaffold-shot-viewport img {
+  width: 107%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: left top;
+  display: block;
+}
+.scaffold-shot figcaption {
+  margin: 0;
+  padding: 15px;
+  color: #7f7c77;
+  border-top: 1px solid #29282f;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+/* Product-team engagement is deliberately secondary */
+.partner-band {
+  color: #111;
+  background: var(--cream);
+  border-bottom: 1px solid #c8c3b8;
+}
+.partner-band .section-index { color: #77736c; }
+.partner-band .ship-copy h2 { color: #050505; }
+.partner-band .large-copy { color: #625e57; }
+.partner-band .engagement span { color: #6c6861; border-color: #c8c3b8; }
+.partner-band .partner-form {
+  color: #111;
+  background: #f7f4ed;
+  border-color: #c8c3b8;
+}
+.partner-band .partner-form label { color: #77736c; }
+.partner-band .partner-form input,
+.partner-band .partner-form textarea {
+  color: #111;
+  border-color: #bdb7ac;
+}
+.partner-band .partner-form input:focus,
+.partner-band .partner-form textarea:focus { border-color: #111; }
+.partner-band .partner-form .button {
+  color: #fff;
+  background: #090909;
+  border-color: #090909;
+}
+.partner-band .form-note { color: #77736c; }
+
+@media (max-width: 1040px) {
+  .build-entry-grid { grid-template-columns: 1fr; }
+  .build-entry-copy { max-width: 820px; }
+  .scaffold-shot { max-width: 900px; }
+}
+@media (max-width: 560px) {
+  .build-entry { padding-block: 62px; }
+  .build-entry-copy h2 { font-size: clamp(54px, 16vw, 76px); }
+  .build-command {
+    grid-template-columns: auto minmax(0, 1fr);
+    padding: 20px;
+  }
+  .build-command button { grid-column: 1 / -1; }
+  .scaffold-shot-head em { display: none; }
+}
+</style>
+<style>
+.build-command { overflow-x: auto; }
+.build-command code {
+  white-space: nowrap;
+  overflow-wrap: normal;
+  word-break: normal;
+  font-size: clamp(16px, 1.35vw, 22px);
+}
+@media (max-width: 560px) {
+  .build-command {
+    grid-template-columns: auto max-content auto;
+  }
+  .build-command button {
+    grid-column: auto;
+  }
+}
+</style>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -17,27 +651,40 @@
 <strong>LLoyal</strong><span>Labs</span>
 </a>
 <p class="brand-line">Engineering AI's contact with reality.</p>
-<nav aria-label="Primary" class="desktop-nav"><a href="#difference">Why</a><a href="#build">How it works</a><a href="#product">Run it</a><a href="#compute">Compute</a><a href="https://docs.lloyal.ai/" rel="noreferrer" target="_blank">Docs ↗</a><a href="https://github.com/lloyal-ai" rel="noreferrer" target="_blank">GitHub ↗</a></nav>
-<a class="header-cta" href="#partner">Build with Lloyal</a>
+<nav aria-label="Primary" class="desktop-nav"><a href="#build">How it works</a><a href="#agentapps">AgentApps</a><a href="#partner">For product teams</a><a href="https://docs.lloyal.ai/" rel="noreferrer" target="_blank">Docs ↗</a><a href="https://github.com/lloyal-ai" rel="noreferrer" target="_blank">GitHub ↗</a></nav>
+<a class="header-cta" href="#developers">Build your first harness</a>
 <button aria-controls="mobile-nav" aria-expanded="false" class="menu-button" data-menu-button="" type="button">
 <span></span><span></span><span class="sr-only">Open menu</span>
 </button>
 </div>
-<nav class="mobile-nav" data-mobile-nav="" hidden="" id="mobile-nav"><a href="#difference">Why</a><a href="#build">How it works</a><a href="#product">Run it</a><a href="#compute">Compute</a><a href="https://docs.lloyal.ai/" rel="noreferrer" target="_blank">Docs ↗</a><a href="https://github.com/lloyal-ai" rel="noreferrer" target="_blank">GitHub ↗</a><a href="#partner">Build with Lloyal</a></nav>
+<nav class="mobile-nav" data-mobile-nav="" hidden="" id="mobile-nav"><a href="#build">How it works</a><a href="#agentapps">AgentApps</a><a href="#developers">Build your first harness</a><a href="#partner">For product teams</a><a href="https://docs.lloyal.ai/" rel="noreferrer" target="_blank">Docs ↗</a><a href="https://github.com/lloyal-ai" rel="noreferrer" target="_blank">GitHub ↗</a></nav>
 </header>
 <main id="main">
 <section class="hero" id="top">
-<div class="wrap hero-copy reveal">
-<p class="kicker">A programming surface for intelligence</p>
-<p class="hero-proof-label"><code>reasoning.run</code> — one application built on Lloyal</p>
-<h1>One application.<br/><span>4B at the edge.</span><br/>Ten agents at the<br/>frontier.</h1>
-<p class="hero-bridge">Not two model integrations. One TypeScript harness spanning both.</p>
-<p class="hero-dek">Lloyal brings live model execution into the application itself, letting one intelligent program contract to edge-scale weights or expand into a frontier agent population.</p>
-<div class="hero-actions">
-<a class="button button-light" href="#ship">Choose your path</a>
-<a class="button button-line" href="#partner">Build with Lloyal</a>
+<div class="wrap hero-copy hero-editorial reveal">
+<div class="hero-category">
+<p class="kicker">Category / Application Architecture</p>
+<h1>Vertical<br/>Inference</h1>
+<p class="hero-category-dek">System intelligence beyond the model.</p>
 </div>
-<a class="quiet-link" href="https://github.com/lloyal-ai/reasoning-run" rel="noreferrer" target="_blank">Inspect the TypeScript application <span>↗</span></a>
+<div class="hero-definition">
+<h2>The application, model runtime and live inference state become one programmable system.</h2>
+<p><strong>Vertical Inference</strong> is an application architecture in which model execution becomes resident application state. Ordinary code governs how intelligence retrieves, reasons, acts and continues while it is underway.</p>
+<p>Lloyal is the platform for building and deploying this architecture—from local applications to frontier compute.</p>
+<div class="hero-actions">
+<a class="button button-light" href="https://docs.lloyal.ai/build-your-first-harness/">Build your first harness</a>
+<a class="button button-line" href="#build">Explore the architecture</a>
+</div>
+<a class="quiet-link" href="https://github.com/lloyal-ai/reasoning-run" rel="noreferrer" target="_blank">Inspect a working TypeScript application <span>↗</span></a>
+</div>
+</div>
+<div class="wrap platform-anatomy reveal" aria-label="The layers of the Lloyal platform">
+<article><span>Application surfaces</span><strong>CLI · Desktop · Mobile · Web</strong></article>
+<article class="anatomy-agentapps"><span>AgentApps</span><strong>Live Sources · Retrieval · Tools · Skills</strong><small>Signed, portable capabilities for perceiving, retrieving and acting across live systems.</small></article>
+<article><span>Harness</span><strong>Procedure · Policy · Authority · Completion</strong></article>
+<article><span>Live inference</span><strong>Resident state · Evidence admission · Branches · Continuity</strong></article>
+<article><span>Placement</span><strong>Device · On-prem · Cloud · Frontier</strong></article>
+<p>One application contract, from product surface through live model execution.</p>
 </div>
 <div aria-label="The same deep-research harness across edge and frontier compute" class="wrap hero-proof reveal" id="same-harness">
 <div class="proof-pane edge-pane">
@@ -94,53 +741,12 @@
         </p>
 </div>
 </section>
-<section class="comparison section" id="difference">
-<div class="wrap">
-<div class="comparison-intro reveal">
-<p class="section-index">01 / BARE VS HARNESSED</p>
-</div>
-<div class="comparison-grid reveal">
-<article class="comparison-card">
-<div class="comparison-label">FRONTIER API</div>
-<h3>Consume tokens</h3>
-<div class="comparison-stack">
-<span>Application</span><b>↓</b><span>Agent framework</span><b>↓</b>
-<span class="request-box">N model API runs</span><b>↓</b><span class="endpoint-box">Claude · OpenAI · Gemini</span>
-</div>
-<p>The provider serves the model. Your product assembles behaviour around its responses.</p>
-</article>
-<article class="comparison-card">
-<div class="comparison-label">SELF-HOSTED BARE MODEL</div>
-<h3>Serve tokens privately</h3>
-<div class="comparison-stack">
-<span>Application</span><b>↓</b><span>Agent framework</span><b>↓</b>
-<span class="request-box">N inference requests</span><b>↓</b><span class="endpoint-box">Private GLM-5.2 endpoint</span>
-</div>
-<p>The weights and data move inside your infrastructure. The product still receives tokens through an endpoint.</p>
-</article>
-<article class="comparison-card lloyal-comparison">
-<div class="comparison-label">LLOYAL · HARNESSED MODEL</div>
-<h3>Run the intelligent application</h3>
-<div class="comparison-stack">
-<span>Product surfaces</span><b>↓</b>
-<span class="application-box">One intelligent application<br/><small>harness · policy · capabilities · branch topology</small></span><b>↓</b>
-<span class="population-box">One live model-state population</span><b>↓</b><span class="resident-box">Resident model execution</span>
-</div>
-<p>Model execution and product behaviour run as one application across CLI, desktop and web.</p>
-</article>
-</div>
-<div class="comparison-conclusion reveal">
-<span>Same weights. Same infrastructure.</span>
-<strong>Bare models expose tokens. Harnessed models carry the application.</strong>
-</div>
-</div>
-</section>
 <section class="code-section section" id="build">
 <div class="wrap code-grid">
 <div class="code-copy reveal">
-<p class="section-index">02 / THE PROGRAMMING SURFACE</p>
-<h2>MVC, with a live LLM as the Model.</h2>
-<p>Your product surfaces are the Views. Your harness is the Controller—ordinary TypeScript defining how the application's intelligence collaborates, acts, recovers and continues. Beneath it, a resident LLM holds the live generative state.</p>
+<p class="section-index">01 / THE HARNESS</p>
+<h2>The harness is the intelligent application.</h2>
+<p>You already know how to build this: MVC, with a live LLM as the Model. Product surfaces are the Views. The harness is the Controller—ordinary TypeScript defining how the application's intelligence collaborates, acts, recovers and continues. Beneath it, a resident LLM holds the live generative state.</p>
 <div aria-label="Views, controller, model — how the pieces stack" class="mvc-ladder">
 <div class="mvc-row"><span class="mvc-role">Views</span><div class="mvc-what"><strong>CLI · Desktop · Web</strong><small>product surfaces</small></div></div>
 <div aria-hidden="true" class="mvc-arrow">↓</div>
@@ -148,7 +754,7 @@
 <div aria-hidden="true" class="mvc-arrow">↓</div>
 <div class="mvc-row"><span class="mvc-role">Model</span><div class="mvc-what"><strong>Resident LLM</strong><small>shared context · live branches · generative state</small></div></div>
 </div>
-<p class="code-tagline"><strong>Program intelligent behaviour—not just prompts and calls.</strong></p>
+<p class="code-tagline"><strong>The model supplies the intelligence. The harness supplies the institution.</strong></p>
 <div class="inline-links"><a href="https://github.com/lloyal-ai/reasoning-run" rel="noreferrer" target="_blank">Inspect the flagship application ↗</a><a href="https://docs.lloyal.ai/" rel="noreferrer" target="_blank">Read the HDK docs ↗</a></div></div>
 <div class="code-side reveal">
 <p class="code-kicker">This is what the Controller looks like:</p>
@@ -176,106 +782,41 @@
 </div>
 </div>
 </section>
-<section class="ship section" id="ship"><div class="start-band">
-<div class="wrap ship-wrap">
-<div class="section-head reveal">
-<p class="section-index">03 / START</p>
-<h2>Start with the platform. Or build an intelligent product capability with us.</h2>
-<p>Use the shipped developer tooling yourself, follow the deployment path as it lands, or work directly with Lloyal to make a high-value capability part of the product your customers already use.</p>
-</div>
-<div class="paths-grid reveal conversion-paths">
-<article><span>BUILD</span><h3>Start with the developer platform.</h3><p>Scaffold a harness, inspect the runtime and extend the application with signed AgentApps.</p><a href="#product">See the developer path →</a></article>
-<article><span>DEPLOY</span><h3>Choose the compute boundary.</h3><p>The product path spans local execution today and managed, BYOC or self-hosted GPU deployment as the deploy surface lands.</p><a href="#compute">See the compute envelopes →</a></article>
-<article><span>PARTNER</span><h3>Build an intelligent product capability.</h3><p>Turn one high-value capability into a production harness integrated into the product your customers already use.</p><a href="#partner">Build with Lloyal →</a></article>
-</div>
-</div>
-</div></section><section class="product-path section" id="product">
+<section class="agentapps-section section" id="agentapps">
 <div class="wrap">
-<div class="section-head reveal">
-<p class="section-index">04 / FROM APPLICATION TO PRODUCT</p>
-<h2>Create the intelligent application.<br/>Wire the product around it.</h2>
-</div>
-<p class="product-lede reveal"><code>harness.dev new</code> scaffolds the headless application today. The same program can then project into CLI, Desktop and Web without re-authoring its intelligence.</p>
-<div class="product-entry-grid">
-<article class="command-card reveal">
-<div class="status-line"><span class="status status-live">AVAILABLE NOW</span><em>developer entry point</em></div>
-<h3>Start with the application program.</h3>
-<div aria-label="Create a new Lloyal harness project" class="command-shell">
-<span>$</span><code>npx harness.dev new claims-review</code>
-</div>
-<p>Scaffolds a TypeScript harness from a basic template — along with a CLI frontend and AgentApps.</p>
-<div class="command-actions">
-<a href="https://docs.lloyal.ai/" rel="noreferrer" target="_blank">Read the getting-started path ↗</a>
-<a href="https://github.com/lloyal-ai/hdk" rel="noreferrer" target="_blank">Inspect HDK ↗</a>
-</div>
-</article>
-<article class="scaffold-card reveal">
-<div class="status-line"><span class="status status-building">IN DEVELOPMENT</span><em>unified scaffold</em></div>
-<h3>One harness. Three product surfaces.</h3>
-<div aria-label="One headless harness wired into CLI, desktop and web front ends" class="scaffold-map">
-<div class="scaffold-core">
-<span>HEADLESS HARNESS</span>
-<strong>orchestration · policy · AgentApps</strong>
-<small>event / command contract</small>
-</div>
-<div aria-hidden="true" class="scaffold-lines"><i></i><i></i><i></i></div>
-<div class="surface-stack">
-<div><span>CLI</span><small>terminal projection</small></div>
-<div><span>DESKTOP</span><small>installed application</small></div>
-<div><span>WEB</span><small>cloud or self-hosted</small></div>
-</div>
-</div>
-<p>Each interface projects the same headless entrypoint. The shell changes; the intelligent application does not.</p>
-</article>
-</div>
-<div class="execution-band reveal">
+<div class="agentapps-head reveal">
+<p class="section-index">02 / AGENTAPPS</p>
 <div>
-<span>BUILT FOR MODELS YOU CAN RUN</span>
-<p>Run the weights on-device, on a workstation, in your cloud account or inside customer infrastructure.</p>
+<h2>Intelligence needs contact with reality.</h2>
+<p>AgentApps connect the harness to documents, browsers, feeds, enterprise systems and tools. They can retrieve evidence, observe changing state and perform authorised actions. The harness determines when they run, which live lineage receives what they return and what consequence is permitted.</p>
 </div>
-<div aria-label="Licensing and trust model" class="license-strip">
-<span>Apache <code>harness.dev</code> CLI</span>
-<span>FSL runtime</span>
-<span>Reviewed &amp; signed AgentApps</span>
 </div>
+<div class="capability-modes reveal">
+<article><h3>Retrieve</h3><p><strong>Acquire and evaluate evidence</strong> across search, corpora, documents and databases.</p></article>
+<article><h3>Observe</h3><p><strong>Read the world as it changes</strong> through browsers, feeds, telemetry and application state.</p></article>
+<article><h3>Act</h3><p><strong>Produce permitted consequence</strong> through computer use, workflows, APIs and operational tools.</p></article>
+</div>
+<div class="agentapp-contract reveal">
+<p>AgentApps are signed, portable capability contracts combining <strong>Skills · Live Sources · Tools · Grants · Protocol</strong></p>
+<strong>AgentApps provide contact with reality. The harness supplies procedure and authority.</strong>
 </div>
 </div>
 </section>
-<section class="proof section" id="compute">
-<div class="wrap">
-<div class="section-head reveal">
-<p class="section-index">05 / COMPUTE</p>
-<h2>One programming surface. Two radically different compute envelopes.</h2>
+<section class="build-entry" id="developers">
+<div class="wrap build-entry-grid reveal">
+<div class="build-entry-copy">
+<p class="section-index">03 / BUILD</p>
+<h2>Build your first harness.</h2>
+<p>Scaffold a complete intelligent application: procedure, AgentApps, product surfaces and a resident model.</p>
+<div class="build-command"><span>$</span><code>npx harness.dev@latest new</code><button type="button" data-copy-command="npx harness.dev@latest new">Copy</button></div>
+<div class="build-meta"><span>Local model</span><span>No inference-provider key</span><span>CLI included</span></div>
+<a href="https://docs.lloyal.ai/build-your-first-harness/">Read the ten-minute guide →</a>
 </div>
-<div class="receipt-grid">
-<article class="receipt reveal">
-<div class="receipt-number">01</div>
-<div class="receipt-tag">SCALE DOWN</div>
-<h3>The harness amplifies the model.</h3>
-<p>A quantised 4B model runs planning, human review, multi-agent investigation, tools, pressure-aware recovery and synthesis—not a local chatbot.</p>
-<dl>
-<div><dt>Model</dt><dd>Qwen 3.5 4B · quantised</dd></div>
-<div><dt>Directional RACE</dt><dd>0.405</dd></div>
-<div><dt>Reference anchor</dt><dd>Claude 3.7 · 0.422</dd></div>
-</dl>
-<p class="fineprint">Directional English subset — the 4B scored 4 of the benchmark's 5 English tasks (task 83 planner-stalled); not a leaderboard submission or same-task Claude comparison. Citation grounding was the identified weakness.</p>
-<a href="/edge-evaluation.pdf" target="_blank">Read the evaluation <span>↗</span></a>
-</article>
-<article class="receipt reveal">
-<div class="receipt-number">02</div>
-<div class="receipt-tag">SCALE UP</div>
-<h3>The harness compounds the model.</h3>
-<p><strong class="receipt-lead">Ten agents. One model dispatch per step.</strong> One GLM-5.2 deployment advanced ten research agents over a shared decoded context as one live branch population.</p>
-<dl>
-<div><dt>Concurrent agents</dt><dd>10</dd></div>
-<div><dt>Model deployment</dt><dd>1</dd></div>
-<div><dt>Shared contexts</dt><dd>1</dd></div>
-<div><dt>Decode dispatches</dt><dd>1 per generation step</dd></div>
-</dl>
-<p class="fineprint">Fan-out still consumes KV capacity and generated tokens. It does not duplicate the resident model or reconstruct the shared prefix for every agent.</p>
-<a href="/blog/shifting-the-harness-left/" rel="noreferrer" target="_blank">Read the run report and cost receipt <span>↗</span></a>
-</article>
-</div>
+<figure class="scaffold-shot">
+<div class="scaffold-shot-head"><span>harness.dev</span><em>guided application scaffold</em></div>
+<div class="scaffold-shot-viewport"><img alt="The harness.dev wizard scaffolding a Wikipedia research harness with CLI, desktop and web surfaces and a resident Qwen model." src="/assets/harness-dev-new.png"/></div>
+<figcaption>Choose the surfaces, resident model and starting procedure. The scaffold installs a working application you can change.</figcaption>
+</figure>
 </div>
 </section>
 <section class="ship section" id="partner">
@@ -284,9 +825,9 @@
 <div class="wrap ship-wrap">
 <div class="ship-grid">
 <div class="ship-copy reveal">
-<p class="section-index">DESIGN PARTNERS</p>
-<h2>Build the part of your product that thinks.</h2>
-<p class="large-copy">Work with us to turn one high-value product capability into a harnessed intelligent application—integrated into the existing product and deployable across the environments its customers require.</p>
+<p class="section-index">FOR PRODUCT TEAMS</p>
+<h2>Make one high-value capability native to your product.</h2>
+<p class="large-copy">Work with Lloyal to turn a consequential workflow into a production harness—integrated with your existing product, connected to the systems it depends on and deployable across the environments your customers require.</p>
 <div class="engagement">
 <span>One product capability</span><span>One product integration</span><span>Private AgentApps</span><span>Multiple placements</span><span>6–10 weeks</span>
 </div>

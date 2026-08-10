@@ -33,7 +33,7 @@
 
   // Reactive nav underline: highlights the nav item for the section under the
   // header, immediately on click and via scrollspy as the user scrolls.
-  const scrollspyIds = ['difference', 'build', 'product', 'compute', 'partner'];
+  const scrollspyIds = ['build', 'agentapps', 'developers', 'partner'];
   const scrollspySections = scrollspyIds.map((id) => document.getElementById(id)).filter(Boolean);
   const navItems = document.querySelectorAll('.desktop-nav a, .header-cta');
 
@@ -135,3 +135,17 @@
     window.location.href = `mailto:zuhair@lloyal.ai?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   });
 })();
+
+document.querySelectorAll('[data-copy-command]').forEach((button) => {
+  button.addEventListener('click', async () => {
+    const command = button.getAttribute('data-copy-command');
+    try {
+      await navigator.clipboard.writeText(command);
+      const previous = button.textContent;
+      button.textContent = 'Copied';
+      window.setTimeout(() => { button.textContent = previous; }, 1600);
+    } catch (_) {
+      button.textContent = command;
+    }
+  });
+});
