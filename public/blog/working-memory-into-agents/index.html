@@ -1,0 +1,1512 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>How Lloyal turns the model's working memory into agents on the GPU | LLoyal Labs</title>
+    <meta name="description" content="A walk down the stack, from TypeScript scope to the attention mask." />
+    <meta name="theme-color" content="#111111" />
+    <link rel="canonical" href="https://lloyal.ai/blog/working-memory-into-agents/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="How Lloyal turns the model's working memory into agents on the GPU" />
+    <meta property="og:description" content="A walk down the stack, from TypeScript scope to the attention mask." />
+    <meta property="og:image" content="https://lloyal.ai/blog/assets/working-memory-into-agents-og.png" />
+    <meta property="og:url" content="https://lloyal.ai/blog/working-memory-into-agents/" />
+    <meta property="og:site_name" content="LLoyal Labs" />
+    <meta property="article:published_time" content="2026-08-10" />
+    <meta property="article:author" content="LLoyal Labs" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="How Lloyal turns the model's working memory into agents on the GPU" />
+    <meta name="twitter:description" content="A walk down the stack, from TypeScript scope to the attention mask." />
+    <meta name="twitter:image" content="https://lloyal.ai/blog/assets/working-memory-into-agents-og.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,200..900;1,200..900&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+
+    <style>
+      :root {
+        --bg: #111111;
+        --bg-footer: #0a0a0a;
+        --text: #f0f0f0;
+        --white: #ffffff;
+        --stone-300: #d6d3d1;
+        --stone-400: #a8a29e;
+        --stone-500: #78716c;
+        --stone-600: #57534e;
+        --stone-700: #44403c;
+        --emerald-500: #10b981;
+        --emerald-400: #34d399;
+        --emerald-300: #6ee7b7;
+        --emerald-200: #a7f3d0;
+        --border: rgba(255, 255, 255, 0.1);
+        --panel: rgba(255, 255, 255, 0.02);
+        --measure: 42rem;
+        --breakout-card: 46rem;
+        --breakout-fig: 56rem;
+        --content: 1000px;
+        --site: 1400px;
+        --font-serif: "Crimson Pro", Georgia, "Times New Roman", serif;
+        --font-utility: "Quicksand", ui-sans-serif, system-ui, sans-serif;
+        --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+      }
+
+      *, *::before, *::after { box-sizing: border-box; }
+
+      html { -webkit-text-size-adjust: 100%; }
+
+      html, body {
+        max-width: 100%;
+        overflow-x: hidden;
+      }
+
+      body {
+        margin: 0;
+        background-color: var(--bg);
+        color: var(--text);
+        font-family: var(--font-serif);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      ::selection {
+        background: rgba(16, 185, 129, 0.3);
+        color: var(--emerald-200);
+      }
+
+      a { color: inherit; }
+
+      img { max-width: 100%; height: auto; }
+
+      /* ---------- Nav ---------- */
+      .site-nav {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        width: 100%;
+        padding: 1.25rem 0;
+        background: rgba(17, 17, 17, 0.8);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid transparent;
+      }
+      .nav-inner {
+        max-width: var(--site);
+        margin: 0 auto;
+        padding: 0 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+      }
+      .nav-brand {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        min-width: 0;
+      }
+      .nav-brand a.brand-link {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        text-decoration: none;
+      }
+      .nav-logo-mark { display: block; color: var(--white); }
+      .nav-wordmark {
+        display: none;
+        font-family: var(--font-sans);
+        font-size: 1.25rem;
+        letter-spacing: -0.02em;
+        color: var(--white);
+        transition: color 0.2s ease;
+      }
+      .brand-link:hover .nav-wordmark { color: var(--stone-300); }
+      .nav-tagline {
+        display: none;
+        align-items: center;
+        gap: 1rem;
+        height: 1.5rem;
+      }
+      .nav-divider { height: 1rem; width: 1px; background: var(--stone-700); }
+      .nav-tagline span {
+        font-family: var(--font-utility);
+        color: var(--stone-500);
+        font-size: 1rem;
+        font-weight: 300;
+      }
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        font-family: var(--font-utility);
+        font-size: 1rem;
+        font-weight: 500;
+        color: var(--stone-400);
+      }
+      .nav-links a {
+        text-decoration: none;
+        color: var(--stone-400);
+        text-underline-offset: 4px;
+        transition: color 0.2s ease;
+        white-space: nowrap;
+      }
+      .nav-links a:hover { color: var(--white); text-decoration: underline; }
+      .nav-links a.active { color: var(--white); text-decoration: underline; }
+
+      @media (min-width: 768px) {
+        .nav-inner { padding: 0 3rem; }
+        .nav-logo-mark { display: none; }
+        .nav-wordmark { display: block; }
+        .nav-links { gap: 2rem; }
+      }
+      @media (min-width: 1024px) {
+        .nav-tagline { display: flex; }
+      }
+
+      /* ---------- Main ---------- */
+      main { flex: 1 0 auto; overflow-x: hidden; }
+
+      .post {
+        max-width: var(--content);
+        margin: 0 auto;
+        padding: 3.5rem 1.5rem 5rem;
+      }
+      @media (min-width: 768px) {
+        .post { padding: 5rem 3rem 6rem; }
+      }
+
+      .post-backrow { margin-bottom: 2.5rem; }
+      .post-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-family: var(--font-utility);
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        color: var(--stone-500);
+        text-decoration: none;
+        transition: color 0.2s ease;
+      }
+      .post-back:hover { color: var(--white); }
+
+      .post-eyebrow {
+        font-family: var(--font-utility);
+        font-size: 0.78rem;
+        font-weight: 500;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--emerald-400);
+        margin: 0 0 1.25rem;
+      }
+      h1.post-title {
+        font-family: var(--font-serif);
+        font-weight: 300;
+        font-size: clamp(2.1rem, 5.2vw, 3.4rem);
+        line-height: 1.08;
+        letter-spacing: -0.02em;
+        color: var(--white);
+        margin: 0 0 1.5rem;
+      }
+      .post-dek {
+        font-family: var(--font-serif);
+        font-weight: 300;
+        font-size: clamp(1.2rem, 2.6vw, 1.5rem);
+        line-height: 1.5;
+        color: var(--stone-300);
+        margin: 0 0 1.75rem;
+      }
+      .post-meta {
+        font-family: var(--font-utility);
+        font-size: 0.95rem;
+        color: var(--stone-500);
+        margin: 0;
+        padding-bottom: 2.5rem;
+        border-bottom: 1px solid var(--border);
+      }
+      .post-meta em { font-style: italic; }
+
+      .post-body { margin-top: 3rem; }
+
+      /* ---------- Column system: one centered axis ----------
+         Every block in the article shares the same ~65ch column,
+         centered in the container. Breakout elements get a wider
+         max-width but keep margin-inline auto, so they overhang the
+         prose symmetrically about the SAME center axis. */
+      .post-backrow,
+      .post-header,
+      .post-body > * {
+        max-width: var(--measure);
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      /* Breakout tier 1: pull-quote and link cards (2rem overhang per side) */
+      .post-body > .card--horizontal,
+      .post-body > .card-group,
+      .post-body > blockquote.pullquote {
+        max-width: var(--breakout-card);
+      }
+
+      /* Breakout tier 2: figures (7rem overhang per side) */
+      .post-body > figure.figure {
+        max-width: var(--breakout-fig);
+      }
+
+      .post-body p {
+        font-size: 1.25rem;
+        line-height: 1.75;
+        color: var(--text);
+        margin-block: 0 1.6rem;
+        overflow-wrap: break-word;
+      }
+      .post-body p em { font-style: italic; color: #e9e4df; }
+      .post-body strong { font-weight: 700; color: var(--white); }
+
+      .post-body h2 {
+        font-family: var(--font-serif);
+        font-weight: 400;
+        font-size: clamp(1.55rem, 3.4vw, 2.05rem);
+        line-height: 1.18;
+        letter-spacing: -0.01em;
+        color: var(--white);
+        margin-block: 3.75rem 1.4rem;
+      }
+
+      code {
+        font-family: var(--font-mono);
+        font-size: 0.86em;
+        background: rgba(255, 255, 255, 0.07);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        color: #ece7e2;
+        padding: 0.12em 0.4em;
+        border-radius: 5px;
+        overflow-wrap: break-word;
+        word-break: break-word;
+      }
+
+      pre {
+        max-width: var(--measure);
+        margin: 2rem auto;
+        background: #0d0d0d;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 1.1rem 1.25rem;
+        overflow-x: auto;
+      }
+      pre code {
+        background: none;
+        border: none;
+        padding: 0;
+        font-size: 0.9rem;
+        line-height: 1.6;
+        white-space: pre;
+      }
+
+      blockquote.pullquote {
+        border-left: 3px solid var(--emerald-500);
+        background: rgba(16, 185, 129, 0.06);
+        border-radius: 0 10px 10px 0;
+        padding: 1.3rem 1.75rem;
+        margin: 2.5rem auto;
+        font-size: clamp(1.25rem, 2.6vw, 1.45rem);
+        line-height: 1.5;
+        color: #efeae5;
+      }
+      blockquote.pullquote p { font-size: inherit; line-height: inherit; margin: 0; color: inherit; }
+
+      hr.post-rule {
+        margin-block: 3.5rem;
+        border: none;
+        border-top: 1px solid var(--border);
+      }
+
+      .post-coda {
+        margin-top: 2.5rem;
+      }
+      .post-coda p {
+        font-style: italic;
+        color: var(--stone-400);
+        font-size: 1.2rem;
+        line-height: 1.65;
+      }
+
+      /* ---------- Figures ---------- */
+      figure.figure {
+        margin-block: 3.25rem;
+      }
+      figure.figure img {
+        display: block;
+        width: 100%;
+        height: auto;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        background: #0d0d0d;
+      }
+      figure.figure figcaption {
+        font-family: var(--font-utility);
+        font-size: 0.9rem;
+        line-height: 1.5;
+        color: var(--stone-400);
+        text-align: center;
+        margin-top: 0.9rem;
+        max-width: var(--measure);
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      figure.figure--hero .media {
+        position: relative;
+        aspect-ratio: 1600 / 583;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        overflow: hidden;
+        background-color: #0d0d0d;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+      }
+      figure.figure--hero .media img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border: none;
+        border-radius: 0;
+        background: none;
+      }
+
+      /* ---------- Table ---------- */
+      .table-scroll {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+      }
+      table {
+        width: 100%;
+        min-width: 640px;
+        border-collapse: collapse;
+      }
+      thead th {
+        font-family: var(--font-utility);
+        font-size: 0.78rem;
+        font-weight: 600;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+        color: var(--stone-400);
+        text-align: left;
+        padding: 0.85rem 1rem;
+        border-bottom: 1px solid var(--border);
+        white-space: nowrap;
+      }
+      tbody td {
+        font-family: var(--font-serif);
+        font-size: 1.08rem;
+        line-height: 1.55;
+        color: var(--text);
+        padding: 0.85rem 1rem;
+        border-bottom: 1px solid var(--border);
+        vertical-align: top;
+      }
+      tbody tr:last-child td { border-bottom: none; }
+      tbody td:nth-child(2) { color: var(--white); }
+      table code { font-size: 0.82em; }
+
+      /* ---------- Cards ---------- */
+      .card {
+        display: block;
+        text-decoration: none;
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 1.4rem 1.6rem;
+        transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+      }
+      .card:hover {
+        border-color: rgba(16, 185, 129, 0.5);
+        background: rgba(255, 255, 255, 0.035);
+      }
+      .card__icon {
+        display: inline-flex;
+        color: var(--stone-300);
+        transition: color 0.2s ease;
+      }
+      .card:hover .card__icon { color: var(--emerald-400); }
+      .card__icon svg { width: 26px; height: 26px; display: block; }
+      .card__title {
+        display: block;
+        font-family: var(--font-utility);
+        font-weight: 700;
+        font-size: 1.05rem;
+        color: var(--white);
+        letter-spacing: -0.01em;
+      }
+      .card__body {
+        display: block;
+        font-family: var(--font-utility);
+        font-size: 0.95rem;
+        line-height: 1.55;
+        color: var(--stone-400);
+        margin-top: 0.35rem;
+      }
+      .card__body code {
+        font-size: 0.85em;
+        background: rgba(255, 255, 255, 0.06);
+      }
+      .card__arrow {
+        color: var(--stone-500);
+        transition: color 0.2s ease, transform 0.2s ease;
+        flex-shrink: 0;
+        align-self: center;
+      }
+      .card:hover .card__arrow { color: var(--emerald-400); transform: translateX(2px); }
+
+      /* Horizontal card */
+      .card--horizontal {
+        display: flex;
+        align-items: flex-start;
+        gap: 1.1rem;
+        margin: 2.75rem auto;
+      }
+      .card--horizontal .card__icon { padding-top: 0.15rem; }
+      .card--horizontal .card__content { flex: 1; min-width: 0; }
+
+      /* Card grid */
+      .card-group {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.1rem;
+        margin: 2.75rem auto;
+      }
+      .card-group .card__icon { margin-bottom: 0.9rem; }
+      @media (max-width: 640px) {
+        .card-group { grid-template-columns: 1fr; }
+      }
+
+      /* ---------- Footer ---------- */
+      .site-footer {
+        flex-shrink: 0;
+        border-top: 1px solid var(--border);
+        background: var(--bg-footer);
+      }
+      .footer-main {
+        max-width: var(--site);
+        margin: 0 auto;
+        padding: 3rem 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+      }
+      .footer-left { flex-shrink: 0; }
+      .footer-brand-row {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        align-items: flex-start;
+      }
+      .footer-logo-box {
+        width: 4rem;
+        height: 4rem;
+        border-radius: 0.75rem;
+        overflow: hidden;
+        flex-shrink: 0;
+      }
+      .footer-logo-box svg { width: 100%; height: 100%; display: block; }
+      .footer-subscribe { width: 100%; max-width: 280px; }
+      .footer-subscribe h4 {
+        font-family: var(--font-utility);
+        color: var(--white);
+        font-weight: 500;
+        font-size: 0.875rem;
+        margin: 0 0 1rem;
+      }
+      .footer-form {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        border-bottom: 1px solid var(--stone-600);
+        padding-bottom: 0.5rem;
+        margin-bottom: 1.5rem;
+        transition: border-color 0.2s ease;
+      }
+      .footer-form:focus-within { border-color: var(--white); }
+      .footer-form input {
+        flex: 1;
+        background: transparent;
+        border: none;
+        color: var(--white);
+        font-family: var(--font-utility);
+        font-size: 0.875rem;
+        min-width: 0;
+      }
+      .footer-form input::placeholder { color: var(--stone-500); }
+      .footer-form input:focus { outline: none; }
+      .footer-form button {
+        background: none;
+        border: none;
+        color: var(--stone-400);
+        cursor: pointer;
+        padding: 0;
+        display: inline-flex;
+        transition: color 0.2s ease;
+      }
+      .footer-form button:hover { color: var(--white); }
+      .footer-copyright {
+        font-family: var(--font-utility);
+        color: var(--stone-600);
+        font-size: 0.75rem;
+        margin: 0;
+      }
+      .footer-cols {
+        flex: 1;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+      }
+      .footer-col { width: 45%; }
+      .footer-col h4 {
+        font-family: var(--font-utility);
+        font-size: 0.75rem;
+        color: var(--white);
+        font-weight: 500;
+        margin: 0 0 1rem;
+      }
+      .footer-col ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        font-family: var(--font-utility);
+        font-size: 0.875rem;
+        color: var(--stone-500);
+      }
+      .footer-col a {
+        color: var(--stone-500);
+        text-decoration: none;
+        transition: color 0.2s ease;
+      }
+      .footer-col a:hover { color: var(--white); }
+      .footer-col span { color: var(--stone-600); }
+
+      .footer-wordmark {
+        max-width: var(--site);
+        margin: 0 auto;
+        padding: 0 1.5rem 2rem;
+      }
+      .footer-wordmark svg { width: 100%; height: auto; display: block; }
+      .footer-wordmark text {
+        fill: rgba(255, 255, 255, 0.04);
+        font-family: var(--font-sans);
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+
+      @media (min-width: 640px) {
+        .footer-brand-row { flex-direction: row; gap: 2rem; }
+        .footer-col { width: auto; }
+      }
+      @media (min-width: 768px) {
+        .footer-main { padding: 3rem 3rem; }
+        .footer-wordmark { padding: 0 3rem 2rem; }
+      }
+      @media (min-width: 1024px) {
+        .footer-main { flex-direction: row; gap: 4rem; }
+        .footer-cols { justify-content: flex-end; gap: 4rem; }
+      }
+
+      /* ---------- Body lists ---------- */
+      .post-body ul.post-list,
+      .post-body ol.post-list {
+        margin-block: 0 1.6rem;
+        padding-left: 1.5rem;
+      }
+      .post-body ul.post-list li,
+      .post-body ol.post-list li {
+        font-size: 1.25rem;
+        line-height: 1.75;
+        color: var(--text);
+        margin-bottom: 0.9rem;
+        padding-left: 0.25rem;
+      }
+      .post-body ul.post-list li:last-child,
+      .post-body ol.post-list li:last-child { margin-bottom: 0; }
+      .post-body ul.post-list li::marker,
+      .post-body ol.post-list li::marker { color: var(--stone-500); }
+
+      /* ---------- Inline animated diagrams ----------
+         Each diagram is a self-contained inline SVG lifted from
+         marketing/launch/working-memory-blog-2026-08/creatives/diagrams/.
+         Its ids, keyframes and selectors are namespaced (own- / mech-) so the
+         two can coexist in one document; the fonts are shared, embedded once. */
+      .wm-diagram {
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        background: #080808;
+        overflow: hidden;
+      }
+@font-face{font-family:'Architects Daughter';src:url(data:font/woff2;base64,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) format('woff2');font-weight:400;font-style:normal;font-display:block}
+@font-face{font-family:'JetBrains Mono';src:url(data:font/woff2;base64,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) format('woff2');font-weight:100 900;font-style:normal;font-display:block}
+.wm-diagram--own > svg{display:block;width:100%;height:auto;background:#080808}
+.wm-diagram--own text{font-family:'Architects Daughter',system-ui,sans-serif;fill:#D6D6D6;-webkit-font-smoothing:antialiased}
+.wm-diagram--own .m{font-family:'JetBrains Mono',ui-monospace,monospace}
+.wm-diagram--own .t0{fill:#F4F4F4}
+.wm-diagram--own .t1{fill:#D6D6D6}
+.wm-diagram--own .t2{fill:#9E9E9E}
+.wm-diagram--own .t3{fill:#767676}
+.wm-diagram--own .mid{text-anchor:middle}
+.wm-diagram--own .shimmer{opacity:0}
+.wm-diagram--own .bit{opacity:1}
+.wm-diagram--own .prunefade{opacity:0}
+@media (prefers-reduced-motion: no-preference){
+  .wm-diagram--own .shimmer{animation:own-shim 8s linear infinite}
+  .wm-diagram--own .bit{animation:own-bit 8s ease-in-out infinite}
+  .wm-diagram--own .prunefade{animation:own-pfade 8s ease-in-out infinite}
+}
+@keyframes own-shim{
+  0%,100%{opacity:0}
+  6%{opacity:0}
+  12%{opacity:.16}
+  22%{opacity:0}
+}
+@keyframes own-bit{
+  0%,14%{opacity:.10}
+  26%,86%{opacity:1}
+  100%{opacity:.10}
+}
+@keyframes own-pfade{
+  0%,42%{opacity:0}
+  70%,84%{opacity:.62}
+  100%{opacity:0}
+}
+.wm-diagram--mech > svg{display:block;width:100%;height:auto;background:#080808}
+.wm-diagram--mech text{font-family:'Architects Daughter',system-ui,sans-serif;fill:#D6D6D6;-webkit-font-smoothing:antialiased}
+.wm-diagram--mech .m{font-family:'JetBrains Mono',ui-monospace,monospace}
+.wm-diagram--mech .t0{fill:#F4F4F4}
+.wm-diagram--mech .t1{fill:#D6D6D6}
+.wm-diagram--mech .t2{fill:#9E9E9E}
+.wm-diagram--mech .t3{fill:#767676}
+.wm-diagram--mech .mid{text-anchor:middle}
+.wm-diagram--mech .pulse{stroke:#FFFFFF;stroke-width:3.4;stroke-linecap:round;fill:none;
+       stroke-dasharray:16 360;stroke-dashoffset:-44;opacity:0}
+.wm-diagram--mech .fanbar{opacity:0}
+.wm-diagram--mech .beat{opacity:0}
+.wm-diagram--mech .blip{opacity:1}
+@media (prefers-reduced-motion: no-preference){
+  .wm-diagram--mech .pulse{opacity:.85;animation:mech-travel 8s linear infinite}
+  .wm-diagram--mech .fanbar{animation:mech-fan 8s ease-in-out infinite}
+  .wm-diagram--mech .beat{animation:mech-beat 8s ease-in-out infinite}
+  .wm-diagram--mech .blip{animation:mech-blip 8s ease-in-out infinite}
+}
+@keyframes mech-travel{from{stroke-dashoffset:0}to{stroke-dashoffset:-376}}
+@keyframes mech-fan{0%,6%{opacity:0} 13%{opacity:.30} 22%,100%{opacity:0}}
+@keyframes mech-beat{0%,22%{opacity:0} 28%{opacity:.9} 44%,100%{opacity:0}}
+@keyframes mech-blip{0%,22%{opacity:.45} 30%,52%{opacity:1} 72%{opacity:.45} 100%{opacity:.45}}
+
+    </style>
+  </head>
+  <body>
+    <!-- Nav -->
+    <nav class="site-nav">
+      <div class="nav-inner">
+        <div class="nav-brand">
+          <a class="brand-link" href="/" aria-label="LLoyal Labs home">
+            <svg class="nav-logo-mark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 64" fill="currentColor" width="45" height="24" aria-hidden="true">
+              <path d="M0 0h20v8H8v48h12v8H0V0z"/>
+              <path d="M28 8h8v40h16v8H28V8z"/>
+              <path d="M68 8h8v40h16v8H68V8z"/>
+              <path d="M100 0h20v64h-20v-8h12V8h-12V0z"/>
+            </svg>
+            <span class="nav-wordmark">LLoyal Labs</span>
+          </a>
+          <div class="nav-tagline">
+            <div class="nav-divider"></div>
+            <span>Engineering AI's contact with reality.</span>
+          </div>
+        </div>
+        <div class="nav-links">
+          <a href="/#difference">Why</a>
+          <a href="/#build">How it works</a>
+          <a href="/#product">Run it</a>
+          <a href="/#compute">Compute</a>
+          <a href="/blog/" class="active" aria-current="page">Blog</a>
+        </div>
+      </div>
+    </nav>
+
+    <main>
+      <article class="post">
+        <div class="post-backrow">
+          <a class="post-back" href="/blog/">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            Blog
+          </a>
+        </div>
+
+        <header class="post-header">
+          <p class="post-eyebrow">Dispatch</p>
+          <h1 class="post-title">How Lloyal turns the model's working memory into agents on the GPU</h1>
+          <p class="post-dek">A walk down the stack, from TypeScript scope to the attention mask.</p>
+          <p class="post-meta"><em>Lloyal Labs — August 2026</em></p>
+        </header>
+
+        <div class="post-body">
+          <p>Ask an agent framework where an agent's memory lives and you get two answers. There is the checkpoint — messages, tool results, scratchpad — which lives in your application. And there is the KV cache, which lives in someone else's datacentre and dies when the response leaves.</p>
+
+          <p>Two memories, joined by serialisation. Almost everything that frustrates people about agent systems follows from that one fact.</p>
+
+          <h2>What the industry calls an agent</h2>
+
+          <p>Today an "agent" is typically a loop around a model call. LangGraph draws it as a graph: nodes are steps, edges are transitions, a checkpoint store holds a serialisable dict. AutoGen draws it as roles conversing. CrewAI as a crew with tasks. The vocabularies differ; the topology doesn't. The agent's state lives in the application, the model's state lives in the provider, and neither can see the other.</p>
+
+          <p>The consequence that matters most is that <strong>you cannot govern reasoning while it is happening.</strong> A client can inspect a finished output and decide whether to accept it. It cannot look at a trajectory halfway through and route evidence into it, narrow what it may conclude, or decide that this particular continuation should not become the thing the next step inherits. By the time your code runs, the reasoning is over. Every guardrail is a post-mortem.</p>
+
+          <p>The rest follows. Continuity is a transcript replayed into a prompt. Concurrency is N separate conversations with a stranger. And the bill multiplies per agent, because each agent is its own request.</p>
+
+          <p>The wrappers keep improving — better graphs, better retries, better graders — but the centre of gravity never moves. The agent stays a <em>client of inference</em>.</p>
+
+          <p>We spent a year on a different question.</p>
+
+          <h2>What if agent state and model state were one and the same thing?</h2>
+
+          <p>Not an agent that <em>calls</em> memory. An agent that <em>is</em> memory. If forking an agent were forking its state, what would fork mean? What would stopping mean? What would pressure mean?</p>
+
+          <p>The answers turn out to be KV-cache operations:</p>
+
+          <ul class="post-list">
+            <li><strong>Fork</strong> walks the shared cells and sets one more owner bit per cell. No allocation, no copy, no decode.</li>
+            <li><strong>Think</strong> is one tagged row in a batch, decoded alongside every other row in a single forward pass.</li>
+            <li><strong>Stop</strong> discards the branch and reconciles its cells back into the tenancy counter. Because hybrid models' recurrent state can never be rolled back, pruning isn't a fallback — it's the guard.</li>
+            <li><strong>Pressure</strong> is a counter the application reads and acts on. Not telemetry. An admission controller.</li>
+            <li><strong>Continuity</strong> is retention: keep the accepted lineage, release the working subtrees. What survives is a decision.</li>
+          </ul>
+
+          <p>In that world an agent is a tenancy lease on live model state, and the application owns the lease. We call the architecture <strong>vertical inference</strong>: model execution becomes resident application state, and ordinary code programs topology, evidence, tools, policy, authority, completion and continuity while the intelligence is still alive.</p>
+
+          <p>The model supplies the intelligence. The harness supplies the institution.</p>
+
+          <p>A question isn't a product, so we built it, pointed it at the most expensive bill in AI, and published the traces.</p>
+
+          <h2>One property, checked by someone else</h2>
+
+          <p>Ten agents shared a single 239 GB model on Runpod. The whole session cost $16 — not per agent, total. GLM-5.2 at a 2-bit quant on two B200s for 82 minutes, <a href="https://github.com/lloyal-ai/reasoning-run/pull/17" target="_blank" rel="noreferrer">published</a> as <code>reasoning.run</code> with the cost breakdown, the exact config and each agent's annex.</p>
+
+          <p>Zhen Lu, CEO of Runpod — whose hardware we rented — wrote about it publicly:</p>
+
+          <blockquote class="pullquote">
+            <p><em>"Multi-agent reasoning has a reputation for multiplying inference bills. This is the cleanest counterexample I've seen: ten agents thinking in parallel on frontier hardware, 82 minutes, sixteen dollars."</em></p>
+          </blockquote>
+
+          <p>That validates one property: shared live state makes concurrency cheap. It is the easiest consequence of the architecture to measure and the least interesting thing about it. The claim that ordinary application code can <em>govern</em> that state is not something an invoice can settle, and the rest of this post is the part we have to earn.</p>
+
+          <h2>Two trees, one system</h2>
+
+          <p>The developer-facing view is written up in <a href="https://docs.lloyal.ai/thinking-in-lloyal" target="_blank" rel="noreferrer">Thinking in Lloyal</a>. Its opening line is the whole design:</p>
+
+          <blockquote class="pullquote">
+            <p><strong>A harness is a tree of owned lifetimes governing a tree of live inference state.</strong></p>
+          </blockquote>
+
+          <p>Structured ownership decides what lives and dies together. Application control decides what the owned execution does next. Those are two different questions, and most of the difficulty in agent systems comes from conflating them.</p>
+
+          <figure class="figure figure--diagram">
+            <div class="wm-diagram wm-diagram--own">
+              <svg viewBox="0 0 1160 680" xmlns="http://www.w3.org/2000/svg" role="img"
+                   aria-label="Two trees, one system. A TypeScript tree of owned lifetimes on the left, mapped to a tree of live KV cells on the right.">
+              <title>Two trees, one system</title>
+              <defs>
+                <filter id="own-rough" filterUnits="userSpaceOnUse" x="0" y="0" width="1160" height="680">
+                  <feTurbulence type="fractalNoise" baseFrequency="0.016" numOctaves="2" seed="11" result="n"/>
+                  <feDisplacementMap in="SourceGraphic" in2="n" scale="1.8" xChannelSelector="R" yChannelSelector="G"/>
+                </filter>
+                <pattern id="own-hatchA" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                  <rect width="8" height="8" fill="#1F1F1F"/>
+                  <line x1="0" y1="0" x2="0" y2="8" stroke="#343434" stroke-width="1.5"/>
+                </pattern>
+                <pattern id="own-hatchB" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                  <rect width="9" height="9" fill="#191919"/>
+                  <line x1="0" y1="0" x2="0" y2="9" stroke="#3A3A3A" stroke-width="1.4"/>
+                </pattern>
+                <pattern id="own-hatchC" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+                  <rect width="7" height="7" fill="#131313"/>
+                  <line x1="0" y1="0" x2="0" y2="7" stroke="#2C2C2C" stroke-width="1.2"/>
+                </pattern>
+                <marker id="own-ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M0 0 L10 5 L0 10 z" fill="#9A9A9A"/>
+                </marker>
+                <marker id="own-arl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M0 0 L10 5 L0 10 z" fill="#6E6E6E"/>
+                </marker>
+              </defs>
+
+              <rect width="1160" height="680" fill="#080808"/>
+
+              <!-- ============ SHAPE LAYER (hand-roughened) ============ -->
+              <g filter="url(#own-rough)" fill="none">
+
+                <!-- left tree -->
+                <rect x="30" y="110" width="336" height="432" fill="#0E0E0E" stroke="#6E6E6E" stroke-width="1.6"/>
+                <rect x="44" y="140" width="308" height="366" fill="#131313" stroke="#828282" stroke-width="1.4"/>
+                <rect x="58" y="170" width="280" height="300" fill="#181818" stroke="#969696" stroke-width="1.4"/>
+
+                <rect x="70"  y="200" width="78" height="210" fill="url(#own-hatchA)" stroke="#B4B4B4" stroke-width="1.3"/>
+                <rect x="159" y="200" width="78" height="210" fill="url(#own-hatchA)" stroke="#B4B4B4" stroke-width="1.3"/>
+                <rect x="248" y="200" width="78" height="210" fill="url(#own-hatchA)" stroke="#B4B4B4" stroke-width="1.3"/>
+
+                <rect x="167" y="252" width="62" height="58" fill="#2A2A2A" stroke="#C6C6C6" stroke-width="1.2"/>
+                <rect x="169" y="320" width="58" height="16" rx="8" fill="#0C0C0C" stroke="#8E8E8E" stroke-width="1"/>
+
+                <!-- ensure() pills, staircased to their own scope -->
+                <line x1="109" y1="410" x2="109" y2="418" stroke="#8E8E8E" stroke-width="1"/>
+                <line x1="198" y1="410" x2="198" y2="418" stroke="#8E8E8E" stroke-width="1"/>
+                <line x1="287" y1="410" x2="287" y2="418" stroke="#8E8E8E" stroke-width="1"/>
+                <rect x="78"  y="418" width="62" height="17" rx="8.5" fill="#0C0C0C" stroke="#A2A2A2" stroke-width="1.1"/>
+                <rect x="167" y="418" width="62" height="17" rx="8.5" fill="#0C0C0C" stroke="#A2A2A2" stroke-width="1.1"/>
+                <rect x="256" y="418" width="62" height="17" rx="8.5" fill="#0C0C0C" stroke="#A2A2A2" stroke-width="1.1"/>
+                <rect x="68"  y="444" width="62" height="17" rx="8.5" fill="#0C0C0C" stroke="#A2A2A2" stroke-width="1.1"/>
+                <rect x="54"  y="480" width="62" height="17" rx="8.5" fill="#0C0C0C" stroke="#A2A2A2" stroke-width="1.1"/>
+                <rect x="40"  y="516" width="62" height="17" rx="8.5" fill="#0C0C0C" stroke="#A2A2A2" stroke-width="1.1"/>
+
+                <!-- centre column: left-pointing arrows into the TypeScript tree -->
+                <line x1="380" y1="312" x2="368" y2="312" stroke="#9A9A9A" stroke-width="1.3" marker-end="url(#own-ar)"/>
+                <line x1="380" y1="352" x2="368" y2="352" stroke="#9A9A9A" stroke-width="1.3" marker-end="url(#own-ar)"/>
+                <line x1="380" y1="392" x2="368" y2="392" stroke="#9A9A9A" stroke-width="1.3" marker-end="url(#own-ar)"/>
+                <line x1="380" y1="432" x2="368" y2="432" stroke="#9A9A9A" stroke-width="1.3" marker-end="url(#own-ar)"/>
+                <line x1="380" y1="468" x2="368" y2="468" stroke="#9A9A9A" stroke-width="1.3" marker-end="url(#own-ar)"/>
+                <line x1="380" y1="524" x2="368" y2="524" stroke="#9A9A9A" stroke-width="1.3" marker-end="url(#own-ar)"/>
+
+                <!-- centre column: right-pointing arrows into the KV tree -->
+                <line x1="766" y1="312" x2="782" y2="312" stroke="#6E6E6E" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#own-arl)"/>
+                <line x1="766" y1="392" x2="782" y2="392" stroke="#6E6E6E" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#own-arl)"/>
+                <line x1="766" y1="432" x2="782" y2="432" stroke="#6E6E6E" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#own-arl)"/>
+                <line x1="766" y1="468" x2="782" y2="468" stroke="#6E6E6E" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#own-arl)"/>
+                <line x1="766" y1="524" x2="782" y2="524" stroke="#6E6E6E" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#own-arl)"/>
+
+                <!-- inheritance callout, slightly rotated -->
+                <g transform="rotate(-1.5 573 200)">
+                  <rect x="390" y="110" width="366" height="186" fill="#131313" stroke="#C8C8C8" stroke-width="1.4"/>
+                  <line x1="404" y1="153" x2="742" y2="153" stroke="#3E3E3E" stroke-width="1"/>
+                  <rect x="436" y="262" width="274" height="24" fill="#282828"/>
+                  <path d="M438 290 C 500 287 560 294 640 289 C 672 287 692 291 708 289" stroke="#BDBDBD" stroke-width="1.6"/>
+                  <path d="M756 240 L 772 252 L 756 264 z" fill="#131313" stroke="#C8C8C8" stroke-width="1.4"/>
+                  <line x1="756" y1="241" x2="756" y2="263" stroke="#131313" stroke-width="2.6"/>
+                </g>
+
+                <!-- right tree: shared trunk cells -->
+                <line x1="786" y1="141" x2="1068" y2="141" stroke="#5A5A5A" stroke-width="1.1"/>
+                <line x1="786" y1="141" x2="786" y2="147" stroke="#5A5A5A" stroke-width="1.1"/>
+                <line x1="1068" y1="141" x2="1068" y2="147" stroke="#5A5A5A" stroke-width="1.1"/>
+                <line x1="927" y1="135" x2="927" y2="141" stroke="#5A5A5A" stroke-width="1.1"/>
+                <line x1="1069" y1="169" x2="1076" y2="169" stroke="#6E6E6E" stroke-width="1"/>
+
+                <!-- fork_head ticks -->
+                <line x1="786" y1="226" x2="846" y2="226" stroke="#8E8E8E" stroke-width="1.2" stroke-dasharray="4 3"/>
+                <line x1="872" y1="226" x2="932" y2="226" stroke="#8E8E8E" stroke-width="1.2" stroke-dasharray="4 3"/>
+                <line x1="958" y1="226" x2="1018" y2="226" stroke="#8E8E8E" stroke-width="1.2" stroke-dasharray="4 3"/>
+                <line x1="878" y1="416" x2="926" y2="416" stroke="#8E8E8E" stroke-width="1.2" stroke-dasharray="4 3"/>
+
+                <!-- branch columns: cells owned above fork_head -->
+                <rect x="786" y="230" width="60" height="240" fill="url(#own-hatchB)" stroke="#B4B4B4" stroke-width="1.3"/>
+                <rect x="872" y="230" width="60" height="160" fill="url(#own-hatchB)" stroke="#B4B4B4" stroke-width="1.3"/>
+                <rect x="958" y="230" width="60" height="240" fill="#141414" stroke="#7A7A7A" stroke-width="1.3" stroke-dasharray="6 4"/>
+                <path d="M962 234 L1014 466 M1014 234 L962 466" stroke="#9A9A9A" stroke-width="1.6"/>
+
+                <g stroke="#3C3C3C" stroke-width="0.8">
+                  <line x1="786" y1="270" x2="846" y2="270"/><line x1="786" y1="310" x2="846" y2="310"/>
+                  <line x1="786" y1="350" x2="846" y2="350"/><line x1="786" y1="390" x2="846" y2="390"/>
+                  <line x1="786" y1="430" x2="846" y2="430"/>
+                  <line x1="872" y1="270" x2="932" y2="270"/><line x1="872" y1="310" x2="932" y2="310"/>
+                  <line x1="872" y1="350" x2="932" y2="350"/>
+                </g>
+
+                <!-- the fork arrow: spawn -> fork_head of the first branch (painted over the columns) -->
+                <path d="M768 350 C 806 342 800 300 816 234" stroke="#C8C8C8" stroke-width="1.4" stroke-dasharray="5 3" marker-end="url(#own-ar)"/>
+
+                <!-- nested pool fork, hanging off branch 2 -->
+                <rect x="878" y="420" width="48" height="82" fill="url(#own-hatchB)" stroke="#B4B4B4" stroke-width="1.2"/>
+                <line x1="878" y1="448" x2="926" y2="448" stroke="#3C3C3C" stroke-width="0.8"/>
+                <line x1="878" y1="476" x2="926" y2="476" stroke="#3C3C3C" stroke-width="0.8"/>
+
+                <!-- prune leader -->
+                <line x1="1019" y1="322" x2="1030" y2="322" stroke="#6E6E6E" stroke-width="1"/>
+
+                <!-- footer rule -->
+                <line x1="30" y1="572" x2="1130" y2="572" stroke="#242424" stroke-width="1"/>
+              </g>
+
+              <!-- ============ shared trunk cells (own layer: shimmer + owner bits) ============ -->
+              <g>
+                <g id="own-cells">
+                  <g transform="translate(786,152)">
+                    <rect width="30" height="34" fill="#1B1B1B" stroke="#ABABAB" stroke-width="1.2"/>
+                    <circle cx="9"  cy="12" r="2.4" fill="#D8D8D8"/><circle cx="20" cy="12" r="2.4" fill="#D8D8D8"/>
+                    <circle class="bit" cx="14" cy="24" r="2.4" fill="#F2F2F2" style="animation-delay:0s"/>
+                    <rect class="shimmer" width="30" height="34" fill="#FFFFFF" style="animation-delay:0s"/>
+                  </g>
+                  <g transform="translate(822,152)">
+                    <rect width="30" height="34" fill="#1B1B1B" stroke="#ABABAB" stroke-width="1.2"/>
+                    <circle cx="9"  cy="12" r="2.4" fill="#D8D8D8"/><circle cx="20" cy="12" r="2.4" fill="#D8D8D8"/>
+                    <circle class="bit" cx="14" cy="24" r="2.4" fill="#F2F2F2" style="animation-delay:.09s"/>
+                    <rect class="shimmer" width="30" height="34" fill="#FFFFFF" style="animation-delay:.22s"/>
+                  </g>
+                  <g transform="translate(858,152)">
+                    <rect width="30" height="34" fill="#1B1B1B" stroke="#ABABAB" stroke-width="1.2"/>
+                    <circle cx="9"  cy="12" r="2.4" fill="#D8D8D8"/><circle cx="20" cy="12" r="2.4" fill="#D8D8D8"/>
+                    <circle class="bit" cx="14" cy="24" r="2.4" fill="#F2F2F2" style="animation-delay:.18s"/>
+                    <rect class="shimmer" width="30" height="34" fill="#FFFFFF" style="animation-delay:.44s"/>
+                  </g>
+                  <g transform="translate(894,152)">
+                    <rect width="30" height="34" fill="#1B1B1B" stroke="#ABABAB" stroke-width="1.2"/>
+                    <circle cx="9"  cy="12" r="2.4" fill="#D8D8D8"/><circle cx="20" cy="12" r="2.4" fill="#D8D8D8"/>
+                    <circle class="bit" cx="14" cy="24" r="2.4" fill="#F2F2F2" style="animation-delay:.27s"/>
+                    <rect class="shimmer" width="30" height="34" fill="#FFFFFF" style="animation-delay:.66s"/>
+                  </g>
+                  <g transform="translate(930,152)">
+                    <rect width="30" height="34" fill="#1B1B1B" stroke="#ABABAB" stroke-width="1.2"/>
+                    <circle cx="9"  cy="12" r="2.4" fill="#D8D8D8"/><circle cx="20" cy="12" r="2.4" fill="#D8D8D8"/>
+                    <circle class="bit" cx="14" cy="24" r="2.4" fill="#F2F2F2" style="animation-delay:.36s"/>
+                    <rect class="shimmer" width="30" height="34" fill="#FFFFFF" style="animation-delay:.88s"/>
+                  </g>
+                  <g transform="translate(966,152)">
+                    <rect width="30" height="34" fill="#1B1B1B" stroke="#ABABAB" stroke-width="1.2"/>
+                    <circle cx="9"  cy="12" r="2.4" fill="#D8D8D8"/><circle cx="20" cy="12" r="2.4" fill="#D8D8D8"/>
+                    <circle class="bit" cx="14" cy="24" r="2.4" fill="#F2F2F2" style="animation-delay:.45s"/>
+                    <rect class="shimmer" width="30" height="34" fill="#FFFFFF" style="animation-delay:1.10s"/>
+                  </g>
+                  <g transform="translate(1002,152)">
+                    <rect width="30" height="34" fill="#1B1B1B" stroke="#ABABAB" stroke-width="1.2"/>
+                    <circle cx="9"  cy="12" r="2.4" fill="#D8D8D8"/><circle cx="20" cy="12" r="2.4" fill="#D8D8D8"/>
+                    <circle class="bit" cx="14" cy="24" r="2.4" fill="#F2F2F2" style="animation-delay:.54s"/>
+                    <rect class="shimmer" width="30" height="34" fill="#FFFFFF" style="animation-delay:1.32s"/>
+                  </g>
+                  <g transform="translate(1038,152)">
+                    <rect width="30" height="34" fill="#1B1B1B" stroke="#ABABAB" stroke-width="1.2"/>
+                    <circle cx="9"  cy="12" r="2.4" fill="#D8D8D8"/><circle cx="20" cy="12" r="2.4" fill="#D8D8D8"/>
+                    <circle class="bit" cx="14" cy="24" r="2.4" fill="#F2F2F2" style="animation-delay:.63s"/>
+                    <rect class="shimmer" width="30" height="34" fill="#FFFFFF" style="animation-delay:1.54s"/>
+                  </g>
+                </g>
+                <!-- pruned-branch fade veil -->
+                <rect class="prunefade" x="957" y="229" width="62" height="242" fill="#080808"/>
+              </g>
+
+              <!-- ============ TEXT LAYER ============ -->
+              <g>
+                <text class="mid t0" x="580" y="53" font-size="33">Two trees, one system</text>
+
+                <text class="mid t3" x="198" y="91" font-size="13" letter-spacing="1.6">OWNED LIFETIMES <tspan class="t2">·</tspan> <tspan class="m" font-size="12" letter-spacing="0.6">TypeScript</tspan></text>
+                <text class="mid t3" x="927" y="91" font-size="13" letter-spacing="1.6">LIVE INFERENCE STATE <tspan class="t2">·</tspan> KV cells</text>
+
+                <!-- left tree labels -->
+                <text class="mid t1" x="198" y="132" font-size="14">harness scope</text>
+                <text class="mid t0 m" x="198" y="162" font-size="13">withSpine</text>
+                <text class="mid t0 m" x="198" y="192" font-size="13">agentPool</text>
+                <text class="mid t1" x="109" y="223" font-size="13.5">Agent</text>
+                <text class="mid t1" x="198" y="223" font-size="13.5">Agent</text>
+                <text class="mid t1" x="287" y="223" font-size="13.5">Agent</text>
+                <text class="mid t1" x="198" y="274" font-size="11.5">tool</text>
+                <text class="mid t1" x="198" y="288" font-size="11.5">scope</text>
+                <text class="mid t2 m" x="198" y="332" font-size="9">ensure()</text>
+                <text class="mid t1 m" x="109" y="431" font-size="10">ensure()</text>
+                <text class="mid t1 m" x="198" y="431" font-size="10">ensure()</text>
+                <text class="mid t1 m" x="287" y="431" font-size="10">ensure()</text>
+                <text class="mid t1 m" x="99"  y="457" font-size="10">ensure()</text>
+                <text class="mid t1 m" x="85"  y="493" font-size="10">ensure()</text>
+                <text class="mid t1 m" x="71"  y="529" font-size="10">ensure()</text>
+
+                <!-- inheritance callout -->
+                <g transform="rotate(-1.5 573 200)">
+                  <text class="t0" x="406" y="145" font-size="15.5">the inheritance contract</text>
+                  <text class="t3 m" x="406" y="172" font-size="10.5">inherited at fork:</text>
+                  <text class="t0 m" x="406" y="188" font-size="11">KV prefix · spine [system+tools] header</text>
+                  <text class="t0 m" x="406" y="203" font-size="11">FormatConfig · optional seed</text>
+                  <text class="t3 m" x="406" y="223" font-size="10.5">not inherited:</text>
+                  <text class="t0 m" x="406" y="239" font-size="11">policy · guards · grants</text>
+                  <text class="t0 m" x="406" y="254" font-size="11">tool registry · tool history</text>
+                  <text class="mid" x="573" y="281" font-size="15.5" fill="#FFFFFF">state inherits; judgment doesn't.</text>
+                </g>
+
+                <!-- centre mappings -->
+                <text class="mid t1" x="573" y="316" font-size="13.5"><tspan class="m t0" font-size="12.5">withSpine</tspan> <tspan class="m t3" font-size="12">↔</tspan> borrow a live line of attention</text>
+                <text class="mid t1" x="573" y="356" font-size="13.5"><tspan class="m t0" font-size="12.5">spawn</tspan> <tspan class="m t3" font-size="12">↔</tspan> <tspan class="m t0" font-size="12.5">seq_cp</tspan> — add one owner bit per shared cell</text>
+                <text class="mid t1" x="573" y="396" font-size="13.5">all <tspan class="m t3" font-size="12">↔</tspan> one batched decode — one row per branch</text>
+                <text class="mid t1" x="573" y="436" font-size="13.5">scope exit <tspan class="m t3" font-size="12">↔</tspan> <tspan class="m t0" font-size="12.5">prune</tspan> — leaf-only <tspan class="m t0" font-size="12.5">RESTRICT</tspan></text>
+                <text class="mid t1" x="573" y="472" font-size="13.5">wind-down <tspan class="m t3" font-size="12">↔</tspan> reap to recovery, drain in-flight,</text>
+                <text class="mid t1" x="573" y="488" font-size="13.5">then <tspan class="m t0" font-size="12.5">prune</tspan> (<tspan class="m t0" font-size="12.5">CASCADE</tspan> post-order)</text>
+                <text class="mid t1" x="573" y="528" font-size="13.5">cancel <tspan class="m t3" font-size="12">↔</tspan> discard — prune, no recovery</text>
+
+                <!-- right tree labels -->
+                <text class="mid t1" x="927" y="130" font-size="13">shared trunk cells</text>
+                <text class="t1" x="1078" y="166" font-size="11.5">one cell,</text>
+                <text class="t1" x="1078" y="180" font-size="11.5">many owners</text>
+
+                <text class="mid t1 m" x="816" y="221" font-size="10.5">fork_head</text>
+                <text class="mid t1 m" x="902" y="221" font-size="10.5">fork_head</text>
+                <text class="mid t1 m" x="988" y="221" font-size="10.5">fork_head</text>
+                <text class="mid t2 m" x="902" y="412" font-size="9.5">fork_head</text>
+
+                <text class="mid t2" x="902" y="521" font-size="10.5">nested pool forks</text>
+                <text class="mid t2" x="902" y="534" font-size="10.5">from caller's branch</text>
+
+                <text class="t1" x="1032" y="301" font-size="12">prune —</text>
+                <text class="t1" x="1032" y="317" font-size="12">release cells,</text>
+                <text class="t0 m" x="1032" y="336" font-size="10">cells_used_ −=</text>
+                <text class="t0 m" x="1032" y="350" font-size="9.5">position − fork_head</text>
+
+                <!-- footer -->
+                <text class="mid t0" x="580" y="605" font-size="17">A harness is a tree of owned lifetimes governing a tree of live inference state.</text>
+                <text class="mid t2" x="580" y="629" font-size="14">Structured ownership decides what lives and dies together.</text>
+                <text class="mid t2" x="580" y="651" font-size="14">Application control decides what the owned execution does next.</text>
+              </g>
+              </svg>
+            </div>
+            <figcaption>Two trees, one system. Left: scopes in ordinary TypeScript, each carrying an <code>ensure()</code>. Right: the KV cells they own — one shared <code>[system + tools]</code> header, one branch per agent above its <code>fork_head</code>.</figcaption>
+          </figure>
+
+          <p>The left tree is ordinary TypeScript. <code>withSpine</code> opens a scope holding a live line of attention. <code>agentPool</code> spawns a cohort inside it. A tool opens a scope of its own. Every scope carries an <code>ensure()</code>.</p>
+
+          <p>The right tree is KV cells. The spine's <code>[system + tools]</code> header is decoded once and prefix-shared, so the role and tool schemas occupy physical KV exactly once regardless of how many agents the pool spawns. Each agent's branch owns the cells above its own <code>fork_head</code> and shares everything below.</p>
+
+          <p>The two trees are the same tree at different altitudes:</p>
+
+          <figure class="figure figure--table">
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr>
+                    <th>TypeScript</th>
+                    <th>Cells</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>spawn</code></td>
+                    <td><code>seq_cp</code> — add one owner bit per shared cell</td>
+                  </tr>
+                  <tr>
+                    <td>a concurrent cohort</td>
+                    <td>one batched decode, one row per branch</td>
+                  </tr>
+                  <tr>
+                    <td>scope exit</td>
+                    <td>prune — release cells above <code>fork_head</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>halt</code></td>
+                    <td>prune subtree, cascade, post-order</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </figure>
+
+          <p>Orphaned branches are structurally impossible: every fork registers an <code>ensure()</code> that prunes on scope exit, and the pool carries one more.</p>
+
+          <p>Which gives the definition the codebase already uses: <strong>an agent is a branch with intent.</strong> The branch is the ground truth — the cells, the position, the sampler. The agent is the interpretation layer that gives that state meaning and decides what to do next.</p>
+
+          <p>Two details are where the design stops being a diagram.</p>
+
+          <p><strong>The inheritance contract.</strong> A fork inherits <em>state</em>: the KV prefix, the spine header, the format config, an optional seed. It does not inherit <em>judgment</em>: policy, guards, grants and the tool registry are per-pool; tool history is read across the lineage when a guard asks for it, never carried. <strong>State inherits; judgment doesn't.</strong> Someone had to decide that, line by line. A wrapper has no such contract, because a wrapper has no children — only requests.</p>
+
+          <p><strong>Three distinct deaths.</strong> Scope exit prunes. <em>Wind-down</em> drains: stop spawning, reap to recovery, let in-flight tools settle. <em>Cancel</em> discards one agent — discard, not drain: no recovery, prune, reclaim its cells for its siblings. Draining and discarding are different intentions, and the application says which one it means.</p>
+
+          <h2>One tick, fiber to silicon</h2>
+
+          <p>Walk a single commit tick downward.</p>
+
+          <p>The TypeScript pool fiber — single-threaded by design — samples each active branch from its <code>logits_snapshot</code>, a branch-<em>owned</em> copy, because the shared context's logit buffer is transient and valid only until the next decode. Branch independence isn't a metaphor. It's a <code>memcpy</code> of <code>n_vocab</code> floats.</p>
+
+          <p><code>BranchStore.commit</code> flattens to exactly one token per branch and crosses the N-API boundary. The real work runs on a libuv pool thread, off the event loop, and the worker is accept-then-decode: clone each branch's sampler, grammar and metrics into RAII snapshots; accept the tokens; then the only realistic throw point, the batched decode. On a throw the sampling bookkeeping is swapped back — for perplexity accounting only. The KV and recurrent state are not restored. Not an oversight: gated-delta-net-style recurrent state mutates in place during decode and cannot be safely undone. Recovery is topological. <strong>Pruning is the guard.</strong></p>
+
+          <p>Below that, liblloyal writes one row per branch — <code>token</code>, <code>pos</code>, <code>seq_id</code>, <code>logits = 1</code> — and issues one <code>llama_decode</code>. In llama.cpp the batch is pre-split on <strong>token rows</strong>; the splitter never reads <code>seq_id</code>. One graph forward pass per ubatch. The attention mask is <code>[n_kv, n_tokens]</code>, and the per-cell question — <em>does this cell belong to this sequence?</em> — is an O(1) bitset lookup.</p>
+
+          <p>Read that twice, because it contains the architecture: <strong>to llama.cpp there is no "N sequences" dimension. There are token rows, each tagged with a <code>seq_id</code>.</strong></p>
+
+          <p>Agents are rows.</p>
+
+          <p>Ownership is enforced by the scheduler rather than by convention. Every native store operation issues from the tick loop's single fiber. Cross-fiber work — spawns, spine extends, fan-out tool completions, cancels — rendezvous through pending queues and drains on the loop. Spawns and extends batch into one <code>store.prefill</code> per tick; produced tokens are one <code>store.commit</code>.</p>
+
+          <figure class="figure figure--diagram">
+            <div class="wm-diagram wm-diagram--mech">
+              <svg viewBox="0 0 1160 680" xmlns="http://www.w3.org/2000/svg" role="img"
+                   aria-label="One forward pass per tick, whatever the branch count. Three panels: the single-branch tick, the N-branch tick, and the KV tenancy block design.">
+              <title>One forward pass per tick, whatever the branch count.</title>
+              <defs>
+                <filter id="mech-rough" filterUnits="userSpaceOnUse" x="0" y="0" width="1160" height="680">
+                  <feTurbulence type="fractalNoise" baseFrequency="0.016" numOctaves="2" seed="5" result="n"/>
+                  <feDisplacementMap in="SourceGraphic" in2="n" scale="1.7" xChannelSelector="R" yChannelSelector="G"/>
+                </filter>
+                <pattern id="mech-hatchC" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+                  <rect width="7" height="7" fill="#171717"/>
+                  <line x1="0" y1="0" x2="0" y2="7" stroke="#3C3C3C" stroke-width="1.3"/>
+                </pattern>
+                <marker id="mech-ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M0 0 L10 5 L0 10 z" fill="#B4B4B4"/>
+                </marker>
+                <marker id="mech-arl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+                  <path d="M0 0 L10 5 L0 10 z" fill="#7E7E7E"/>
+                </marker>
+              </defs>
+
+              <rect width="1160" height="680" fill="#080808"/>
+
+              <!-- ============ the travelling tick pulse, painted under the nodes ============ -->
+              <path class="pulse" d="M148 146 L148 522"/>
+
+              <!-- ============ SHAPE LAYER (hand-roughened) ============ -->
+              <g filter="url(#mech-rough)" fill="none">
+
+                <!-- panel dividers -->
+                <line x1="286" y1="100" x2="286" y2="570" stroke="#242424" stroke-width="1"/>
+                <line x1="712" y1="100" x2="712" y2="570" stroke="#242424" stroke-width="1"/>
+                <line x1="78"  y1="120" x2="218"  y2="120" stroke="#3A3A3A" stroke-width="1.2"/>
+                <line x1="400" y1="120" x2="520"  y2="120" stroke="#3A3A3A" stroke-width="1.2"/>
+                <line x1="838" y1="120" x2="1034" y2="120" stroke="#3A3A3A" stroke-width="1.2"/>
+
+                <!-- ---------- panel 1: single-branch tick ---------- -->
+                <rect x="90" y="150" width="116" height="32" fill="#161616" stroke="#C4C4C4" stroke-width="1.3"/>
+                <rect x="90" y="214" width="116" height="32" fill="#161616" stroke="#C4C4C4" stroke-width="1.3"/>
+                <rect x="90" y="278" width="116" height="32" fill="#1E1E1E" stroke="#DCDCDC" stroke-width="1.4"/>
+                <rect x="90" y="358" width="116" height="32" fill="#161616" stroke="#C4C4C4" stroke-width="1.3"/>
+                <rect x="90" y="422" width="116" height="32" fill="#1E1E1E" stroke="#DCDCDC" stroke-width="1.4"/>
+                <rect x="90" y="486" width="116" height="32" fill="#111111" stroke="#9E9E9E" stroke-width="1.3"/>
+                <g stroke="#9A9A9A" stroke-width="1.3">
+                  <line x1="148" y1="182" x2="148" y2="212" marker-end="url(#mech-ar)"/>
+                  <line x1="148" y1="246" x2="148" y2="276" marker-end="url(#mech-ar)"/>
+                  <line x1="148" y1="310" x2="148" y2="356" marker-end="url(#mech-ar)"/>
+                  <line x1="148" y1="390" x2="148" y2="420" marker-end="url(#mech-ar)"/>
+                  <line x1="148" y1="454" x2="148" y2="484" marker-end="url(#mech-ar)"/>
+                </g>
+                <line x1="206" y1="231" x2="216" y2="231" stroke="#7E7E7E" stroke-width="1"/>
+                <rect x="216" y="222" width="56" height="18" fill="#0C0C0C" stroke="#8E8E8E" stroke-width="1"/>
+
+                <!-- ---------- panel 2: N-branch tick ---------- -->
+                <rect x="399" y="150" width="122" height="32" fill="#161616" stroke="#C4C4C4" stroke-width="1.3"/>
+                <rect x="399" y="214" width="122" height="32" fill="#161616" stroke="#C4C4C4" stroke-width="1.3"/>
+                <rect x="399" y="278" width="122" height="32" fill="#1E1E1E" stroke="#DCDCDC" stroke-width="1.4"/>
+                <rect x="399" y="358" width="122" height="32" fill="#161616" stroke="#C4C4C4" stroke-width="1.3"/>
+                <rect x="399" y="422" width="122" height="32" fill="#1E1E1E" stroke="#F0F0F0" stroke-width="1.6"/>
+                <rect x="399" y="486" width="122" height="32" fill="#111111" stroke="#9E9E9E" stroke-width="1.3"/>
+                <g stroke="#9A9A9A" stroke-width="1.3">
+                  <line x1="460" y1="182" x2="460" y2="212" marker-end="url(#mech-ar)"/>
+                  <line x1="460" y1="246" x2="460" y2="276" marker-end="url(#mech-ar)"/>
+                  <line x1="460" y1="310" x2="460" y2="356" marker-end="url(#mech-ar)"/>
+                  <line x1="460" y1="390" x2="460" y2="420" marker-end="url(#mech-ar)"/>
+                  <line x1="460" y1="454" x2="460" y2="484" marker-end="url(#mech-ar)"/>
+                </g>
+                <!-- the N rows fanning in -->
+                <rect x="314" y="326" width="64" height="9" fill="#242424" stroke="#A6A6A6" stroke-width="1"/>
+                <rect x="314" y="342" width="64" height="9" fill="#242424" stroke="#A6A6A6" stroke-width="1"/>
+                <rect x="314" y="358" width="64" height="9" fill="#242424" stroke="#A6A6A6" stroke-width="1"/>
+                <g stroke="#A6A6A6" stroke-width="1.2">
+                  <path d="M378 330.5 Q 392 331 396 371" marker-end="url(#mech-ar)"/>
+                  <path d="M378 346.5 Q 391 347 396 372" marker-end="url(#mech-ar)"/>
+                  <path d="M378 362.5 Q 390 363 396 373" marker-end="url(#mech-ar)"/>
+                </g>
+                <!-- annotations -->
+                <line x1="521" y1="229" x2="534" y2="229" stroke="#6E6E6E" stroke-width="1" stroke-dasharray="3 2"/>
+                <rect x="536" y="206" width="166" height="46" fill="#0C0C0C" stroke="#5E5E5E" stroke-width="1.1" stroke-dasharray="5 3"/>
+                <rect x="536" y="320" width="166" height="42" fill="#171717" stroke="#C8C8C8" stroke-width="1.3"/>
+                <rect x="536" y="368" width="166" height="42" fill="#171717" stroke="#C8C8C8" stroke-width="1.3"/>
+                <line x1="521" y1="434" x2="533" y2="434" stroke="#6E6E6E" stroke-width="1" stroke-dasharray="3 2"/>
+
+                <!-- ---------- panel 3: KV tenancy block design ---------- -->
+                <rect x="826" y="146" width="220" height="34" fill="#1E1E1E" stroke="#DCDCDC" stroke-width="1.4"/>
+                <line x1="936" y1="180" x2="936" y2="196" stroke="#9A9A9A" stroke-width="1.3" marker-end="url(#mech-ar)"/>
+                <rect x="746" y="198" width="380" height="74" fill="#0D0D0D" stroke="#4E4E4E" stroke-width="1.1"/>
+                <line x1="936" y1="272" x2="936" y2="290" stroke="#9A9A9A" stroke-width="1.3" marker-end="url(#mech-ar)"/>
+                <rect x="848" y="292" width="176" height="178" fill="#111111" stroke="#C8C8C8" stroke-width="1.4"/>
+                <rect x="864" y="306" width="68" height="150" fill="url(#mech-hatchC)" stroke="#A6A6A6" stroke-width="1.2"/>
+                <rect x="944" y="306" width="68" height="150" fill="#0A0A0A" stroke="#6E6E6E" stroke-width="1.1" stroke-dasharray="5 3"/>
+                <g stroke="#3C3C3C" stroke-width="0.9">
+                  <line x1="864" y1="336" x2="932" y2="336"/><line x1="864" y1="366" x2="932" y2="366"/>
+                  <line x1="864" y1="396" x2="932" y2="396"/><line x1="864" y1="426" x2="932" y2="426"/>
+                </g>
+                <line x1="838" y1="330" x2="846" y2="330" stroke="#6E6E6E" stroke-width="1"/>
+                <line x1="1026" y1="330" x2="1030" y2="330" stroke="#6E6E6E" stroke-width="1"/>
+                <line x1="936" y1="470" x2="936" y2="486" stroke="#9A9A9A" stroke-width="1.3" marker-end="url(#mech-ar)"/>
+                <rect x="746" y="488" width="126" height="44" fill="#0D0D0D" stroke="#9E9E9E" stroke-width="1.2"/>
+                <rect x="872" y="488" width="127" height="44" fill="#1B1B1B" stroke="#BEBEBE" stroke-width="1.2"/>
+                <rect x="999" y="488" width="127" height="44" fill="#2A2A2A" stroke="#E4E4E4" stroke-width="1.3"/>
+
+                <!-- ---------- bottom strip ---------- -->
+                <rect x="20" y="596" width="976" height="44" fill="#101010" stroke="#8E8E8E" stroke-width="1.3"/>
+                <g transform="rotate(-1.4 1078 618)">
+                  <rect x="1008" y="592" width="140" height="52" fill="#181818" stroke="#7A7A7A" stroke-width="1.1"/>
+                </g>
+              </g>
+
+              <!-- ============ animated overlays (kept out of the filter) ============ -->
+              <g>
+                <rect class="fanbar" x="314" y="326" width="64" height="9" fill="#FFFFFF" style="animation-delay:0s"/>
+                <rect class="fanbar" x="314" y="342" width="64" height="9" fill="#FFFFFF" style="animation-delay:.22s"/>
+                <rect class="fanbar" x="314" y="358" width="64" height="9" fill="#FFFFFF" style="animation-delay:.44s"/>
+                <rect class="beat" x="396" y="419" width="128" height="38" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+              </g>
+
+              <!-- ============ TEXT LAYER ============ -->
+              <g>
+                <text class="mid t0" x="580" y="48" font-size="30">One forward pass per tick, whatever the branch count.</text>
+                <text class="mid t2" x="580" y="76" font-size="15.5">The decode tick, from TypeScript fiber to GPU attention mask.</text>
+
+                <text class="mid t0" x="148" y="113" font-size="15.5">single-branch tick</text>
+                <text class="mid t0" x="460" y="113" font-size="15.5">N-branch tick</text>
+                <text class="mid t0" x="936" y="113" font-size="15.5">KV tenancy block design</text>
+
+                <!-- panel 1 -->
+                <text class="mid t0 m" x="148" y="171" font-size="12.5">TS FIBER</text>
+                <text class="mid t0 m" x="148" y="235" font-size="12.5">commit</text>
+                <text class="mid t0 m" x="148" y="299" font-size="12.5">worker</text>
+                <text class="mid t0 m" x="148" y="379" font-size="12.5">BranchStore</text>
+                <text class="mid t0 m" x="148" y="443" font-size="12.5">llama_decode</text>
+                <text class="mid t0 m" x="148" y="507" font-size="12.5">GPU mask</text>
+                <text class="mid t2 m" x="244" y="235" font-size="10">N-API</text>
+                <text class="t3 m" x="160" y="327" font-size="9">clone snapshots,</text>
+                <text class="t3 m" x="160" y="340" font-size="9">accept, then decode</text>
+
+                <!-- panel 2 -->
+                <text class="mid t0 m" x="460" y="171" font-size="12.5">TS FIBER</text>
+                <text class="mid t0 m" x="460" y="235" font-size="12.5">commit</text>
+                <text class="mid t0 m" x="460" y="299" font-size="12.5">worker</text>
+                <text class="mid t0 m" x="460" y="379" font-size="12.5">BranchStore</text>
+                <text class="mid t0 m" x="460" y="443" font-size="12.5">llama_decode</text>
+                <text class="mid t0 m" x="460" y="507" font-size="12.5">GPU mask</text>
+
+                <text class="t2 m" x="300" y="316" font-size="9">token, pos, seq_id</text>
+                <text class="t0" x="288" y="352" font-size="14">N ×</text>
+
+                <text class="t1 m" x="546" y="224" font-size="9.5">parked (awaiting_tool):</text>
+                <text class="t2"   x="546" y="240" font-size="11">no rows, no cells</text>
+                <text class="t1"   x="536" y="290" font-size="12.5">one forward pass</text>
+                <text class="t1"   x="536" y="305" font-size="12.5">per ubatch</text>
+                <text class="t0 m" x="546" y="339" font-size="11.5">one store.prefill</text>
+                <text class="t2 m" x="546" y="354" font-size="8.5">(spawns + extends + settled)</text>
+                <text class="t0 m" x="546" y="387" font-size="11.5">one store.commit</text>
+                <text class="t2 m" x="546" y="402" font-size="8.5">(one token per active branch)</text>
+                <text class="t0 m blip" x="536" y="438" font-size="12">cells_used_ += N</text>
+
+                <!-- panel 3 -->
+                <text class="mid t0" x="936" y="169" font-size="12.5">logit snapshot <tspan class="m" font-size="12">(memcpy)</tspan><title>logit snapshot (memcpy)</title></text>
+                <text class="mid t1" x="936" y="217" font-size="12.5">shared trunk cells</text>
+
+                <text class="t1"   x="722" y="318" font-size="11.5">prune —</text>
+                <text class="t1"   x="722" y="333" font-size="11.5">release cells,</text>
+                <text class="t0 m" x="722" y="352" font-size="9.5">cells_used_ −=</text>
+                <text class="t0 m" x="722" y="366" font-size="9.5">position − fork_head</text>
+
+                <text class="t1"   x="1032" y="318" font-size="11.5">one cell,</text>
+                <text class="t1"   x="1032" y="333" font-size="11.5">many owners</text>
+                <text class="t0 m" x="1032" y="360" font-size="9.5">pressure =</text>
+                <text class="t0 m" x="1032" y="374" font-size="9.5">n_ctx − cells_used_</text>
+                <text class="t1"   x="1032" y="402" font-size="11.5">recurrent state</text>
+                <text class="t1"   x="1032" y="417" font-size="11.5">never rolls back</text>
+
+                <text class="mid t1"   x="809" y="516" font-size="13">headroom</text>
+                <text class="mid t0 m" x="935" y="511" font-size="11">softLimit</text>
+                <text class="mid t2"   x="935" y="525" font-size="10">(nudge floor)</text>
+                <text class="mid t0 m" x="1062" y="511" font-size="11">hardLimit</text>
+                <text class="mid t2"   x="1062" y="525" font-size="10">(crash floor)</text>
+                <text class="mid t0 m" x="936" y="553" font-size="11">hardLimit ≥ nBatch</text>
+
+                <!-- bottom strip -->
+                <text class="mid t1" x="508" y="624" font-size="13">Dispatch <tspan class="m t0" font-size="12">O(1)</tspan> in branch count · Wall-time <tspan class="m t0" font-size="12">O(n_</tspan><tspan class="m t0" font-size="8.6" dy="2.6">kv</tspan><tspan class="m t0" font-size="12" dy="-2.6"> × rows)</tspan> · Concurrency free on compute, paid in space · parked agents cost nothing<title>Dispatch O(1) in branch count · Wall-time O(n_kv × rows) · Concurrency free on compute, paid in space · parked agents cost nothing</title></text>
+                <g transform="rotate(-1.4 1078 618)">
+                  <text class="mid t0 m" x="1078" y="614" font-size="11">10 agents, 239 GB,</text>
+                  <text class="mid t0 m" x="1078" y="631" font-size="11">82 min, $16</text>
+                </g>
+              </g>
+
+              <!-- shared trunk cells (drawn last so the strip stays crisp) -->
+              <g>
+                <rect x="777"  y="228" width="30" height="30" fill="#3A3A3A" stroke="#DCDCDC" stroke-width="1.2"/>
+                <rect x="813"  y="228" width="30" height="30" fill="#171717" stroke="#9E9E9E" stroke-width="1.1"/>
+                <rect x="849"  y="228" width="30" height="30" fill="#171717" stroke="#9E9E9E" stroke-width="1.1"/>
+                <rect x="885"  y="228" width="30" height="30" fill="#171717" stroke="#9E9E9E" stroke-width="1.1"/>
+                <rect x="921"  y="228" width="30" height="30" fill="#171717" stroke="#9E9E9E" stroke-width="1.1"/>
+                <rect x="957"  y="228" width="30" height="30" fill="#171717" stroke="#9E9E9E" stroke-width="1.1"/>
+                <rect x="993"  y="228" width="30" height="30" fill="#171717" stroke="#9E9E9E" stroke-width="1.1"/>
+                <rect x="1029" y="228" width="30" height="30" fill="#171717" stroke="#9E9E9E" stroke-width="1.1"/>
+                <rect x="1065" y="228" width="30" height="30" fill="#171717" stroke="#9E9E9E" stroke-width="1.1"/>
+              </g>
+              </svg>
+            </div>
+            <figcaption>One forward pass per tick, whatever the branch count: the single-branch tick, the N-branch tick, and the KV tenancy block that makes <code>cells_used_</code> the number the application steers on.</figcaption>
+          </figure>
+
+          <h2>Pressure is an admission controller</h2>
+
+          <p>The counter that makes concurrency safe is the same one that makes it programmable. <code>remaining = n_ctx − cells_used_</code>, partitioned into three zones: headroom, where new work is admitted; a soft floor, where the pool stops spawning and oversized results defer; a hard floor, where work is stopped before the next decode.</p>
+
+          <p>The hard floor is validated at startup against the native batch size — <code>hardLimit ≥ nBatch</code> — and the pool refuses to boot otherwise. Spawn admission reserves for batch-mates. Settlement admits what fits and defers the rest. Recovery is budgeted so the whole cohort's final reports fit inside one batched tick.</p>
+
+          <p>That last one is the part we're fondest of: <strong>the institution plans its own funerals within budget.</strong> An agent pool that can be asked to wind down has to know, in advance, that it can afford to hear from everyone before it dies.</p>
+
+          <p>This is what "programming surface, not telemetry" means concretely. The pressure counter isn't something you graph after the fact. It's the input to admission decisions your policy code makes, before the decode that would have violated them.</p>
+
+          <h2>The cost model</h2>
+
+          <p>Three laws, verified against source:</p>
+
+          <ol class="post-list">
+            <li><strong>Dispatch count is O(1) in branch count.</strong> N branches whose rows fit in <code>n_ubatch</code> are one forward pass. <code>commit</code> is the degenerate case — one token per branch — so ten agents are ten rows are one dispatch.</li>
+            <li><strong>Per-tick wall-time is O(n_kv × rows).</strong> Adding a branch adds one query row and one O(1) bitset test per cell. There is no <code>× n_seqs</code> multiplier anywhere. Branch count is nearly free in time; KV fullness is the cost.</li>
+            <li><strong>Concurrency is paid in space, and parked concurrency is free.</strong> <code>cells_used_</code> grows with live decode and settled results. An agent parked awaiting a tool is skipped at zero cost — no turns, no tokens, no cells.</li>
+          </ol>
+
+          <p>Setup obeys the same law: the shared header is decoded once and inherited by every fork. You pay for the cache, not the agent count, at setup time as well as decode time. That is the $16, mechanically.</p>
+
+          <p>And the failure mode, because a post that hides them is marketing. We call it the <em>519-second decode</em>, after the trace that caught it. A ~1,400-token recovery report over a near-full ~25–30k-cell cache is slow, because every tick is one <code>llama_decode</code> over a large <code>n_kv</code>. Two concurrent reports and ten decode at the <em>same</em> per-tick speed — the cost is the cache, not the cohort. The cure is to reap earlier, which is orthogonal to concurrency and is exactly what the pressure zones exist to do.</p>
+
+          <h2>Why this doesn't reduce to an API call</h2>
+
+          <p>Two objections are worth answering directly.</p>
+
+          <p><strong>"Prefix caching already does this."</strong> It doesn't. Prefix caching deduplicates: two requests that happen to share a leading token sequence reuse the same blocks. That's a content-addressed hit, decided by the server, at a request boundary. It is not a fork. You cannot say <em>branch here, at this position, now</em>; hold four lineages over one trunk and decode them in the same step; fan them back in; or run a DAG whose nodes are KV sequences and whose edges are what each node inherits. A cache hit buys you cheaper prefill. A branch is an addressable object with a position, a parent and a lifetime — one your code owns, prunes, and decides the inheritance of.</p>
+
+          <p><strong>"Then a serving engine could expose it."</strong> We are the serving engine. Native targets run in-process; web targets run against <code>lloyal-host</code>. That isn't a technicality — these are operations on serving internals, so whoever exposes them <em>is</em> the engine. There's no version of this that ships as a feature on someone else's endpoint, because an endpoint's unit of sale is the request, and the request is the object this dissolves.</p>
+
+          <p>And nothing on the sampling side crosses a wire in either direction. A branch owns a mutable copy of the logit distribution, a cloned sampler chain carrying its own penalty state, and its own grammar parse state that diverges from its sibling's. Merging two branches' distributions is an in-place write into one of them. There is no request shape that hands a client the distribution and takes it back.</p>
+
+          <p><strong>"It's a wrapper."</strong> A wrapper calls a server. We are the server. The trace is the appendix.</p>
+
+          <p>Owning the execution instead of optimising the request is what the whole system is for. It's also why the interesting part isn't the invoice.</p>
+
+          <h2>Run it</h2>
+
+          <p>The same harness that ran the $16 datacentre session runs a 4B model on a laptop. Identical code, different silicon.</p>
+
+          <pre><code>npx harness.dev@latest new</code></pre>
+
+          <p>Node 24+, about a minute of installs, and a ~2.7 GB model fetched and digest-verified on first run. No API key — the model lives inside your app.</p>
+
+          <figure class="figure">
+            <img
+              src="/blog/assets/wm-scaffold-wizard.png"
+              width="1614"
+              height="800"
+              loading="lazy"
+              decoding="async"
+              alt="Terminal screenshot of the harness.dev v0.10.0 scaffold wizard after running npx harness.dev@latest new. It shows the project name hello-harness, the targets cli, desktop and web, and a trunk-model picker whose highlighted option is Recommended — Qwen3.5 4B · Q4_K_M, with Bring your own and Decide later beneath it."
+            />
+            <figcaption>Four questions — name, targets, trunk model, template — and the model is fetched and digest-verified on first run. No API key anywhere in the flow.</figcaption>
+          </figure>
+
+          <p>Pick the basic template and run <code>npm run dev:web</code>. You get a working research harness with two agents reading in parallel over a shared spine.</p>
+
+          <figure class="figure">
+            <img
+              src="/blog/assets/wm-running-app-kv13.png"
+              width="3456"
+              height="1700"
+              loading="lazy"
+              decoding="async"
+              alt="Screenshot of the scaffolded research harness running in a browser. Its header reads basic-all, qwen3.5-4b · 2.7 GB · web · kv 13%. Below, a Research section says two agents are reading Wikipedia in parallel: Agent 3 is done and Agent 4 is writing a report, with sources listed."
+            />
+            <figcaption>The scaffolded harness on a laptop: two agents over one shared spine, and <code>kv 13%</code> in the header.</figcaption>
+          </figure>
+
+          <p>That number in the header is the pressure counter from three sections ago, running on your machine. It's the same <code>remaining = n_ctx − cells_used_</code> your policy code reads.</p>
+
+          <p>Then make one edit. Find the orchestrator and swap <code>parallel</code> for <code>chain</code>. Re-run.</p>
+
+          <p>The agents now fork sequentially from a spine that each one extends before the next inherits it — same code, same model, different topology of live reasoning, because you changed one word in an application file. That's the whole idea in a single diff, and it takes about ten seconds.</p>
+
+          <p><a href="https://docs.lloyal.ai/build-your-first-harness" target="_blank" rel="noreferrer">Build your first harness</a> walks the rest.</p>
+
+          <hr class="post-rule" />
+
+          <div class="post-coda">
+            <p><em><a href="https://www.npmjs.com/package/reasoning.run" target="_blank" rel="noreferrer">reasoning.run</a> is MIT; the runtime and SDK are Fair Source; the harness.dev CLI is Apache-2.0. The docs are at <a href="https://docs.lloyal.ai" target="_blank" rel="noreferrer">docs.lloyal.ai</a>, the code at <a href="https://github.com/lloyal-ai" target="_blank" rel="noreferrer">github.com/lloyal-ai</a>.</em></p>
+          </div>
+        </div>
+      </article>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="footer-main">
+        <div class="footer-left">
+          <div class="footer-brand-row">
+            <div class="footer-logo-box" aria-label="LLoyal Labs">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 136 136" aria-hidden="true">
+                <rect width="136" height="136" fill="#000"/>
+                <g transform="translate(8, 36)" fill="#fff">
+                  <path d="M0 0h20v8H8v48h12v8H0V0z"/>
+                  <path d="M28 8h8v40h16v8H28V8z"/>
+                  <path d="M68 8h8v40h16v8H68V8z"/>
+                  <path d="M100 0h20v64h-20v-8h12V8h-12V0z"/>
+                </g>
+              </svg>
+            </div>
+            <div class="footer-subscribe">
+              <h4>Subscribe for our product updates.</h4>
+              <form class="footer-form" onsubmit="return false;">
+                <input type="email" placeholder="Enter your email" aria-label="Enter your email" />
+                <button type="submit" aria-label="Subscribe">
+                  <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                </button>
+              </form>
+              <p class="footer-copyright">&copy; 2026 LLoyal AI. All rights reserved.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-cols">
+          <div class="footer-col">
+            <h4>Engineering</h4>
+            <ul>
+              <li><a href="https://hdk.lloyal.ai">HDK</a></li>
+              <li><a href="https://reasoning.run">reasoning.run</a></li>
+              <li><a href="https://lloyal-ai.github.io/lloyal.node/" target="_blank" rel="noreferrer">lloyal.node</a></li>
+              <li><a href="https://lloyal-ai.github.io/liblloyal/" target="_blank" rel="noreferrer">liblloyal</a></li>
+              <li><a href="https://www.npmjs.com/package/@lloyal-labs/tsampler" target="_blank" rel="noreferrer">TSampler</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Resources</h4>
+            <ul>
+              <li><a href="https://docs.lloyal.ai" target="_blank" rel="noreferrer">Documentation</a></li>
+              <li><a href="/blog/">Blog</a></li>
+              <li><a href="/#compute">Compute</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Community</h4>
+            <ul>
+              <li><a href="https://github.com/lloyal-ai/" target="_blank" rel="noreferrer">GitHub</a></li>
+              <li><a href="https://www.npmjs.com/org/lloyal-labs" target="_blank" rel="noreferrer">npm</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Contact</h4>
+            <ul>
+              <li><a href="mailto:research@lloyal.ai">Get in touch</a></li>
+              <li><span>Melbourne, AU</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-wordmark">
+        <svg viewBox="0 0 100 28" aria-hidden="true">
+          <text x="0" y="24" textLength="100" lengthAdjust="spacing">LLoyal</text>
+        </svg>
+      </div>
+    </footer>
+  </body>
+</html>
