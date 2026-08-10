@@ -1,3 +1,4 @@
+
 :root {
   --bg: #080808;
   --panel: #0b0b0b;
@@ -621,3 +622,4 @@ footer { padding:80px 0 32px; background:#070707; }
   .partner-form { padding: 16px; gap: 8px; }
   .partner-form textarea { height: 56px; }
 }
+
