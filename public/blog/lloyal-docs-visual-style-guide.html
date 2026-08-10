@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Lloyal Programming Guides — Visual Style Guide</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+    @font-face {
+      font-family: 'Readex Pro Variable';
+      font-style: normal;
+      font-weight: 100 900;
+      font-display: swap;
+      src: url('https://cdn.jsdelivr.net/fontsource/fonts/readex-pro:vf@5.3.0/latin-wght-normal.woff2') format('woff2-variations');
+    }
+    :root {
+      --black:#050505; --white:#fff; --ink:#111; --body:#333;
+      --grey:#666; --muted:#8d8d8d; --line:#d3d3d3;
+      --soft:#f6f6f6; --paper:#f0f0f0; --canvas:#d8d8d8;
+      --cyan:#66D9EF; --pink:#FF4689; --green:#A6E22E;
+      --yellow:#E6DB74; --purple:#AE81FF;
+    }
+    html { scroll-behavior:smooth; background:var(--canvas); color:var(--ink); }
+    body {
+      margin:0 auto; padding:0; max-width:1180px; background:var(--white);
+      box-shadow:0 18px 60px rgba(0,0,0,.16);
+      font-family:'Readex Pro Variable','Readex Pro','Inter',Arial,sans-serif;
+      font-size:16px; line-height:1.62; font-weight:300;
+      hyphens:none; overflow-wrap:break-word;
+    }
+    #title-block-header { display:none; }
+    body > h1, body > h2, body > h3, body > h4,
+    body > p, body > ul, body > ol, body > table,
+    body > blockquote, body > pre { margin-left:307px; margin-right:72px; }
+    body > h1:first-of-type {
+      margin:0; padding:70px 72px 66px; max-width:none;
+      font-size:76px; line-height:.94; letter-spacing:-.058em; font-weight:600;
+      border-bottom:0;
+    }
+    .sg-masthead {
+      height:108px; padding:0 72px; display:flex; align-items:center;
+      justify-content:space-between; border-bottom:1px solid var(--line);
+    }
+    .sg-wordmark { font-size:16px; font-weight:600; letter-spacing:-.025em; }
+    .sg-tagline { margin-top:8px; color:#777; font-size:9px; font-weight:500; letter-spacing:.20em; text-transform:uppercase; }
+    .sg-issue { display:grid; grid-template-columns:auto auto; gap:42px; color:#777; font-size:9px; line-height:1.3; letter-spacing:.19em; text-transform:uppercase; text-align:right; font-weight:500; }
+    .sg-thesis {
+      margin:0 0 64px; padding:52px 72px 54px; background:var(--black); color:#fff;
+      display:grid; grid-template-columns:1.08fr .92fr; gap:64px; align-items:start;
+    }
+    .sg-thesis p { margin:0; color:#c8c8c8; font-size:18px; line-height:1.55; }
+    .sg-thesis strong { color:#fff; font-weight:600; }
+    .sg-principle { padding:24px 0 26px; border-top:1px solid #393939; border-bottom:1px solid #393939; font-size:26px; line-height:1.24; letter-spacing:-.03em; font-weight:500; }
+    .sg-local-nav {
+      position:sticky; top:28px; float:left; width:235px; margin-left:72px;
+      border-top:1px solid var(--line); padding-top:16px; max-height:calc(100vh - 56px); overflow:auto;
+    }
+    .sg-local-nav strong { display:block; margin-bottom:12px; color:#777; font-size:9px; letter-spacing:.20em; text-transform:uppercase; font-weight:500; }
+    .sg-local-nav a { display:block; padding:5px 0; border-bottom:1px solid #eee; color:#555; text-decoration:none; font-size:11px; line-height:1.35; }
+    .sg-local-nav a:hover { color:#111; font-weight:500; }
+    h1 { font-weight:600; }
+    body > h2 {
+      margin-top:84px; margin-bottom:24px; padding-top:22px; border-top:1px solid var(--line);
+      font-size:42px; line-height:1.02; letter-spacing:-.045em; font-weight:600;
+    }
+    body > h3 {
+      margin-top:64px; margin-bottom:20px; padding-top:12px; border-top:1px solid var(--line);
+      font-size:28px; line-height:1.08; letter-spacing:-.035em; font-weight:600;
+    }
+    body > h4 {
+      margin-top:38px; margin-bottom:14px; font-size:19px; line-height:1.2;
+      letter-spacing:-.025em; font-weight:600;
+    }
+    p { color:var(--body); margin-top:0; margin-bottom:19px; }
+    strong { color:var(--ink); font-weight:600; }
+    li { margin:8px 0; color:var(--body); }
+    a { color:inherit; text-decoration-thickness:1px; text-underline-offset:3px; }
+    blockquote { padding:22px 26px; border-left:4px solid #111; background:#f3f3f3; }
+    blockquote p { margin:0; color:#111; font-size:18px; line-height:1.45; }
+    table { width:calc(100% - 379px); border-collapse:collapse; display:table; font-size:13.5px; line-height:1.45; }
+    th, td { padding:13px 12px; border-top:1px solid #c9c9c9; vertical-align:top; text-align:left; }
+    th { color:#555; font-size:10px; letter-spacing:.10em; text-transform:uppercase; font-weight:600; }
+    tr:last-child td { border-bottom:1px solid #c9c9c9; }
+    pre {
+      padding:20px 22px 22px; background:#070707; color:#f4f4f4; border:1px solid #222;
+      overflow:auto; font-family:'SFMono-Regular',Consolas,'Liberation Mono',monospace;
+      font-size:13px; line-height:1.6;
+    }
+    code { font-family:'SFMono-Regular',Consolas,'Liberation Mono',monospace; }
+    :not(pre) > code { font-size:.87em; background:#efefef; padding:.14em .35em; border-radius:2px; }
+    pre code { color:#f4f4f4; background:transparent; }
+    body > h2:nth-of-type(3) + p + pre { border-top:5px solid var(--cyan); }
+    body > hr { margin:48px 72px 48px 307px; border:0; border-top:1px solid var(--line); }
+    body::after { content:'Enable every organisation to deliver intelligence on its terms.  ·  Lloyal Labs · Melbourne'; display:block; clear:both; margin-top:90px; padding:34px 72px; border-top:1px solid var(--line); color:#555; font-size:9px; letter-spacing:.15em; text-transform:uppercase; font-weight:500; }
+    @media (max-width:900px) {
+      body { max-width:none; box-shadow:none; }
+      .sg-masthead { height:90px; padding-inline:28px; }
+      .sg-thesis { grid-template-columns:1fr; gap:30px; padding:48px 28px; }
+      body > h1:first-of-type { padding:52px 28px 48px; font-size:52px; }
+      .sg-local-nav { position:relative; top:auto; float:none; width:auto; margin:44px 28px 0; columns:2; }
+      .sg-local-nav strong { column-span:all; }
+      body > h1, body > h2, body > h3, body > h4,
+      body > p, body > ul, body > ol, body > table,
+      body > blockquote, body > pre { margin-left:28px; margin-right:28px; }
+      table { width:calc(100% - 56px); }
+      body::after { padding-inline:28px; }
+    }
+    @media (max-width:560px) {
+      .sg-issue { gap:16px; }
+      .sg-tagline { letter-spacing:.13em; }
+      body > h1:first-of-type { font-size:43px; }
+      .sg-principle { font-size:22px; }
+      .sg-local-nav { columns:1; }
+      body > h2 { font-size:34px; }
+      body > h3 { font-size:25px; }
+      body { font-size:15px; }
+      th, td { padding:10px 8px; }
+    }
+    @media print {
+      html { background:#fff; }
+      body { max-width:none; box-shadow:none; }
+      .sg-local-nav { display:none; }
+      body > h1, body > h2, body > h3, body > h4,
+      body > p, body > ul, body > ol, body > table,
+      body > blockquote, body > pre { margin-left:72px; }
+      table { width:calc(100% - 144px); }
+    }
+  </style>
+</head>
+<body>
+<header class="sg-masthead">
+  <div><div class="sg-wordmark">Lloyal Labs</div><div class="sg-tagline">Engineering AI's contact with reality.</div></div>
+  <div class="sg-issue"><span>Visual system /<br>Programming guides</span><span>August<br>2026</span></div>
+</header>
+<section class="sg-thesis">
+  <p>The Lloyal guides are a <strong>monochrome engineering publication</strong> containing an executable system. Editorial scale creates authority; rules create structure; dark surfaces mark conceptual and executable boundaries.</p>
+  <div class="sg-principle">Use typography and structure to create force. Use colour only to encode executable material.</div>
+</section>
+<nav class="sg-local-nav" aria-label="Style guide contents">
+  <strong>In this guide</strong>
+  <a href="#visual-thesis">Visual thesis</a><a href="#typography">Typography</a>
+  <a href="#colour-system">Colour system</a><a href="#page-shell">Page shell</a>
+  <a href="#long-form-article-layout">Article layout</a><a href="#components">Components</a>
+  <a href="#diagrams">Diagrams</a><a href="#cli-visual-system">CLI system</a>
+  <a href="#interaction">Interaction</a><a href="#responsive-behaviour">Responsive</a>
+  <a href="#do--do-not">Do / do not</a><a href="#canonical-starter-tokens">Tokens</a>
+</nav>
+<header id="title-block-header">
+<h1 class="title">Lloyal Programming Guides — Visual Style Guide</h1>
+</header>
+<h1 id="lloyal-programming-guides--visual-style-guide">Lloyal
+Programming Guides — Visual Style Guide</h1>
+<p>Status: extracted from the August 2026 programming-guide system: the
+docs index, <em>Build your first harness</em>, <em>Thinking in
+Lloyal</em>, <em>How Agents Know When to Stop</em>, and <em>Where a
+harness runs</em>, plus the comparison, platform-map, and CLI
+visuals.</p>
+<h2 id="1-visual-thesis">1. Visual thesis</h2>
+<p>The Lloyal guides should feel like an engineering journal that
+contains an executable system.</p>
+<p>The visual language combines:</p>
+<ul>
+<li><strong>editorial authority</strong> — large compressed headlines,
+generous white space, publication metadata, black thesis bands;</li>
+<li><strong>systems precision</strong> — ruled grids, restrained
+monochrome diagrams, explicit hierarchy, dense but calm reference
+layouts;</li>
+<li><strong>executable reality</strong> — dark code frames, terminal
+captures, monospace structures, concrete commands;</li>
+<li><strong>institutional restraint</strong> — almost no decorative
+colour, no gradients in the document chrome, minimal rounding, and no
+generic SaaS-card softness.</li>
+</ul>
+<p>The governing principle is:</p>
+<blockquote>
+<p>Use typography and structure to create force. Use colour only to
+encode executable material.</p>
+</blockquote>
+<p>The pages are not visually “futuristic AI.” They are sober,
+technical, and publication-like. Intelligence is presented as
+infrastructure that can be inspected and programmed.</p>
+<h2 id="2-design-character">2. Design character</h2>
+<p>Five characteristics should survive every extension of the
+system:</p>
+<ol type="1">
+<li><strong>Monochrome first.</strong> White paper, near-black ink, grey
+hierarchy, hairline rules.</li>
+<li><strong>Scale creates emphasis.</strong> Headlines become large and
+tightly tracked; ordinary components do not become colourful.</li>
+<li><strong>Borders create structure.</strong> Cards, tables, paths,
+status columns, and navigation use shared rules rather than shadows and
+isolated boxes.</li>
+<li><strong>Darkness marks a conceptual or executable boundary.</strong>
+Black thesis bands, code blocks, mini diagrams, and terminal captures
+signal a change of mode.</li>
+<li><strong>The page remains a document.</strong> Even interactive
+elements should retain the feel of an engineered publication.</li>
+</ol>
+<h2 id="3-typography">3. Typography</h2>
+<h3 id="31-primary-typeface">3.1 Primary typeface</h3>
+<p>Use <strong>Readex Pro Variable</strong> for all editorial and
+interface typography.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode css"><code class="sourceCode css"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>font-family<span class="in">: &quot;Readex</span> Pro Variable&quot;<span class="op">,</span> &quot;Readex Pro&quot;<span class="op">,</span> &quot;Inter&quot;<span class="op">,</span> Arial<span class="op">,</span> sans-serif;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>font-weight<span class="in">: 300;</span></span></code></pre></div>
+<p>Use the variable font across weights 100–900. The default page voice
+is light (<code>300</code>), with emphasis concentrated at
+<code>500–600</code>. Avoid conventional heavy body copy or
+<code>700–800</code> headings; the identity comes from scale, spacing,
+and Readex Pro's shape rather than blunt weight.</p>
+<h3 id="32-monospace-typeface">3.2 Monospace typeface</h3>
+<p>Use the platform-native technical stack:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode css"><code class="sourceCode css"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>font-family<span class="in">: &quot;SFMono-Regular</span>&quot;<span class="op">,</span> Consolas<span class="op">,</span> &quot;Liberation Mono&quot;<span class="op">,</span> monospace;</span></code></pre></div>
+<p>Mono is reserved for:</p>
+<ul>
+<li>code and terminal commands;</li>
+<li>file trees and structural diagrams;</li>
+<li>sequence numbers and compact technical identifiers;</li>
+<li>inline code;</li>
+<li>exact runtime or configuration values.</li>
+</ul>
+<p>Do not use monospace as a general “developer aesthetic”
+decoration.</p>
+<h3 id="33-type-scale">3.3 Type scale</h3>
+<table>
+<thead>
+<tr class="header">
+<th>Role</th>
+<th style="text-align: right;">Desktop</th>
+<th style="text-align: right;">Line height</th>
+<th style="text-align: right;">Tracking</th>
+<th style="text-align: right;">Weight</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Index hero</td>
+<td style="text-align: right;">84px</td>
+<td style="text-align: right;">0.92</td>
+<td style="text-align: right;">-0.062em</td>
+<td style="text-align: right;">600</td>
+</tr>
+<tr class="even">
+<td>Guide hero</td>
+<td style="text-align: right;">76–78px</td>
+<td style="text-align: right;">0.94</td>
+<td style="text-align: right;">-0.058em</td>
+<td style="text-align: right;">600</td>
+</tr>
+<tr class="odd">
+<td>Index section heading</td>
+<td style="text-align: right;">48px</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">-0.052em</td>
+<td style="text-align: right;">600</td>
+</tr>
+<tr class="even">
+<td>Article H1</td>
+<td style="text-align: right;">42px</td>
+<td style="text-align: right;">1.02</td>
+<td style="text-align: right;">-0.045em</td>
+<td style="text-align: right;">600</td>
+</tr>
+<tr class="odd">
+<td>Visual-thesis heading</td>
+<td style="text-align: right;">40px</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">-0.045em</td>
+<td style="text-align: right;">600</td>
+</tr>
+<tr class="even">
+<td>Architecture card title</td>
+<td style="text-align: right;">34px</td>
+<td style="text-align: right;">1.02</td>
+<td style="text-align: right;">-0.043em</td>
+<td style="text-align: right;">600</td>
+</tr>
+<tr class="odd">
+<td>Path-card title</td>
+<td style="text-align: right;">31px</td>
+<td style="text-align: right;">1.03</td>
+<td style="text-align: right;">-0.042em</td>
+<td style="text-align: right;">600</td>
+</tr>
+<tr class="even">
+<td>Article H2</td>
+<td style="text-align: right;">27–28px</td>
+<td style="text-align: right;">1.08</td>
+<td style="text-align: right;">-0.035em</td>
+<td style="text-align: right;">600</td>
+</tr>
+<tr class="odd">
+<td>Pull quote</td>
+<td style="text-align: right;">26–28px</td>
+<td style="text-align: right;">1.22–1.24</td>
+<td style="text-align: right;">-0.030em</td>
+<td style="text-align: right;">500</td>
+</tr>
+<tr class="even">
+<td>Hero subtitle</td>
+<td style="text-align: right;">25–26px</td>
+<td style="text-align: right;">1.28–1.30</td>
+<td style="text-align: right;">-0.025em</td>
+<td style="text-align: right;">300</td>
+</tr>
+<tr class="odd">
+<td>Article H3</td>
+<td style="text-align: right;">19px</td>
+<td style="text-align: right;">1.20</td>
+<td style="text-align: right;">-0.025em</td>
+<td style="text-align: right;">600</td>
+</tr>
+<tr class="even">
+<td>Thesis copy</td>
+<td style="text-align: right;">18–21px</td>
+<td style="text-align: right;">1.50–1.55</td>
+<td style="text-align: right;">-0.012em or normal</td>
+<td style="text-align: right;">300</td>
+</tr>
+<tr class="odd">
+<td>Article body</td>
+<td style="text-align: right;">16px</td>
+<td style="text-align: right;">1.62</td>
+<td style="text-align: right;">normal</td>
+<td style="text-align: right;">300</td>
+</tr>
+<tr class="even">
+<td>Article list</td>
+<td style="text-align: right;">15.5px</td>
+<td style="text-align: right;">1.55</td>
+<td style="text-align: right;">normal</td>
+<td style="text-align: right;">300</td>
+</tr>
+<tr class="odd">
+<td>Supporting/card copy</td>
+<td style="text-align: right;">13.5–15px</td>
+<td style="text-align: right;">1.45–1.58</td>
+<td style="text-align: right;">normal</td>
+<td style="text-align: right;">300</td>
+</tr>
+<tr class="even">
+<td>Code block</td>
+<td style="text-align: right;">13px</td>
+<td style="text-align: right;">1.60</td>
+<td style="text-align: right;">normal</td>
+<td style="text-align: right;">400</td>
+</tr>
+<tr class="odd">
+<td>Table body</td>
+<td style="text-align: right;">13.5px</td>
+<td style="text-align: right;">1.45</td>
+<td style="text-align: right;">normal</td>
+<td style="text-align: right;">300</td>
+</tr>
+<tr class="even">
+<td>TOC link</td>
+<td style="text-align: right;">11px</td>
+<td style="text-align: right;">1.35</td>
+<td style="text-align: right;">normal</td>
+<td style="text-align: right;">300–500</td>
+</tr>
+<tr class="odd">
+<td>Eyebrow/kicker</td>
+<td style="text-align: right;">9–10px</td>
+<td style="text-align: right;">1.3–1.5</td>
+<td style="text-align: right;">0.18–0.20em</td>
+<td style="text-align: right;">500–600</td>
+</tr>
+</tbody>
+</table>
+<h3 id="34-typographic-voices">3.4 Typographic voices</h3>
+<p>The system has three distinct voices.</p>
+<h4 id="editorial-voice">Editorial voice</h4>
+<p>Used for page titles, article headings, theses, pull quotes, and
+explanatory prose.</p>
+<ul>
+<li>large headings;</li>
+<li>tight negative tracking;</li>
+<li>light body copy;</li>
+<li>sentence case;</li>
+<li>strong line-length discipline.</li>
+</ul>
+<h4 id="operational-voice">Operational voice</h4>
+<p>Used for masthead metadata, eyebrows, table headers, code labels,
+path labels, status and card kickers.</p>
+<ul>
+<li>9–10px;</li>
+<li>uppercase;</li>
+<li>0.10–0.20em tracking;</li>
+<li>medium weight;</li>
+<li>grey unless active.</li>
+</ul>
+<p>This voice makes the pages feel catalogued and engineered.</p>
+<h4 id="executable-voice">Executable voice</h4>
+<p>Used for code, commands, structures, paths and exact values.</p>
+<ul>
+<li>monospace;</li>
+<li>dark framed surfaces for block content;</li>
+<li>pale neutral background for inline code;</li>
+<li>no decorative italics or terminal-style effects in ordinary
+prose.</li>
+</ul>
+<h3 id="35-responsive-typography">3.5 Responsive typography</h3>
+<p>At <code>≤900px</code>:</p>
+<ul>
+<li>index hero: 84px → 58px;</li>
+<li>guide hero: 76–78px → 52–54px;</li>
+<li>hero subtitle: 25–26px → 20–21px.</li>
+</ul>
+<p>At <code>≤560px</code>:</p>
+<ul>
+<li>index hero: 46px;</li>
+<li>guide hero: 43–44px;</li>
+<li>hero subtitle: 18px;</li>
+<li>article H1: 34px;</li>
+<li>article H2: 24–25px;</li>
+<li>article body: 15px;</li>
+<li>pull quote: 22–23px.</li>
+</ul>
+<p>Preserve tight display tracking at smaller sizes. Do not merely
+shrink the desktop layout proportionally.</p>
+<h2 id="4-colour-system">4. Colour system</h2>
+<h3 id="41-core-tokens">4.1 Core tokens</h3>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode css"><code class="sourceCode css"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="in">:root</span> {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="va">--ll-black</span>: <span class="cn">#050505</span><span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="va">--ll-code</span>: <span class="cn">#070707</span><span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="va">--ll-ink</span>: <span class="cn">#111111</span><span class="op">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="va">--ll-body</span>: <span class="cn">#333333</span><span class="op">;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="va">--ll-grey</span>: <span class="cn">#666666</span><span class="op">;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="va">--ll-muted</span>: <span class="cn">#8d8d8d</span><span class="op">;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="va">--ll-line</span>: <span class="cn">#d3d3d3</span><span class="op">;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="va">--ll-line-strong</span>: <span class="cn">#c9c9c9</span><span class="op">;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="va">--ll-soft</span>: <span class="cn">#f5f5f5</span><span class="op">;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="va">--ll-paper</span>: <span class="cn">#f0f0f0</span><span class="op">;</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="va">--ll-white</span>: <span class="cn">#ffffff</span><span class="op">;</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="va">--ll-canvas</span>: <span class="cn">#d8d8d8</span><span class="op">;</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="42-semantic-use">4.2 Semantic use</h3>
+<table>
+<thead>
+<tr class="header">
+<th>Token</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>#050505</code></td>
+<td>Thesis bands, primary inversion, strongest conceptual boundary</td>
+</tr>
+<tr class="even">
+<td><code>#070707</code> / <code>#080808</code></td>
+<td>Code frames, structure panels, mini diagrams</td>
+</tr>
+<tr class="odd">
+<td><code>#111</code></td>
+<td>Titles, active text, strong labels, principal rules</td>
+</tr>
+<tr class="even">
+<td><code>#333</code></td>
+<td>Article body</td>
+</tr>
+<tr class="odd">
+<td><code>#555–#666</code></td>
+<td>Supporting prose, inactive navigation, captions</td>
+</tr>
+<tr class="even">
+<td><code>#777–#8d8d8d</code></td>
+<td>Metadata, numbering, tertiary labels</td>
+</tr>
+<tr class="odd">
+<td><code>#c9c9c9–#d3d3d3</code></td>
+<td>Shared grid and document rules</td>
+</tr>
+<tr class="even">
+<td><code>#f0f0f0–#f7f7f7</code></td>
+<td>Learning bands, callouts, inline code and framed figures</td>
+</tr>
+<tr class="odd">
+<td><code>#d8d8d8</code></td>
+<td>Outer desktop canvas behind the white document</td>
+</tr>
+</tbody>
+</table>
+<h3 id="43-syntax-colour">4.3 Syntax colour</h3>
+<p>Colour is concentrated inside executable contexts. The code syntax
+palette is Monokai-derived:</p>
+<ul>
+<li>cyan <code>#66D9EF</code> — language keywords;</li>
+<li>pink <code>#FF4689</code> — operators and declarations;</li>
+<li>green <code>#A6E22E</code> — functions/names;</li>
+<li>yellow <code>#E6DB74</code> — strings;</li>
+<li>purple <code>#AE81FF</code> — numeric and literal values;</li>
+<li>muted olive-grey <code>#959077</code> — comments;</li>
+<li>code foreground <code>#F8F8F2</code>.</li>
+</ul>
+<p>The CLI captures use a related but more luminous cyan → blue → violet
+→ magenta identity, with orange section prompts and green success
+states. Keep that chromatic vocabulary inside terminals, product
+execution, and selected brand marks. Do not spread it into the editorial
+page chrome.</p>
+<h2 id="5-page-shell">5. Page shell</h2>
+<h3 id="51-document-on-canvas-composition">5.1 Document-on-canvas
+composition</h3>
+<p>Desktop pages sit as a white publication sheet on a grey canvas:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode css"><code class="sourceCode css"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>body {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">margin</span>: <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">background</span>: <span class="cn">#d8d8d8</span><span class="op">;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">.page</span> {</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">max-width</span>: <span class="dv">1180</span><span class="dt">px</span><span class="op">;</span> <span class="co">/* long-form guides */</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">margin</span>: <span class="dv">0</span> <span class="bu">auto</span><span class="op">;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">background</span>: <span class="cn">#fff</span><span class="op">;</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">min-height</span>: <span class="dv">100</span><span class="dt">vh</span><span class="op">;</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">box-shadow</span>: <span class="dv">0</span> <span class="dv">18</span><span class="dt">px</span> <span class="dv">60</span><span class="dt">px</span> <span class="fu">rgba(</span><span class="dv">0</span><span class="op">,</span><span class="dv">0</span><span class="op">,</span><span class="dv">0</span><span class="op">,</span><span class="dv">.16</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>The index and broad architecture pages may widen to
+<code>1320px</code>. Long-form programming guides use
+<code>1180px</code> to keep article measure disciplined.</p>
+<h3 id="52-horizontal-padding">5.2 Horizontal padding</h3>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode css"><code class="sourceCode css"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.wrap</span> { <span class="kw">padding-inline</span>: <span class="dv">72</span><span class="dt">px</span><span class="op">;</span> }</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">@media</span> (<span class="kw">max-width</span>: <span class="dv">900</span><span class="dt">px</span>) {</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">.wrap</span> { <span class="kw">padding-inline</span>: <span class="dv">28</span><span class="dt">px</span><span class="op">;</span> }</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>This 72px edge is a defining part of the publication feel. Do not
+replace it with a generic fluid 16–24px container on desktop.</p>
+<h3 id="53-masthead">5.3 Masthead</h3>
+<ul>
+<li>height: 108px desktop; 90px below 900px;</li>
+<li>one hairline bottom border;</li>
+<li>wordmark left, issue/category/date right;</li>
+<li>no large logo or coloured navigation chrome;</li>
+<li>wordmark: 16px/600 with <code>-0.025em</code> tracking;</li>
+<li>tagline and issue metadata: 9px uppercase with approximately
+<code>0.20em</code> tracking.</li>
+</ul>
+<p>The masthead should feel like a journal issue, not an application
+navbar.</p>
+<h3 id="54-hero">5.4 Hero</h3>
+<ul>
+<li>70–76px top padding;</li>
+<li>66–70px bottom padding;</li>
+<li>uppercase eyebrow first;</li>
+<li>oversized, tightly tracked title;</li>
+<li>lighter grey subtitle with a wide but bounded measure;</li>
+<li>no decorative illustration beside the title.</li>
+</ul>
+<p>The title creates the visual event.</p>
+<h3 id="55-thesis-band">5.5 Thesis band</h3>
+<p>The black thesis band follows the hero and changes the page from
+introduction to proposition.</p>
+<ul>
+<li>full width of the white document;</li>
+<li>50–60px vertical padding;</li>
+<li>one or two columns depending on page;</li>
+<li>copy in <code>#c7c7c7–#d0d0d0</code>;</li>
+<li>the decisive sentence or pull quote in white;</li>
+<li>internal rules in <code>#393939–#3a3a3a</code>.</li>
+</ul>
+<p>Use a thesis band once per page. Do not scatter black marketing
+panels throughout the article.</p>
+<h2 id="6-long-form-article-layout">6. Long-form article layout</h2>
+<h3 id="61-two-column-shell">6.1 Two-column shell</h3>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode css"><code class="sourceCode css"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.article-shell</span> {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">display</span>: <span class="dv">grid</span><span class="op">;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">grid-template-columns</span>: <span class="dv">235</span><span class="dt">px</span> <span class="fu">minmax(</span><span class="dv">0</span><span class="op">,</span> <span class="dv">1</span><span class="dt">fr</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">gap</span>: <span class="dv">62</span><span class="dt">px</span><span class="op">;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">align-items</span>: start<span class="op">;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">padding-top</span>: <span class="dv">64</span><span class="dt">px</span><span class="op">;</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">padding-bottom</span>: <span class="dv">90</span><span class="dt">px</span><span class="op">;</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>The sidebar is deliberately narrow and quiet. The article column
+receives the remaining measure.</p>
+<p>At <code>≤900px</code>, collapse to one column. The TOC becomes
+non-sticky and uses two columns; at <code>≤560px</code>, it becomes one
+column.</p>
+<h3 id="62-table-of-contents">6.2 Table of contents</h3>
+<ul>
+<li>sticky at <code>top: 28px</code>;</li>
+<li>top hairline and no enclosing card;</li>
+<li>9px uppercase label;</li>
+<li>11px links;</li>
+<li>fine bottom rule per link;</li>
+<li>level 1 darker and medium weight;</li>
+<li>level 2 indented 12px;</li>
+<li>level 3 indented 24px, 10px and lighter;</li>
+<li>active item: <code>#111</code>, weight 600.</li>
+</ul>
+<p>The TOC is an index, not a second navigation product.</p>
+<h3 id="63-article-rhythm">6.3 Article rhythm</h3>
+<ul>
+<li>H1 sections: 78–84px separation, 42px type;</li>
+<li>H2: 52–64px separation, 1px top rule, 27–28px type;</li>
+<li>H3: 38px top margin, 19px type;</li>
+<li>paragraphs: 19px bottom rhythm;</li>
+<li>horizontal section divider: 48px vertical margin;</li>
+<li>lists: 8px between items;</li>
+<li>links: 1px underline, 3px underline offset.</li>
+</ul>
+<p>Use whitespace to mark semantic depth. Avoid coloured section
+backgrounds inside ordinary article flow.</p>
+<h2 id="7-components">7. Components</h2>
+<h3 id="71-code-frames">7.1 Code frames</h3>
+<ul>
+<li>background <code>#070707</code>;</li>
+<li>border <code>1px solid #222</code>;</li>
+<li>no border radius;</li>
+<li>uppercase 9px label in <code>#999</code>, separated by
+<code>#292929</code> rule;</li>
+<li>code padding <code>20px 22px 22px</code>;</li>
+<li>13px mono at 1.6 line height;</li>
+<li>horizontal overflow rather than forced wrapping for source
+code.</li>
+</ul>
+<p>Labels describe the semantic mode: <code>TYPESCRIPT</code>,
+<code>TERMINAL</code>, <code>STRUCTURE</code>, <code>FLOW</code>. Do not
+label every code block simply “CODE.”</p>
+<h3 id="72-inline-code">7.2 Inline code</h3>
+<ul>
+<li>0.87em mono;</li>
+<li><code>#efefef</code> background;</li>
+<li><code>0.14em 0.35em</code> padding;</li>
+<li>2px radius.</li>
+</ul>
+<p>The tiny radius is functional, not a general rounded-card motif.</p>
+<h3 id="73-model-callouts">7.3 Model callouts</h3>
+<p>Used in the first-harness tutorial to connect a practical step to the
+programming model.</p>
+<ul>
+<li><code>#f7f7f7</code> background;</li>
+<li>3px black left rule;</li>
+<li>16–18px internal padding;</li>
+<li>uppercase 10px heading with <code>0.10em</code> tracking;</li>
+<li>13px explanatory copy at 1.55.</li>
+</ul>
+<p>Use callouts sparingly and only to expose an invariant that has just
+become concrete.</p>
+<h3 id="74-blockquotes-and-principles">7.4 Blockquotes and
+principles</h3>
+<p>Ordinary blockquote:</p>
+<ul>
+<li>pale grey background;</li>
+<li>4px black left border;</li>
+<li>18px text.</li>
+</ul>
+<p>Load-bearing principle:</p>
+<ul>
+<li>near-black background;</li>
+<li>white text;</li>
+<li>no left accent;</li>
+<li>21px/1.35 medium-weight type.</li>
+</ul>
+<p>The distinction should communicate “supporting quotation” versus
+“governing law.”</p>
+<h3 id="75-tables">7.5 Tables</h3>
+<ul>
+<li>no outer card;</li>
+<li>collapsed borders;</li>
+<li>horizontal rules only;</li>
+<li>13.5px body;</li>
+<li>10px uppercase headers with <code>0.10em</code> tracking;</li>
+<li>12–13px cell padding;</li>
+<li>final bottom rule.</li>
+</ul>
+<p>Tables should resemble technical reference sheets, not
+dashboards.</p>
+<h3 id="76-index-path-cards">7.6 Index path cards</h3>
+<ul>
+<li>shared two-column ruled grid, not floating cards;</li>
+<li>1px grey borders;</li>
+<li>minimum height around 285px;</li>
+<li>32–34px padding;</li>
+<li>mono sequence number;</li>
+<li>title separated vertically from number;</li>
+<li>categorical label pinned to the bottom;</li>
+<li>hover inverts the entire cell to near-black.</li>
+</ul>
+<p>Do not add per-card shadows, icons, gradients, or rounded
+corners.</p>
+<h3 id="77-progression-rail">7.7 Progression rail</h3>
+<p>The first-harness guide uses a six-cell ruled sequence:</p>
+<ul>
+<li>one shared border;</li>
+<li>equal-width cells;</li>
+<li>9px numbered metadata;</li>
+<li>11px/550 label;</li>
+<li>fine chevron formed from borders between cells;</li>
+<li>responsive 6 → 3 → 2 columns.</li>
+</ul>
+<p>Use for a literal instructional sequence, not for unordered feature
+lists.</p>
+<h3 id="78-status-pills">7.8 Status pills</h3>
+<p>Pills are an exception used only for compact state:</p>
+<ul>
+<li>current: black fill, white text;</li>
+<li>planned: pale fill, grey text and border;</li>
+<li>8px uppercase, tracked;</li>
+<li>small 999px radius.</li>
+</ul>
+<p>Never use pills for ordinary navigation or marketing categories.</p>
+<h3 id="79-screenshots">7.9 Screenshots</h3>
+<p>Terminal screenshots sit in a dark frame matching the image
+background:</p>
+<ul>
+<li>border <code>1px solid var(--line)</code>;</li>
+<li>frame background approximately <code>#0a0d18</code>;</li>
+<li>no decorative browser chrome;</li>
+<li>full-width image;</li>
+<li>optional dark caption strip with subdued blue-grey copy.</li>
+</ul>
+<p>Keep screenshot sequences editorially economical. Each image should
+prove a state change, not merely show another prompt in the same
+wizard.</p>
+<h2 id="8-diagrams">8. Diagrams</h2>
+<h3 id="81-diagram-language">8.1 Diagram language</h3>
+<p>Information diagrams use:</p>
+<ul>
+<li>white background;</li>
+<li>black primary type and strokes;</li>
+<li>pale blue-grey or neutral grey borders;</li>
+<li>thin rules;</li>
+<li>simple outline icons;</li>
+<li>limited rounded rectangles;</li>
+<li>ample internal white space;</li>
+<li>uppercase group labels;</li>
+<li>sentence-case explanatory copy;</li>
+<li>no gradients, 3D arrows, glowing nodes, or decorative networks.</li>
+</ul>
+<p>The visual objective is an architectural plate, not an AI
+infographic.</p>
+<h3 id="82-hierarchy">8.2 Hierarchy</h3>
+<p>Use dark weight and scale for the claim, not colour. Blue may appear
+as a very restrained explanatory accent, but it should not become a
+second brand system.</p>
+<p>Recommended hierarchy:</p>
+<ol type="1">
+<li>page/diagram thesis;</li>
+<li>major domain or layer;</li>
+<li>component label;</li>
+<li>mechanism or relationship;</li>
+<li>qualifier/current-planned note.</li>
+</ol>
+<h3 id="83-conceptual-fidelity">8.3 Conceptual fidelity</h3>
+<p>Diagrams must preserve the ownership distinctions in the prose:</p>
+<ul>
+<li>policy <strong>decides</strong>; the pool prunes and enforces;</li>
+<li>evidence is admitted to selected lineages, not globally
+broadcast;</li>
+<li>zero-copy applies to inherited/shared prefix state, not every piece
+of branch state;</li>
+<li>surface, location, operator and compute class are separate
+axes;</li>
+<li>planned capabilities must be visibly distinct from current
+ones;</li>
+<li>control during inference supplements rather than eliminates final
+validation.</li>
+</ul>
+<p>When a diagram simplifies one of these distinctions, add a local
+qualifier rather than relying on a distant caption.</p>
+<h3 id="84-wide-diagrams">8.4 Wide diagrams</h3>
+<p>Wide architecture plates may use a minimum intrinsic width around
+920px inside a horizontally scrollable container. On print, remove the
+minimum width.</p>
+<p>Avoid scaling dense text below readable size merely to make the whole
+plate fit a phone viewport.</p>
+<h2 id="9-cli-visual-system">9. CLI visual system</h2>
+<p>The CLI is a related sub-system, not the web page palette.</p>
+<h3 id="typography">Typography</h3>
+<ul>
+<li>terminal/system monospace;</li>
+<li>generous line spacing;</li>
+<li>large enough to remain readable in documentation screenshots;</li>
+<li>bold used for commands, chosen values and state transitions.</li>
+</ul>
+<h3 id="colour-roles">Colour roles</h3>
+<ul>
+<li>cyan/blue/violet/magenta: <code>harness.dev</code> identity and
+major selection focus;</li>
+<li>orange: prompt category and action heading;</li>
+<li>cyan: active selection;</li>
+<li>green: selected/success/ready;</li>
+<li>white: executable command and primary output;</li>
+<li>cool grey: instructions, secondary values and inactive state;</li>
+<li>near-black navy: terminal background.</li>
+</ul>
+<h3 id="composition">Composition</h3>
+<ul>
+<li>large logo and product descriptor establish identity once;</li>
+<li>wizard content is left aligned and vertically staged;</li>
+<li>current question receives colour and weight;</li>
+<li>completed values recede into grey summaries;</li>
+<li>successful completion presents the exact next commands.</li>
+</ul>
+<p>Do not imitate the CLI gradient inside article headings or general UI
+controls. The contrast between monochrome editorial shell and chromatic
+executable surface is intentional.</p>
+<h2 id="10-interaction">10. Interaction</h2>
+<ul>
+<li>cards invert black on hover;</li>
+<li>text links retain normal document underlines;</li>
+<li>external links use a compact arrow glyph/mask;</li>
+<li>TOC active state changes colour and weight only;</li>
+<li>back-to-top is a small squared control with a fine border;</li>
+<li>transitions are short, approximately 180–200ms;</li>
+<li>no spring motion, parallax, animated gradients, or attention-seeking
+hover elevation.</li>
+</ul>
+<p>Interaction should reveal structure, not make the document feel like
+a product dashboard.</p>
+<h2 id="11-responsive-behaviour">11. Responsive behaviour</h2>
+<p>Primary breakpoints:</p>
+<ul>
+<li><code>900px</code> — collapse major grids, reduce page padding, move
+sticky TOC into flow;</li>
+<li><code>560px</code> — compress display type, make TOC single-column,
+collapse comparison and reference grids;</li>
+<li>component-specific <code>680px</code> — collapse complex stack
+layers.</li>
+</ul>
+<p>Rules:</p>
+<ul>
+<li>preserve the document hierarchy on small screens;</li>
+<li>collapse grids vertically rather than shrinking type
+excessively;</li>
+<li>keep code horizontally scrollable;</li>
+<li>allow dense architecture diagrams to scroll horizontally;</li>
+<li>keep metadata visible but reduce its gap;</li>
+<li>never hide planned/current qualification to save space.</li>
+</ul>
+<h2 id="12-do--do-not">12. Do / do not</h2>
+<h3 id="do">Do</h3>
+<ul>
+<li>lead pages with one large claim;</li>
+<li>use black bands for the governing proposition;</li>
+<li>use thin shared rules to build grids;</li>
+<li>keep body copy light and highly readable;</li>
+<li>reserve mono for exact technical material;</li>
+<li>make category metadata small, uppercase and tracked;</li>
+<li>use diagrams to clarify ownership, topology or placement;</li>
+<li>use screenshots to prove executable reality;</li>
+<li>preserve generous vertical intervals between conceptual levels.</li>
+</ul>
+<h3 id="do-not">Do not</h3>
+<ul>
+<li>add generic AI gradients to page chrome;</li>
+<li>use glassmorphism, glowing network graphics or blurred colour
+fields;</li>
+<li>round every container;</li>
+<li>place every idea in an isolated card;</li>
+<li>bold whole paragraphs;</li>
+<li>use colour as a substitute for hierarchy;</li>
+<li>use mono as decorative body type;</li>
+<li>show a feature as current when it is planned;</li>
+<li>collapse policy, execution, authority and continuity into one visual
+actor;</li>
+<li>overfill tutorials with nearly identical screenshots.</li>
+</ul>
+<h2 id="13-canonical-starter-tokens">13. Canonical starter tokens</h2>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode css"><code class="sourceCode css"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="in">:root</span> {</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="va">--ll-black</span>: <span class="cn">#050505</span><span class="op">;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="va">--ll-white</span>: <span class="cn">#fff</span><span class="op">;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="va">--ll-ink</span>: <span class="cn">#111</span><span class="op">;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="va">--ll-body</span>: <span class="cn">#333</span><span class="op">;</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="va">--ll-grey</span>: <span class="cn">#666</span><span class="op">;</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="va">--ll-muted</span>: <span class="cn">#8d8d8d</span><span class="op">;</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="va">--ll-line</span>: <span class="cn">#d3d3d3</span><span class="op">;</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="va">--ll-dark-line</span>: <span class="cn">#303030</span><span class="op">;</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="va">--ll-paper</span>: <span class="cn">#f0f0f0</span><span class="op">;</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="va">--ll-soft</span>: <span class="cn">#f6f6f6</span><span class="op">;</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="va">--ll-canvas</span>: <span class="cn">#d8d8d8</span><span class="op">;</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="va">--ll-page-guide</span>: <span class="dv">1180</span><span class="dt">px</span><span class="op">;</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="va">--ll-page-wide</span>: <span class="dv">1320</span><span class="dt">px</span><span class="op">;</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="va">--ll-wrap</span>: <span class="dv">72</span><span class="dt">px</span><span class="op">;</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  <span class="va">--ll-wrap-mobile</span>: <span class="dv">28</span><span class="dt">px</span><span class="op">;</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  <span class="va">--ll-sidebar</span>: <span class="dv">235</span><span class="dt">px</span><span class="op">;</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>  <span class="va">--ll-column-gap</span>: <span class="dv">62</span><span class="dt">px</span><span class="op">;</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>  <span class="va">--ll-sans</span>: <span class="st">&quot;Readex Pro Variable&quot;</span><span class="op">,</span> <span class="st">&quot;Readex Pro&quot;</span><span class="op">,</span> <span class="st">&quot;Inter&quot;</span><span class="op">,</span> Arial<span class="op">,</span> <span class="dv">sans-serif</span><span class="op">;</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>  <span class="va">--ll-mono</span>: <span class="st">&quot;SFMono-Regular&quot;</span><span class="op">,</span> Consolas<span class="op">,</span> <span class="st">&quot;Liberation Mono&quot;</span><span class="op">,</span> <span class="dv">monospace</span><span class="op">;</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>  <span class="va">--ll-body-size</span>: <span class="dv">16</span><span class="dt">px</span><span class="op">;</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>  <span class="va">--ll-body-leading</span>: <span class="dv">1.62</span><span class="op">;</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>  <span class="va">--ll-rule</span>: <span class="dv">1</span><span class="dt">px</span> <span class="dv">solid</span> <span class="fu">var(</span><span class="va">--ll-line</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>  <span class="va">--ll-sheet-shadow</span>: <span class="dv">0</span> <span class="dv">18</span><span class="dt">px</span> <span class="dv">60</span><span class="dt">px</span> <span class="fu">rgba(</span><span class="dv">0</span><span class="op">,</span><span class="dv">0</span><span class="op">,</span><span class="dv">0</span><span class="op">,</span><span class="dv">.16</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h2 id="14-the-shortest-usable-definition">14. The shortest usable
+definition</h2>
+<p>When making a new Lloyal programming-guide page, use this test:</p>
+<blockquote>
+<p>Does it look like a serious engineering publication until executable
+material enters the page—and does that executable material feel
+unmistakably alive?</p>
+</blockquote>
+<p>If the page looks like a SaaS landing page, it has drifted. If it
+looks like an academic PDF, it has lost the product. The Lloyal system
+lives precisely between those two states.</p>
+</body>
+</html>
