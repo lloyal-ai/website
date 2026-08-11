@@ -504,6 +504,83 @@ blockquote.pullquote cite {
   .figure--wide .wm-diagram > svg { min-width: 920px; }
 }
 
+/* ---------- 11b. Expandable plates (§8.4) -------------------------------- */
+/* Dense plates can be opened to fill the viewport rather than being read at
+   column width. The control is a small squared button with a fine border, in
+   keeping with the rest of the interaction language. */
+.figure--wide { position: relative; }
+.figure--wide .media,
+.figure--wide .wm-diagram { cursor: zoom-in; }
+.fig-zoom {
+  position: absolute; top: 10px; right: 10px; z-index: 2;
+  width: 30px; height: 30px; display: grid; place-items: center;
+  padding: 0; border: 1px solid var(--ll-line-strong);
+  background: var(--ll-white); color: var(--ll-ink);
+  cursor: zoom-in; opacity: 0;
+  transition: opacity 180ms ease, background 180ms ease, color 180ms ease;
+}
+.figure--wide:hover .fig-zoom,
+.fig-zoom:focus,
+.fig-zoom:focus-visible { opacity: 1; }
+.fig-zoom:hover { background: var(--ll-black); color: var(--ll-white); }
+.fig-zoom svg { width: 14px; height: 14px; display: block; fill: none; stroke: currentColor; stroke-width: 1.5; }
+.figure--dark .fig-zoom { border-color: #3a3f52; background: var(--ll-terminal); color: #cfd4e4; }
+
+.lightbox {
+  position: fixed; inset: 0; z-index: 120;
+  display: grid; grid-template-rows: auto 1fr; gap: 14px;
+  padding: clamp(16px, 3vw, 40px);
+  background: rgba(5, 5, 5, .93);
+}
+.lightbox[hidden] { display: none; }
+.lightbox__bar {
+  width: min(1480px, 100%); margin-inline: auto;
+  display: flex; align-items: center; justify-content: space-between; gap: 20px;
+  color: #b8b5af; font-family: var(--ll-mono); font-size: 9px;
+  letter-spacing: .18em; text-transform: uppercase;
+}
+.lightbox__close {
+  width: 30px; height: 30px; flex: none; margin-left: auto; display: grid; place-items: center;
+  padding: 0; border: 1px solid #4a4843; background: transparent; color: #f2f1ed;
+  cursor: zoom-out; transition: background 180ms ease, color 180ms ease;
+}
+.lightbox__close:hover { background: #f2f1ed; color: #050505; }
+.lightbox__close svg { width: 14px; height: 14px; display: block; fill: none; stroke: currentColor; stroke-width: 1.5; }
+.lightbox__stage {
+  align-self: center; justify-self: center;
+  display: flex; flex-direction: column;
+  width: min(1480px, 100%); min-width: 0; max-height: 100%;
+  background: var(--ll-white); border: 1px solid #2a2927;
+}
+.lightbox__scroll {
+  flex: 1 1 auto; min-height: 0; overflow: auto;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.lightbox__scroll > * { flex: none; border: 0; overflow: visible; }
+.lightbox__scroll svg,
+.lightbox__scroll img {
+  display: block; width: 100%; min-width: 0; max-width: none;
+  height: auto; max-height: calc(100vh - 190px);
+}
+.lightbox__scroll img { object-fit: contain; }
+.lightbox__cap {
+  flex: none; margin: 0; padding: 12px 16px 13px;
+  border-top: 1px solid var(--ll-line); background: var(--ll-soft);
+  color: var(--ll-grey); font-size: 12.5px; line-height: 1.5;
+}
+.lightbox__cap[hidden] { display: none; }
+.lightbox--dark .lightbox__stage { background: var(--ll-terminal); }
+.lightbox--dark .lightbox__cap { background: var(--ll-terminal); color: #8b93ad; }
+body.is-locked { overflow: hidden; }
+
+@media (max-width: 760px) {
+  .fig-zoom { opacity: 1; }
+  .lightbox__hint { display: none; }  /* "press Esc" means nothing on touch */
+  .lightbox__scroll { justify-content: flex-start; }
+  .lightbox__scroll svg,
+  .lightbox__scroll img { min-width: 900px; max-height: none; }
+}
+
 /* ---------- 12. Tables (§7.5) ------------------------------------------- */
 
 .table-scroll { overflow-x: auto; }
