@@ -75,6 +75,23 @@
     scrollspySections.forEach((section) => spy.observe(section));
   }
 
+
+  // The controller graph plays its fork once, when it arrives on screen: the
+  // branches draw out of fork_head while the prefix stays put. It never loops —
+  // a diagram is a still object, and motion here is only worth spending to show
+  // that a fork inherits the prefix rather than copying it.
+  const graph = document.querySelector('.controller-graph');
+  if (graph && 'IntersectionObserver' in window) {
+    const play = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-live');
+        play.unobserve(entry.target);
+      });
+    }, { rootMargin: '0px 0px -25% 0px', threshold: 0 });
+    play.observe(graph);
+  }
+
   // Google Sheet endpoint: paste the Apps Script Web App URL (ends in /exec)
   // from sheet-endpoint/README-DEPLOY.md here to activate direct-to-Sheet
   // submissions. While empty, the form falls back to the mailto behaviour.
