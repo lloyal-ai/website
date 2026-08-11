@@ -15,9 +15,9 @@
   display: grid;
   grid-template-columns: minmax(0, .82fr) minmax(420px, 1fr);
   gap: clamp(56px, 8vw, 138px);
-  align-items: end;
+  align-items: center;
   max-width: 1480px;
-  padding-top: clamp(48px, 7vw, 112px);
+  padding-top: 0;
   text-align: left;
 }
 .hero-category .kicker { margin-bottom: clamp(28px, 4vw, 58px); }
@@ -37,8 +37,7 @@
   letter-spacing: -.035em;
 }
 .hero-definition {
-  padding: clamp(28px, 3.2vw, 48px) 0 3px;
-  border-top: 1px solid #3a3936;
+  padding: 0;
 }
 .hero-definition h2 {
   max-width: 760px;
@@ -245,7 +244,7 @@
 <style>
 /* Compressed vertical rhythm after narrative consolidation */
 .hero { padding-bottom: clamp(72px, 7vw, 110px); }
-.hero-copy.hero-editorial { padding-top: clamp(36px, 5vw, 76px); }
+.hero-copy.hero-editorial { padding-top: 0; }
 .hero 
 .section { padding: clamp(72px, 6.5vw, 108px) 0; }
 .code-grid { align-items: start; }
@@ -444,54 +443,145 @@
 .controller-graph .code-card pre { padding: clamp(20px, 2.3vw, 32px) 0 clamp(20px, 2.3vw, 32px) clamp(18px, 2.2vw, 30px); font-size: clamp(11px, .92vw, 13.5px); line-height: 1.66; }
 .controller-graph .code-head { padding: 12px 16px; }
 
-/* the fork, played once when the figure arrives */
-.kvb .bc { transform: scaleX(1); transform-origin: left center; }
-.is-live .kvb .bc { animation: inherit-not-copy .5s cubic-bezier(.2,.8,.2,1) backwards; }
-@keyframes inherit-not-copy { from { transform: scaleX(0); opacity: .35 } to { transform: scaleX(1); opacity: 1 } }
-.is-live .kvb--a .bc { animation-delay: .10s } .is-live .kvb--b .bc { animation-delay: .16s } .is-live .kvb--c .bc { animation-delay: .22s }
+/* Cells that have been taken stay taken. Each branch keeps the cells it has
+   already accepted, and only its working tail moves: one more cell is occupied
+   at a time, left to right, until the subtree is released and the counter
+   falls by exactly that much. The third branch is idle and holds its cells. */
+.kvb .bc { background: var(--take); }
+.kvb--a .bc { --take: rgba(23,105,122,.26) }
+.kvb--b .bc { --take: rgba(91,50,171,.24) }
+.kvb--c .bc { --take: rgba(179,19,79,.22) }
 
-/* cells_used_ follows the cells, so it only moves when they do. On a 10s
-   cycle the shortest branch is reaped and later re-spawns; the counter falls
-   and rises by exactly what that branch returns and takes. Most of the cycle
-   is rest — the two events are the point, not the motion between them. */
-.is-live .pfill { animation: cells-arrive .9s cubic-bezier(.3,.7,.3,1) backwards, cells-cycle 10s linear .9s infinite; }
-@keyframes cells-arrive { from { width: 0 } to { width: 74% } }
-@keyframes cells-cycle {
-  0%, 44% { width: 74% }
-  52%, 91% { width: 61% }
-  100% { width: 74% }
+/* The working tail. Cells not yet taken are dashed outlines — reserved, not
+   occupied. A branch takes them one at a time, left to right, so the run it
+   owns is always contiguous; when the branch ends, the whole tail is released
+   in one moment, because a prune releases a subtree rather than draining cell
+   by cell. The two working branches run on their own clocks: they are
+   independent lines of work, not a progress bar.
+
+   Each branch ends a different way — inspectTelemetry is pruned at scope exit,
+   searchServiceHistory survives to carry the accepted lineage, and
+   reviewTechnicalManuals is reaped on wind-down. */
+.kvb--a .bc:nth-child(n+7),
+.kvb--b .bc:nth-child(n+6) { background: transparent; border-style: dashed; }
+.is-live .kvb--a .bc:nth-child(n+7),
+.is-live .kvb--b .bc:nth-child(n+6) { animation: 16s linear infinite backwards; }
+.is-live .kvb--a .bc:nth-child(7) { animation-name: occ-a7 }
+.is-live .kvb--a .bc:nth-child(8) { animation-name: occ-a8 }
+.is-live .kvb--a .bc:nth-child(9) { animation-name: occ-a9 }
+.is-live .kvb--a .bc:nth-child(10) { animation-name: occ-a10 }
+.is-live .kvb--a .bc:nth-child(11) { animation-name: occ-a11 }
+.is-live .kvb--a .bc:nth-child(12) { animation-name: occ-a12 }
+.is-live .kvb--a .bc:nth-child(13) { animation-name: occ-a13 }
+.is-live .kvb--a .bc:nth-child(14) { animation-name: occ-a14 }
+.is-live .kvb--b .bc:nth-child(6) { animation-name: occ-b6 }
+.is-live .kvb--b .bc:nth-child(7) { animation-name: occ-b7 }
+.is-live .kvb--b .bc:nth-child(8) { animation-name: occ-b8 }
+.is-live .kvb--b .bc:nth-child(9) { animation-name: occ-b9 }
+.is-live .kvb--b .bc:nth-child(10) { animation-name: occ-b10 }
+.is-live .kvb--b .bc:nth-child(11) { animation-name: occ-b11 }
+@keyframes occ-a7 {
+  0%, 0% { background: transparent; border-style: dashed }
+  0.0%, 62.1% { background: var(--take); border-style: solid }
+  62.5%, 100% { background: transparent; border-style: dashed }
 }
-/* the reaped branch releases its cells, then a new one forks in its place */
-.is-live .kvb--c .bc {
-  animation: inherit-not-copy .5s cubic-bezier(.2,.8,.2,1) backwards .22s,
-             reap-cycle 10s linear .9s infinite;
+@keyframes occ-a8 {
+  0%, 5.22% { background: transparent; border-style: dashed }
+  5.62%, 62.1% { background: var(--take); border-style: solid }
+  62.5%, 100% { background: transparent; border-style: dashed }
 }
-@keyframes reap-cycle {
-  0%, 44% { background: rgba(179,19,79,.22); border-style: solid; opacity: 1 }
-  52%, 91% { background: transparent; border-style: dashed; opacity: .38 }
-  97%, 100% { background: rgba(179,19,79,.22); border-style: solid; opacity: 1 }
+@keyframes occ-a9 {
+  0%, 10.85% { background: transparent; border-style: dashed }
+  11.25%, 62.1% { background: var(--take); border-style: solid }
+  62.5%, 100% { background: transparent; border-style: dashed }
 }
-.kv-tag--c { position: relative; }
-.is-live .kv-tag--c::after {
-  content: "reaped"; margin-left: 8px; padding: 1px 5px; border: 1px solid currentColor;
-  font-size: 7.5px; letter-spacing: .1em; text-transform: uppercase; opacity: 0;
-  animation: reaptag 10s linear .9s infinite;
+@keyframes occ-a10 {
+  0%, 16.48% { background: transparent; border-style: dashed }
+  16.88%, 62.1% { background: var(--take); border-style: solid }
+  62.5%, 100% { background: transparent; border-style: dashed }
 }
-@keyframes reaptag { 0%, 46% { opacity: 0 } 54%, 89% { opacity: 1 } 95%, 100% { opacity: 0 } }
+@keyframes occ-a11 {
+  0%, 22.1% { background: transparent; border-style: dashed }
+  22.5%, 62.1% { background: var(--take); border-style: solid }
+  62.5%, 100% { background: transparent; border-style: dashed }
+}
+@keyframes occ-a12 {
+  0%, 27.720000000000002% { background: transparent; border-style: dashed }
+  28.12%, 62.1% { background: var(--take); border-style: solid }
+  62.5%, 100% { background: transparent; border-style: dashed }
+}
+@keyframes occ-a13 {
+  0%, 33.35% { background: transparent; border-style: dashed }
+  33.75%, 62.1% { background: var(--take); border-style: solid }
+  62.5%, 100% { background: transparent; border-style: dashed }
+}
+@keyframes occ-a14 {
+  0%, 38.980000000000004% { background: transparent; border-style: dashed }
+  39.38%, 62.1% { background: var(--take); border-style: solid }
+  62.5%, 100% { background: transparent; border-style: dashed }
+}
+@keyframes occ-b6 {
+  0%, 2.41% { background: transparent; border-style: dashed }
+  2.81%, 94.6% { background: var(--take); border-style: solid }
+  95.0%, 100% { background: transparent; border-style: dashed }
+}
+@keyframes occ-b7 {
+  0%, 10.54% { background: transparent; border-style: dashed }
+  10.94%, 94.6% { background: var(--take); border-style: solid }
+  95.0%, 100% { background: transparent; border-style: dashed }
+}
+@keyframes occ-b8 {
+  0%, 18.66% { background: transparent; border-style: dashed }
+  19.06%, 94.6% { background: var(--take); border-style: solid }
+  95.0%, 100% { background: transparent; border-style: dashed }
+}
+@keyframes occ-b9 {
+  0%, 26.790000000000003% { background: transparent; border-style: dashed }
+  27.19%, 94.6% { background: var(--take); border-style: solid }
+  95.0%, 100% { background: transparent; border-style: dashed }
+}
+@keyframes occ-b10 {
+  0%, 34.910000000000004% { background: transparent; border-style: dashed }
+  35.31%, 94.6% { background: var(--take); border-style: solid }
+  95.0%, 100% { background: transparent; border-style: dashed }
+}
+@keyframes occ-b11 {
+  0%, 43.04% { background: transparent; border-style: dashed }
+  43.44%, 94.6% { background: var(--take); border-style: solid }
+  95.0%, 100% { background: transparent; border-style: dashed }
+}
+
+/* the idle branch keeps its cells until it is reaped */
+.is-live .kvb--c .bc { animation: reap-c 16s linear infinite; }
+@keyframes reap-c {
+  0%, 71% { background: var(--take); border-style: solid }
+  74%, 96% { background: transparent; border-style: dashed }
+  99%, 100% { background: var(--take); border-style: solid }
+}
+
+.is-live .pfill { animation: cells-used 16s linear infinite; }
+@keyframes cells-used {
+  0% { width: 46% }
+  40%, 62% { width: 78% }
+  66%, 71% { width: 58% }
+  75%, 96% { width: 40% }
+  100% { width: 46% }
+}
+.is-live .is-live .is-live .is-live @keyframes tag-a { 0%, 61% { opacity: 0 } 64%, 92% { opacity: 1 } 96%, 100% { opacity: 0 } }
+@keyframes tag-c { 0%, 70% { opacity: 0 } 74%, 94% { opacity: 1 } 98%, 100% { opacity: 0 } }
 
 /* reader-driven mapping: a branch and the call that spawned it light together */
 .ln--task { transition: background-color .12s ease; }
 .controller-graph:has(.kvb--a:hover) .ln--t1,
 .controller-graph:has(.kvb--b:hover) .ln--t2,
-.controller-graph:has(.kvb--c:hover) .ln--t3,
 .controller-graph:has(.kv-tag--a:hover) .ln--t1,
 .controller-graph:has(.kv-tag--b:hover) .ln--t2,
-.controller-graph:has(.kv-tag--c:hover) .ln--t3 { background-color: rgba(242,241,237,.16); box-shadow: inset 2px 0 0 #f2f1ed; }
+.controller-graph:has(.kv-tag--c:hover) .ln--t3,
+.controller-graph:has(.kvb--c:hover) .ln--t3 { background-color: rgba(242,241,237,.16); box-shadow: inset 2px 0 0 #f2f1ed; }
 .controller-graph:has(.ln--t1:hover) .kvb--a .bc { background: rgba(23,105,122,.55) }
 .controller-graph:has(.ln--t2:hover) .kvb--b .bc { background: rgba(91,50,171,.5) }
 .controller-graph:has(.ln--t3:hover) .kvb--c .bc { background: rgba(179,19,79,.45) }
-.kvb, .kv-tag, .ln--task { cursor: default; }
-
+.kvb, .ln--task { cursor: default; }
 .graph-tier { padding: 2px 0 0; }
 .tier-label { display: block; color: #77736c; font-family: var(--mono); font-size: 9px; letter-spacing: .17em; text-transform: uppercase; }
 .tier-label em { font-style: normal; color: #a9a49a; }
@@ -502,8 +592,7 @@
    follows the cells rather than the agent count -- which is why one forward
    pass per tick covers any number of agents. --- */
 .kv { margin: 18px 0 6px; }
-.kv-grid { position: relative; display: grid; grid-template-columns: repeat(21, minmax(0, 1fr)); gap: 6px 0; align-items: center; }
-.kv-cap { grid-column: 8 / -1; grid-row: 1; padding-left: 12px; color: #3f3b36; font-family: var(--mono); font-size: 8.5px; letter-spacing: .1em; text-transform: uppercase; }
+.kv-grid { position: relative; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)) 18px repeat(14, minmax(0, 1fr)); gap: 6px 0; align-items: center; }
 
 .kvt { grid-column: 1 / span 6; grid-row: 1; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 4px; }
 .tc { position: relative; height: 32px; border: 1px solid #2f2c28; background: #fff; }
@@ -521,11 +610,23 @@
 .kvb--b .bc { border-color: #5b32ab; background: rgba(91,50,171,.24); }
 .kvb--c .bc { border-color: #b3134f; background: rgba(179,19,79,.22); }
 
-.kv-tag { grid-column: 1 / span 6; justify-self: end; padding-right: 12px; font-family: var(--mono); font-size: 9.5px; letter-spacing: -.02em; white-space: nowrap; }
+
+/* the branch names sit in the left column beside their own lane — the caption
+   takes row 1, so rows 2-4 are free for them */
+.kv-tag { grid-column: 1 / span 6; justify-self: end; padding-right: 5px; font-family: var(--mono); font-size: 9.5px; letter-spacing: -.02em; white-space: nowrap; }
 .kv-tag--a { grid-row: 2; color: #17697a }
 .kv-tag--b { grid-row: 3; color: #5b32ab }
 .kv-tag--c { grid-row: 4; color: #b3134f }
-
+.kv-note { grid-column: 8 / -1; grid-row: 1; padding-left: 11px; color: #3f3b36; font-family: var(--mono); font-size: 8.5px; letter-spacing: .1em; text-transform: uppercase; }
+.kvb { position: relative; }
+.kvb::after {
+  position: absolute; left: 100%; top: 50%; transform: translateY(-50%); margin-left: 10px;
+  padding: 1px 5px; border: 1px solid currentColor; font-family: var(--mono);
+  font-size: 7.5px; letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; opacity: 0;
+}
+.kvb--a { color: #17697a } .kvb--b { color: #5b32ab } .kvb--c { color: #b3134f }
+.is-live .kvb--a::after { content: "pruned"; animation: tag-a 16s linear infinite }
+.is-live .kvb--c::after { content: "reaped"; animation: tag-c 16s linear infinite }
 .kv-press { display: flex; align-items: center; gap: 12px; margin-top: 18px; padding-bottom: 12px; color: #3f3b36; font-family: var(--mono); font-size: 8.5px; letter-spacing: .1em; text-transform: uppercase; }
 .pbar { position: relative; flex: 1; height: 8px; border: 1px solid #2f2c28; background: #fff; }
 .pfill { position: absolute; inset: 0 auto 0 0; width: 61%; background: #111; }
@@ -543,9 +644,7 @@
 
 @media (max-width: 760px) {
   .bc { height: 15px }
-  .kv-tag { font-size: 8px; padding-left: 7px }
-  .kv-cap { font-size: 7.5px }
-}
+  }
 
 .graph-link { display: grid; }
 .graph-link span { position: relative; padding: 34px 0 6px; text-align: center; color: #4f4b45; font-family: var(--mono); font-size: 8px; letter-spacing: .12em; text-transform: uppercase; }
@@ -567,10 +666,10 @@
   border-left: 2px solid #f2f1ed; background: linear-gradient(90deg, rgba(242,241,237,.13), rgba(242,241,237,0) 62%);
   opacity: 0;
 }
-.is-live .ln--fire::before { animation: exec 3.2s linear 1 forwards; }
-.is-live .f1::before { animation-delay: .5s } .is-live .f2::before { animation-delay: 1.2s }
-.is-live .f3::before { animation-delay: 1.9s } .is-live .f4::before { animation-delay: 2.6s }
-@keyframes exec { 0% { opacity: 0 } 2% { opacity: 1 } 17% { opacity: .85 } 21% { opacity: 0 } 100% { opacity: 0 } }
+.is-live .ln--fire::before { animation: exec 16s linear infinite; }
+.is-live .f1::before { animation-delay: 0s } .is-live .f2::before { animation-delay: 4.4s }
+.is-live .f3::before { animation-delay: 7.2s } .is-live .f4::before { animation-delay: 10s }
+@keyframes exec { 0% { opacity: 0 } 1% { opacity: 1 } 16% { opacity: .85 } 19% { opacity: 0 } 100% { opacity: 0 } }
 
 /* --- transports carrying the event --- */
 .graph-fan { position: relative; padding-top: 6px; }
@@ -590,6 +689,9 @@
 @keyframes drop { 0% { top: 0; opacity: 0 } 12% { opacity: 1 } 78% { opacity: 1 } 88%, 100% { top: 26px; opacity: 0 } }
 .fan-names { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .fan-names { padding-bottom: 20px; }
+.fan-names .soon { color: #a29d93 }
+.fan-lanes i:nth-child(4)::before { background: #b9b4a9 }
+.fan-lanes i:nth-child(4)::after { background: #a29d93 }
 .fan-names span { text-align: center; color: #4f4b45; font-family: var(--mono); font-size: 8px; letter-spacing: .11em; text-transform: uppercase; }
 
 /* --- the four surfaces, drawn as screens rather than cards --- */
@@ -614,6 +716,12 @@
 .scr--phone { border-radius: 11px; }
 .scr-handle { display: block; width: 22px; height: 2px; margin: 1px auto 4px; border-radius: 2px; background: #cfcabf; }
 .scr--web b { color: #77736c; }
+/* Mobile is planned, not shipped: it keeps its place in the row but reads as
+   pending rather than available. */
+.scr-soon .scr { opacity: .42; border-style: dashed; }
+.scr-soon .scr-name { color: #6f6b63; }
+.scr-soon .scr-name b { margin-left: 6px; padding: 1px 5px; border: 1px solid #b9b4a9; border-radius: 999px; color: #6f6b63; font-family: var(--mono); font-size: 7px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; }
+.mvc-what .soon { color: #a29d93; }
 .scr-name { color: #111; font-size: 11px; font-weight: 620; letter-spacing: -.01em; }
 .scr-name em { display: block; margin-top: 2px; color: #8b877f; font-family: var(--mono); font-size: 8px; font-style: normal; letter-spacing: .08em; }
 
@@ -829,7 +937,7 @@
 <h2>The harness is the intelligent application.</h2>
 <p>For two decades the Model in MVC was inert—rows in a database, waiting to be queried. Put a live language model in that slot and every other part holds: product surfaces are still the Views, and the harness is the Controller, ordinary TypeScript deciding how the application's intelligence collaborates, acts, recovers and continues. What changes is that this Model thinks, and it keeps thinking while your code governs it—the same code whether it runs a 4B model on a laptop or GLM-5.2 across a cluster of B200s.</p>
 <div aria-label="Views, controller, model — how the pieces stack" class="mvc-ladder">
-<div class="mvc-row"><span class="mvc-role">Views</span><div class="mvc-what"><strong>CLI · Desktop · Web</strong><small>product surfaces</small></div></div>
+<div class="mvc-row"><span class="mvc-role">Views</span><div class="mvc-what"><strong>CLI · Desktop · Web · <span class="soon">Mobile</span></strong><small>product surfaces · execution environments</small></div></div>
 <div aria-hidden="true" class="mvc-arrow">↓</div>
 <div class="mvc-row"><span class="mvc-role">Controller</span><div class="mvc-what"><strong>Your harness</strong><small>typescript · policy · capabilities · control flow</small></div></div>
 <div aria-hidden="true" class="mvc-arrow">↓</div>
@@ -845,17 +953,19 @@
 <span class="tier-label">Live inference</span>
 <div class="kv" aria-hidden="true">
 <div class="kv-grid">
-<span class="kv-cap">one ancestor prefix · decoded once · inherited by every branch</span>
 <div class="kvt"><i class="tc"><u></u></i><i class="tc"><u></u></i><i class="tc"><u></u></i><i class="tc"><u></u></i><i class="tc"><u></u></i><i class="tc"><u></u></i></div>
 <span class="kv-fork"><em>fork_head</em></span>
-<div class="kvb kvb--a"><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i></div><span class="kv-tag kv-tag--a">inspectTelemetry</span>
-<div class="kvb kvb--b"><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i></div><span class="kv-tag kv-tag--b">searchServiceHistory</span>
-<div class="kvb kvb--c"><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i></div><span class="kv-tag kv-tag--c">reviewTechnicalManuals</span>
+<span class="kv-note">one forward pass per tick, any number of agents</span>
+<span class="kv-tag kv-tag--a">inspectTelemetry</span>
+<div class="kvb kvb--a"><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i></div>
+<span class="kv-tag kv-tag--b">searchServiceHistory</span>
+<div class="kvb kvb--b"><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i></div>
+<span class="kv-tag kv-tag--c">reviewTechnicalManuals</span>
+<div class="kvb kvb--c"><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i></div>
 </div>
 <div class="kv-press">
 <span>cells_used_</span>
 <div class="pbar"><i class="pfill"></i><b class="psoft" data-floor="soft"></b><b class="phard" data-floor="hard"></b></div>
-<span>one forward pass per tick, any number of agents</span>
 </div>
 </div>
 </div>
@@ -868,16 +978,16 @@
 <div class="graph-fan" aria-hidden="true">
 <div class="fan-event"><span>agent:spawn</span><span>evidence:admit</span><span>human:decide</span><span>turn:commit</span></div>
 <div class="fan-lanes"><i></i><i></i><i></i><i></i></div>
-<div class="fan-names"><span>native render</span><span>IPC</span><span>JSI</span><span>host + wss</span></div>
+<div class="fan-names"><span>native render</span><span>IPC</span><span>host + wss</span><span class="soon">JSI</span></div>
 </div>
 <div class="cg-ann"><span>view</span><i class="cg-brace"></i></div>
 <div class="graph-tier tier-views">
-<span class="tier-label">Application surfaces</span>
+<span class="tier-label">Application surfaces · execution environments</span>
 <ul class="screens">
 <li><div class="scr scr--term"><b>incident-4417</b><p>approve remediation?</p><p class="live">[y] yes  [n] hold</p></div><span class="scr-name">CLI<em>Terminal / TUI</em></span></li>
 <li><div class="scr scr--win"><b>operator</b><p>Approve remediation</p><div class="scr-act"><u>Approve</u><s>Hold</s></div></div><span class="scr-name">Desktop<em>Electron / Tauri</em></span></li>
-<li><div class="scr scr--phone"><i class="scr-handle"></i><p>Approve remediation</p><div class="scr-act"><u>Approve</u></div></div><span class="scr-name">Mobile<em>iOS / Android · JSI</em></span></li>
-<li><div class="scr scr--web"><b>app.acme.com</b><p>Approve remediation</p><div class="scr-act"><u>Approve</u><s>Hold</s></div></div><span class="scr-name">Web<em>Browser</em></span></li>
+<li><div class="scr scr--web"><b>host.myapp.com</b><p>Approve remediation</p><div class="scr-act"><u>Approve</u><s>Hold</s></div></div><span class="scr-name">Web<em>Browser</em></span></li>
+<li class="scr-soon"><div class="scr scr--phone"><i class="scr-handle"></i><p>Approve remediation</p><div class="scr-act"><u>Approve</u></div></div><span class="scr-name">Mobile <b>soon</b><em>iOS / Android · JSI</em></span></li>
 </ul>
 </div>
 </figure>
