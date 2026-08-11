@@ -60,7 +60,7 @@ section[id], [id="same-harness"], [id="partner-form"] { scroll-margin-top: 76px;
   transition: border-color .25s ease, background-color .25s ease;
 }
 .site-header.is-scrolled { border-color: var(--line-soft); background: rgba(8,8,8,.93); }
-.header-inner { min-height: 70px; display: grid; grid-template-columns: auto auto 1fr auto auto; align-items: center; gap: 30px; }
+.header-inner { min-height: 70px; display: grid; grid-template-columns: auto auto 1fr auto; align-items: center; gap: 30px; }
 .wordmark { display: inline-flex; align-items: baseline; gap: 5px; font-size: 17px; letter-spacing: -.045em; }
 .wordmark strong { font-weight: 760; }
 .wordmark span { color: var(--muted); font-weight: 450; }
@@ -386,7 +386,7 @@ footer { padding:80px 0 32px; background:#070707; }
 
 @media (max-width: 1100px) {
   .brand-line { display:none; }
-  .header-inner { grid-template-columns:auto 1fr auto auto; }
+  .header-inner { grid-template-columns:auto 1fr auto; }
   .section-head { grid-template-columns:190px 1fr; }
   .contrast-panel { grid-template-columns:190px minmax(0,1fr); }
   .comparison-lede { margin-left:238px; }

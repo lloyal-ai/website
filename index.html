@@ -150,20 +150,20 @@
 .anatomy-agentapps { background: #0d0d0d; }
 
 .agentapps-section {
-  color: #111;
-  background: var(--cream);
-  border-bottom: 1px solid #c8c3b8;
+  color: var(--ink);
+  background: rgba(8,8,8,.78);
+  border-bottom: 1px solid var(--line-soft);
 }
 .agentapps-head {
   display: grid;
   grid-template-columns: minmax(150px, .33fr) minmax(0, 1fr);
   gap: clamp(40px, 7vw, 120px);
 }
-.agentapps-head .section-index { color: #77736c; padding-top: 11px; }
+.agentapps-head .section-index { padding-top: 11px; }
 .agentapps-head h2 {
   max-width: 950px;
   margin: 0;
-  color: #050505;
+  color: var(--ink);
   font-size: clamp(50px, 6vw, 94px);
   line-height: .91;
   letter-spacing: -.067em;
@@ -171,7 +171,7 @@
 .agentapps-head p {
   max-width: 850px;
   margin: 34px 0 0;
-  color: #625e57;
+  color: var(--muted);
   font-size: clamp(17px, 1.35vw, 21px);
   line-height: 1.55;
 }
@@ -179,14 +179,14 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   margin-top: clamp(58px, 7vw, 104px);
-  border-block: 1px solid #c8c3b8;
+  border-block: 1px solid var(--line);
 }
 .capability-modes article {
   min-height: 280px;
   padding: 30px;
-  border-right: 1px solid #c8c3b8;
+  border-right: 1px solid var(--line);
 }
-.capability-modes article:first-child { border-left: 1px solid #c8c3b8; }
+.capability-modes article:first-child { border-left: 1px solid var(--line); }
 .capability-modes span,
 .admission-bridge span {
   color: #77736c;
@@ -197,14 +197,14 @@
 .capability-modes h3 {
   max-width: 360px;
   margin: 68px 0 0;
-  color: #090909;
+  color: var(--ink);
   font-size: clamp(27px, 2.35vw, 38px);
   line-height: .98;
   letter-spacing: -.052em;
 }
 .capability-modes p {
   margin: 22px 0 0;
-  color: #68645d;
+  color: var(--muted);
   font-size: 15px;
   line-height: 1.55;
 }
@@ -239,13 +239,13 @@
 .agentapp-contract p,
 .agentapp-contract > strong {
   margin: 0;
-  color: #615d56;
+  color: var(--muted);
   font-size: 15px;
   line-height: 1.55;
 }
-.agentapp-contract p strong { color: #111; }
+.agentapp-contract p strong { color: var(--ink); }
 .agentapp-contract > strong {
-  color: #111;
+  color: var(--ink);
   font-size: clamp(19px, 1.7vw, 27px);
   line-height: 1.25;
   letter-spacing: -.035em;
@@ -299,10 +299,10 @@
   .capability-modes article,
   .capability-modes article:first-child {
     min-height: 0;
-    border: 1px solid #c8c3b8;
+    border: 1px solid var(--line);
     border-bottom: 0;
   }
-  .capability-modes article:last-child { border-bottom: 1px solid #c8c3b8; }
+  .capability-modes article:last-child { border-bottom: 1px solid var(--line); }
   .capability-modes h3 { margin-top: 40px; }
   .final-start-band .section-head > p:last-child { grid-column: 1; }
   .final-start-band .conversion-paths { grid-template-columns: 1fr; }
@@ -337,7 +337,7 @@
 .capability-modes article { min-height: 230px; padding: 28px; }
 .capability-modes h3 {
   margin: 0;
-  color: #090909;
+  color: var(--ink);
   font-size: clamp(36px, 3.35vw, 54px);
   line-height: .92;
   letter-spacing: -.06em;
@@ -351,7 +351,7 @@
 .capability-modes p strong {
   display: block;
   margin-bottom: 8px;
-  color: #171717;
+  color: var(--ink);
   font-size: 18px;
   font-weight: 620;
   line-height: 1.25;
@@ -455,11 +455,35 @@
 </style>
 <style>
 /* Primary product-led activation */
+/* ---- Cream band: the light half of the page's alternation. The hero is dark,
+   so 01 and 03 are cream and 02 and the partner band stay dark, which keeps the
+   rhythm in phase and gives the terminal blocks a ground to sit against. ---- */
+.band-cream, .section.band-cream {
+  color: #111;
+  background: var(--cream);
+  border-bottom: 1px solid #c8c3b8;
+}
+.band-cream .section-index,
+.band-cream .code-kicker,
+.band-cream .mvc-role,
+.band-cream .mvc-what small { color: #77736c; }
+.band-cream h2,
+.band-cream .build-entry-copy h2,
+.band-cream .code-copy h2 { color: #050505; }
+.band-cream .code-copy > p:not(.section-index),
+.band-cream .build-entry-copy > p:not(.section-index) { color: #625e57; }
+.band-cream .mvc-ladder { border-color: #c8c3b8; }
+.band-cream .mvc-what strong,
+.band-cream .code-tagline strong { color: #111; }
+.band-cream .mvc-arrow { color: #a9a49a; }
+.band-cream .inline-links a,
+.band-cream .build-entry-copy > a { color: #181715; border-color: #aaa49a; }
+.band-cream .inline-links a:hover,
+.band-cream .build-entry-copy > a:hover { color: #000; border-color: #000; }
+.band-cream .build-entry-copy > a { border-bottom: 1px solid #aaa49a; }
+
 .build-entry {
   padding: clamp(78px, 7.5vw, 124px) 0;
-  color: var(--ink);
-  background: #080808;
-  border-bottom: 1px solid var(--line);
 }
 .build-entry-grid {
   display: grid;
@@ -491,28 +515,28 @@
   align-items: center;
   margin-top: 42px;
   padding: 24px 26px;
-  color: #111;
-  background: var(--cream);
+  color: var(--ink);
+  background: #080808;
   font-family: var(--mono);
 }
-.build-command > span { color: #77736c; font-size: 22px; }
+.build-command > span { color: #6d6a64; font-size: 22px; }
 .build-command code {
   overflow-wrap: anywhere;
-  color: #111;
+  color: var(--ink);
   font-size: clamp(18px, 1.55vw, 25px);
   line-height: 1.3;
 }
 .build-command button {
   padding: 9px 12px;
-  border: 1px solid #aaa49a;
-  color: #111;
+  border: 1px solid #4c4a45;
+  color: var(--ink);
   background: transparent;
   font: 600 10px var(--mono);
   letter-spacing: .08em;
   text-transform: uppercase;
   cursor: pointer;
 }
-.build-command button:hover { border-color: #111; }
+.build-command button:hover { border-color: var(--ink); }
 .build-meta {
   display: flex;
   flex-wrap: wrap;
@@ -580,34 +604,7 @@
 }
 
 /* Product-team engagement is deliberately secondary */
-.partner-band {
-  color: #111;
-  background: var(--cream);
-  border-bottom: 1px solid #c8c3b8;
-}
-.partner-band .section-index { color: #77736c; }
-.partner-band .ship-copy h2 { color: #050505; }
-.partner-band .large-copy { color: #625e57; }
-.partner-band .engagement span { color: #6c6861; border-color: #c8c3b8; }
-.partner-band .partner-form {
-  color: #111;
-  background: #f7f4ed;
-  border-color: #c8c3b8;
-}
-.partner-band .partner-form label { color: #77736c; }
-.partner-band .partner-form input,
-.partner-band .partner-form textarea {
-  color: #111;
-  border-color: #bdb7ac;
-}
-.partner-band .partner-form input:focus,
-.partner-band .partner-form textarea:focus { border-color: #111; }
-.partner-band .partner-form .button {
-  color: #fff;
-  background: #090909;
-  border-color: #090909;
-}
-.partner-band .form-note { color: #77736c; }
+
 
 @media (max-width: 1040px) {
   .build-entry-grid { grid-template-columns: 1fr; }
@@ -651,8 +648,7 @@
 <strong>LLoyal</strong><span>Labs</span>
 </a>
 <p class="brand-line">Engineering AI's contact with reality.</p>
-<nav aria-label="Primary" class="desktop-nav"><a href="#build">How it works</a><a href="#agentapps">AgentApps</a><a href="#partner">For product teams</a><a href="/blog/">Blog</a></nav>
-<a class="header-cta" href="#developers">Build your first harness</a>
+<nav aria-label="Primary" class="desktop-nav"><a href="#build">How it works</a><a href="#agentapps">AgentApps</a><a class="header-cta" href="#developers">Build your first harness</a><a href="#partner">For product teams</a><a href="/blog/">Blog</a></nav>
 <nav aria-label="Resources" class="desktop-nav utility-nav"><a href="https://docs.lloyal.ai/" rel="noreferrer" target="_blank">Docs ↗</a><a href="https://github.com/lloyal-ai" rel="noreferrer" target="_blank">GitHub ↗</a></nav>
 <button aria-controls="mobile-nav" aria-expanded="false" class="menu-button" data-menu-button="" type="button">
 <span></span><span></span><span class="sr-only">Open menu</span>
@@ -742,7 +738,7 @@
         </p>
 </div>
 </section>
-<section class="code-section section" id="build">
+<section class="code-section section band-cream" id="build">
 <div class="wrap code-grid">
 <div class="code-copy reveal">
 <p class="section-index">01 / THE HARNESS</p>
@@ -803,7 +799,7 @@
 </div>
 </div>
 </section>
-<section class="build-entry" id="developers">
+<section class="build-entry band-cream" id="developers">
 <div class="wrap build-entry-grid reveal">
 <div class="build-entry-copy">
 <p class="section-index">03 / BUILD</p>
