@@ -1,0 +1,4 @@
+# Retired paths. The simulation was renamed once the slug outlived its
+# scenario; these keep links that are already circulating alive.
+/sim/marine-casualty           /sim/risk-desk           301
+/sim/marine-casualty/research  /sim/risk-desk/research  301
