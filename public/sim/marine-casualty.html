@@ -1,425 +1,541 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#f7f6f1">
-<meta name="description" content="Six analysts work a disabled bulk carrier in the Torres Strait — the same incident run against independent endpoint calls, and against one live context.">
-  <title>Marine casualty response simulation · Lloyal Labs</title>
+<meta name="theme-color" content="#f4f3ee">
+<meta name="description" content="A $250m tanker must enter the Strait of Hormuz before its window closes. A verified threat alert changes the safe route, then the war-risk underwriter reprices cover — the same incident followed through two control boundaries.">
+<title>Hormuz transit decision · Lloyal execution comparison</title>
 <style>
-html, body {
-  margin: 0;
-  min-height: 100%;
-  background: #f7f6f1;
-}
-#lloyal-incident-sim {
-  --sim-bg: #f7f6f1;
-  --sim-fg: #111111;
-  --sim-card: #ffffff;
-  --sim-card-fg: #111111;
-  --sim-muted: #ecece8;
-  --sim-muted-fg: #6c6c66;
-  --sim-border: #d5d5cf;
-  --sim-primary: #111111;
-  --sim-primary-fg: #ffffff;
-  --sim-accent: #efefe9;
-  --sim-red: #8d302a;
-  --sim-green: #1f6845;
-  --sim-red-text: #a13e35;
-  --sim-green-text: #236a47;
-  --sim-amber-text: #9a6b18;
-  --sim-on-status: #ffffff;
+:root {
   color-scheme: light;
-  color: var(--sim-fg);
-  background: var(--sim-bg);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Helvetica, Arial, sans-serif;
-  border: 1px solid var(--sim-border);
-  width: 100%;
-  box-sizing: border-box;
+  --paper: #f4f3ee; --panel: #fff; --ink: #181816; --muted: #6c6b64;
+  --line: #d8d7cf; --grid: #ecebe5; --soft: #efeee9;
+  --green: #176b45; --green-soft: #dfece5;
+  --amber: #9a6918; --amber-soft: #f3e7c9;
+  --red: #a13d34; --red-soft: #f0dcd8; --black: #1c1c1a;
 }
-#lloyal-incident-sim * { box-sizing: border-box; }
-#lloyal-incident-sim button,
-#lloyal-incident-sim input { font: inherit; }
-#lloyal-incident-sim .sim-head {
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; background: var(--paper); color: var(--ink); }
+body { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+button, input { font: inherit; }
+.app { min-height: 100vh; }
+.topbar {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(400px, 460px);
+  align-items: center; gap: 42px; padding: 18px 24px;
+  background: #fff; border-bottom: 1px solid var(--line);
+}
+.header-scenario { min-width: 0; }
+.header-scenario-kicker {
+  color: var(--ink); font-size: 9px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+}
+.header-scenario-copy {
+  max-width: 980px; margin-top: 7px; color: var(--muted); font-size: 13px; line-height: 1.45;
+}
+.header-runtime {
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px;
+  align-items: start; width: 100%; min-width: 0;
+}
+.header-runtime label { color: var(--muted); font-size: 9px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.header-runtime .deployment-detail { grid-column: 1; }
+.eyebrow, .section-kicker, .run-kicker, .metric-label, .phase-label {
+  text-transform: uppercase; letter-spacing: .12em; font-size: 10px; font-weight: 700;
+}
+.eyebrow { color: var(--amber); }
+.world {
+  display: grid; grid-template-columns: minmax(250px, .72fr) minmax(420px, 1.28fr);
+  gap: 20px; padding: 18px 24px; background: #fff; border-bottom: 1px solid var(--line);
+}
+.world-copy { align-self: center; }
+.world-headline { margin: 5px 0 4px; font-size: 17px; font-weight: 680; line-height: 1.25; }
+.world-detail { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.45; }
+.route-card { position: relative; min-height: 92px; padding: 12px 14px 10px; border: 1px solid var(--line); background: #fafaf7; overflow: hidden; }
+.route-meta { display: flex; justify-content: space-between; gap: 12px; color: var(--muted); font: 10px ui-monospace, SFMono-Regular, Menlo, monospace; }
+.route-line { position: absolute; left: 9%; right: 8%; top: 52px; height: 2px; background: #a9a89f; }
+.route-line::after { content: ""; position: absolute; right: 0; top: -3px; width: 8px; height: 8px; border-right: 2px solid #a9a89f; border-top: 2px solid #a9a89f; transform: rotate(45deg); }
+.route-place { position: absolute; top: 62px; color: var(--muted); font-size: 10px; }
+.route-place.east { left: 9%; }
+.route-place.strait { right: 7%; text-align: right; }
+.vessel { position: absolute; top: 39px; transform: translateX(-50%); transition: left .24s linear; z-index: 2; }
+.vessel-mark { width: 17px; height: 17px; transform: rotate(45deg); border: 2px solid var(--ink); background: #fff; }
+.vessel-label { position: absolute; top: -18px; left: -32px; width: 90px; text-align: center; color: var(--ink); font: 9px ui-monospace, SFMono-Regular, Menlo, monospace; white-space: nowrap; }
+.advisory-zone { position: absolute; top: 34px; width: 74px; height: 36px; transform: translateX(-50%); border: 1px solid var(--amber); background: rgba(243,231,201,.65); opacity: 0; transition: opacity .25s; }
+.advisory-zone.visible { opacity: 1; }
+.advisory-zone::after { content: "ADVISORY"; position: absolute; top: -16px; left: 3px; color: var(--amber); font: 9px ui-monospace, SFMono-Regular, Menlo, monospace; }
+.stakes-strip { display: grid; grid-template-columns: 1.05fr .85fr 1fr 1.55fr; padding: 0 24px; border-bottom: 1px solid var(--line); background: #fafaf7; }
+.stake { min-width: 0; padding: 10px 14px 11px; border-right: 1px solid var(--line); }
+.stake:first-child { padding-left: 0; }
+.stake:last-child { border-right: 0; }
+.stake-label { color: var(--muted); font-size: 8px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; }
+.stake-value { margin-top: 4px; font-size: 13px; font-weight: 720; line-height: 1.2; }
+.stake-value.warn { color: var(--amber); }
+.stake-value.good { color: var(--green); }
+.stake-detail { margin-top: 3px; color: var(--muted); font-size: 8.5px; line-height: 1.35; }
+.stake-detail a { color: inherit; text-decoration: none; border-bottom: 1px solid #aaa99f; }
+.controlbar {
+  display: grid; grid-template-columns: auto auto minmax(160px, 1fr) 74px 170px;
+  align-items: center; gap: 10px; padding: 10px 24px; background: #fff; border-bottom: 1px solid var(--line);
+}
+.btn { appearance: none; border: 1px solid var(--line); background: #fff; color: var(--ink); padding: 8px 12px; cursor: pointer; }
+.btn.primary { background: var(--ink); border-color: var(--ink); color: #fff; }
+.timeline-range { width: 100%; accent-color: var(--ink); }
+.clock { text-align: right; font: 12px ui-monospace, SFMono-Regular, Menlo, monospace; }
+.phase { display: flex; justify-content: flex-end; gap: 8px; align-items: center; color: var(--muted); font-size: 11px; }
+.phase strong { color: var(--ink); font-weight: 650; }
+.workspace { padding: 20px 24px 28px; }
+.compare-head { display: flex; justify-content: space-between; gap: 16px; align-items: end; margin-bottom: 10px; }
+.compare-head h2 { margin: 4px 0 0; font-size: 20px; letter-spacing: -.025em; }
+.compare-note { color: var(--muted); font-size: 11px; }
+.run-grid { display: block; }
+.run-pane { display: none; min-width: 0; border: 1px solid var(--line); background: var(--panel); }
+.run-pane.active {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 16px;
-  align-items: center;
-  padding: 18px 20px;
-  background: var(--sim-card);
-  border-bottom: 1px solid var(--sim-border);
+  grid-template-columns: minmax(0, 1.55fr) minmax(520px, 1fr);
+  grid-template-rows: auto auto 1fr;
 }
-#lloyal-incident-sim .sim-kicker,
-#lloyal-incident-sim .sim-label,
-#lloyal-incident-sim .event-kind,
-#lloyal-incident-sim .lane-code,
-#lloyal-incident-sim .sim-status,
-#lloyal-incident-sim .panel-title {
-  text-transform: uppercase;
-  letter-spacing: .14em;
-  font-size: 11px;
-  font-weight: 500;
-}
-#lloyal-incident-sim .sim-brief {
-  margin-top: 6px;
-  max-width: 850px;
-  color: var(--sim-muted-fg);
-  font-size: 14px;
-}
-#lloyal-incident-sim .deployment-picker { display: grid; gap: 4px; min-width: 380px; }
-#lloyal-incident-sim .deployment-picker label {
-  text-transform: uppercase;
-  letter-spacing: .14em;
-  font-size: 10px;
-  font-weight: 500;
-  color: var(--sim-muted-fg);
-}
-#lloyal-incident-sim .machine-select {
-  -webkit-appearance: menulist !important;
-  appearance: auto !important;
-  width: 100%;
-  border: 1px solid var(--sim-border);
-  border-radius: 0;
-  padding: 9px 34px 9px 11px;
-  background: var(--sim-card);
-  color: var(--sim-fg);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 12px;
-}
-#lloyal-incident-sim .placement-note,
-#lloyal-incident-sim .placement-detail,
-#lloyal-incident-sim .placement-caveat { color: var(--sim-muted-fg); font-size: 10px; }
-#lloyal-incident-sim .placement-note { color: var(--sim-fg); }
-#lloyal-incident-sim .sim-controls {
-  display: grid;
-  grid-template-columns: auto auto minmax(160px, 1fr) auto;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 20px;
-  background: var(--sim-card);
-  border-bottom: 1px solid var(--sim-border);
-}
-#lloyal-incident-sim .sim-btn {
-  appearance: none;
-  border: 1px solid var(--sim-border);
-  background: transparent;
-  color: var(--sim-fg);
-  padding: 7px 11px;
-  cursor: pointer;
-  border-radius: 0;
-}
-#lloyal-incident-sim .sim-btn.primary {
-  background: var(--sim-primary);
-  color: var(--sim-primary-fg);
-  border-color: var(--sim-primary);
-}
-#lloyal-incident-sim .sim-range { width: 100%; accent-color: var(--sim-primary); }
-#lloyal-incident-sim .sim-clock {
-  min-width: 58px;
-  text-align: right;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 13px;
-}
-#lloyal-incident-sim .sim-tabs {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  background: var(--sim-card);
-  border-bottom: 1px solid var(--sim-border);
-}
-#lloyal-incident-sim .sim-tab {
-  appearance: none;
-  border: 0;
-  border-right: 1px solid var(--sim-border);
-  border-bottom: 3px solid transparent;
-  background: transparent;
-  color: var(--sim-muted-fg);
-  text-align: left;
-  padding: 13px 20px 11px;
-  cursor: pointer;
-  border-radius: 0;
-}
-#lloyal-incident-sim .sim-tab:last-child { border-right: 0; }
-#lloyal-incident-sim .sim-tab[aria-selected="true"] {
-  color: #111111;
-  background: transparent;
-  border-bottom-color: #111111;
-}
-#lloyal-incident-sim .sim-tab strong { display: block; color: #686863 !important; font-weight: 500; }
-#lloyal-incident-sim .sim-tab[aria-selected="true"] strong { color: #111111 !important; }
-#lloyal-incident-sim .sim-tab span { font-size: 12px; color: #777770 !important; }
-#lloyal-incident-sim .sim-tab[aria-selected="true"] span { color: #555550 !important; }
-#lloyal-incident-sim .sim-summary {
-  --sim-fg: #111111;
-  --sim-muted-fg: #666660;
-  --sim-border: #d7d7d1;
-  --sim-card: #f7f6f1;
-  display: grid;
-  grid-template-columns: 150px minmax(0, 1fr);
-  gap: 20px;
-  padding: 18px 20px 19px;
-  color: #111111;
-  background: #f7f6f1;
-  border-bottom: 1px solid var(--sim-border);
-}
-#lloyal-incident-sim .sim-summary > .sim-label {
-  padding: 3px 0 0;
-  color: #777770;
-  background: transparent;
-}
-#lloyal-incident-sim .summary-copy {
-  max-width: 980px;
-  padding: 0;
-  color: #111111;
-  background: transparent;
-}
-#lloyal-incident-sim .summary-headline {
-  margin: 0 0 5px;
-  color: #111111;
-  font-size: 16px;
-  font-weight: 500;
-}
-#lloyal-incident-sim .summary-detail {
-  margin: 0;
-  color: var(--sim-muted-fg);
-  font-size: 13px;
-  line-height: 1.5;
-}
-#lloyal-incident-sim .intervention-flash {
-  display: none;
-  gap: 12px;
-  align-items: center;
-  padding: 12px 20px;
-  background: var(--sim-green);
-  color: var(--sim-on-status);
-  border-bottom: 1px solid var(--sim-border);
-}
-#lloyal-incident-sim .intervention-flash.visible {
-  display: flex;
-}
-#lloyal-incident-sim .intervention-flash.request { background: var(--sim-red); }
-#lloyal-incident-sim .intervention-flash.fresh { animation: intervention-hit 1.35s ease-out 1; }
-#lloyal-incident-sim .intervention-kicker {
-  flex: 0 0 auto;
-  text-transform: uppercase;
-  letter-spacing: .14em;
-  font-size: 11px;
-  font-weight: 500;
-}
-#lloyal-incident-sim .intervention-line { font-size: 12px; opacity: .9; }
-@keyframes intervention-hit {
-  0%, 24% { filter: brightness(1.65); }
-  58% { filter: brightness(.86); }
-  100% { filter: brightness(1); }
-}
-#lloyal-incident-sim .sim-main {
-  --sim-fg: #111111;
-  --sim-muted-fg: #686863;
-  --sim-border: #d9d9d3;
-  --sim-card: #ffffff;
-  --sim-muted: #ecece8;
-  --sim-accent: #efefe9;
-  --sim-red-text: #a13e35;
-  --sim-green-text: #236a47;
-  display: grid;
-  grid-template-columns: minmax(0, 1.82fr) minmax(250px, .62fr);
-  min-height: 590px;
-  color: var(--sim-fg);
-  background: #ffffff;
-}
-#lloyal-incident-sim .work-panel {
-  padding: 22px 20px 24px;
+.run-pane.with { border-top: 3px solid var(--green); }
+.run-pane.endpoint { border-top: 3px solid var(--ink); }
+.run-head { display: grid; grid-template-columns: 1fr auto; gap: 14px; padding: 14px 15px 12px; border-bottom: 1px solid var(--line); }
+.run-pane .run-head { grid-column: 1 / -1; }
+.run-pane .metrics { grid-column: 1; grid-row: 2; }
+.run-pane .history { grid-column: 1; grid-row: 3; }
+.run-kicker { color: var(--muted); }
+.run-title { margin-top: 5px; font-size: 17px; font-weight: 720; letter-spacing: -.02em; }
+.run-thesis { margin-top: 3px; color: var(--muted); font-size: 11px; }
+.run-state { align-self: start; border: 1px solid var(--line); padding: 6px 8px; color: var(--muted); font: 10px ui-monospace, SFMono-Regular, Menlo, monospace; white-space: nowrap; }
+.run-pane.with .run-state { color: var(--green); border-color: #9fc4af; background: #f5faf7; }
+.metrics { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--line); }
+.metric { padding: 10px 12px; border-right: 1px solid var(--line); min-width: 0; }
+.metric:last-child { border-right: 0; }
+.metric-value { margin-top: 3px; font-size: 14px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.metric.risk .metric-value { color: var(--red); }
+.metric.good .metric-value { color: var(--green); }
+.metric-label { color: var(--muted); font-size: 8px; }
+.history { padding: 10px 12px 12px; background: #fafaf7; }
+.axis, .track-row { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 12px; }
+.axis { align-items: end; margin-bottom: 3px; }
+.axis-label { color: var(--muted); font-size: 9px; text-transform: uppercase; letter-spacing: .1em; }
+.axis-track { position: relative; height: 36px; border-bottom: 1px solid var(--line); color: var(--muted); font: 9px ui-monospace, SFMono-Regular, Menlo, monospace; }
+.tick { position: absolute; bottom: 3px; transform: translateX(-50%); white-space: nowrap; }
+.tick.first { transform: none; }
+.tick.last { transform: translateX(-100%); }
+.axis-event { position: absolute; top: 0; transform: translateX(-50%); color: var(--amber); font-family: Inter, sans-serif; font-size: 8px; font-weight: 750; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
+.axis-event.stagger { top: 12px; }
+.axis-event.good { color: var(--green); }
+.axis-event.bad { color: var(--red); }
+.axis-event.neutral { color: var(--ink); }
+.track-row { min-height: 45px; }
+.track-row.child { min-height: 50px; }
+.track-row.group-break { margin-top: 7px; }
+.track-row.state-trunk { min-height: 52px; }
+.track-row.state-trunk .seg { top: 16px; height: 18px; }
+.track-row.state-trunk .node { top: 13px; width: 24px; height: 24px; }
+.track-label { min-width: 0; display: flex; align-items: center; gap: 7px; }
+.track-row.child .track-label { padding-left: 12px; }
+.track-row.child .track-label::before { content: "↳"; color: var(--green); font-weight: 700; }
+.track-row.root .track-label::before { content: "+"; color: var(--ink); font-weight: 700; }
+.code { flex: 0 0 28px; color: var(--muted); font: 9px ui-monospace, SFMono-Regular, Menlo, monospace; }
+.track-copy { min-width: 0; }
+.track-copy strong { display: block; font-size: 10.5px; line-height: 1.22; font-weight: 650; white-space: normal; }
+.track-copy small { display: block; margin-top: 2px; color: var(--muted); font-size: 8.5px; line-height: 1.22; white-space: normal; }
+.track { position: relative; height: 100%; min-width: 0; overflow: visible; border-bottom: 1px solid #e9e8e2; background-image: repeating-linear-gradient(to right, transparent 0, transparent calc(12.5% - 1px), var(--grid) calc(12.5% - 1px), var(--grid) 12.5%); }
+.seg { position: absolute; top: 12px; height: 13px; min-width: 1px; border: 1px solid var(--black); background: var(--black); }
+.seg.accepted { border-color: #77766f; background: #77766f; }
+.seg.attention { border-color: var(--amber); background: var(--amber-soft); }
+.seg.held, .seg.admitted { border-color: var(--green); background: var(--green-soft); }
+.seg.live { border-color: var(--green); background: var(--green); }
+.seg.rebuild { border-color: #8b8a82; background: repeating-linear-gradient(135deg, #e3e2dc 0, #e3e2dc 5px, #f7f6f2 5px, #f7f6f2 10px); }
+.seg.endpoint-live { border-color: var(--black); background: var(--black); }
+.seg.selected { top: 9px; height: 19px; }
+.node { position: absolute; top: 9px; width: 19px; height: 19px; display: grid; place-items: center; transform: translateX(-50%); z-index: 4; border: 2px solid currentColor; background: #fafaf7; color: var(--ink); font-size: 9px; font-weight: 750; line-height: 1; }
+.node.circle { border-radius: 50%; }
+.node.diamond { transform: translateX(-50%) rotate(45deg); }
+.node.diamond span { transform: rotate(-45deg); }
+.node.good { color: var(--green); }
+.node.warn { color: var(--amber); }
+.node.bad { color: var(--red); }
+.fork-stem { position: absolute; top: 25px; width: 2px; height: 175px; background: var(--green); z-index: 2; }
+.child-link { position: absolute; top: 20px; height: 1px; background: var(--green); z-index: 2; }
+.cursor { position: absolute; top: 0; bottom: 0; width: 1px; background: rgba(24,24,22,.27); z-index: 8; pointer-events: none; }
+.cursor::before { content: ""; position: absolute; top: -2px; left: -2px; width: 5px; height: 5px; border-radius: 50%; background: var(--ink); }
+.outcome { position: absolute; top: 3px; right: 3px; z-index: 6; max-width: 47%; padding: 3px 5px; border: 1px solid var(--line); background: rgba(255,255,255,.95); color: var(--muted); font-size: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.outcome.selected { color: var(--green); border-color: #9fc4af; background: #f5faf7; font-weight: 700; }
+.proof { display: flex; flex-wrap: wrap; gap: 6px; min-height: 34px; padding: 8px 10px; border-top: 1px solid var(--line); background: #fff; }
+.proof-chip { border: 1px solid var(--line); padding: 4px 6px; color: var(--muted); font: 8px ui-monospace, SFMono-Regular, Menlo, monospace; text-transform: uppercase; }
+.run-pane.with .proof-chip.on { color: var(--green); border-color: #a7c9b5; background: #f4faf6; }
+.run-caption { min-height: 45px; padding: 10px 12px; border-top: 1px solid var(--line); color: var(--muted); font-size: 11px; line-height: 1.4; }
+.run-caption strong { color: var(--ink); }
+.delta-board, .events, .decision-strip, .proof, .run-caption { display: none !important; }
+.explain-panel {
+  grid-column: 2;
+  grid-row: 2 / span 2;
   min-width: 0;
-  color: #111111;
-  background: #ffffff;
+  padding: 20px 22px 22px;
+  border-left: 1px solid var(--line);
+  background: #f7f6f2;
 }
-#lloyal-incident-sim .evidence-panel {
-  --sim-fg: #111111;
-  --sim-muted-fg: #71716b;
-  --sim-border: #d4d4ce;
-  --sim-red-text: #a13e35;
-  --sim-green-text: #236a47;
-  color: #111111;
-  background: #efefea;
-  border-left: 1px solid var(--sim-border);
-  padding: 22px 16px;
+.explain-progress { color: var(--muted); font: 9px ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .07em; text-transform: uppercase; }
+.explain-progress strong { color: var(--ink); }
+.explain-headline { margin: 12px 0 7px; font-size: 23px; font-weight: 740; line-height: 1.08; letter-spacing: -.035em; }
+.explain-copy { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
+.explain-section { margin-top: 19px; padding-top: 15px; border-top: 1px solid var(--line); }
+.explain-section h3 { margin: 0 0 6px; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; }
+.explain-section p { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.5; }
+.explain-section p strong { color: var(--ink); }
+.explain-ledger { margin-top: 16px; border-top: 1px solid var(--line); }
+.explain-ledger-row { display: grid; grid-template-columns: 1fr auto; gap: 14px; padding: 9px 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+.explain-ledger-row span { color: var(--muted); font-size: 10px; }
+.explain-ledger-row strong { font-size: 11px; text-align: right; }
+.explain-ledger-row strong.good { color: var(--green); }
+.explain-ledger-row strong.bad { color: var(--red); }
+.explain-source { margin-top: 17px; padding-top: 13px; border-top: 1px solid var(--line); color: var(--muted); font-size: 9px; line-height: 1.4; }
+.explain-source strong { display: block; margin-bottom: 4px; color: var(--ink); font-size: 9px; text-transform: uppercase; letter-spacing: .08em; }
+.explain-source a { color: var(--ink); text-decoration: none; border-bottom: 1px solid #aaa99f; }
+.explain-source a:hover { color: var(--green); border-color: var(--green); }
+.research-block { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line); }
+.research-block-head { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; margin-bottom: 9px; }
+.research-block-head strong { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; }
+.research-block-head span { color: var(--muted); font-size: 8.5px; }
+.research-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 8px; }
+.research-stat { min-width: 0; min-height: 118px; padding: 13px 14px 12px; border: 1px solid var(--line); border-top-width: 3px; background: #fff; display: flex; flex-direction: column; }
+.research-stat.risk { border-color: #d5a29c; border-top-color: var(--red); background: #fff8f6; }
+.research-stat.good { border-color: #9fc4af; border-top-color: var(--green); background: #f3faf6; }
+.research-stat-value { font-size: 28px; font-weight: 760; line-height: 1; letter-spacing: -.035em; }
+.research-stat.risk .research-stat-value { color: var(--red); }
+.research-stat.good .research-stat-value { color: var(--green); }
+.research-stat-label { margin-top: 7px; color: var(--ink); font-size: 10px; font-weight: 700; line-height: 1.25; }
+.research-stat-copy { margin-top: 5px; color: var(--muted); font-size: 9px; line-height: 1.4; }
+.research-stat a { display: inline-block; margin-top: 7px; color: var(--ink); font-size: 8px; text-decoration: none; border-bottom: 1px solid #aaa99f; }
+.research-stat a:hover { color: var(--green); border-color: var(--green); }
+.research-stat-source { display: inline-block; margin-top: 7px; color: var(--muted); font: 8px ui-monospace, SFMono-Regular, Menlo, monospace; text-transform: uppercase; }
+.research-stat .research-stat-source,
+.research-stat a { margin-top: auto; padding-top: 8px; align-self: flex-start; }
+.research-foot { margin-top: 9px; color: var(--muted); font-size: 8.5px; line-height: 1.4; }
+.research-foot a { color: var(--ink); text-decoration: none; border-bottom: 1px solid #aaa99f; }
+.outcome-delta { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line); }
+.outcome-delta-head { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; margin-bottom: 9px; }
+.outcome-delta-head strong { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; }
+.outcome-delta-head span { color: var(--muted); font-size: 8.5px; }
+.delta-score-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 8px; }
+.delta-score { padding: 10px 11px 11px; border: 1px solid var(--line); background: #fff; }
+.delta-score-axis { margin-bottom: 8px; color: var(--muted); font-size: 8px; font-weight: 750; letter-spacing: .08em; text-transform: uppercase; }
+.delta-score-values { display: grid; grid-template-columns: 1fr auto 1fr; gap: 7px; align-items: stretch; }
+.delta-score-arrow { align-self: center; color: #aaa99f; font-size: 14px; }
+.delta-score-side { padding: 7px 8px; border: 1px solid var(--line); background: #fafaf7; }
+.delta-score-side span { display: block; color: var(--muted); font-size: 7.5px; text-transform: uppercase; letter-spacing: .06em; }
+.delta-score-side strong { display: block; margin-top: 3px; font-size: 19px; line-height: 1; letter-spacing: -.025em; }
+.delta-score-side.with { border-color: #a7c9b5; background: #f3faf6; }
+.delta-score-side.with strong { color: var(--green); }
+.delta-score-side.without strong { color: var(--red); }
+.delta-score-copy { margin-top: 7px; color: var(--muted); font-size: 8.5px; line-height: 1.3; }
+.evidence-compact { margin-top: 16px; padding-top: 13px; border-top: 1px solid var(--line); }
+.evidence-compact h3 { margin: 0 0 8px; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; }
+.evidence-compact-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 8px; }
+.evidence-compact-item { padding: 9px 10px; border-left: 2px solid #aaa99f; background: #fff; color: var(--muted); font-size: 8.5px; line-height: 1.4; }
+.run-pane.with .evidence-compact-item { border-left-color: var(--green); }
+.evidence-compact-item strong { display: block; margin-bottom: 3px; color: var(--ink); font-size: 9px; }
+.evidence-compact-item a { color: var(--ink); text-decoration: none; border-bottom: 1px solid #aaa99f; }
+.evidence-compact-item a:hover { color: var(--green); border-color: var(--green); }
+.explain-outcome { margin-top: 18px; padding: 12px 13px; border-left: 3px solid var(--ink); background: #fff; }
+.run-pane.with .explain-outcome { border-left-color: var(--green); }
+.explain-outcome strong { display: block; font-size: 12px; line-height: 1.3; }
+.explain-outcome span { display: block; margin-top: 4px; color: var(--muted); font-size: 10px; line-height: 1.4; }
+.request-boundary {
+  margin: 10px 0 9px 292px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 9px;
+  align-items: center;
+  color: var(--red);
+  font: 8px ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: .08em;
+  text-transform: uppercase;
 }
-#lloyal-incident-sim .panel-head {
+.request-boundary::before,
+.request-boundary::after { content: ""; height: 1px; background: #d5a29c; }
+.replacement-stack {
+  margin: 0 0 4px 28px;
+  display: grid;
+  gap: 7px;
+}
+.request-card {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  gap: 8px;
+  min-height: 55px;
+  padding: 7px 8px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--ink);
+  background: #fff;
+  box-shadow: 0 1px 0 rgba(24,24,22,.04);
+}
+.request-card.selected-response { border-left-color: var(--green); }
+.request-card.stale-response { border-left-color: var(--red); background: #fff8f6; }
+.request-card.follow-up { border-left-color: var(--red); background: #fff; }
+.request-card.follow-up .request-card-id,
+.request-card.stale-response .request-card-id { color: var(--red); }
+.request-card-head { min-width: 0; align-self: center; }
+.request-card-id {
+  color: var(--muted);
+  font: 8px ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.request-card-title { margin-top: 3px; font-size: 10.5px; font-weight: 700; }
+.request-card-sub { margin-top: 2px; color: var(--muted); font-size: 8.5px; line-height: 1.25; }
+.request-card-track {
+  position: relative;
+  min-width: 0;
+  background-image: repeating-linear-gradient(to right, transparent 0, transparent calc(12.5% - 1px), var(--grid) calc(12.5% - 1px), var(--grid) 12.5%);
+}
+.request-card-track .seg { top: 15px; }
+.request-card-track .node { top: 12px; }
+.request-card-track .outcome { top: 5px; }
+.request-root-flag {
+  position: absolute;
+  top: 33px;
+  transform: translateX(-50%);
+  color: var(--muted);
+  font: 7px ui-monospace, SFMono-Regular, Menlo, monospace;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.execution-state-flag {
+  position: absolute;
+  top: 34px;
+  transform: translateX(-50%);
+  z-index: 7;
+  padding: 2px 5px;
+  background: #fafaf7;
+  font: 7px ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.execution-state-flag.bad { color: var(--red); border: 1px solid #d5a29c; }
+.execution-state-flag.good { color: var(--green); border: 1px solid #9fc4af; }
+.tab-story { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line); }
+.tab-story-head { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
+.tab-story-head strong { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; }
+.tab-story-head span { color: var(--muted); font-size: 8.5px; }
+.tab-story-hero { margin-top: 9px; padding: 11px 12px; background: #fff; border-left: 3px solid var(--ink); }
+.tab-story.endpoint-story .tab-story-hero { border-left-color: var(--red); background: #fff8f6; }
+.tab-story.with-story .tab-story-hero { border-left-color: var(--green); background: #f3faf6; }
+.tab-story-hero span { display: block; color: var(--muted); font-size: 8px; letter-spacing: .08em; text-transform: uppercase; }
+.tab-story-hero strong { display: block; margin-top: 4px; font-size: 17px; line-height: 1.15; }
+.tab-story.endpoint-story .tab-story-hero strong { color: var(--red); }
+.tab-story.with-story .tab-story-hero strong { color: var(--green); }
+.tab-story-hero small { display: block; margin-top: 4px; color: var(--muted); font-size: 9px; }
+.tab-story-rows { margin-top: 7px; border-top: 1px solid var(--line); }
+.tab-story-row { display: grid; grid-template-columns: 1fr auto; gap: 16px; padding: 8px 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+.tab-story-row span { color: var(--muted); font-size: 9px; }
+.tab-story-row strong { font-size: 10px; text-align: right; }
+.tab-story.endpoint-story .tab-story-row strong { color: var(--red); }
+.tab-story.with-story .tab-story-row strong { color: var(--green); }
+.evidence-narrative { margin-top: 16px; padding-top: 13px; border-top: 1px solid var(--line); }
+.evidence-narrative h3 { margin: 0 0 7px; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; }
+.evidence-narrative p { margin: 0; color: var(--muted); font-size: 9px; line-height: 1.45; }
+.evidence-narrative p + p { margin-top: 7px; }
+.evidence-narrative strong { color: var(--ink); }
+.evidence-narrative a { color: var(--ink); text-decoration: none; border-bottom: 1px solid #aaa99f; }
+.evidence-narrative.endpoint-evidence { border-left: 2px solid var(--red); padding-left: 11px; }
+.evidence-narrative.with-evidence { border-left: 2px solid var(--green); padding-left: 11px; }
+.lineage-banner {
+  margin: 3px 0 7px 292px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--green);
+  font: 8px ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.lineage-banner::before { content: ""; width: 22px; height: 1px; background: var(--green); }
+.lineage-banner strong { border: 1px solid #9fc4af; padding: 3px 5px; background: #f5faf7; }
+.run-pane.with .track-row.child {
+  margin-left: 18px;
+  padding-right: 4px;
+  background: linear-gradient(90deg, rgba(223,236,229,.48), rgba(223,236,229,0) 42%);
+}
+.run-pane.with .track-row.child .track-label::before { font-size: 15px; }
+.delta-board {
+  margin-bottom: 14px;
+  border: 1px solid var(--line);
+  background: #fff;
+}
+.delta-head {
   display: flex;
   justify-content: space-between;
-  gap: 10px;
+  gap: 16px;
   align-items: baseline;
-  margin-bottom: 14px;
+  padding: 10px 13px;
+  border-bottom: 1px solid var(--line);
 }
-#lloyal-incident-sim .panel-sub { color: var(--sim-muted-fg); font-size: 12px; }
-#lloyal-incident-sim .lane-list { display: grid; gap: 0; }
-#lloyal-incident-sim .lane {
-  --sim-fg: #111111;
-  --sim-muted-fg: #686863;
-  --sim-border: #d9d9d3;
-  position: relative;
-  display: grid;
-  grid-template-columns: 42px minmax(145px, .8fr) minmax(0, 1.5fr) 112px;
-  gap: 10px;
-  align-items: center;
-  min-height: 58px;
-  padding: 9px 10px;
-  background: var(--sim-card);
-  color: #111111;
-  border-top: 0;
-  border-bottom: 1px solid var(--sim-border);
-}
-#lloyal-incident-sim .lane:first-child { border-top: 1px solid var(--sim-border); }
-#lloyal-incident-sim .lane.affected { box-shadow: inset 3px 0 0 var(--sim-red); }
-#lloyal-incident-sim .lane.unaffected { box-shadow: inset 3px 0 0 var(--sim-green); }
-#lloyal-incident-sim .lane-code { color: var(--sim-muted-fg); }
-#lloyal-incident-sim .lane-title { font-size: 13px; font-weight: 500; }
-#lloyal-incident-sim .lane-detail {
-  min-width: 0;
-  color: var(--sim-muted-fg);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 11px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-#lloyal-incident-sim .lane-state {
-  text-align: right;
-  color: #9a6b18;
-  font-size: 11px;
-  text-transform: uppercase;
+.delta-head strong { font-size: 13px; }
+.delta-head span { color: var(--muted); font-size: 10px; }
+.delta-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+.delta-card { min-width: 0; border-right: 1px solid var(--line); }
+.delta-card:last-child { border-right: 0; }
+.delta-axis {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--line);
+  background: #f7f6f2;
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 700;
   letter-spacing: .08em;
+  text-transform: uppercase;
 }
-#lloyal-incident-sim .lane-state.hot { color: var(--sim-red-text); }
-#lloyal-incident-sim .lane-state.good { color: var(--sim-green-text); }
-#lloyal-incident-sim .agent-activity {
+.delta-values { display: grid; grid-template-columns: 1fr 1fr; min-height: 78px; }
+.delta-value { padding: 9px 10px; border-right: 1px solid var(--line); }
+.delta-value:last-child { border-right: 0; background: #f5faf7; }
+.delta-side { color: var(--muted); font: 8px ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .08em; text-transform: uppercase; }
+.delta-value strong { display: block; margin-top: 5px; font-size: 12px; line-height: 1.18; }
+.delta-value small { display: block; margin-top: 3px; color: var(--muted); font-size: 9px; line-height: 1.3; }
+.delta-value:last-child strong { color: var(--green); }
+.research-link {
   display: inline-flex;
   align-items: center;
-  justify-content: flex-end;
-  gap: 5px;
+  gap: 4px;
+  margin-top: 6px;
+  color: var(--ink);
+  font-size: 8.5px;
+  font-weight: 650;
+  line-height: 1.25;
+  text-decoration: none;
+  border-bottom: 1px solid #aaa99f;
 }
-#lloyal-incident-sim .activity-dots { display: inline-flex; align-items: center; gap: 2px; }
-#lloyal-incident-sim .activity-dots i {
-  display: block;
-  width: 3px;
-  height: 3px;
-  background: currentColor;
-  animation: agent-dot 1s ease-in-out infinite;
+.research-link:hover { color: var(--green); border-color: var(--green); }
+.source-type {
+  display: inline-block;
+  margin-top: 5px;
+  padding: 2px 4px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font: 7px ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: .06em;
+  text-transform: uppercase;
 }
-#lloyal-incident-sim .activity-dots i:nth-child(2) { animation-delay: .14s; }
-#lloyal-incident-sim .activity-dots i:nth-child(3) { animation-delay: .28s; }
-@keyframes agent-dot { 0%, 65%, 100% { transform: translateY(0); opacity: .35; } 32% { transform: translateY(-3px); opacity: 1; } }
-@media (prefers-reduced-motion: reduce) {
-  #lloyal-incident-sim .activity-dots i,
-  #lloyal-incident-sim .pulse { animation: none; }
-}
-#lloyal-incident-sim .branch-child {
-  --sim-fg: #111111;
-  --sim-muted-fg: #686863;
-  --sim-border: #d9d9d3;
-  margin: 0 0 0 64px;
-  padding: 8px 10px 8px 23px;
-  border-bottom: 1px solid var(--sim-border);
-  position: relative;
-  display: grid;
-  grid-template-columns: minmax(140px, .8fr) minmax(0, 1.3fr) 112px;
-  gap: 10px;
-  align-items: center;
-  background: color-mix(in srgb, var(--sim-card) 72%, var(--sim-accent));
-  color: #111111;
-}
-#lloyal-incident-sim .branch-child::before {
-  content: "";
-  position: absolute;
-  left: -31px;
-  top: -20px;
-  width: 34px;
-  height: 38px;
-  border-left: 1px solid var(--sim-fg);
-  border-bottom: 1px solid var(--sim-fg);
-}
-#lloyal-incident-sim .request-child::before { border-color: var(--sim-red); }
-#lloyal-incident-sim .branch-child .lane-title::before { content: "↳ "; }
-#lloyal-incident-sim .request-row {
-  --sim-fg: #111111;
-  --sim-muted-fg: #686863;
-  --sim-border: #d9d9d3;
-  display: grid;
-  grid-template-columns: 42px minmax(145px, .8fr) minmax(0, 1.5fr) 112px;
-  gap: 10px;
-  align-items: center;
-  min-height: 58px;
-  padding: 9px 10px;
-  background: var(--sim-card);
-  color: #111111;
-  border-top: 0;
-  border-bottom: 1px solid var(--sim-border);
-  box-shadow: inset 3px 0 0 var(--sim-red);
-}
-#lloyal-incident-sim .request-row .lane-code { color: var(--sim-red-text); }
-#lloyal-incident-sim .request-row .lane-title::before { content: "+ "; }
-#lloyal-incident-sim .execution-delta {
-  --sim-fg: #111111;
-  --sim-muted-fg: #686863;
-  --sim-border: #d9d9d3;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  border-top: 1px solid var(--sim-border);
-  border-bottom: 1px solid var(--sim-border);
-  margin-bottom: 14px;
-  background: #f5f5f1;
-  color: #111111;
-}
-#lloyal-incident-sim .delta-item { padding: 9px 10px; border-right: 1px solid var(--sim-border); }
-#lloyal-incident-sim .delta-item:last-child { border-right: 0; }
-#lloyal-incident-sim .delta-value { margin-top: 3px; font-size: 13px; font-weight: 500; }
-#lloyal-incident-sim .delta-detail { margin-top: 4px; color: var(--sim-muted-fg); font-size: 11px; line-height: 1.35; }
-#lloyal-incident-sim .event-list { display: grid; gap: 0; }
-#lloyal-incident-sim .event {
-  display: grid;
-  grid-template-columns: 48px 1fr;
-  gap: 9px;
-  padding: 10px 0;
-  border-bottom: 1px solid var(--sim-border);
-}
-#lloyal-incident-sim .event-time {
-  color: var(--sim-muted-fg);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 11px;
-}
-#lloyal-incident-sim .event-kind { margin-bottom: 3px; }
-#lloyal-incident-sim .event-copy { color: var(--sim-muted-fg); font-size: 12px; line-height: 1.4; }
-#lloyal-incident-sim .event.critical .event-kind { color: var(--sim-red-text); }
-#lloyal-incident-sim .event.resolved .event-kind { color: var(--sim-green-text); }
-#lloyal-incident-sim .empty-events { color: var(--sim-muted-fg); font-size: 12px; padding-top: 12px; }
-#lloyal-incident-sim .sim-status {
-  padding: 15px 20px;
-  background: #efefea;
-  color: #111111;
-  border-top: 1px solid #d5d5cf;
+.precedent-strip {
   display: flex;
-  justify-content: space-between;
-  gap: 14px;
   flex-wrap: wrap;
+  gap: 7px 14px;
+  align-items: center;
+  padding: 8px 10px;
+  border-top: 1px solid var(--line);
+  background: #fafaf7;
+  color: var(--muted);
+  font-size: 9px;
+  line-height: 1.35;
 }
-#lloyal-incident-sim .sim-status span:last-child { opacity: .7; }
-#lloyal-incident-sim .pulse { animation: lloyal-pulse 1.15s ease-in-out infinite; }
-@keyframes lloyal-pulse { 50% { opacity: .42; } }
-@media (max-width: 760px) {
-  #lloyal-incident-sim .sim-head { grid-template-columns: 1fr; }
-  #lloyal-incident-sim .deployment-picker { min-width: 0; }
-  #lloyal-incident-sim .sim-main { grid-template-columns: 1fr; }
-  #lloyal-incident-sim .sim-summary { grid-template-columns: 1fr; gap: 7px; }
-  #lloyal-incident-sim .intervention-flash { flex-wrap: wrap; gap: 4px 10px; }
-  #lloyal-incident-sim .evidence-panel { border-left: 0; border-top: 1px solid var(--sim-border); }
-  #lloyal-incident-sim .lane { grid-template-columns: 35px minmax(120px, 1fr) 92px; }
-  #lloyal-incident-sim .lane-detail { grid-column: 2 / 4; }
-  #lloyal-incident-sim .branch-child { margin-left: 44px; grid-template-columns: 1fr 90px; }
-  #lloyal-incident-sim .branch-child .lane-detail { grid-column: 1 / 3; }
-  #lloyal-incident-sim .request-row { grid-template-columns: 35px minmax(120px, 1fr) 92px; }
-  #lloyal-incident-sim .request-row .lane-detail { grid-column: 2 / 4; }
-  #lloyal-incident-sim .execution-delta { grid-template-columns: 1fr; }
-  #lloyal-incident-sim .delta-item { border-right: 0; border-bottom: 1px solid var(--sim-border); }
-  #lloyal-incident-sim .delta-item:last-child { border-bottom: 0; }
+.precedent-strip strong { color: var(--ink); }
+.precedent-strip a { color: var(--ink); text-decoration: none; border-bottom: 1px solid #aaa99f; }
+.precedent-strip a:hover { color: var(--green); border-color: var(--green); }
+.precedent-caveat { margin-left: auto; font: 8px ui-monospace, SFMono-Regular, Menlo, monospace; text-transform: uppercase; }
+.viewbar {
+  display: block;
+  border: 1px solid var(--line);
+  border-bottom: 0;
+  background: #fff;
+}
+.view-tabs { display: grid; grid-template-columns: 1fr 1fr; }
+.view-tab {
+  appearance: none;
+  border: 0;
+  border-right: 1px solid var(--line);
+  border-bottom: 3px solid transparent;
+  padding: 12px 14px 10px;
+  background: #fff;
+  color: var(--muted);
+  text-align: left;
+  cursor: pointer;
+}
+.view-tab strong { display: block; color: inherit; font-size: 12px; }
+.view-tab span { display: block; margin-top: 2px; font-size: 9px; }
+.view-tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); background: #fafaf7; }
+.view-tab.with[aria-selected="true"] { color: var(--green); border-bottom-color: var(--green); background: #f5faf7; }
+.deployment-select {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  padding: 9px 11px;
+  background: #fff;
+  color: var(--ink);
+  font: 12px ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+.deployment-detail { grid-column: 1; display: grid; gap: 2px; color: var(--muted); font-size: 10px; line-height: 1.3; }
+.deployment-detail strong { color: var(--ink); font-size: 10.5px; font-weight: 600; }
+.deployment-detail span { display: block; }
+.deployment-detail a { color: inherit; text-decoration: none; border-bottom: 1px solid #aaa99f; }
+.deployment-detail a:hover { color: var(--green); border-color: var(--green); }
+.decision-strip { margin-top: 14px; display: grid; grid-template-columns: 1.05fr 1fr 1fr; gap: 0; align-items: stretch; border: 1px solid var(--line); background: #fff; opacity: 0; transform: translateY(5px); transition: opacity .25s, transform .25s; }
+.decision-strip.visible { opacity: 1; transform: none; }
+.decision-summary, .decision-result { padding: 13px 15px; border-right: 1px solid var(--line); }
+.decision-result:last-child { border-right: 0; background: #f5faf7; }
+.decision-title { margin-top: 4px; font-size: 14px; font-weight: 720; line-height: 1.25; }
+.decision-detail { margin-top: 4px; color: var(--muted); font-size: 10px; line-height: 1.4; }
+.decision-result strong { display: block; margin-top: 5px; font-size: 12px; line-height: 1.3; }
+.decision-result:last-child strong { color: var(--green); }
+.decision-result small { display: block; margin-top: 4px; color: var(--muted); font-size: 9px; line-height: 1.35; }
+.events { margin-top: 18px; border: 1px solid var(--line); background: #fff; }
+.events-head { display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: center; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+.events-head h2 { margin: 4px 0 0; font-size: 17px; letter-spacing: -.02em; }
+.events-count { color: var(--muted); font: 10px ui-monospace, SFMono-Regular, Menlo, monospace; }
+.event-table-head, .event-row { display: grid; grid-template-columns: 46px 56px minmax(150px,.7fr) minmax(190px,1fr) minmax(190px,1fr); }
+.event-table-head { background: #f7f6f2; border-bottom: 1px solid var(--line); color: var(--muted); font-size: 9px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.event-table-head > div, .event-row > div { padding: 9px 10px; border-right: 1px solid var(--line); }
+.event-table-head > div:last-child, .event-row > div:last-child { border-right: 0; }
+.event-row { min-height: 57px; border-bottom: 1px solid var(--line); animation: row-in .28s ease-out both; }
+.event-row:last-child { border-bottom: 0; }
+@keyframes row-in { from { opacity: 0; transform: translateY(3px); } to { opacity: 1; transform: none; } }
+.event-id, .event-time { color: var(--muted); font: 10px ui-monospace, SFMono-Regular, Menlo, monospace; }
+.event-name { font-size: 11px; font-weight: 680; }
+.event-sub { margin-top: 3px; color: var(--muted); font-size: 9px; line-height: 1.3; }
+.action { display: flex; gap: 7px; align-items: flex-start; color: var(--muted); font-size: 10px; line-height: 1.35; }
+.status-mark { flex: 0 0 auto; min-width: 17px; height: 17px; display: grid; place-items: center; border: 1px solid var(--line); color: var(--muted); font: 9px ui-monospace, SFMono-Regular, Menlo, monospace; }
+.status-mark.good { color: var(--green); border-color: #9fc4af; background: #f5faf7; }
+.status-mark.warn { color: var(--amber); border-color: #cfb675; background: #fffaf0; }
+.status-mark.bad { color: var(--red); border-color: #d5a29c; background: #fff7f6; }
+.footer-note { padding: 12px 24px 20px; color: var(--muted); font-size: 10px; line-height: 1.45; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+@media (max-width: 1080px) {
+  .topbar { grid-template-columns: 1fr; gap: 14px; }
+  .header-runtime { width: 100%; min-width: 0; grid-template-columns: minmax(0,1fr); }
+  .world { grid-template-columns: 1fr; }
+  .stakes-strip { grid-template-columns: 1fr 1fr; }
+  .stake:nth-child(2) { border-right: 0; }
+  .stake:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+  .delta-grid { grid-template-columns: 1fr 1fr; }
+  .delta-card:nth-child(2) { border-right: 0; }
+  .delta-card:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+  .event-table-head, .event-row { grid-template-columns: 42px 52px minmax(130px,.6fr) minmax(180px,1fr) minmax(180px,1fr); }
+}
+@media (max-width: 1250px) {
+  .run-pane.active { grid-template-columns: 1fr; grid-template-rows: auto auto auto auto; }
+  .run-pane .run-head, .run-pane .metrics, .run-pane .history, .explain-panel { grid-column: 1; }
+  .run-pane .run-head { grid-row: 1; }
+  .run-pane .metrics { grid-row: 2; }
+  .run-pane .history { grid-row: 3; }
+  .explain-panel { grid-row: 4; border-left: 0; border-top: 1px solid var(--line); }
+}
+@media (max-width: 720px) {
+  .topbar, .world, .workspace, .controlbar { padding-left: 14px; padding-right: 14px; }
+  .stakes-strip { padding-left: 14px; padding-right: 14px; grid-template-columns: 1fr; }
+  .stake, .stake:first-child { padding-left: 0; border-right: 0; border-bottom: 1px solid var(--line); }
+  .topbar { grid-template-columns: 1fr; }
+  .header-runtime { width: 100%; min-width: 0; grid-template-columns: minmax(0,1fr); }
+  .controlbar { grid-template-columns: auto auto 1fr auto; }
+  .phase { grid-column: 1 / -1; justify-content: flex-start; }
+  .axis, .track-row { grid-template-columns: 166px minmax(0,1fr); gap: 6px; }
+  .request-boundary, .lineage-banner { margin-left: 172px; }
+  .request-card { grid-template-columns: 155px minmax(0,1fr); }
+  .delta-grid, .decision-strip { grid-template-columns: 1fr; }
+  .delta-card { border-right: 0; border-bottom: 1px solid var(--line); }
+  .decision-summary, .decision-result { border-right: 0; border-bottom: 1px solid var(--line); }
+  .event-table-head { display: none; }
+  .event-row { grid-template-columns: 40px 48px 1fr; }
+  .event-row .action { grid-column: 3; border-top: 1px dashed var(--line); }
+  .event-row > div:nth-child(4), .event-row > div:nth-child(5) { border-right: 0; }
 }
 </style>
   <link rel="icon" type="image/png" href="/favicon.png">
@@ -428,467 +544,575 @@ html, body {
   <meta name="robots" content="noindex, noarchive">
 
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Marine casualty response simulation">
-  <meta property="og:description" content="Six analysts work a disabled bulk carrier in the Torres Strait — the same incident run against independent endpoint calls, and against one live context.">
+  <meta property="og:title" content="Hormuz transit decision">
+  <meta property="og:description" content="A $250m tanker must enter the Strait of Hormuz before its window closes. A verified threat alert changes the safe route, then the war-risk underwriter reprices cover — the same incident followed through two control boundaries.">
   <meta property="og:image" content="https://lloyal.ai/assets/sim-marine-casualty-og.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:type" content="image/png">
-  <meta property="og:image:alt" content="The world changes mid-run. Marine casualty response, a Lloyal Labs simulation.">
+  <meta property="og:image:alt" content="The world changes mid-run. Strait of Hormuz transit decision, a Lloyal Labs simulation.">
   <meta property="og:url" content="https://lloyal.ai/sim/marine-casualty">
   <meta property="og:site_name" content="LLoyal Labs">
   <meta property="og:locale" content="en_AU">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Marine casualty response simulation">
-  <meta name="twitter:description" content="Six analysts work a disabled bulk carrier in the Torres Strait — the same incident run against independent endpoint calls, and against one live context.">
+  <meta name="twitter:title" content="Hormuz transit decision">
+  <meta name="twitter:description" content="A $250m tanker must enter the Strait of Hormuz before its window closes. A verified threat alert changes the safe route, then the war-risk underwriter reprices cover — the same incident followed through two control boundaries.">
   <meta name="twitter:image" content="https://lloyal.ai/assets/sim-marine-casualty-og.png">
-  <meta name="twitter:image:alt" content="The world changes mid-run. Marine casualty response, a Lloyal Labs simulation.">
+  <meta name="twitter:image:alt" content="The world changes mid-run. Strait of Hormuz transit decision, a Lloyal Labs simulation.">
 </head>
 <body>
-
-<div id="lloyal-incident-sim" aria-label="Interactive comparison of calls to a model endpoint and Lloyal Continuous Context during a maritime evidence supersession">
-  <div class="sim-head">
-    <div>
-      <div class="sim-kicker">Marine casualty response · simulation</div>
-      <div class="sim-brief">A bulk carrier has lost propulsion in the Torres Strait. Six analysts establish who is exposed, what traffic is affected and which decisions can safely be made.</div>
+<main class="app" aria-label="Synthetic Strait of Hormuz transit decision execution comparison">
+  <header class="topbar">
+    <div class="header-scenario">
+      <div class="header-scenario-kicker">Strait of Hormuz · live transit-risk desk (SIMULATION)</div>
+      <div class="header-scenario-copy"><strong>Marine insurance decision:</strong> a $250m tanker must enter Hormuz by 02:10Z. A verified maritime threat alert changes the safe route; minutes later the war-risk underwriter reprices cover from $7.5m to $3.75m. The desk must update insurance cover, charter liability and the master’s orders before the transit window closes.</div>
     </div>
-    <div class="deployment-picker">
+    <div class="header-runtime">
       <label for="deployment-select" id="deployment-label">Model endpoint</label>
-      <select class="machine-select" id="deployment-select" aria-describedby="placement-note placement-detail">
+      <select class="deployment-select" id="deployment-select">
         <option value="qwen">Qwen3.5 4B · Hugging Face</option>
         <option value="glm">GLM-5.2 · Hugging Face</option>
       </select>
-      <div class="placement-note" id="placement-note">Application selects an endpoint · provider places execution</div>
-      <div class="placement-detail" id="placement-detail">Qwen3.5 4B · Hugging Face Inference Provider</div>
-      <div class="placement-caveat">Scenario timing · performance not compared</div>
+      <div class="deployment-detail" id="deployment-detail"><strong>Application selects an endpoint · provider places execution</strong><span>Qwen3.5 4B · 32K context · Hugging Face Inference Provider</span><span>Scenario timing · performance not compared</span></div>
     </div>
-  </div>
-
-  <div class="sim-tabs" role="tablist" aria-label="Execution condition">
-    <button type="button" class="sim-tab" id="tab-without" role="tab" aria-selected="true" aria-controls="sim-work">
-      <strong>Without Lloyal</strong><span>Calls to model endpoint</span>
-    </button>
-    <button type="button" class="sim-tab" id="tab-with" role="tab" aria-selected="false" aria-controls="sim-work">
-      <strong>With Lloyal</strong><span>Continuous Context</span>
-    </button>
-  </div>
-
-  <section class="sim-summary" aria-live="polite">
-    <div class="sim-label">Outside world</div>
-    <div class="summary-copy">
-      <p class="summary-headline" id="summary-headline">A disabled bulk carrier is constraining traffic through the Torres Strait.</p>
-      <p class="summary-detail" id="summary-detail">Insurers, charterers and commodity desks need a current exposure report before they release cover, reroute cargo or act on sanctions risk.</p>
+  </header>
+  <section class="world" aria-live="polite">
+    <div class="world-copy">
+      <div class="section-kicker">Outside world</div>
+      <div class="world-headline" id="world-headline">Tanker01 is 42 nautical miles east of the traffic scheme.</div>
+      <p class="world-detail" id="world-detail">The master needs a proceed-or-hold instruction before the next transit window. War-risk cover is in force and the charterer is awaiting the route decision.</p>
+    </div>
+    <div class="route-card" aria-label="Vessel approach to the Strait of Hormuz">
+      <div class="route-meta"><span>TANKER01 · SYNTHETIC LADEN OIL TANKER</span><span id="cover-state">COVER · IN FORCE</span></div>
+      <div class="route-line"></div>
+      <div class="route-place east">GULF OF OMAN</div>
+      <div class="route-place strait">STRAIT ENTRY · DECISION REQUIRED</div>
+      <div class="advisory-zone" id="advisory-zone" style="left:71%"></div>
+      <div class="vessel" id="vessel" style="left:22%"><span class="vessel-label">42 NM EAST</span><div class="vessel-mark"></div></div>
     </div>
   </section>
-
-  <div class="sim-controls" aria-label="Simulation controls">
-    <button type="button" class="sim-btn primary" id="sim-play">Play</button>
-    <button type="button" class="sim-btn" id="sim-reset">Reset</button>
-    <input class="sim-range" id="sim-range" type="range" min="0" max="90" value="0" step="1" aria-label="Simulation timeline">
-    <div class="sim-clock" id="sim-clock">00:00</div>
-  </div>
-
-  <section class="intervention-flash" id="intervention-flash" aria-live="assertive">
-    <div class="intervention-kicker" id="intervention-kicker">Application intervention</div>
-    <div class="intervention-line" id="intervention-line"></div>
+  <section class="stakes-strip" aria-label="Commercial and geopolitical stakes">
+    <div class="stake"><div class="stake-label">Energy chokepoint</div><div class="stake-value">20m barrels / day</div><div class="stake-detail">About 20% of global petroleum liquids consumption crossed Hormuz in 2024. <a href="https://www.eia.gov/todayinenergy/detail.php?id=65504" target="_blank" rel="noopener">EIA ↗</a></div></div>
+    <div class="stake"><div class="stake-label">Insured hull · scenario</div><div class="stake-value">$250m tanker</div><div class="stake-detail">Illustrative vessel value within the $200m–$300m range reported for tankers.</div></div>
+    <div class="stake"><div class="stake-label">Hull war additional premium</div><div class="stake-value warn" id="war-premium">3.0% · $7.5m</div><div class="stake-detail" id="war-premium-detail">Illustrative quote using the market example reported by Reuters. <a href="https://www.reuters.com/world/middle-east/maritime-insurance-premiums-surge-iran-conflict-widens-2026-03-06/" target="_blank" rel="noopener">Market context ↗</a></div></div>
+    <div class="stake"><div class="stake-label">Charter allocation · CONWARTIME 2025</div><div class="stake-value" id="charter-allocation">Owner may refuse · charterer reimburses AP</div><div class="stake-detail">War-risk orders, insurance costs, deviation and delay must be reconciled against the actual charter terms. <a href="https://www.bimco.org/contractual-affairs/bimco-clauses/current-clauses/war_risks_clause_for_time_charters_2025/" target="_blank" rel="noopener">BIMCO clause ↗</a></div></div>
   </section>
-
-  <div class="sim-main">
-    <section class="work-panel" id="sim-work" role="tabpanel" aria-live="polite">
-      <div class="panel-head">
-        <div class="panel-title" id="work-title">Independent endpoint calls</div>
-        <div class="panel-sub" id="work-sub">Orchestrator over model endpoints · six independent calls</div>
+  <div class="controlbar" aria-label="Simulation controls">
+    <button class="btn primary" id="play" type="button">Play incident</button>
+    <button class="btn" id="reset" type="button">Reset</button>
+    <input class="timeline-range" id="range" type="range" min="0" max="90" step="1" value="0" aria-label="Incident timeline">
+    <div class="clock" id="clock">00:00</div>
+    <div class="phase"><span class="phase-label">Phase</span><strong id="phase">Case work</strong></div>
+  </div>
+  <section class="workspace">
+    <div class="compare-head">
+      <div><div class="section-kicker">Two execution models</div><h2>Follow the same incident through each control boundary.</h2></div>
+      <div class="compare-note">Switch tabs without resetting the incident clock</div>
+    </div>
+    <section class="delta-board" aria-label="Why the control boundary matters">
+      <div class="delta-head">
+        <strong>Why it matters · fresh runs can diverge before the work has properly begun</strong>
+        <span>Published research + exact scenario invariants</span>
       </div>
-      <div class="execution-delta" id="execution-delta" aria-label="Execution consequence"></div>
-      <div class="lane-list" id="lane-list"></div>
+      <div class="delta-grid">
+        <article class="delta-card">
+          <div class="delta-axis">Decision attribution</div>
+          <div class="delta-values">
+            <div class="delta-value"><div class="delta-side">Independent runs</div><strong>≤1% to divergence</strong><small>Policy effect becomes entangled with a different trajectory</small><a class="research-link" href="https://arxiv.org/abs/2602.07150" target="_blank" rel="noopener">KTH · 60,000 trajectories ↗</a></div>
+            <div class="delta-value"><div class="delta-side">Matched continuations</div><strong>1 declared difference</strong><small>Carrier, sampler, PRNG and logits match before policy differs</small></div>
+          </div>
+        </article>
+        <article class="delta-card">
+          <div class="delta-axis">Rerun reliability</div>
+          <div class="delta-values">
+            <div class="delta-value"><div class="delta-side">Published research</div><strong>Up to 15%</strong><small>Accuracy variation across identical hosted calls at deterministic settings</small><a class="research-link" href="https://aclanthology.org/2025.eval4nlp-1.12/" target="_blank" rel="noopener">Atıl et al. · 5 models × 8 tasks × 10 runs ↗</a></div>
+            <div class="delta-value"><div class="delta-side">Lloyal control</div><strong>0 reseeds</strong><small>Exact children continue the parent’s stochastic state</small></div>
+          </div>
+        </article>
+        <article class="delta-card">
+          <div class="delta-axis">Repeated inference work</div>
+          <div class="delta-values">
+            <div class="delta-value"><div class="delta-side">Endpoint</div><strong id="delta-rebuilds">0 prefixes</strong><small>Reconstructed from the stored case record</small><span class="source-type">Scenario execution fact</span></div>
+            <div class="delta-value"><div class="delta-side">Lloyal</div><strong>0 prefixes</strong><small>One resident parent is forked in place</small><span class="source-type">Scenario execution fact</span></div>
+          </div>
+        </article>
+        <article class="delta-card">
+          <div class="delta-axis">Operational continuity</div>
+          <div class="delta-values">
+            <div class="delta-value"><div class="delta-side">Endpoint</div><strong>Transcript only</strong><small>No execution state remains for the next event</small><span class="source-type">Architecture invariant</span></div>
+            <div class="delta-value"><div class="delta-side">Lloyal</div><strong id="delta-continuing">1 live state</strong><small>Chosen policy state becomes the future</small><span class="source-type">Architecture invariant</span></div>
+          </div>
+        </article>
+      </div>
+      <div class="precedent-strip"><strong>Independent systems precedent</strong><span>Retained processed state: <a href="https://dl.acm.org/doi/10.1145/3689031.3696086" target="_blank" rel="noopener">1.14–3.0× throughput · Pensieve ↗</a></span><span>Shared-prefix execution: <a href="https://proceedings.neurips.cc/paper_files/paper/2024/hash/724be4472168f31ba1c9ac630f15dec8-Abstract-Conference.html" target="_blank" rel="noopener">up to 6.4× · SGLang ↗</a></span><span class="precedent-caveat">Context only · not this run’s measured gain</span></div>
     </section>
-
-    <aside class="evidence-panel" aria-label="Evidence ledger">
-      <div class="panel-head">
-        <div class="panel-title">Evidence ledger</div>
-        <div class="panel-sub">Shared incident clock</div>
+    <div class="viewbar">
+      <div class="view-tabs" role="tablist" aria-label="Execution model">
+        <button class="view-tab endpoint" id="view-endpoint" role="tab" aria-selected="true" aria-controls="pane-endpoint" type="button"><strong>Without Lloyal</strong><span>LangGraph-style endpoint calls · execution restarts</span></button>
+        <button class="view-tab with" id="view-lloyal" role="tab" aria-selected="false" aria-controls="pane-lloyal" type="button"><strong>With Lloyal</strong><span>One parent · three controlled continuations</span></button>
       </div>
-      <div class="event-list" id="event-list"></div>
-    </aside>
-  </div>
-
-  <div class="sim-status" id="sim-status">
-    <span>Case active · 6 analysts</span><span>0 unresolved supersessions</span>
-  </div>
-</div>
-
+    </div>
+    <div class="run-grid">
+      <article class="run-pane endpoint active" id="pane-endpoint" role="tabpanel" aria-label="Endpoint orchestration run">
+        <div class="run-head">
+          <div><div class="run-kicker">Without Lloyal · LangGraph-style endpoint orchestration</div><div class="run-title">One execution ends. Three root requests begin again.</div><div class="run-thesis">The graph persists workflow and messages; model execution remains request-shaped.</div></div>
+          <div class="run-state" id="endpoint-state">RUN EP-042 · OPEN</div>
+        </div>
+        <div class="metrics" id="endpoint-metrics"></div>
+        <div class="history" id="endpoint-history"></div>
+        <div class="proof" id="endpoint-proof"></div>
+        <div class="run-caption" id="endpoint-caption"></div>
+        <aside class="explain-panel" id="endpoint-explainer" aria-live="polite"></aside>
+      </article>
+      <article class="run-pane with" id="pane-lloyal" role="tabpanel" aria-label="Lloyal Continuous Context run" hidden>
+        <div class="run-head">
+          <div><div class="run-kicker">With Lloyal · continuous context</div><div class="run-title">One execution becomes three policy states.</div><div class="run-thesis">Application policy acts on resident model execution.</div></div>
+          <div class="run-state" id="lloyal-state">RUN CC-042 · RESIDENT</div>
+        </div>
+        <div class="metrics" id="lloyal-metrics"></div>
+        <div class="history" id="lloyal-history"></div>
+        <div class="proof" id="lloyal-proof"></div>
+        <div class="run-caption" id="lloyal-caption"></div>
+        <aside class="explain-panel" id="lloyal-explainer" aria-live="polite"></aside>
+      </article>
+    </div>
+    <div class="decision-strip" id="decision-strip">
+      <div class="decision-summary"><div class="section-kicker">Immediate instruction · same</div><div class="decision-title">Constrained transit in the approved 02:10Z security window</div><div class="decision-detail">Master holds east of the traffic scheme · cover continues on revised terms · charterer issues conforming orders.</div></div>
+      <div class="decision-result"><div class="section-kicker">Endpoint retains</div><strong>One selected response</strong><small>Three independently generated proposals cannot isolate policy effect from trajectory variance. The next event starts from a transcript.</small></div>
+      <div class="decision-result"><div class="section-kicker">Lloyal retains</div><strong>One promoted decision state</strong><small>All courses share one instantiated basis. The selected state remains live, attributable and ready for the next event.</small></div>
+    </div>
+    <section class="events" aria-label="Comparative event history">
+      <div class="events-head"><div><div class="section-kicker">Event history</div><h2>The incident, and what each execution model can do about it</h2></div><div class="events-count" id="events-count">0 / 9 EVENTS</div></div>
+      <div class="event-table-head"><div>#</div><div>Time</div><div>Event</div><div>Endpoint orchestration</div><div>With Lloyal</div></div>
+      <div id="event-rows"></div>
+    </section>
+  </section>
+  <div class="footer-note">Synthetic demonstration. Vessel, advisory, security window, premium quote changes, coverage terms, timings and course outcomes are illustrative; cited market and contractual context is not operational guidance or a live quote.</div>
+</main>
 <script>
 (function () {
   "use strict";
-  const root = document.getElementById("lloyal-incident-sim");
-  const playButton = root.querySelector("#sim-play");
-  const resetButton = root.querySelector("#sim-reset");
-  const range = root.querySelector("#sim-range");
-  const clock = root.querySelector("#sim-clock");
-  const laneList = root.querySelector("#lane-list");
-  const eventList = root.querySelector("#event-list");
-  const status = root.querySelector("#sim-status");
-  const workTitle = root.querySelector("#work-title");
-  const workSub = root.querySelector("#work-sub");
-  const executionDelta = root.querySelector("#execution-delta");
-  const interventionFlash = root.querySelector("#intervention-flash");
-  const interventionKicker = root.querySelector("#intervention-kicker");
-  const interventionLine = root.querySelector("#intervention-line");
-  const summaryHeadline = root.querySelector("#summary-headline");
-  const summaryDetail = root.querySelector("#summary-detail");
-  const tabWithout = root.querySelector("#tab-without");
-  const tabWith = root.querySelector("#tab-with");
-  const deploymentSelect = root.querySelector("#deployment-select");
-  const deploymentLabel = root.querySelector("#deployment-label");
-  const placementNote = root.querySelector("#placement-note");
-  const placementDetail = root.querySelector("#placement-detail");
-
-  let mode = "without";
-  let t = 0;
-  let playing = false;
-  let timer = null;
-
-  const lanes = [
-    { id: "L1", title: "Hull registry & flag", base: "registry lookup · filing history", affected: true },
-    { id: "L2", title: "Beneficial ownership", base: "corporate chain · controlling interests", affected: true },
-    { id: "L3", title: "Sanctions & PEP", base: "entities · jurisdictions · designations", affected: true },
-    { id: "L4", title: "AIS track", base: "position · speed · incident window", affected: false },
-    { id: "L5", title: "Charter & laytime", base: "delay allocation · contractual exposure", affected: false },
-    { id: "L6", title: "Class survey history", base: "inspection · defects · recommendations", affected: false }
+  const $ = (id) => document.getElementById(id);
+  const play = $("play"), reset = $("reset"), range = $("range"), clock = $("clock"), phase = $("phase");
+  const worldHeadline = $("world-headline"), worldDetail = $("world-detail"), coverState = $("cover-state");
+  const warPremium = $("war-premium"), warPremiumDetail = $("war-premium-detail"), charterAllocation = $("charter-allocation");
+  const vessel = $("vessel"), advisoryZone = $("advisory-zone");
+  const endpointHistory = $("endpoint-history"), lloyalHistory = $("lloyal-history");
+  const endpointMetrics = $("endpoint-metrics"), lloyalMetrics = $("lloyal-metrics");
+  const endpointProof = $("endpoint-proof"), lloyalProof = $("lloyal-proof");
+  const endpointCaption = $("endpoint-caption"), lloyalCaption = $("lloyal-caption");
+  const endpointExplainer = $("endpoint-explainer"), lloyalExplainer = $("lloyal-explainer");
+  const endpointState = $("endpoint-state"), lloyalState = $("lloyal-state");
+  const decisionStrip = $("decision-strip"), eventRows = $("event-rows"), eventsCount = $("events-count");
+  const viewEndpoint = $("view-endpoint"), viewLloyal = $("view-lloyal");
+  const paneEndpoint = $("pane-endpoint"), paneLloyal = $("pane-lloyal");
+  const deploymentSelect = $("deployment-select"), deploymentLabel = $("deployment-label"), deploymentDetail = $("deployment-detail");
+  const deltaRebuilds = $("delta-rebuilds"), deltaContinuing = $("delta-continuing");
+  let t = 0, timer = null, playing = false, activeView = "endpoint", modelKey = "qwen";
+  const courses = [
+    { code: "P1", name: "Hold position", endpoint: "cover preserved · delay allocation", outcome: "War AP avoided · delay exposure", selected: false },
+    { code: "P2", name: "Constrained transit", endpoint: "security window · conditional cover", outcome: "3.0% AP · $7.5m · charterer reimburses", selected: true },
+    { code: "P3", name: "Cape reroute", endpoint: "war AP avoided · fuel + charter exposure", outcome: "War AP avoided · +11.4 days", selected: false }
   ];
-
-  function esc(value) {
-    return String(value).replace(/[&<>"']/g, function (c) {
-      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[c];
-    });
+  const events = [
+    { at: 0, name: "Six specialist agents start", sub: "Navigation · war cover · charter · sanctions · cargo · class", ep: "Six specialist agent calls begin from the voyage record.", cc: "Six specialist agents begin inside one scoped workflow." },
+    { at: 6, name: "Agent analysis underway", sub: "Live advisories · insurance · contracts · vessel condition", ep: "Tools return into six independent agent request histories.", cc: "Tools return into six application-owned agent lineages." },
+    { at: 22, name: "Six agent analyses completed", sub: "Initial case basis established", ep: "The six agent outputs are stored as a case record for the decision call.", cc: "The six agent outputs extend one resident decision state." },
+    { at: 28, name: "Transit decision underway", sub: "Proceed · hold · alternative orders", ep: "A model endpoint is generating the integrated recommendation.", cc: "The integrated decision lineage is decoding from live state." },
+    { at: 34, name: "Security advisory verified", sub: "Incident near intended lane · effective now", ep: "The active generation cannot receive a new turn.", cc: "The event is queued for the next controlled turn boundary." },
+    { at: 37, name: "Applicability gate passed", sub: "Time · vessel position · governing cover", ep: "Application must wait for the old turn or cancel it.", cc: "Harness admits the advisory before the conclusion settles." },
+    { at: 44, name: "Policy courses created", sub: "Hold · constrained transit · reroute", ep: "Three prompts are reconstructed; three new request IDs start.", cc: "One resident state forks three times; no child is reseeded." },
+    { at: 70, name: "Courses resolved", sub: "Operational · insurance · charter consequences", ep: "Three independently generated responses are available.", cc: "Three matched policy continuations return from one basis." },
+    { at: 76, name: "Course promoted", sub: "Constrained transit · approved security window", ep: "One response is selected; its execution state is unavailable.", cc: "The selected child becomes the continuing decision state." },
+    { at: 83, name: "Underwriter revises terms", sub: "AP 3.0% → 1.5% · security-window conditions", ep: "The selected response is stale; a fourth root request begins.", cc: "The revised terms enter promoted state S-17.2; cover and orders update in place." },
+    { at: 88, name: "Amended orders due", sub: "02:10Z security window", ep: "Cover allocation and the master's amended orders remain under review.", cc: "Conditional cover is reconciled, CONWARTIME allocation retained and amended orders issued." }
+  ];
+  function esc(value) { return String(value).replace(/[&<>"']/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c])); }
+  function pct(value) { return (Math.max(0, Math.min(90, value)) / 90 * 100).toFixed(3); }
+  function fmt(value) { const s = Math.floor(value); return String(Math.floor(s / 60)).padStart(2,"0") + ":" + String(s % 60).padStart(2,"0"); }
+  function seg(start, end, cls) {
+    if (t <= start) return "";
+    const visible = Math.min(t, end);
+    if (visible <= start) return "";
+    return '<span class="seg ' + esc(cls || "") + '" style="left:' + pct(start) + '%;width:' + (((visible-start)/90)*100).toFixed(3) + '%"></span>';
   }
-
-  function formatTime(value) {
-    const seconds = Math.max(0, Math.min(90, Math.floor(value)));
-    const minutes = Math.floor(seconds / 60);
-    const remainder = seconds % 60;
-    return String(minutes).padStart(2, "0") + ":" + String(remainder).padStart(2, "0");
-  }
-
-  function formatTokens(value) {
-    return Math.max(0, Math.floor(value)).toLocaleString("en-US") + " tok";
-  }
-
-  function selectedModel() {
-    return deploymentSelect.value === "glm" ? "glm" : "qwen";
-  }
-
-  function placementProfile() {
-    const model = selectedModel();
-    if (mode === "without") {
-      return model === "glm"
-        ? { detail: "GLM-5.2 · Hugging Face Inference Provider" }
-        : { detail: "Qwen3.5 4B · Hugging Face Inference Provider" };
-    }
-    return model === "glm"
-      ? { detail: "GLM-5.2 · UD-IQ2_M · 131K context · CUDA / Blackwell" }
-      : { detail: "Qwen3.5 4B · Q4_K_M · 32K context · Metal" };
-  }
-
-  function activeState(label) {
-    return '<span class="agent-activity"><span>' + esc(label) + '</span><span class="activity-dots" aria-hidden="true"><i></i><i></i><i></i></span></span>';
-  }
-
-  function laneTokens(lane) {
-    const index = Number(lane.id.slice(1));
-    const rate = 21 + index * 4;
-    if (mode === "without" && lane.affected && t >= 34) return (34 * rate) + index * 73;
-    if (mode === "with" && lane.affected && t >= 29) return (29 * rate) + index * 73;
-    return Math.min(t, 78) * rate + index * 73;
-  }
-
-  function taskPhase(lane) {
-    const offset = (Number(lane.id.slice(1)) * 3) % 11;
-    const phase = t + offset;
-    if (phase < 12) return "retrieving";
-    if (phase < 34) return "analyzing";
-    if (phase < 61) return "corroborating";
-    return "drafting";
-  }
-
-  function eventAt(at, kind, copy, tone) {
+  function node(at, cls, text) {
     if (t < at) return "";
-    const cls = tone ? " " + tone : "";
-    return '<div class="event' + cls + '"><div class="event-time">' + formatTime(at) + '</div><div><div class="event-kind">' + esc(kind) + '</div><div class="event-copy">' + esc(copy) + '</div></div></div>';
+    return '<span class="node ' + esc(cls || "") + '" style="left:' + pct(at) + '%"><span>' + esc(text || "") + '</span></span>';
   }
-
-  function renderEvents() {
-    let html = "";
-    html += eventAt(0, "Incident", "Bulk carrier loses propulsion in the Torres Strait", "critical");
-    html += eventAt(5, "Tool call", "registry.lookup(IMO 9387421)", "");
-    html += eventAt(9, "Tool call", "ais.track(0412Z–0715Z)", "");
-    html += eventAt(16, "Evidence received", "Filing 17 · flag state: Panama", "");
-    html += eventAt(24, "Superseding filing received", "Filing 18 claims Liberia supersedes Panama", "critical");
-    if (mode === "with") {
-      html += eventAt(25, "Temporal applicability", "Effective date · jurisdiction · supersession · event time tested", "critical");
-    } else {
-      html += eventAt(25, "Current evidence selected", "Application replaces filing 17 with filing 18 in affected inputs", "critical");
-    }
-    html += eventAt(27, "Affected analyses identified", "Current flag state bears on L1 · L2 · L3", "critical");
-    html += eventAt(29, "Completion invariant", "No final report while 3 material findings remain unresolved", "critical");
-
-    if (mode === "with") {
-      html += eventAt(34, "Contradiction-triggered expansion", "Preserve L1 · fork provenance and applicability challenge", "");
-      html += eventAt(41, "Current evidence accepted", "Filing 18 established as governing", "resolved");
-      html += eventAt(44, "Live state forked", "R1 ← L1 · R2 ← L2 · R3 ← L3", "");
-      html += eventAt(46, "Evidence admitted", "Filing 18 → affected forks only", "");
-      html += eventAt(66, "Contradiction resolved", "Ownership and sanctions findings reconciled", "resolved");
-      html += eventAt(72, "Resolved lineages retained", "Accepted reasoning remains in live attention", "resolved");
-      html += eventAt(78, "Expert-state synthesis", "Report reaped across resolved live lineages", "resolved");
-    } else {
-      html += eventAt(34, "Endpoint calls cancelled", "req-L1-01 · req-L2-01 · req-L3-01", "critical");
-      html += eventAt(38, "Transcripts retained", "In-flight reasoning gone", "");
-      html += eventAt(43, "Replacement endpoint calls", "req-L1-02 · req-L2-02 · req-L3-02", "");
-      html += eventAt(48, "Transcripts resubmitted", "Application resubmits 3 transcripts with filing 18", "");
-      html += eventAt(72, "New trajectories", "Affected work re-derived", "");
-      html += eventAt(82, "Outputs joined", "Report assembled after 3 replacement trajectories complete", "resolved");
-    }
-    eventList.innerHTML = html || '<div class="empty-events">Waiting for the first source call.</div>';
+  function cursor() { return '<span class="cursor" style="left:' + pct(t) + '%"></span>'; }
+  function label(code, name, state) {
+    return '<div class="track-label"><span class="code">' + esc(code) + '</span><span class="track-copy"><strong>' + esc(name) + '</strong><small>' + esc(state) + '</small></span></div>';
   }
-
-  function laneState(lane) {
-    if (t < 24) return { text: taskPhase(lane), cls: "", active: true };
-    if (!lane.affected) return { text: t < 78 ? taskPhase(lane) : "complete", cls: t < 78 ? "" : "good", active: t < 78 };
-    if (mode === "with") {
-      if (t < 29) return { text: "superseded", cls: "hot", active: false };
-      if (t < 66) return { text: "held", cls: "hot", active: false };
-      return { text: "resolved", cls: "good", active: false };
-    }
-    if (t < 34) return { text: "superseded", cls: "hot", active: false };
-    if (t < 43) return { text: "cancelled", cls: "hot", active: false };
-    return { text: "terminated", cls: "hot", active: false };
+  function row(code, name, state, track, cls) {
+    return '<div class="track-row ' + esc(cls || "") + '">' + label(code,name,state) + '<div class="track">' + track + cursor() + '</div></div>';
   }
-
-  function childFor(lane) {
-    if (!lane.affected) return "";
-    if (mode === "with") {
-      if (lane.id === "L1" && t >= 34) {
-        const state = t < 41 ? "verifying" : "resolved";
-        const cls = t < 41 ? "hot pulse" : "good";
-        const generated = formatTokens(Math.max(0, Math.min(t, 41) - 34) * 19);
-        return '<div class="branch-child"><div class="lane-title">FORK · R1 ← L1</div><div class="lane-detail">inherits ' + formatTokens(laneTokens(lane)) + ' working memory · no copy · +' + generated + '</div><div class="lane-state ' + cls + '">' + (t < 41 ? activeState(state) : state) + '</div></div>';
+  function axis(mode) {
+    let markers = '<span class="axis-event" style="left:' + pct(34) + '%">Advisory</span>';
+    if (mode === "endpoint") markers += '<span class="axis-event bad stagger" style="left:' + pct(40) + '%">Cancel</span><span class="axis-event" style="left:' + pct(52) + '%">New requests</span>';
+    else markers += '<span class="axis-event good stagger" style="left:' + pct(37) + '%">Admit</span><span class="axis-event good" style="left:' + pct(44) + '%">Fork</span>';
+    markers += mode === "endpoint"
+      ? '<span class="axis-event neutral" style="left:' + pct(76) + '%">Select response</span>'
+      : '<span class="axis-event good" style="left:' + pct(76) + '%">Promote state</span>';
+    markers += mode === "endpoint"
+      ? '<span class="axis-event bad stagger" style="left:' + pct(83) + '%">Terms change</span>'
+      : '<span class="axis-event good stagger" style="left:' + pct(83) + '%">Terms admitted</span>';
+    return '<div class="axis"><div class="axis-label">Execution / activity</div><div class="axis-track"><span class="tick first" style="left:0">00:00</span><span class="tick" style="left:' + pct(30) + '%">00:30</span><span class="tick" style="left:' + pct(60) + '%">01:00</span><span class="tick last" style="left:100%">01:30</span>' + markers + '</div></div>';
+  }
+  function outcome(text, selected) { return t >= 70 ? '<span class="outcome' + (selected ? ' selected' : '') + '">' + esc(text) + '</span>' : ""; }
+  function stateFlag(at, tone, text) {
+    if (t < at) return "";
+    return '<span class="execution-state-flag ' + esc(tone) + '" style="left:' + pct(at) + '%">' + esc(text) + '</span>';
+  }
+  function renderEndpointHistory() {
+    let html = axis("endpoint");
+    let sTrack = seg(0,22,"accepted") + node(22,"diamond good","✓");
+    html += row("A1–6","Six specialist agents",t<22?"analysing navigation · war cover · charter · sanctions · cargo · class":"6 domain analyses complete · case basis established",sTrack,"cohort");
+    let dTrack = seg(22,28,"accepted") + seg(28,34,"endpoint-live") + seg(34,40,"attention") + node(34,"diamond warn","!") + node(40,"bad","×");
+    html += row("D0","Integrated transit decision", t < 28 ? "waiting for six agent analyses" : t < 34 ? "generating" : t < 40 ? "advisory pending" : "CALL EP-042 ENDED", dTrack,"group-break state-trunk");
+    if (t >= 40) {
+      html += '<div class="request-boundary"><span>live execution unavailable</span></div>';
+      html += '<div class="replacement-stack">';
+      courses.forEach((course, index) => {
+        let tr = seg(40,52,"rebuild") + seg(52,70,"endpoint-live") + seg(70,76,"accepted") + node(52,"circle","");
+        if (t >= 52) tr += '<span class="request-root-flag" style="left:' + pct(52) + '%">new root</span>';
+        const displayedOutcome = course.selected && t >= 83 ? "STALE · revised cover pending" : course.outcome;
+        tr += node(70,"diamond good","✓") + outcome(displayedOutcome, course.selected && t < 83);
+        if (course.selected) tr += node(76,"bad","×") + stateFlag(78,"bad",t>=83?"state unavailable · R4 rebuilds":"response selected · execution ended");
+        const state = t < 52 ? "reconstructing record + policy" : t < 70 ? "independent execution" : course.selected && t >= 83 ? "selected response superseded by new terms" : course.endpoint;
+        const cardClass = course.selected && t >= 83 ? ' stale-response' : course.selected && t >= 76 ? ' selected-response' : '';
+        html += '<div class="request-card' + cardClass + '"><div class="request-card-head"><div class="request-card-id">ROOT REQUEST R' + (index+1) + '</div><div class="request-card-title">' + esc(course.name) + '</div><div class="request-card-sub">' + esc(state) + '</div></div><div class="request-card-track">' + tr + cursor() + '</div></div>';
+      });
+      if (t >= 83) {
+        const followTrack = seg(83,90,"rebuild") + node(83,"circle","") + '<span class="request-root-flag" style="left:' + pct(83) + '%">new root</span>';
+        html += '<div class="request-card follow-up"><div class="request-card-head"><div class="request-card-id">ROOT REQUEST R4</div><div class="request-card-title">Reconcile revised cover</div><div class="request-card-sub">premium allocation + amended master orders pending</div></div><div class="request-card-track">' + followTrack + cursor() + '</div></div>';
       }
-      if ((lane.id === "L2" || lane.id === "L3") && t >= 44) {
-        const childId = lane.id === "L2" ? "R2" : "R3";
-        const state = t < 66 ? "reconciling" : "resolved";
-        const cls = t < 66 ? "hot pulse" : "good";
-        const generated = formatTokens(Math.max(0, Math.min(t, 66) - 44) * (18 + Number(lane.id.slice(1)) * 3));
-        return '<div class="branch-child"><div class="lane-title">FORK · ' + childId + ' ← ' + lane.id + '</div><div class="lane-detail">inherits ' + formatTokens(laneTokens(lane)) + ' working memory · no copy · +' + generated + '</div><div class="lane-state ' + cls + '">' + (t < 66 ? activeState(state) : state) + '</div></div>';
-      }
-      return "";
+      html += '</div>';
     }
-    return "";
+    endpointHistory.innerHTML = html;
   }
-
-  function replacementRow(lane) {
-    if (mode !== "without" || !lane.affected || t < 43) return "";
-    const req = "req-" + lane.id + "-02";
-    const state = t < 48 ? "reconstructing" : (t < 72 ? "reasoning" : "re-derived");
-    const cls = t < 72 ? "hot pulse" : "";
-    const replayed = formatTokens(laneTokens(lane));
-    const generated = formatTokens(Math.max(0, t - 48) * (18 + Number(lane.id.slice(1)) * 3));
-    const detail = t < 48 ? "transcript + filing 18 · new trajectory" : replayed + " transcript resubmitted · " + generated + " newly generated";
-    return '<div class="request-row"><div class="lane-code">NEW</div><div class="lane-title">' + req + '</div><div class="lane-detail">' + esc(detail) + '</div><div class="lane-state ' + cls + '">' + (t < 72 ? activeState(state) : state) + '</div></div>';
+  function renderLloyalHistory() {
+    let html = axis("lloyal");
+    let sTrack = seg(0,22,"accepted") + node(22,"diamond good","✓");
+    html += row("A1–6","Six specialist agents",t<22?"analysing navigation · war cover · charter · sanctions · cargo · class":"6 domain analyses complete · case basis established",sTrack,"cohort");
+    let dTrack = seg(22,28,"accepted") + seg(28,34,"endpoint-live") + seg(34,37,"attention") + seg(37,44,"admitted") + node(34,"diamond warn","!") + node(37,"diamond good","+") + node(44,"good","3");
+    if (t >= 44) dTrack += '<span class="fork-stem" style="left:' + pct(44) + '%"></span>';
+    html += row("S-17","Resident decision state",t<28?"waiting for six agent analyses":t<34?"decoding":t<37?"held at boundary":t<44?"advisory admitted":"LIVE PARENT · FORK SOURCE",dTrack,"group-break state-trunk");
+    if (t >= 44) {
+      html += '<div class="lineage-banner"><strong>S-17</strong><span>exact state fork</span><strong>S-17.1 / .2 / .3</strong></div>';
+      courses.forEach((course,index) => {
+        let tr = '<span class="child-link" style="left:' + pct(44) + '%;width:' + (((46-44)/90)*100).toFixed(3) + '%"></span>';
+        const displayedOutcome = course.selected && t >= 88 ? "1.5% AP · $3.75m · charterer reimburses" : course.outcome;
+        tr += node(46,"circle good","") + seg(46,70,"live") + seg(70,76,"held") + node(70,"diamond good","✓") + outcome(displayedOutcome, course.selected);
+        if (course.selected) {
+          tr += seg(76,83,"live selected") + node(76,"diamond good","↑");
+          tr += seg(83,88,"admitted") + node(83,"diamond warn","$") + seg(88,90,"live selected") + node(88,"diamond good","✓");
+          tr += stateFlag(78,"good",t>=83?"same state · revised terms admitted":"promoted state continues");
+        }
+        const state = t<46 ? "exact child · policy queued" : t<70 ? "live policy continuation" : course.selected && t>=83 && t<88 ? "reconciling revised premium + conditions" : displayedOutcome;
+        html += row("S17."+(index+1),course.name,state,tr,"child");
+      });
+    }
+    lloyalHistory.innerHTML = html;
   }
-
-  function renderDelta() {
-    let items;
-    if (mode === "with") {
-      items = t < 29
-        ? [["Execution", "Live lineages"], ["Intervention", "Not yet required"], ["Result", "Same trajectories"]]
-        : [["Execution", "Live lineages"], ["Intervention", "Fork + admit", "new evidence admitted into live working memory"], ["Result", "Same trajectories continue"]];
+  function proofChip(text, on) { return '<span class="proof-chip' + (on ? ' on' : '') + '">' + esc(text) + '</span>'; }
+  function storyMarkup(mode) {
+    const afterTermsChange = t >= 83;
+    const selected = t >= 76;
+    let title, context, heroLabel, hero, heroDetail, rows;
+    if (mode === "endpoint") {
+      title = afterTermsChange ? "Commercial exposure" : "What LangGraph-style endpoint orchestration leaves behind";
+      context = "Without Lloyal";
+      heroLabel = afterTermsChange ? "At the 02:10Z decision window" : "After response selection";
+      hero = afterTermsChange ? "Quote and orders unresolved" : selected ? "A static answer" : "Independent replacement runs";
+      heroDetail = afterTermsChange ? "1.5% AP · $3.75m quote cannot yet drive amended orders" : selected ? "Useful now; not available as execution state for the next change" : "Same record, but each course begins as a new execution";
+      rows = afterTermsChange
+        ? [["Fresh root executions", "4"], ["Conditional cover", "REOPENED"], ["CONWARTIME allocation", "REVALIDATING"], ["Master's amended orders", "PENDING"]]
+        : [["Fresh root executions", t<52?"3 PREPARING":"3"], ["Matched policy continuations", "0 / 3"], ["Prefixes reconstructed", t<52?"IN PROGRESS":"3"], ["Execution state after selection", selected?"UNAVAILABLE":"—"]];
     } else {
-      items = t < 29
-        ? [["Execution", "Independent endpoint calls"], ["Intervention", "Not yet required"], ["Result", "Separate trajectories"]]
-        : t < 43
-          ? [["Execution", "Endpoint boundary"], ["Intervention", "Abort + call again", "new evidence stitched into a reconstructed prompt"], ["Result", "3 trajectories ended"]]
-          : [["Execution", "New endpoint calls"], ["Intervention", "Abort + call again", "new evidence stitched into a reconstructed prompt"], ["Result", "3 new trajectories"]];
+      title = afterTermsChange ? "Commercial control" : "What Lloyal keeps under control";
+      context = "With Lloyal";
+      heroLabel = afterTermsChange ? "Before the 02:10Z decision window" : "After state promotion";
+      hero = afterTermsChange ? "$3.75m cover decision ready" : selected ? "A continuing case" : "Matched policy continuations";
+      heroDetail = afterTermsChange ? "Revised terms, charter allocation and amended orders remain tied to S-17.2" : selected ? "The chosen course remains available for the next insurance or operational change" : "Every course starts from the same instantiated model state";
+      rows = afterTermsChange
+        ? [["Fresh root executions", "0"], ["Conditional cover", "RECONCILED"], ["CONWARTIME allocation", "CHARTERER RETAINED"], ["Master's amended orders", "READY"]]
+        : [["Fresh root executions", "0"], ["Matched policy continuations", t<44?"0 / 3":"3 / 3"], ["Child reseeds", "0"], ["Execution state after selection", selected?"CONTINUING":"PARENT LIVE"]];
     }
-    executionDelta.innerHTML = items.map(function (item) {
-      const detail = item[2] ? '<div class="delta-detail">' + esc(item[2]) + '</div>' : '';
-      return '<div class="delta-item"><div class="sim-label">' + esc(item[0]) + '</div><div class="delta-value">' + esc(item[1]) + '</div>' + detail + '</div>';
-    }).join("");
+    return '<div class="tab-story ' + (mode === "endpoint" ? 'endpoint-story' : 'with-story') + '"><div class="tab-story-head"><strong>' + esc(title) + '</strong><span>' + esc(context) + '</span></div><div class="tab-story-hero"><span>' + esc(heroLabel) + '</span><strong>' + esc(hero) + '</strong><small>' + esc(heroDetail) + '</small></div><div class="tab-story-rows">' + rows.map((item) => '<div class="tab-story-row"><span>' + esc(item[0]) + '</span><strong>' + esc(item[1]) + '</strong></div>').join("") + '</div></div>';
   }
-
-  function renderIntervention() {
-    const visible = t >= 29;
-    const fresh = t >= 29 && t < 34;
-    interventionFlash.className = "intervention-flash" + (visible ? " visible " + (mode === "with" ? "live" : "request") + (fresh ? " fresh" : "") : "");
-    if (!visible) return;
-    if (mode === "with") {
-      interventionKicker.textContent = fresh ? "Live inference control engaged" : "Contradiction-triggered expansion";
-      interventionLine.textContent = fresh
-        ? "Completion withheld while temporal applicability resolves."
-        : t < 44
-          ? "Focused reconciliation forked from live state"
-          : "3 live forks · working memory inherited · trajectories continue";
-    } else {
-      interventionKicker.textContent = "Endpoint-level intervention";
-      interventionLine.textContent = t < 43 ? "3 endpoint calls restarted · transcripts retained · trajectories redrawn" : "3 transcripts resubmitted · 3 new trajectories";
-    }
+  function evidenceMarkup(mode) {
+    if (mode === "endpoint") return '<div class="research-block endpoint-evidence"><div class="research-block-head"><strong>Fresh-run exposure</strong><span>Published research · red denotes risk</span></div><div class="research-grid"><div class="research-stat risk"><div class="research-stat-value">median ≤1%</div><div class="research-stat-label">to first trajectory divergence</div><div class="research-stat-copy">Median first divergence occurred within the first 1% of generated tokens.</div><a href="https://arxiv.org/abs/2602.07150" target="_blank" rel="noopener">KTH · 60,000 trajectories ↗</a></div><div class="research-stat risk"><div class="research-stat-value">2.2–6.0pp</div><div class="research-stat-label">temperature-0 pass@1 spread</div><div class="research-stat-copy">Observed single-run result variation across evaluated agent configurations.</div><a href="https://arxiv.org/abs/2602.07150" target="_blank" rel="noopener">KTH study ↗</a></div><div class="research-stat risk"><div class="research-stat-value">up to 15%</div><div class="research-stat-label">accuracy variation</div><div class="research-stat-copy">Repeated nominally deterministic hosted calls across five models and eight tasks.</div><a href="https://aclanthology.org/2025.eval4nlp-1.12/" target="_blank" rel="noopener">Atıl et al. · 10 runs ↗</a></div><div class="research-stat risk"><div class="research-stat-value">up to 70%</div><div class="research-stat-label">best-to-worst performance gap</div><div class="research-stat-copy">Largest reported spread between repeated runs under deterministic settings.</div><a href="https://aclanthology.org/2025.eval4nlp-1.12/" target="_blank" rel="noopener">Atıl et al. ↗</a></div></div><div class="research-foot"><strong>Baseline boundary:</strong> LangGraph-style orchestration can persist graph and message state and append later turns. In this arm it calls independent model endpoints, so R4 cannot resume the in-flight execution that produced the selected response. These published findings are not a Lloyal benchmark; they show the fresh-run variance that reconstruction reintroduces.</div></div>';
+    return '<div class="research-block with-evidence"><div class="research-block-head"><strong>Control achieved in this run</strong><span>Execution invariants · green denotes preserved control</span></div><div class="research-grid"><div class="research-stat good"><div class="research-stat-value">1</div><div class="research-stat-label">instantiated parent</div><div class="research-stat-copy">All policy courses depart from resident state S-17.</div><span class="research-stat-source">Execution invariant</span></div><div class="research-stat good"><div class="research-stat-value">3 / 3</div><div class="research-stat-label">matched policy continuations</div><div class="research-stat-copy">Carrier, sampler, PRNG position and pre-intervention logits match before policy differs.</div><span class="research-stat-source">Execution invariant</span></div><div class="research-stat good"><div class="research-stat-value">0</div><div class="research-stat-label">child reseeds</div><div class="research-stat-copy">Every child continues the parent’s current stochastic state.</div><span class="research-stat-source">Execution invariant</span></div><div class="research-stat good"><div class="research-stat-value">0</div><div class="research-stat-label">prefixes reconstructed</div><div class="research-stat-copy">The established case is forked and updated in place rather than replayed.</div><span class="research-stat-source">Execution invariant</span></div></div><div class="research-foot">Published fresh-run research establishes the confound these controls remove: <a href="https://arxiv.org/abs/2602.07150" target="_blank" rel="noopener">KTH ↗</a> · <a href="https://aclanthology.org/2025.eval4nlp-1.12/" target="_blank" rel="noopener">Atıl et al. ↗</a></div></div>';
   }
-
-  function renderPlacement() {
-    const model = selectedModel();
-    if (mode === "without") {
+  function explainerMarkup(data, mode) {
+    const rows = data.ledger.map((item) => '<div class="explain-ledger-row"><span>' + esc(item[0]) + '</span><strong class="' + esc(item[2] || '') + '">' + esc(item[1]) + '</strong></div>').join("");
+    const source = data.source ? '<div class="explain-source"><strong>Published evidence</strong>' + esc(data.source.copy) + ' <a href="' + esc(data.source.url) + '" target="_blank" rel="noopener">' + esc(data.source.label) + ' ↗</a></div>' : '';
+    const scorecard = data.showDelta ? storyMarkup(mode) : '';
+    const evidence = data.showEvidence ? evidenceMarkup(mode) : '';
+    const outcome = data.outcome ? '<div class="explain-outcome"><strong>' + esc(data.outcome.title) + '</strong><span>' + esc(data.outcome.copy) + '</span></div>' : '';
+    return '<div class="explain-progress"><strong>Moment ' + esc(data.step) + ' of 7</strong> · ' + esc(data.phase) + '</div>' +
+      '<h2 class="explain-headline">' + esc(data.headline) + '</h2>' +
+      '<p class="explain-copy">' + esc(data.copy) + '</p>' +
+      '<div class="explain-section"><h3>Why it matters</h3><p>' + data.why + '</p></div>' +
+      '<div class="explain-ledger">' + rows + '</div>' + source + scorecard + evidence + outcome;
+  }
+  function endpointExplanation() {
+    if (t < 22) return {
+      step: 1, phase: "Case building", headline: "No difference yet.",
+      copy: "Six AI agents independently analyse navigation, war-risk cover, charter terms, sanctions, cargo and machinery/class for the transit decision.",
+      why: "Both approaches can coordinate this work. The control boundary only becomes consequential when the outside world changes while a conclusion is being generated.",
+      ledger: [["Specialist agents", "6"], ["Completed domain analyses", t < 22 ? "forming" : "6"], ["Active decision calls", "0"]]
+    };
+    if (t < 34) return {
+      step: 2, phase: "Decision underway", headline: "The case has become a live decision.",
+      copy: "The six completed agent analyses are sent to model endpoint EP-042, which is now forming the integrated transit recommendation.",
+      why: "The application owns the stored case record, but the provider owns the execution behind this request. Application policy cannot reach into that live state.",
+      ledger: [["Decision basis", "case record v17"], ["Live execution", "provider-owned"], ["Application control", "outside the call"]]
+    };
+    if (t < 40) return {
+      step: 3, phase: "Reality changes", headline: "A verified advisory arrives mid-generation.",
+      copy: "The incident is effective now and changes the navigation, insurance and charter basis before EP-042 has settled its conclusion.",
+      why: "The orchestrator has two bad choices: <strong>let the stale-basis generation finish</strong>, or cancel it and abandon its partial reasoning. Blocking a final report does not change that dilemma.",
+      ledger: [["New evidence", "verified"], ["Can EP-042 receive it?", "no", "bad"], ["Available choices", "wait or cancel", "bad"]]
+    };
+    if (t < 52) return {
+      step: 4, phase: "Execution boundary", headline: "EP-042 is cancelled. Its live state is gone.",
+      copy: "The application keeps the case record and reconstructs three prompts—one for each policy course—but none continues the execution that was underway.",
+      why: "A reconstructed request may contain the same visible facts, but it is a fresh stochastic trajectory. The replacement cannot prove it is the same decision with only the policy changed.",
+      ledger: [["Original execution", "ended", "bad"], ["Prefixes rebuilt", "3", "bad"], ["Continuing states", "0", "bad"]],
+      showDelta: true,
+      showEvidence: true
+    };
+    if (t < 76) return {
+      step: 5, phase: "Three new draws", headline: "The courses are comparable on paper—not in execution.",
+      copy: "Hold, constrained transit and reroute begin as three independent root requests reconstructed from the same stored record.",
+      why: "Any difference in their recommendations combines <strong>the declared policy</strong> with <strong>fresh-run trajectory variance</strong>. The underwriter cannot isolate which caused the delta.",
+      ledger: [["Root executions", "3 independent"], ["Matched live basis", "no", "bad"], ["Policy attribution", "confounded", "bad"]],
+      showDelta: true,
+      showEvidence: true
+    };
+    if (t < 83) return {
+      step: 6, phase: "Response selected", headline: "The vessel gets an instruction. The decision state does not survive.",
+      copy: "The constrained-transit response is selected and the orchestrator retains its transcript. Its model execution is no longer available for the next event.",
+      why: "The immediate answer is acceptable—but only while the premium, cover conditions and charter instructions remain unchanged. The next market move will show the business cost of the disconnect.",
+      ledger: [["Immediate instruction", "constrained transit"], ["Prefixes rebuilt", "3", "bad"], ["State ready for next event", "0", "bad"]],
+      showDelta: true,
+      showEvidence: true,
+      outcome: { title: "Current business position: transit approved at 3.0% AP ($7.5m).", copy: "The instruction is usable now; any change to the quote or conditions requires another decision cycle." }
+    };
+    return {
+      step: 7, phase: "Terms change again", headline: "The underwriter changes terms. The selected recommendation is stale.",
+      copy: "The illustrative hull war AP falls from 3.0% to 1.5%, but the new quote adds security-window conditions. The transcript cannot be amended as live execution, so root request R4 begins from the stored record.",
+      why: "This is the commercial effect of the disconnect: cover, the CONWARTIME premium allocation and the master's amended orders go back into review while the 02:10Z operating window approaches.",
+      ledger: [["Revised hull war AP", "1.5% · $3.75m"], ["Cover decision", "reopened", "bad"], ["Master's amended orders", "pending", "bad"], ["Fresh root executions", "4 total", "bad"]],
+      showDelta: true,
+      showEvidence: true,
+      outcome: { title: "Business outcome: the desk cannot yet act on the $3.75m quote or issue the 02:10Z orders.", copy: "The first answer was right, but the premium change sends cover, charter allocation and vessel instructions through another decision cycle." }
+    };
+  }
+  function lloyalExplanation() {
+    if (t < 22) return {
+      step: 1, phase: "Case building", headline: "No difference yet.",
+      copy: "Six AI agents independently analyse navigation, war-risk cover, charter terms, sanctions, cargo and machinery/class for the transit decision.",
+      why: "Both approaches can coordinate this work. Lloyal's advantage appears when the application needs to govern the model state produced by that work while it remains live.",
+      ledger: [["Specialist agents", "6"], ["Completed domain analyses", t < 22 ? "forming" : "6"], ["Active decision states", "0"]]
+    };
+    if (t < 34) return {
+      step: 2, phase: "Decision underway", headline: "The case becomes resident state S-17.",
+      copy: "The six completed agent analyses establish one live decision state. The integrated transit recommendation is now forming from that resident basis.",
+      why: "The application owns the lineage and lifecycle of the execution—not merely the messages around it. S-17 can be held, extended, forked and later promoted.",
+      ledger: [["Decision basis", "resident S-17", "good"], ["Live execution", "application-owned", "good"], ["Application control", "through inference", "good"]]
+    };
+    if (t < 37) return {
+      step: 3, phase: "Reality changes", headline: "A verified advisory reaches the live decision.",
+      copy: "A deterministic application gate verifies the advisory's effective time, vessel position and governing cover before it can affect S-17.",
+      why: "The live lineage is held at an explicit boundary. The stale conclusion is not allowed to settle, and no partial reasoning has to be thrown away.",
+      ledger: [["New evidence", "verified"], ["Stale settlement", "prevented", "good"], ["Reasoning abandoned", "none", "good"]]
+    };
+    if (t < 44) return {
+      step: 4, phase: "Evidence admitted", headline: "The advisory is admitted before settlement.",
+      copy: "S-17 continues from its existing state with the new advisory. The prior case work remains resident and the evidence lands at the controlled boundary.",
+      why: "Evidence position matters. Admission into the actual live state preserves the established basis instead of asking a new request to reconstruct an assumed equivalent.",
+      ledger: [["Parent state", "S-17 retained", "good"], ["Prefixes rebuilt", "0", "good"], ["Evidence boundary", "explicit", "good"]]
+    };
+    if (t < 76) return {
+      step: 5, phase: "Controlled continuations", headline: "One decision becomes three matched policy states.",
+      copy: "S-17 forks into hold, constrained-transit and reroute continuations. Each child inherits the same carrier, sampler, PRNG position, grammar and pre-intervention logits.",
+      why: "Only the declared policy intervention differs initially. That turns three proposals into a controlled domain decision procedure: observed deltas can be attributed to policy rather than a fresh execution draw.",
+      ledger: [["Exact child states", "3", "good"], ["Reseeds", "0", "good"], ["Policy attribution", "controlled", "good"]],
+      showDelta: true,
+      showEvidence: true
+    };
+    if (t < 83) return {
+      step: 6, phase: "State promoted", headline: "The vessel gets the same instruction—and the decision remains live.",
+      copy: "S-17.2, the constrained-transit course, becomes the continuing state with its evidentiary basis, reasoning lineage and policy intervention intact.",
+      why: "The first answer is the same. The advantage is that premium, cover and charter decisions remain attached to the live case and can be revised when the market moves again.",
+      ledger: [["Immediate instruction", "constrained transit"], ["Prefixes rebuilt", "0", "good"], ["State ready for next event", "1", "good"]],
+      showDelta: true,
+      showEvidence: true,
+      outcome: { title: "Current business position: transit approved at 3.0% AP ($7.5m).", copy: "The selected course remains active, ready to update cover, cost allocation and operating orders." }
+    };
+    return {
+      step: 7, phase: "Terms absorbed", headline: "The underwriter changes terms. The same case updates in place.",
+      copy: "The 1.5% AP and new security-window conditions enter promoted state S-17.2. The live case recalculates the premium, retains the CONWARTIME allocation and issues amended orders without starting another root execution.",
+      why: "The business advantage is speed and control across a chain of decisions: insurance terms change, the charter allocation is preserved, and the master's orders update before the same operating window closes.",
+      ledger: [["Revised hull war AP", "1.5% · $3.75m", "good"], ["CONWARTIME AP allocation", "charterer retained", "good"], ["Conditional cover", "reconciled", "good"], ["Master's amended orders", "issued", "good"]],
+      showDelta: true,
+      showEvidence: true,
+      outcome: { title: "Business outcome: the $3.75m cover decision and amended orders are ready before 02:10Z.", copy: "The same case carries the insurance, charter and operational decision forward as conditions change." }
+    };
+  }
+  function renderExplainers() {
+    endpointExplainer.innerHTML = explainerMarkup(endpointExplanation(), "endpoint");
+    lloyalExplainer.innerHTML = explainerMarkup(lloyalExplanation(), "lloyal");
+  }
+  function metric(labelText, value, tone) { return '<div class="metric ' + esc(tone || '') + '"><div class="metric-label">' + esc(labelText) + '</div><div class="metric-value">' + esc(value) + '</div></div>'; }
+  function renderMetrics() {
+    endpointMetrics.innerHTML = metric("Fresh root executions",t<40?"0":t<52?"3 preparing":t<76?"3 running":t<83?"3 complete":"4 total",t>=40?"risk":"") + metric("Matched policy continuations","0 / 3",t>=44?"risk":"") + metric(t>=83?"Revised cover + orders":"State ready for next event",t>=83?"REOPENED":"0",t>=76?"risk":"");
+    lloyalMetrics.innerHTML = metric("Fresh root executions","0",t>=44?"good":"") + metric("Matched policy continuations",t<44?"0 / 3":t<76?"3 / 3 running":"3 / 3 resolved",t>=44?"good":"") + metric(t>=83?"Revised cover + orders":"State ready for next event",t>=88?"READY":t>=83?"UPDATING":t<76?"0":"1",t>=76?"good":"");
+    endpointState.textContent = t < 40 ? "RUN EP-042 · OPEN" : t < 76 ? "3 NEW EXECUTIONS" : t < 83 ? "RESPONSE SELECTED" : "COVER REOPENED";
+    lloyalState.textContent = t < 44 ? "RUN CC-042 · RESIDENT" : t < 76 ? "3 CHILD STATES" : t < 83 ? "P2 · CONTINUING" : t < 88 ? "P2 · UPDATING" : "ORDERS READY";
+    deltaRebuilds.textContent = t < 40 ? "0 prefixes" : t < 83 ? "3 prefixes" : "4 prefixes";
+    deltaContinuing.textContent = t < 22 ? "0 live states" : t < 76 ? "1 parent state" : "1 promoted state";
+  }
+  function renderDeployment() {
+    if (activeView === "endpoint") {
       deploymentLabel.textContent = "Model endpoint";
       deploymentSelect.innerHTML = '<option value="qwen">Qwen3.5 4B · Hugging Face</option><option value="glm">GLM-5.2 · Hugging Face</option>';
-      placementNote.textContent = "Application selects an endpoint · provider places execution";
+      deploymentDetail.innerHTML = modelKey === "glm"
+        ? '<strong>Application selects an endpoint · provider places execution</strong><span>GLM-5.2 · 131K context · Hugging Face Inference Provider</span><span>Scenario timing · performance not compared</span>'
+        : '<strong>Application selects an endpoint · provider places execution</strong><span>Qwen3.5 4B · 32K context · Hugging Face Inference Provider</span><span>Scenario timing · performance not compared</span>';
     } else {
       deploymentLabel.textContent = "Compute placement";
       deploymentSelect.innerHTML = '<option value="qwen">Local · Qwen3.5 4B · M2 Metal</option><option value="glm">Frontier · GLM-5.2 · 2× B200</option>';
-      placementNote.textContent = "Same headless application · no code changes";
+      deploymentDetail.innerHTML = modelKey === "glm"
+        ? '<strong>Same headless application · no code changes</strong><span>GLM-5.2 · UD-IQ2_M · 131K context · CUDA / Blackwell · application-owned resident execution</span><span>Scenario timing · performance not compared</span>'
+        : '<strong>Same headless application · no code changes</strong><span>Qwen3.5 4B · Q4_K_M · 32K context · local Metal · application-owned resident execution</span><span>Scenario timing · performance not compared</span>';
     }
-    deploymentSelect.value = model;
-    placementDetail.textContent = placementProfile().detail;
+    deploymentSelect.value = modelKey;
   }
-
-  function renderLanes() {
-    workTitle.textContent = mode === "with" ? "Continuous live attention" : "Independent endpoint calls";
-    workSub.textContent = mode === "with" ? "Shared inference context · six live lineages" : "Orchestrator over model endpoints · six independent calls";
-    laneList.innerHTML = lanes.map(function (lane) {
-      const s = laneState(lane);
-      let detail = lane.base;
-      if (mode === "without" && lane.affected && t >= 34 && t < 43) detail = "req-" + lane.id + "-01 · active suffix discarded";
-      if (mode === "without" && lane.affected && t >= 43) detail = "req-" + lane.id + "-01 · transcript preserved";
-      if (!(mode === "without" && lane.affected && t >= 34)) detail += " · " + formatTokens(laneTokens(lane));
-      const tone = t >= 27 ? (lane.affected ? " affected" : " unaffected") : "";
-      const stateMarkup = s.active ? activeState(s.text) : esc(s.text);
-      return '<div class="lane' + tone + '"><div class="lane-code">' + lane.id + '</div><div class="lane-title">' + esc(lane.title) + '</div><div class="lane-detail">' + esc(detail) + '</div><div class="lane-state ' + s.cls + '">' + stateMarkup + '</div></div>' + childFor(lane) + replacementRow(lane);
+  function renderView() {
+    const endpointActive = activeView === "endpoint";
+    viewEndpoint.setAttribute("aria-selected",endpointActive ? "true" : "false");
+    viewLloyal.setAttribute("aria-selected",endpointActive ? "false" : "true");
+    paneEndpoint.classList.toggle("active",endpointActive);
+    paneLloyal.classList.toggle("active",!endpointActive);
+    paneEndpoint.hidden = !endpointActive;
+    paneLloyal.hidden = endpointActive;
+    renderDeployment();
+  }
+  function renderProof() {
+    endpointProof.innerHTML = proofChip("case record v17",t>=22) + proofChip(t>=83?"request IDs R1/R2/R3/R4":"request IDs R1/R2/R3",t>=52) + proofChip("live carrier unavailable",t>=40) + proofChip("independent random state",t>=52);
+    lloyalProof.innerHTML = proofChip("parent S-17",t>=22) + proofChip("carrier cloned",t>=44) + proofChip("sampler + PRNG cloned",t>=44) + proofChip("pre-intervention logits equal",t>=44) + proofChip("no reseed",t>=44);
+  }
+  function renderCaptions() {
+    if (t < 34) {
+      endpointCaption.innerHTML = '<strong>Both systems are still equivalent:</strong> each is forming a decision from the same established case evidence.';
+      lloyalCaption.innerHTML = '<strong>The difference is not visible yet.</strong> It appears when reality changes while the decision is underway.';
+    } else if (t < 44) {
+      endpointCaption.innerHTML = '<strong>The application hits the model-call boundary.</strong> It can wait for a stale-basis turn or end it and reconstruct.';
+      lloyalCaption.innerHTML = '<strong>The application reaches the live decision state.</strong> It admits the verified advisory before settlement.';
+    } else if (t < 76) {
+      endpointCaption.innerHTML = '<strong>Three proposals, three fresh trajectories.</strong> Their differences mix policy intervention with execution variance.';
+      lloyalCaption.innerHTML = '<strong>Three policies, one instantiated basis.</strong> The children inherit the same carrier and stochastic state before the declared interventions differ.';
+    } else if (t < 83) {
+      endpointCaption.innerHTML = '<strong>The first answer works.</strong> Its execution is gone, so the next change will require another root request.';
+      lloyalCaption.innerHTML = '<strong>The first answer works—and remains live.</strong> Cover, charter allocation and orders can be revised on the same case.';
+    } else {
+      endpointCaption.innerHTML = '<strong>Premium terms move.</strong> The selected recommendation becomes stale; cover and amended orders reopen.';
+      lloyalCaption.innerHTML = '<strong>Premium terms move.</strong> The continuing case updates cover, retains the charter allocation and issues amended orders.';
+    }
+  }
+  function renderWorld() {
+    let pos = 22 + Math.min(t,34) / 34 * 25;
+    if (t >= 76 && t < 83) pos += Math.min(5,(t-76)/7*5);
+    if (t >= 83 && activeView === "lloyal") pos += 5 + Math.min(8,(t-83)/7*8);
+    vessel.style.left = pos.toFixed(2) + "%";
+    vessel.querySelector(".vessel-label").textContent = t < 34 ? Math.max(17,Math.round(42-t*.73)) + " NM EAST" : t < 76 ? "HOLDING EAST" : t < 83 ? "WINDOW 02:10Z" : activeView === "endpoint" ? "AWAITING ORDERS" : "ORDERS RECEIVED";
+    advisoryZone.classList.toggle("visible",t>=34);
+    warPremium.textContent = t < 83 ? "3.0% · $7.5m" : "1.5% · $3.75m";
+    warPremium.classList.toggle("good",t>=83 && activeView === "lloyal");
+    warPremiumDetail.innerHTML = t < 83
+      ? 'Illustrative quote using the market example reported by Reuters. <a href="https://www.reuters.com/world/middle-east/maritime-insurance-premiums-surge-iran-conflict-widens-2026-03-06/" target="_blank" rel="noopener">Market context ↗</a>'
+      : 'Synthetic revised quote within the rate range reported by Reuters; the market move is external, not a Lloyal saving. <a href="https://www.reuters.com/world/middle-east/maritime-insurance-premiums-surge-iran-conflict-widens-2026-03-06/" target="_blank" rel="noopener">Market context ↗</a>';
+    charterAllocation.textContent = t < 83 ? "Owner may refuse · charterer reimburses AP" : activeView === "endpoint" ? "Allocation awaiting revalidation" : "Charterer reimbursement retained";
+    charterAllocation.classList.toggle("good",t>=83 && activeView === "lloyal");
+    if (t < 22) {
+      worldHeadline.textContent = "Tanker01 is 42 nautical miles east of the traffic scheme.";
+      worldDetail.textContent = "The master needs a proceed-or-hold instruction before the next transit window. War-risk cover is in force and the charterer is awaiting the route decision.";
+      coverState.textContent = "COVER · IN FORCE";
+    } else if (t < 34) {
+      worldHeadline.textContent = "Six specialist agents have completed the initial case analysis.";
+      worldDetail.textContent = "Navigation, war-risk cover, charter terms, sanctions, cargo and machinery/class now form the case basis. The integrated transit recommendation is being formed.";
+      coverState.textContent = "COVER · IN FORCE";
+    } else if (t < 70) {
+      worldHeadline.textContent = "Verified security incident near the intended lane. The master reduces speed.";
+      worldDetail.textContent = "The advisory is effective immediately. Cover moves to referral required; the owner must choose between holding, a constrained security window and a major reroute.";
+      coverState.textContent = "COVER · REFERRAL REQUIRED";
+    } else if (t < 76) {
+      worldHeadline.textContent = "Three complete courses reach the decision desk.";
+      worldDetail.textContent = "Each course now includes its navigation, insurance and charter consequences. The application applies the owner’s decision policy.";
+      coverState.textContent = "COVER · TERMS AVAILABLE";
+    } else if (t < 83) {
+      worldHeadline.textContent = "Constrained transit selected. Tanker01 holds for the 02:10Z security window.";
+      worldDetail.textContent = "Cover continues on revised terms and the charterer issues conforming orders. The accepted course remains live for the next operational event.";
+      coverState.textContent = "COVER · CONDITIONAL";
+    } else if (activeView === "endpoint") {
+      worldHeadline.textContent = "The underwriter revises the premium and conditions. The selected recommendation is stale.";
+      worldDetail.textContent = "Cover, CONWARTIME reimbursement and the master's amended orders return to review. Root request R4 is still rebuilding the decision as the 02:10Z window approaches.";
+      coverState.textContent = "COVER · REOPENED";
+    } else if (t < 88) {
+      worldHeadline.textContent = "The underwriter revises the premium and conditions. The live case updates.";
+      worldDetail.textContent = "S-17.2 is reconciling the 1.5% AP, security-window condition and charterer reimbursement against the already selected transit course.";
+      coverState.textContent = "COVER · UPDATING";
+    } else {
+      worldHeadline.textContent = "Revised cover reconciled. The master receives amended 02:10Z transit orders.";
+      worldDetail.textContent = "The live case preserves the CONWARTIME allocation, updates the illustrative premium to $3.75m and carries the same controlled decision into execution.";
+      coverState.textContent = "COVER · UPDATED";
+    }
+  }
+  function eventAction(text, tone, mark) { return '<div class="action"><span class="status-mark ' + esc(tone || "") + '">' + esc(mark || "·") + '</span><span>' + esc(text) + '</span></div>'; }
+  function renderEvents() {
+    const visible = events.filter((event) => t >= event.at);
+    eventsCount.textContent = visible.length + " / " + events.length + " EVENTS";
+    eventRows.innerHTML = visible.map((event,index) => {
+      let epTone = index === 4 || index === 5 || index >= 9 ? "bad" : index === 7 || index === 8 ? "good" : index === 6 ? "warn" : "";
+      let ccTone = index >= 5 ? "good" : index === 4 ? "warn" : "";
+      return '<div class="event-row"><div class="event-id">' + String(index+1).padStart(2,"0") + '</div><div class="event-time">' + fmt(event.at) + '</div><div><div class="event-name">' + esc(event.name) + '</div><div class="event-sub">' + esc(event.sub) + '</div></div><div>' + eventAction(event.ep,epTone,epTone==="bad"?"×":epTone==="good"?"✓":"·") + '</div><div>' + eventAction(event.cc,ccTone,ccTone==="good"?"✓":ccTone==="warn"?"!":"·") + '</div></div>';
     }).join("");
   }
-
-  function renderStatus() {
-    let left = "Case active · 6 analysts";
-    let right = "0 unresolved supersessions";
-    if (t >= 24 && t < 29) {
-      left = "Supersession detected";
-      right = "Applicability resolving";
-    } else if (t >= 29) {
-      if (mode === "with") {
-        if (t < 66) {
-          left = "Completion withheld · 3 findings affected";
-          right = t < 44 ? "Live forks opening" : "3 inherited lineages · 3 untouched";
-        } else if (t < 78) {
-          left = "Supersession resolved";
-          right = "Resolved lineages remain in live attention";
-        } else {
-          left = "Report reaped from live attention";
-          right = "Same trajectories continued";
-        }
-      } else {
-        if (t < 43) {
-          left = "Completion withheld · 3 endpoint calls affected";
-          right = "Active trajectories discarded";
-        } else if (t < 82) {
-          left = "3 replacement endpoint calls";
-          right = "3 new trajectories · 3 untouched";
-        } else {
-          left = "Workflow resumed";
-          right = "Reasoning restarted";
-        }
-      }
-    }
-    status.innerHTML = "<span>" + esc(left) + "</span><span>" + esc(right) + "</span>";
+  function renderPhase() {
+    let value = "Case work";
+    if (t >= 22) value = "Decision forming";
+    if (t >= 34) value = "Basis changed";
+    if (t >= 44) value = "Courses running";
+    if (t >= 70) value = "Decision gate";
+    if (t >= 76) value = "Course executing";
+    if (t >= 83) value = activeView === "endpoint" ? "Decision reopened" : t < 88 ? "Terms updating" : "Orders ready";
+    phase.textContent = value;
   }
-
-  function renderSummary() {
-    let headline = "";
-    let detail = "";
-    if (t < 24) {
-      headline = "A disabled bulk carrier is constraining traffic through the Torres Strait.";
-      detail = "Insurers, charterers and commodity desks need a current exposure report before they release cover, reroute cargo or act on sanctions risk. Six analysts investigate the same incident in parallel.";
-    } else if (t < 29) {
-      headline = "A superseding filing changes the vessel’s flag from Panama to Liberia.";
-      detail = "That new evidence changes which registry governs the ownership chain and which entities must be screened. The physical track, charter terms and class history are still valid. Final decisions are held while the affected findings are reconciled.";
-    } else if (mode === "with" && t < 66) {
-      headline = t < 44 ? "The application changes the reasoning while it remains alive." : "Ownership and sanctions reasoning change course inside continuous live attention.";
-      detail = t < 44 ? "Lloyal admits Liberia into the exact lineages it bears on, before completion. AIS traffic, charter exposure and class-history reasoning remain alive and untouched." : "Affected lineages inherit the model’s live working memory, then reason forward from the correction. Nothing must approximate the path that produced the intelligence already in flight.";
-    } else if (mode === "without" && t < 72) {
-      headline = t < 43 ? "The superseding filing terminates three active analyses." : "Three replacement endpoint calls must re-derive the affected exposure picture.";
-      detail = t < 43 ? "The desk can keep tracking traffic, contract delay and vessel condition, but ownership and sanctions decisions remain blocked until replacement work starts." : "The application resubmits three transcripts with filing 18. Operational decisions wait while new endpoint calls re-derive the ownership, jurisdiction and sanctions conclusions.";
-    } else if (mode === "with") {
-      headline = t < 78 ? "The correction changes the reasoning without replacing the intelligence that produced it." : "The report is reaped from continuous live attention.";
-      detail = t < 78 ? "Liberia replaces Panama inside the affected live lineages. Their prior reasoning remains the actual parent state—not a transcript offered to a new sampler as an approximation." : "The correction changes what happens next without reconstructing what came before. Synthesis attends across the reconciled live lineages while they remain resident.";
-    } else {
-      headline = t < 82 ? "Insurance, routing and compliance decisions remain held while replacement work completes." : "The report is current, but three conclusions came from new trajectories.";
-      detail = t < 82 ? "Traffic and contract work continued, but the desk cannot safely act on ownership or sanctions exposure until the new endpoint calls re-derive those findings." : "The transcripts survived. The inference trajectories did not. A fresh endpoint call may still succeed, but stochastic sampling can change reasoning unrelated to the superseding filing.";
-    }
-    summaryHeadline.textContent = headline;
-    summaryDetail.textContent = detail;
-  }
-
   function render() {
     range.value = String(Math.floor(t));
-    clock.textContent = formatTime(t);
-    tabWith.setAttribute("aria-selected", mode === "with" ? "true" : "false");
-    tabWithout.setAttribute("aria-selected", mode === "without" ? "true" : "false");
-    renderLanes();
-    renderDelta();
-    renderEvents();
-    renderSummary();
-    renderIntervention();
-    renderPlacement();
-    renderStatus();
+    clock.textContent = fmt(t);
+    renderWorld(); renderEndpointHistory(); renderLloyalHistory(); renderMetrics();
+    renderProof(); renderCaptions(); renderEvents(); renderPhase(); renderExplainers();
+    decisionStrip.classList.toggle("visible",t>=76);
   }
-
-  function stop() {
-    playing = false;
-    playButton.textContent = "Play";
-    if (timer) window.clearInterval(timer);
-    timer = null;
-  }
-
+  function stop() { playing = false; play.textContent = "Play incident"; if (timer) clearInterval(timer); timer = null; }
   function start() {
     if (t >= 90) t = 0;
-    playing = true;
-    playButton.textContent = "Pause";
-    timer = window.setInterval(function () {
-      t += 1;
-      if (t >= 90) {
-        t = 90;
-        stop();
-      }
-      render();
-    }, 260);
+    playing = true; play.textContent = "Pause";
+    timer = setInterval(() => { t += t >= 83 ? .25 : 1; if (t >= 90) { t = 90; stop(); } render(); }, 320);
   }
-
-  playButton.addEventListener("click", function () {
-    if (playing) stop(); else start();
-  });
-  resetButton.addEventListener("click", function () {
-    stop();
-    t = 0;
-    render();
-  });
-  range.addEventListener("input", function () {
-    t = Number(range.value);
-    render();
-  });
-  tabWithout.addEventListener("click", function () {
-    stop();
-    t = 0;
-    mode = "without";
-    render();
-  });
-  tabWith.addEventListener("click", function () {
-    stop();
-    t = 0;
-    mode = "with";
-    render();
-  });
-  deploymentSelect.addEventListener("change", function () {
-    stop();
-    t = 0;
-    render();
-  });
-
+  play.addEventListener("click",() => playing ? stop() : start());
+  reset.addEventListener("click",() => { stop(); t = 0; render(); });
+  range.addEventListener("input",() => { t = Number(range.value); render(); });
+  viewEndpoint.addEventListener("click",() => { activeView = "endpoint"; renderView(); render(); });
+  viewLloyal.addEventListener("click",() => { activeView = "lloyal"; renderView(); render(); });
+  deploymentSelect.addEventListener("change",() => { modelKey = deploymentSelect.value === "glm" ? "glm" : "qwen"; renderDeployment(); });
+  renderView();
   render();
 }());
 </script>
