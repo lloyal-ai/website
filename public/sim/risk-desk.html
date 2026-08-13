@@ -4,7 +4,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#f4f3ee">
-<meta name="description" content="A $250m tanker must enter the Strait of Hormuz before its window closes. A verified threat alert changes the safe route, then the war-risk underwriter reprices cover — the same incident followed through two control boundaries.">
 <title>Hormuz transit decision · Lloyal execution comparison</title>
 <style>
 :root {
@@ -572,9 +571,9 @@ button, input { font: inherit; }
       <label for="deployment-select" id="deployment-label">Model endpoint</label>
       <select class="deployment-select" id="deployment-select">
         <option value="qwen">Qwen3.5 4B · Hugging Face</option>
-        <option value="glm">GLM-5.2 · Hugging Face</option>
+        <option value="glm" selected>GLM-5.2 · Hugging Face</option>
       </select>
-      <div class="deployment-detail" id="deployment-detail"><strong>Application selects an endpoint · provider places execution</strong><span>Qwen3.5 4B · 32K context · Hugging Face Inference Provider</span><span>Scenario timing · performance not compared</span></div>
+      <div class="deployment-detail" id="deployment-detail"><strong>Application selects an endpoint · provider places execution</strong><span>GLM-5.2 · 131K context · Hugging Face Inference Provider</span><span>Scenario timing · performance not compared</span></div>
     </div>
   </header>
   <section class="world" aria-live="polite">
@@ -641,7 +640,7 @@ button, input { font: inherit; }
           <div class="delta-axis">Operational continuity</div>
           <div class="delta-values">
             <div class="delta-value"><div class="delta-side">Endpoint</div><strong>Transcript only</strong><small>No execution state remains for the next event</small><span class="source-type">Architecture invariant</span></div>
-            <div class="delta-value"><div class="delta-side">Lloyal</div><strong id="delta-continuing">1 live state</strong><small>Chosen policy state becomes the future</small><span class="source-type">Architecture invariant</span></div>
+            <div class="delta-value"><div class="delta-side">Lloyal</div><strong id="delta-continuing">1 live state</strong><small>Chosen policy agent becomes the continuing state</small><span class="source-type">Architecture invariant</span></div>
           </div>
         </article>
       </div>
@@ -649,14 +648,14 @@ button, input { font: inherit; }
     </section>
     <div class="viewbar">
       <div class="view-tabs" role="tablist" aria-label="Execution model">
-        <button class="view-tab endpoint" id="view-endpoint" role="tab" aria-selected="true" aria-controls="pane-endpoint" type="button"><strong>Without Lloyal</strong><span>LangGraph-style endpoint calls · execution restarts</span></button>
-        <button class="view-tab with" id="view-lloyal" role="tab" aria-selected="false" aria-controls="pane-lloyal" type="button"><strong>With Lloyal</strong><span>One parent · three controlled continuations</span></button>
+        <button class="view-tab endpoint" id="view-endpoint" role="tab" aria-selected="true" aria-controls="pane-endpoint" type="button"><strong>Without Lloyal</strong><span>Three replacement agents · three new endpoint calls</span></button>
+        <button class="view-tab with" id="view-lloyal" role="tab" aria-selected="false" aria-controls="pane-lloyal" type="button"><strong>With Lloyal</strong><span>One parent · three forked policy agents</span></button>
       </div>
     </div>
     <div class="run-grid">
       <article class="run-pane endpoint active" id="pane-endpoint" role="tabpanel" aria-label="Endpoint orchestration run">
         <div class="run-head">
-          <div><div class="run-kicker">Without Lloyal · LangGraph-style endpoint orchestration</div><div class="run-title">One execution ends. Three root requests begin again.</div><div class="run-thesis">The graph persists workflow and messages; model execution remains request-shaped.</div></div>
+          <div><div class="run-kicker">Without Lloyal · LangGraph-style endpoint orchestration</div><div class="run-title">One execution ends. Three replacement agents begin again.</div><div class="run-thesis">Each agent starts a new endpoint call from the stored record.</div></div>
           <div class="run-state" id="endpoint-state">RUN EP-042 · OPEN</div>
         </div>
         <div class="metrics" id="endpoint-metrics"></div>
@@ -667,7 +666,7 @@ button, input { font: inherit; }
       </article>
       <article class="run-pane with" id="pane-lloyal" role="tabpanel" aria-label="Lloyal Continuous Context run" hidden>
         <div class="run-head">
-          <div><div class="run-kicker">With Lloyal · continuous context</div><div class="run-title">One execution becomes three policy states.</div><div class="run-thesis">Application policy acts on resident model execution.</div></div>
+          <div><div class="run-kicker">With Lloyal · continuous context</div><div class="run-title">One execution becomes three policy agents.</div><div class="run-thesis">Each agent inherits the same live model state before its policy differs.</div></div>
           <div class="run-state" id="lloyal-state">RUN CC-042 · RESIDENT</div>
         </div>
         <div class="metrics" id="lloyal-metrics"></div>
@@ -709,7 +708,7 @@ button, input { font: inherit; }
   const paneEndpoint = $("pane-endpoint"), paneLloyal = $("pane-lloyal");
   const deploymentSelect = $("deployment-select"), deploymentLabel = $("deployment-label"), deploymentDetail = $("deployment-detail");
   const deltaRebuilds = $("delta-rebuilds"), deltaContinuing = $("delta-continuing");
-  let t = 0, timer = null, playing = false, activeView = "endpoint", modelKey = "qwen";
+  let t = 0, timer = null, playing = false, activeView = "endpoint", modelKey = "glm";
   const courses = [
     { code: "P1", name: "Hold position", endpoint: "cover preserved · delay allocation", outcome: "War AP avoided · delay exposure", selected: false },
     { code: "P2", name: "Constrained transit", endpoint: "security window · conditional cover", outcome: "3.0% AP · $7.5m · charterer reimburses", selected: true },
@@ -722,10 +721,10 @@ button, input { font: inherit; }
     { at: 28, name: "Transit decision underway", sub: "Proceed · hold · alternative orders", ep: "A model endpoint is generating the integrated recommendation.", cc: "The integrated decision lineage is decoding from live state." },
     { at: 34, name: "Security advisory verified", sub: "Incident near intended lane · effective now", ep: "The active generation cannot receive a new turn.", cc: "The event is queued for the next controlled turn boundary." },
     { at: 37, name: "Applicability gate passed", sub: "Time · vessel position · governing cover", ep: "Application must wait for the old turn or cancel it.", cc: "Harness admits the advisory before the conclusion settles." },
-    { at: 44, name: "Policy courses created", sub: "Hold · constrained transit · reroute", ep: "Three prompts are reconstructed; three new request IDs start.", cc: "One resident state forks three times; no child is reseeded." },
-    { at: 70, name: "Courses resolved", sub: "Operational · insurance · charter consequences", ep: "Three independently generated responses are available.", cc: "Three matched policy continuations return from one basis." },
+    { at: 44, name: "Three policy agents created", sub: "Hold · constrained transit · reroute", ep: "Three replacement agents start independent endpoint calls from reconstructed prompts.", cc: "Three policy agents fork from one resident state; no child is reseeded." },
+    { at: 70, name: "Policy agents resolved", sub: "Operational · insurance · charter consequences", ep: "Three independently generated agent responses are available.", cc: "Three matched policy agents return from one live basis." },
     { at: 76, name: "Course promoted", sub: "Constrained transit · approved security window", ep: "One response is selected; its execution state is unavailable.", cc: "The selected child becomes the continuing decision state." },
-    { at: 83, name: "Underwriter revises terms", sub: "AP 3.0% → 1.5% · security-window conditions", ep: "The selected response is stale; a fourth root request begins.", cc: "The revised terms enter promoted state S-17.2; cover and orders update in place." },
+    { at: 83, name: "Underwriter revises terms", sub: "AP 3.0% → 1.5% · security-window conditions", ep: "The selected response is stale; a fourth replacement agent starts.", cc: "The revised terms enter promoted agent S-17.2; cover and orders update in place." },
     { at: 88, name: "Amended orders due", sub: "02:10Z security window", ep: "Cover allocation and the master's amended orders remain under review.", cc: "Conditional cover is reconciled, CONWARTIME allocation retained and amended orders issued." }
   ];
   function esc(value) { return String(value).replace(/[&<>"']/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c])); }
@@ -750,7 +749,7 @@ button, input { font: inherit; }
   }
   function axis(mode) {
     let markers = '<span class="axis-event" style="left:' + pct(34) + '%">Advisory</span>';
-    if (mode === "endpoint") markers += '<span class="axis-event bad stagger" style="left:' + pct(40) + '%">Cancel</span><span class="axis-event" style="left:' + pct(52) + '%">New requests</span>';
+    if (mode === "endpoint") markers += '<span class="axis-event bad stagger" style="left:' + pct(40) + '%">Cancel</span><span class="axis-event" style="left:' + pct(52) + '%">New agents</span>';
     else markers += '<span class="axis-event good stagger" style="left:' + pct(37) + '%">Admit</span><span class="axis-event good" style="left:' + pct(44) + '%">Fork</span>';
     markers += mode === "endpoint"
       ? '<span class="axis-event neutral" style="left:' + pct(76) + '%">Select response</span>'
@@ -776,17 +775,17 @@ button, input { font: inherit; }
       html += '<div class="replacement-stack">';
       courses.forEach((course, index) => {
         let tr = seg(40,52,"rebuild") + seg(52,70,"endpoint-live") + seg(70,76,"accepted") + node(52,"circle","");
-        if (t >= 52) tr += '<span class="request-root-flag" style="left:' + pct(52) + '%">new root</span>';
+        if (t >= 52) tr += '<span class="request-root-flag" style="left:' + pct(52) + '%">new endpoint call</span>';
         const displayedOutcome = course.selected && t >= 83 ? "STALE · revised cover pending" : course.outcome;
         tr += node(70,"diamond good","✓") + outcome(displayedOutcome, course.selected && t < 83);
         if (course.selected) tr += node(76,"bad","×") + stateFlag(78,"bad",t>=83?"state unavailable · R4 rebuilds":"response selected · execution ended");
         const state = t < 52 ? "reconstructing record + policy" : t < 70 ? "independent execution" : course.selected && t >= 83 ? "selected response superseded by new terms" : course.endpoint;
         const cardClass = course.selected && t >= 83 ? ' stale-response' : course.selected && t >= 76 ? ' selected-response' : '';
-        html += '<div class="request-card' + cardClass + '"><div class="request-card-head"><div class="request-card-id">ROOT REQUEST R' + (index+1) + '</div><div class="request-card-title">' + esc(course.name) + '</div><div class="request-card-sub">' + esc(state) + '</div></div><div class="request-card-track">' + tr + cursor() + '</div></div>';
+        html += '<div class="request-card' + cardClass + '"><div class="request-card-head"><div class="request-card-id">REPLACEMENT POLICY AGENT ' + (index+1) + '</div><div class="request-card-title">' + esc(course.name) + '</div><div class="request-card-sub">' + esc(state) + '</div></div><div class="request-card-track">' + tr + cursor() + '</div></div>';
       });
       if (t >= 83) {
-        const followTrack = seg(83,90,"rebuild") + node(83,"circle","") + '<span class="request-root-flag" style="left:' + pct(83) + '%">new root</span>';
-        html += '<div class="request-card follow-up"><div class="request-card-head"><div class="request-card-id">ROOT REQUEST R4</div><div class="request-card-title">Reconcile revised cover</div><div class="request-card-sub">premium allocation + amended master orders pending</div></div><div class="request-card-track">' + followTrack + cursor() + '</div></div>';
+        const followTrack = seg(83,90,"rebuild") + node(83,"circle","") + '<span class="request-root-flag" style="left:' + pct(83) + '%">new endpoint call</span>';
+        html += '<div class="request-card follow-up"><div class="request-card-head"><div class="request-card-id">REPLACEMENT POLICY AGENT 4</div><div class="request-card-title">Reconcile revised cover</div><div class="request-card-sub">premium allocation + amended master orders pending</div></div><div class="request-card-track">' + followTrack + cursor() + '</div></div>';
       }
       html += '</div>';
     }
@@ -800,7 +799,7 @@ button, input { font: inherit; }
     if (t >= 44) dTrack += '<span class="fork-stem" style="left:' + pct(44) + '%"></span>';
     html += row("S-17","Resident decision state",t<28?"waiting for six agent analyses":t<34?"decoding":t<37?"held at boundary":t<44?"advisory admitted":"LIVE PARENT · FORK SOURCE",dTrack,"group-break state-trunk");
     if (t >= 44) {
-      html += '<div class="lineage-banner"><strong>S-17</strong><span>exact state fork</span><strong>S-17.1 / .2 / .3</strong></div>';
+      html += '<div class="lineage-banner"><strong>S-17</strong><span>forks 3 policy agents</span><strong>S-17.1 / .2 / .3</strong></div>';
       courses.forEach((course,index) => {
         let tr = '<span class="child-link" style="left:' + pct(44) + '%;width:' + (((46-44)/90)*100).toFixed(3) + '%"></span>';
         const displayedOutcome = course.selected && t >= 88 ? "1.5% AP · $3.75m · charterer reimburses" : course.outcome;
@@ -810,8 +809,8 @@ button, input { font: inherit; }
           tr += seg(83,88,"admitted") + node(83,"diamond warn","$") + seg(88,90,"live selected") + node(88,"diamond good","✓");
           tr += stateFlag(78,"good",t>=83?"same state · revised terms admitted":"promoted state continues");
         }
-        const state = t<46 ? "exact child · policy queued" : t<70 ? "live policy continuation" : course.selected && t>=83 && t<88 ? "reconciling revised premium + conditions" : displayedOutcome;
-        html += row("S17."+(index+1),course.name,state,tr,"child");
+        const state = t<46 ? "forked agent · policy queued" : t<70 ? "live agent continuation" : course.selected && t>=83 && t<88 ? "reconciling revised premium + conditions" : displayedOutcome;
+        html += row("S17."+(index+1),"Policy agent · "+course.name,state,tr,"child");
       });
     }
     lloyalHistory.innerHTML = html;
@@ -828,23 +827,23 @@ button, input { font: inherit; }
       hero = afterTermsChange ? "Quote and orders unresolved" : selected ? "A static answer" : "Independent replacement runs";
       heroDetail = afterTermsChange ? "1.5% AP · $3.75m quote cannot yet drive amended orders" : selected ? "Useful now; not available as execution state for the next change" : "Same record, but each course begins as a new execution";
       rows = afterTermsChange
-        ? [["Fresh root executions", "4"], ["Conditional cover", "REOPENED"], ["CONWARTIME allocation", "REVALIDATING"], ["Master's amended orders", "PENDING"]]
-        : [["Fresh root executions", t<52?"3 PREPARING":"3"], ["Matched policy continuations", "0 / 3"], ["Prefixes reconstructed", t<52?"IN PROGRESS":"3"], ["Execution state after selection", selected?"UNAVAILABLE":"—"]];
+        ? [["Fresh agent executions", "4"], ["Conditional cover", "REOPENED"], ["CONWARTIME allocation", "REVALIDATING"], ["Master's amended orders", "PENDING"]]
+        : [["Fresh agent executions", t<52?"3 PREPARING":"3"], ["Matched agent continuations", "0 / 3"], ["Prefixes reconstructed", t<52?"IN PROGRESS":"3"], ["Execution state after selection", selected?"UNAVAILABLE":"—"]];
     } else {
       title = afterTermsChange ? "Commercial control" : "What Lloyal keeps under control";
       context = "With Lloyal";
       heroLabel = afterTermsChange ? "Before the 02:10Z decision window" : "After state promotion";
-      hero = afterTermsChange ? "$3.75m cover decision ready" : selected ? "A continuing case" : "Matched policy continuations";
+      hero = afterTermsChange ? "$3.75m cover decision ready" : selected ? "A continuing case" : "Matched policy agents";
       heroDetail = afterTermsChange ? "Revised terms, charter allocation and amended orders remain tied to S-17.2" : selected ? "The chosen course remains available for the next insurance or operational change" : "Every course starts from the same instantiated model state";
       rows = afterTermsChange
-        ? [["Fresh root executions", "0"], ["Conditional cover", "RECONCILED"], ["CONWARTIME allocation", "CHARTERER RETAINED"], ["Master's amended orders", "READY"]]
-        : [["Fresh root executions", "0"], ["Matched policy continuations", t<44?"0 / 3":"3 / 3"], ["Child reseeds", "0"], ["Execution state after selection", selected?"CONTINUING":"PARENT LIVE"]];
+        ? [["Fresh agent executions", "0"], ["Conditional cover", "RECONCILED"], ["CONWARTIME allocation", "CHARTERER RETAINED"], ["Master's amended orders", "READY"]]
+        : [["Fresh agent executions", "0"], ["Matched agent continuations", t<44?"0 / 3":"3 / 3"], ["Agent reseeds", "0"], ["Execution state after selection", selected?"CONTINUING":"PARENT LIVE"]];
     }
     return '<div class="tab-story ' + (mode === "endpoint" ? 'endpoint-story' : 'with-story') + '"><div class="tab-story-head"><strong>' + esc(title) + '</strong><span>' + esc(context) + '</span></div><div class="tab-story-hero"><span>' + esc(heroLabel) + '</span><strong>' + esc(hero) + '</strong><small>' + esc(heroDetail) + '</small></div><div class="tab-story-rows">' + rows.map((item) => '<div class="tab-story-row"><span>' + esc(item[0]) + '</span><strong>' + esc(item[1]) + '</strong></div>').join("") + '</div></div>';
   }
   function evidenceMarkup(mode) {
     if (mode === "endpoint") return '<div class="research-block endpoint-evidence"><div class="research-block-head"><strong>Fresh-run exposure</strong><span>Published research · red denotes risk</span></div><div class="research-grid"><div class="research-stat risk"><div class="research-stat-value">median ≤1%</div><div class="research-stat-label">to first trajectory divergence</div><div class="research-stat-copy">Median first divergence occurred within the first 1% of generated tokens.</div><a href="https://arxiv.org/abs/2602.07150" target="_blank" rel="noopener">KTH · 60,000 trajectories ↗</a></div><div class="research-stat risk"><div class="research-stat-value">2.2–6.0pp</div><div class="research-stat-label">temperature-0 pass@1 spread</div><div class="research-stat-copy">Observed single-run result variation across evaluated agent configurations.</div><a href="https://arxiv.org/abs/2602.07150" target="_blank" rel="noopener">KTH study ↗</a></div><div class="research-stat risk"><div class="research-stat-value">up to 15%</div><div class="research-stat-label">accuracy variation</div><div class="research-stat-copy">Repeated nominally deterministic hosted calls across five models and eight tasks.</div><a href="https://aclanthology.org/2025.eval4nlp-1.12/" target="_blank" rel="noopener">Atıl et al. · 10 runs ↗</a></div><div class="research-stat risk"><div class="research-stat-value">up to 70%</div><div class="research-stat-label">best-to-worst performance gap</div><div class="research-stat-copy">Largest reported spread between repeated runs under deterministic settings.</div><a href="https://aclanthology.org/2025.eval4nlp-1.12/" target="_blank" rel="noopener">Atıl et al. ↗</a></div></div><div class="research-foot"><strong>Baseline boundary:</strong> LangGraph-style orchestration can persist graph and message state and append later turns. In this arm it calls independent model endpoints, so R4 cannot resume the in-flight execution that produced the selected response. These published findings are not a Lloyal benchmark; they show the fresh-run variance that reconstruction reintroduces.</div></div>';
-    return '<div class="research-block with-evidence"><div class="research-block-head"><strong>Control achieved in this run</strong><span>Execution invariants · green denotes preserved control</span></div><div class="research-grid"><div class="research-stat good"><div class="research-stat-value">1</div><div class="research-stat-label">instantiated parent</div><div class="research-stat-copy">All policy courses depart from resident state S-17.</div><span class="research-stat-source">Execution invariant</span></div><div class="research-stat good"><div class="research-stat-value">3 / 3</div><div class="research-stat-label">matched policy continuations</div><div class="research-stat-copy">Carrier, sampler, PRNG position and pre-intervention logits match before policy differs.</div><span class="research-stat-source">Execution invariant</span></div><div class="research-stat good"><div class="research-stat-value">0</div><div class="research-stat-label">child reseeds</div><div class="research-stat-copy">Every child continues the parent’s current stochastic state.</div><span class="research-stat-source">Execution invariant</span></div><div class="research-stat good"><div class="research-stat-value">0</div><div class="research-stat-label">prefixes reconstructed</div><div class="research-stat-copy">The established case is forked and updated in place rather than replayed.</div><span class="research-stat-source">Execution invariant</span></div></div><div class="research-foot">Published fresh-run research establishes the confound these controls remove: <a href="https://arxiv.org/abs/2602.07150" target="_blank" rel="noopener">KTH ↗</a> · <a href="https://aclanthology.org/2025.eval4nlp-1.12/" target="_blank" rel="noopener">Atıl et al. ↗</a></div></div>';
+    return '<div class="research-block with-evidence"><div class="research-block-head"><strong>Control achieved in this run</strong><span>Execution invariants · green denotes preserved control</span></div><div class="research-grid"><div class="research-stat good"><div class="research-stat-value">1</div><div class="research-stat-label">instantiated parent</div><div class="research-stat-copy">All three policy agents fork from resident state S-17.</div><span class="research-stat-source">Execution invariant</span></div><div class="research-stat good"><div class="research-stat-value">3 / 3</div><div class="research-stat-label">matched agent continuations</div><div class="research-stat-copy">Each policy agent inherits matching carrier, sampler, PRNG position and pre-intervention logits before policy differs.</div><span class="research-stat-source">Execution invariant</span></div><div class="research-stat good"><div class="research-stat-value">0</div><div class="research-stat-label">agent reseeds</div><div class="research-stat-copy">Every forked agent continues the parent’s current stochastic state.</div><span class="research-stat-source">Execution invariant</span></div><div class="research-stat good"><div class="research-stat-value">0</div><div class="research-stat-label">prefixes reconstructed</div><div class="research-stat-copy">The established case is forked and updated in place rather than replayed.</div><span class="research-stat-source">Execution invariant</span></div></div><div class="research-foot">Published fresh-run research establishes the confound these controls remove: <a href="https://arxiv.org/abs/2602.07150" target="_blank" rel="noopener">KTH ↗</a> · <a href="https://aclanthology.org/2025.eval4nlp-1.12/" target="_blank" rel="noopener">Atıl et al. ↗</a></div></div>';
   }
   function explainerMarkup(data, mode) {
     const rows = data.ledger.map((item) => '<div class="explain-ledger-row"><span>' + esc(item[0]) + '</span><strong class="' + esc(item[2] || '') + '">' + esc(item[1]) + '</strong></div>').join("");
@@ -887,9 +886,9 @@ button, input { font: inherit; }
     };
     if (t < 76) return {
       step: 5, phase: "Three new draws", headline: "The courses are comparable on paper—not in execution.",
-      copy: "Hold, constrained transit and reroute begin as three independent root requests reconstructed from the same stored record.",
+      copy: "Hold, constrained transit and reroute are assigned to three replacement policy agents. Each begins a new endpoint call reconstructed from the same stored record.",
       why: "Any difference in their recommendations combines <strong>the declared policy</strong> with <strong>fresh-run trajectory variance</strong>. The underwriter cannot isolate which caused the delta.",
-      ledger: [["Root executions", "3 independent"], ["Matched live basis", "no", "bad"], ["Policy attribution", "confounded", "bad"]],
+      ledger: [["Replacement agents", "3 independent"], ["Matched live basis", "no", "bad"], ["Policy attribution", "confounded", "bad"]],
       showDelta: true,
       showEvidence: true
     };
@@ -904,9 +903,9 @@ button, input { font: inherit; }
     };
     return {
       step: 7, phase: "Terms change again", headline: "The underwriter changes terms. The selected recommendation is stale.",
-      copy: "The illustrative hull war AP falls from 3.0% to 1.5%, but the new quote adds security-window conditions. The transcript cannot be amended as live execution, so root request R4 begins from the stored record.",
+      copy: "The illustrative hull war AP falls from 3.0% to 1.5%, but the new quote adds security-window conditions. The transcript cannot be amended as live execution, so a fourth replacement agent starts a new endpoint call from the stored record.",
       why: "This is the commercial effect of the disconnect: cover, the CONWARTIME premium allocation and the master's amended orders go back into review while the 02:10Z operating window approaches.",
-      ledger: [["Revised hull war AP", "1.5% · $3.75m"], ["Cover decision", "reopened", "bad"], ["Master's amended orders", "pending", "bad"], ["Fresh root executions", "4 total", "bad"]],
+      ledger: [["Revised hull war AP", "1.5% · $3.75m"], ["Cover decision", "reopened", "bad"], ["Master's amended orders", "pending", "bad"], ["Fresh agent executions", "4 total", "bad"]],
       showDelta: true,
       showEvidence: true,
       outcome: { title: "Business outcome: the desk cannot yet act on the $3.75m quote or issue the 02:10Z orders.", copy: "The first answer was right, but the premium change sends cover, charter allocation and vessel instructions through another decision cycle." }
@@ -938,10 +937,10 @@ button, input { font: inherit; }
       ledger: [["Parent state", "S-17 retained", "good"], ["Prefixes rebuilt", "0", "good"], ["Evidence boundary", "explicit", "good"]]
     };
     if (t < 76) return {
-      step: 5, phase: "Controlled continuations", headline: "One decision becomes three matched policy states.",
-      copy: "S-17 forks into hold, constrained-transit and reroute continuations. Each child inherits the same carrier, sampler, PRNG position, grammar and pre-intervention logits.",
+      step: 5, phase: "Controlled continuations", headline: "One decision becomes three matched policy agents.",
+      copy: "S-17 forks three scoped agents for hold, constrained transit and reroute. Each agent inherits the same carrier, sampler, PRNG position, grammar and pre-intervention logits.",
       why: "Only the declared policy intervention differs initially. That turns three proposals into a controlled domain decision procedure: observed deltas can be attributed to policy rather than a fresh execution draw.",
-      ledger: [["Exact child states", "3", "good"], ["Reseeds", "0", "good"], ["Policy attribution", "controlled", "good"]],
+      ledger: [["Forked policy agents", "3", "good"], ["Agent reseeds", "0", "good"], ["Policy attribution", "controlled", "good"]],
       showDelta: true,
       showEvidence: true
     };
@@ -956,7 +955,7 @@ button, input { font: inherit; }
     };
     return {
       step: 7, phase: "Terms absorbed", headline: "The underwriter changes terms. The same case updates in place.",
-      copy: "The 1.5% AP and new security-window conditions enter promoted state S-17.2. The live case recalculates the premium, retains the CONWARTIME allocation and issues amended orders without starting another root execution.",
+      copy: "The 1.5% AP and new security-window conditions enter promoted agent S-17.2. The live case recalculates the premium, retains the CONWARTIME allocation and issues amended orders without starting another replacement agent.",
       why: "The business advantage is speed and control across a chain of decisions: insurance terms change, the charter allocation is preserved, and the master's orders update before the same operating window closes.",
       ledger: [["Revised hull war AP", "1.5% · $3.75m", "good"], ["CONWARTIME AP allocation", "charterer retained", "good"], ["Conditional cover", "reconciled", "good"], ["Master's amended orders", "issued", "good"]],
       showDelta: true,
@@ -970,8 +969,8 @@ button, input { font: inherit; }
   }
   function metric(labelText, value, tone) { return '<div class="metric ' + esc(tone || '') + '"><div class="metric-label">' + esc(labelText) + '</div><div class="metric-value">' + esc(value) + '</div></div>'; }
   function renderMetrics() {
-    endpointMetrics.innerHTML = metric("Fresh root executions",t<40?"0":t<52?"3 preparing":t<76?"3 running":t<83?"3 complete":"4 total",t>=40?"risk":"") + metric("Matched policy continuations","0 / 3",t>=44?"risk":"") + metric(t>=83?"Revised cover + orders":"State ready for next event",t>=83?"REOPENED":"0",t>=76?"risk":"");
-    lloyalMetrics.innerHTML = metric("Fresh root executions","0",t>=44?"good":"") + metric("Matched policy continuations",t<44?"0 / 3":t<76?"3 / 3 running":"3 / 3 resolved",t>=44?"good":"") + metric(t>=83?"Revised cover + orders":"State ready for next event",t>=88?"READY":t>=83?"UPDATING":t<76?"0":"1",t>=76?"good":"");
+    endpointMetrics.innerHTML = metric("Fresh agent executions",t<40?"0":t<52?"3 preparing":t<76?"3 running":t<83?"3 complete":"4 total",t>=40?"risk":"") + metric("Matched agent continuations","0 / 3",t>=44?"risk":"") + metric(t>=83?"Revised cover + orders":"State ready for next event",t>=83?"REOPENED":"0",t>=76?"risk":"");
+    lloyalMetrics.innerHTML = metric("Fresh agent executions","0",t>=44?"good":"") + metric("Matched agent continuations",t<44?"0 / 3":t<76?"3 / 3 running":"3 / 3 resolved",t>=44?"good":"") + metric(t>=83?"Revised cover + orders":"State ready for next event",t>=88?"READY":t>=83?"UPDATING":t<76?"0":"1",t>=76?"good":"");
     endpointState.textContent = t < 40 ? "RUN EP-042 · OPEN" : t < 76 ? "3 NEW EXECUTIONS" : t < 83 ? "RESPONSE SELECTED" : "COVER REOPENED";
     lloyalState.textContent = t < 44 ? "RUN CC-042 · RESIDENT" : t < 76 ? "3 CHILD STATES" : t < 83 ? "P2 · CONTINUING" : t < 88 ? "P2 · UPDATING" : "ORDERS READY";
     deltaRebuilds.textContent = t < 40 ? "0 prefixes" : t < 83 ? "3 prefixes" : "4 prefixes";
@@ -1018,7 +1017,7 @@ button, input { font: inherit; }
       endpointCaption.innerHTML = '<strong>Three proposals, three fresh trajectories.</strong> Their differences mix policy intervention with execution variance.';
       lloyalCaption.innerHTML = '<strong>Three policies, one instantiated basis.</strong> The children inherit the same carrier and stochastic state before the declared interventions differ.';
     } else if (t < 83) {
-      endpointCaption.innerHTML = '<strong>The first answer works.</strong> Its execution is gone, so the next change will require another root request.';
+      endpointCaption.innerHTML = '<strong>The first answer works.</strong> Its execution is gone, so the next change requires another replacement agent and endpoint call.';
       lloyalCaption.innerHTML = '<strong>The first answer works—and remains live.</strong> Cover, charter allocation and orders can be revised on the same case.';
     } else {
       endpointCaption.innerHTML = '<strong>Premium terms move.</strong> The selected recommendation becomes stale; cover and amended orders reopen.';
@@ -1061,7 +1060,7 @@ button, input { font: inherit; }
       coverState.textContent = "COVER · CONDITIONAL";
     } else if (activeView === "endpoint") {
       worldHeadline.textContent = "The underwriter revises the premium and conditions. The selected recommendation is stale.";
-      worldDetail.textContent = "Cover, CONWARTIME reimbursement and the master's amended orders return to review. Root request R4 is still rebuilding the decision as the 02:10Z window approaches.";
+      worldDetail.textContent = "Cover, CONWARTIME reimbursement and the master's amended orders return to review. A fourth replacement agent is still rebuilding the decision as the 02:10Z window approaches.";
       coverState.textContent = "COVER · REOPENED";
     } else if (t < 88) {
       worldHeadline.textContent = "The underwriter revises the premium and conditions. The live case updates.";
