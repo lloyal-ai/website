@@ -60,7 +60,7 @@ button, input { font: inherit; }
 .vessel-label { position: absolute; top: -18px; left: -32px; width: 90px; text-align: center; color: var(--ink); font: 9px ui-monospace, SFMono-Regular, Menlo, monospace; white-space: nowrap; }
 .advisory-zone { position: absolute; top: 34px; width: 74px; height: 36px; transform: translateX(-50%); border: 1px solid var(--amber); background: rgba(243,231,201,.65); opacity: 0; transition: opacity .25s; }
 .advisory-zone.visible { opacity: 1; }
-.advisory-zone::after { content: "ADVISORY"; position: absolute; top: -16px; left: 3px; color: var(--amber); font: 9px ui-monospace, SFMono-Regular, Menlo, monospace; }
+.advisory-zone::after { content: "THREAT ALERT"; position: absolute; top: -16px; left: 3px; color: var(--amber); font: 9px ui-monospace, SFMono-Regular, Menlo, monospace; white-space: nowrap; }
 .stakes-strip { display: grid; grid-template-columns: 1.05fr .85fr 1fr 1.55fr; padding: 0 24px; border-bottom: 1px solid var(--line); background: #fafaf7; }
 .stake { min-width: 0; padding: 10px 14px 11px; border-right: 1px solid var(--line); }
 .stake:first-child { padding-left: 0; }
@@ -544,7 +544,7 @@ button, input { font: inherit; }
 
   <meta property="og:type" content="website">
   <meta property="og:title" content="Hormuz transit decision">
-  <meta property="og:description" content="A $250m tanker must enter the Strait of Hormuz before its window closes. A verified threat alert changes the safe route, then the war-risk underwriter reprices cover — the same incident followed through two control boundaries.">
+  <meta property="og:description" content="A $250m tanker must enter the Strait of Hormuz before its window closes. One verified threat alert changes the safe route and refers the premium; the underwriter then doubles it. The same incident, followed through two control boundaries.">
   <meta property="og:image" content="https://lloyal.ai/assets/sim-risk-desk-og.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -556,7 +556,7 @@ button, input { font: inherit; }
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Hormuz transit decision">
-  <meta name="twitter:description" content="A $250m tanker must enter the Strait of Hormuz before its window closes. A verified threat alert changes the safe route, then the war-risk underwriter reprices cover — the same incident followed through two control boundaries.">
+  <meta name="twitter:description" content="A $250m tanker must enter the Strait of Hormuz before its window closes. One verified threat alert changes the safe route and refers the premium; the underwriter then doubles it. The same incident, followed through two control boundaries.">
   <meta name="twitter:image" content="https://lloyal.ai/assets/sim-risk-desk-og.png">
   <meta name="twitter:image:alt" content="The world changes mid-run. Strait of Hormuz transit decision, a Lloyal Labs simulation.">
 </head>
@@ -565,7 +565,7 @@ button, input { font: inherit; }
   <header class="topbar">
     <div class="header-scenario">
       <div class="header-scenario-kicker">Strait of Hormuz · live transit-risk desk (SIMULATION)</div>
-      <div class="header-scenario-copy"><strong>Marine insurance decision:</strong> a $250m tanker must enter Hormuz by 02:10Z. A verified maritime threat alert changes the safe route; minutes later the war-risk underwriter reprices cover from $7.5m to $3.75m. The desk must update insurance cover, charter liability and the master’s orders before the transit window closes.</div>
+      <div class="header-scenario-copy"><strong>Marine insurance decision:</strong> a $250m tanker must enter Hormuz by 02:10Z. A verified maritime threat alert changes the safe route and refers the voyage premium; the underwriter then responds by raising the AP indication from $3.75m to $7.5m and adding conditions. The desk must update cover, charter liability and the master’s orders before the transit window closes.</div>
     </div>
     <div class="header-runtime">
       <label for="deployment-select" id="deployment-label">Model endpoint</label>
@@ -580,10 +580,10 @@ button, input { font: inherit; }
     <div class="world-copy">
       <div class="section-kicker">Outside world</div>
       <div class="world-headline" id="world-headline">Tanker01 is 42 nautical miles east of the traffic scheme.</div>
-      <p class="world-detail" id="world-detail">The master needs a proceed-or-hold instruction before the next transit window. War-risk cover is in force and the charterer is awaiting the route decision.</p>
+      <p class="world-detail" id="world-detail">The master needs a proceed-or-hold instruction before the next transit window. Base war cover is in force; the current Hormuz AP indication is provisional.</p>
     </div>
     <div class="route-card" aria-label="Vessel approach to the Strait of Hormuz">
-      <div class="route-meta"><span>TANKER01 · SYNTHETIC LADEN OIL TANKER</span><span id="cover-state">COVER · IN FORCE</span></div>
+      <div class="route-meta"><span>TANKER01 · SYNTHETIC LADEN OIL TANKER</span><span id="cover-state">BASE COVER · IN FORCE</span></div>
       <div class="route-line"></div>
       <div class="route-place east">GULF OF OMAN</div>
       <div class="route-place strait">STRAIT ENTRY · DECISION REQUIRED</div>
@@ -594,8 +594,8 @@ button, input { font: inherit; }
   <section class="stakes-strip" aria-label="Commercial and geopolitical stakes">
     <div class="stake"><div class="stake-label">Energy chokepoint</div><div class="stake-value">20m barrels / day</div><div class="stake-detail">About 20% of global petroleum liquids consumption crossed Hormuz in 2024. <a href="https://www.eia.gov/todayinenergy/detail.php?id=65504" target="_blank" rel="noopener">EIA ↗</a></div></div>
     <div class="stake"><div class="stake-label">Insured hull · scenario</div><div class="stake-value">$250m tanker</div><div class="stake-detail">Illustrative vessel value within the $200m–$300m range reported for tankers.</div></div>
-    <div class="stake"><div class="stake-label">Hull war additional premium</div><div class="stake-value warn" id="war-premium">3.0% · $7.5m</div><div class="stake-detail" id="war-premium-detail">Illustrative quote using the market example reported by Reuters. <a href="https://www.reuters.com/world/middle-east/maritime-insurance-premiums-surge-iran-conflict-widens-2026-03-06/" target="_blank" rel="noopener">Market context ↗</a></div></div>
-    <div class="stake"><div class="stake-label">Charter allocation · CONWARTIME 2025</div><div class="stake-value" id="charter-allocation">Owner may refuse · charterer reimburses AP</div><div class="stake-detail">War-risk orders, insurance costs, deviation and delay must be reconciled against the actual charter terms. <a href="https://www.bimco.org/contractual-affairs/bimco-clauses/current-clauses/war_risks_clause_for_time_charters_2025/" target="_blank" rel="noopener">BIMCO clause ↗</a></div></div>
+    <div class="stake"><div class="stake-label" id="war-premium-label">Hull war AP indication</div><div class="stake-value warn" id="war-premium">1.5% · $3.75m</div><div class="stake-detail" id="war-premium-detail">Illustrative pre-alert indication within the market range reported by Reuters. <a href="https://www.reuters.com/world/middle-east/maritime-insurance-premiums-surge-iran-conflict-widens-2026-03-06/" target="_blank" rel="noopener">Market context ↗</a></div></div>
+    <div class="stake"><div class="stake-label">CONWARTIME AP allocation</div><div class="stake-value" id="charter-allocation">Charterer reimburses actual AP · amount pending</div><div class="stake-detail">The owner may refuse unsafe orders. If Tanker01 proceeds, the illustrative clause application puts insurance costs actually incurred on the charterer; the owner must notify them as soon as practicable. Actual charter terms govern. <a href="https://www.bimco.org/contractual-affairs/bimco-clauses/current-clauses/war_risks_clause_for_time_charters_2025/" target="_blank" rel="noopener">BIMCO clause ↗</a></div></div>
   </section>
   <div class="controlbar" aria-label="Simulation controls">
     <button class="btn primary" id="play" type="button">Play incident</button>
@@ -633,7 +633,7 @@ button, input { font: inherit; }
           <div class="delta-axis">Repeated inference work</div>
           <div class="delta-values">
             <div class="delta-value"><div class="delta-side">Endpoint</div><strong id="delta-rebuilds">0 prefixes</strong><small>Reconstructed from the stored case record</small><span class="source-type">Scenario execution fact</span></div>
-            <div class="delta-value"><div class="delta-side">Lloyal</div><strong>0 prefixes</strong><small>One resident parent is forked in place</small><span class="source-type">Scenario execution fact</span></div>
+            <div class="delta-value"><div class="delta-side">Lloyal</div><strong>0 prefixes</strong><small>Three agents start from one live decision state</small><span class="source-type">Scenario execution fact</span></div>
           </div>
         </article>
         <article class="delta-card">
@@ -656,7 +656,7 @@ button, input { font: inherit; }
       <article class="run-pane endpoint active" id="pane-endpoint" role="tabpanel" aria-label="Endpoint orchestration run">
         <div class="run-head">
           <div><div class="run-kicker">Without Lloyal · LangGraph-style endpoint orchestration</div><div class="run-title">One execution ends. Three replacement agents begin again.</div><div class="run-thesis">Each agent starts a new endpoint call from the stored record.</div></div>
-          <div class="run-state" id="endpoint-state">RUN EP-042 · OPEN</div>
+          <div class="run-state" id="endpoint-state">6 AGENTS · ANALYSING</div>
         </div>
         <div class="metrics" id="endpoint-metrics"></div>
         <div class="history" id="endpoint-history"></div>
@@ -667,7 +667,7 @@ button, input { font: inherit; }
       <article class="run-pane with" id="pane-lloyal" role="tabpanel" aria-label="Lloyal Continuous Context run" hidden>
         <div class="run-head">
           <div><div class="run-kicker">With Lloyal · continuous context</div><div class="run-title">One execution becomes three policy agents.</div><div class="run-thesis">Each agent inherits the same live model state before its policy differs.</div></div>
-          <div class="run-state" id="lloyal-state">RUN CC-042 · RESIDENT</div>
+          <div class="run-state" id="lloyal-state">6 AGENTS · ANALYSING</div>
         </div>
         <div class="metrics" id="lloyal-metrics"></div>
         <div class="history" id="lloyal-history"></div>
@@ -677,17 +677,17 @@ button, input { font: inherit; }
       </article>
     </div>
     <div class="decision-strip" id="decision-strip">
-      <div class="decision-summary"><div class="section-kicker">Immediate instruction · same</div><div class="decision-title">Constrained transit in the approved 02:10Z security window</div><div class="decision-detail">Master holds east of the traffic scheme · cover continues on revised terms · charterer issues conforming orders.</div></div>
+      <div class="decision-summary"><div class="section-kicker">Preferred course · same</div><div class="decision-title">Constrained transit at 02:10Z · final AP terms pending</div><div class="decision-detail">Master holds east of the traffic scheme · underwriter response pending · charterer prepares conforming orders.</div></div>
       <div class="decision-result"><div class="section-kicker">Endpoint retains</div><strong>One selected response</strong><small>Three independently generated proposals cannot isolate policy effect from trajectory variance. The next event starts from a transcript.</small></div>
       <div class="decision-result"><div class="section-kicker">Lloyal retains</div><strong>One promoted decision state</strong><small>All courses share one instantiated basis. The selected state remains live, attributable and ready for the next event.</small></div>
     </div>
     <section class="events" aria-label="Comparative event history">
-      <div class="events-head"><div><div class="section-kicker">Event history</div><h2>The incident, and what each execution model can do about it</h2></div><div class="events-count" id="events-count">0 / 9 EVENTS</div></div>
+      <div class="events-head"><div><div class="section-kicker">Event history</div><h2>The incident, and what each execution model can do about it</h2></div><div class="events-count" id="events-count">0 / 11 EVENTS</div></div>
       <div class="event-table-head"><div>#</div><div>Time</div><div>Event</div><div>Endpoint orchestration</div><div>With Lloyal</div></div>
       <div id="event-rows"></div>
     </section>
   </section>
-  <div class="footer-note">Synthetic demonstration. Vessel, advisory, security window, premium quote changes, coverage terms, timings and course outcomes are illustrative; cited market and contractual context is not operational guidance or a live quote.</div>
+  <div class="footer-note">Synthetic demonstration. Vessel, threat alert, security window, premium indications, coverage terms, timings and course outcomes are illustrative; cited market and contractual context is not operational guidance or a live quote.</div>
 </main>
 <script>
 (function () {
@@ -695,7 +695,7 @@ button, input { font: inherit; }
   const $ = (id) => document.getElementById(id);
   const play = $("play"), reset = $("reset"), range = $("range"), clock = $("clock"), phase = $("phase");
   const worldHeadline = $("world-headline"), worldDetail = $("world-detail"), coverState = $("cover-state");
-  const warPremium = $("war-premium"), warPremiumDetail = $("war-premium-detail"), charterAllocation = $("charter-allocation");
+  const warPremiumLabel = $("war-premium-label"), warPremium = $("war-premium"), warPremiumDetail = $("war-premium-detail"), charterAllocation = $("charter-allocation");
   const vessel = $("vessel"), advisoryZone = $("advisory-zone");
   const endpointHistory = $("endpoint-history"), lloyalHistory = $("lloyal-history");
   const endpointMetrics = $("endpoint-metrics"), lloyalMetrics = $("lloyal-metrics");
@@ -709,23 +709,24 @@ button, input { font: inherit; }
   const deploymentSelect = $("deployment-select"), deploymentLabel = $("deployment-label"), deploymentDetail = $("deployment-detail");
   const deltaRebuilds = $("delta-rebuilds"), deltaContinuing = $("delta-continuing");
   let t = 0, timer = null, playing = false, activeView = "endpoint", modelKey = "glm";
+  const MOMENT = Object.freeze({ THREAT_ALERT: 34, UNDERWRITER_RESPONSE: 83, FINAL_COVER: 88 });
   const courses = [
     { code: "P1", name: "Hold position", endpoint: "cover preserved · delay allocation", outcome: "War AP avoided · delay exposure", selected: false },
-    { code: "P2", name: "Constrained transit", endpoint: "security window · conditional cover", outcome: "3.0% AP · $7.5m · charterer reimburses", selected: true },
+    { code: "P2", name: "Constrained transit", endpoint: "security window · final AP pending", outcome: "AP referred · final terms pending", selected: true },
     { code: "P3", name: "Cape reroute", endpoint: "war AP avoided · fuel + charter exposure", outcome: "War AP avoided · +11.4 days", selected: false }
   ];
   const events = [
     { at: 0, name: "Six specialist agents start", sub: "Navigation · war cover · charter · sanctions · cargo · class", ep: "Six specialist agent calls begin from the voyage record.", cc: "Six specialist agents begin inside one scoped workflow." },
     { at: 6, name: "Agent analysis underway", sub: "Live advisories · insurance · contracts · vessel condition", ep: "Tools return into six independent agent request histories.", cc: "Tools return into six application-owned agent lineages." },
-    { at: 22, name: "Six agent analyses completed", sub: "Initial case basis established", ep: "The six agent outputs are stored as a case record for the decision call.", cc: "The six agent outputs extend one resident decision state." },
+    { at: 22, name: "Six agent analyses completed", sub: "Initial case basis established", ep: "The six agent outputs are stored as a case record for the decision call.", cc: "The six agent outputs establish one live decision state." },
     { at: 28, name: "Transit decision underway", sub: "Proceed · hold · alternative orders", ep: "A model endpoint is generating the integrated recommendation.", cc: "The integrated decision lineage is decoding from live state." },
-    { at: 34, name: "Security advisory verified", sub: "Incident near intended lane · effective now", ep: "The active generation cannot receive a new turn.", cc: "The event is queued for the next controlled turn boundary." },
-    { at: 37, name: "Applicability gate passed", sub: "Time · vessel position · governing cover", ep: "Application must wait for the old turn or cancel it.", cc: "Harness admits the advisory before the conclusion settles." },
-    { at: 44, name: "Three policy agents created", sub: "Hold · constrained transit · reroute", ep: "Three replacement agents start independent endpoint calls from reconstructed prompts.", cc: "Three policy agents fork from one resident state; no child is reseeded." },
-    { at: 70, name: "Policy agents resolved", sub: "Operational · insurance · charter consequences", ep: "Three independently generated agent responses are available.", cc: "Three matched policy agents return from one live basis." },
-    { at: 76, name: "Course promoted", sub: "Constrained transit · approved security window", ep: "One response is selected; its execution state is unavailable.", cc: "The selected child becomes the continuing decision state." },
-    { at: 83, name: "Underwriter revises terms", sub: "AP 3.0% → 1.5% · security-window conditions", ep: "The selected response is stale; a fourth replacement agent starts.", cc: "The revised terms enter promoted agent S-17.2; cover and orders update in place." },
-    { at: 88, name: "Amended orders due", sub: "02:10Z security window", ep: "Cover allocation and the master's amended orders remain under review.", cc: "Conditional cover is reconciled, CONWARTIME allocation retained and amended orders issued." }
+    { at: MOMENT.THREAT_ALERT, name: "Threat alert verified", sub: "Incident near intended lane · route changes · AP referred", ep: "The active generation cannot receive a new turn.", cc: "The event is queued for the next controlled turn boundary." },
+    { at: 37, name: "Applicability gate passed", sub: "Time · vessel position · governing cover", ep: "Application must wait for the old turn or cancel it.", cc: "Harness admits the threat alert before the conclusion settles." },
+    { at: 44, name: "Three policy agents created", sub: "Hold · constrained transit · reroute", ep: "Three replacement agents start independent endpoint calls from reconstructed prompts.", cc: "Three policy agents continue from the same live decision state; none starts a new random draw." },
+    { at: 70, name: "Policy agents resolved", sub: "Provisional operational · insurance · charter consequences", ep: "Three independently generated provisional responses are available.", cc: "Three matched policy agents return from one live basis; final AP terms remain pending." },
+    { at: 76, name: "Course promoted", sub: "Constrained transit preferred · final AP pending", ep: "One response is selected; its execution state is unavailable.", cc: "The selected child becomes the continuing decision state." },
+    { at: MOMENT.UNDERWRITER_RESPONSE, name: "Underwriter responds to same threat", sub: "AP 1.5% → 3.0% · $7.5m · security-window conditions", ep: "The selected response is stale; a fourth replacement agent starts.", cc: "The final terms enter promoted agent S-17.2; cover, reimbursement and orders update in place." },
+    { at: MOMENT.FINAL_COVER, name: "Final cover and orders due", sub: "02:10Z security window", ep: "The $7.5m reimbursement, cover conditions and amended orders remain under review.", cc: "Conditional cover is reconciled, the $7.5m charterer reimbursement is carried forward and amended orders are issued." }
   ];
   function esc(value) { return String(value).replace(/[&<>"']/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c])); }
   function pct(value) { return (Math.max(0, Math.min(90, value)) / 90 * 100).toFixed(3); }
@@ -748,15 +749,15 @@ button, input { font: inherit; }
     return '<div class="track-row ' + esc(cls || "") + '">' + label(code,name,state) + '<div class="track">' + track + cursor() + '</div></div>';
   }
   function axis(mode) {
-    let markers = '<span class="axis-event" style="left:' + pct(34) + '%">Advisory</span>';
+    let markers = '<span class="axis-event" style="left:' + pct(MOMENT.THREAT_ALERT) + '%">Threat alert</span>';
     if (mode === "endpoint") markers += '<span class="axis-event bad stagger" style="left:' + pct(40) + '%">Cancel</span><span class="axis-event" style="left:' + pct(52) + '%">New agents</span>';
     else markers += '<span class="axis-event good stagger" style="left:' + pct(37) + '%">Admit</span><span class="axis-event good" style="left:' + pct(44) + '%">Fork</span>';
     markers += mode === "endpoint"
       ? '<span class="axis-event neutral" style="left:' + pct(76) + '%">Select response</span>'
       : '<span class="axis-event good" style="left:' + pct(76) + '%">Promote state</span>';
     markers += mode === "endpoint"
-      ? '<span class="axis-event bad stagger" style="left:' + pct(83) + '%">Terms change</span>'
-      : '<span class="axis-event good stagger" style="left:' + pct(83) + '%">Terms admitted</span>';
+      ? '<span class="axis-event bad stagger" style="left:' + pct(MOMENT.UNDERWRITER_RESPONSE) + '%">AP response</span>'
+      : '<span class="axis-event good stagger" style="left:' + pct(MOMENT.UNDERWRITER_RESPONSE) + '%">AP admitted</span>';
     return '<div class="axis"><div class="axis-label">Execution / activity</div><div class="axis-track"><span class="tick first" style="left:0">00:00</span><span class="tick" style="left:' + pct(30) + '%">00:30</span><span class="tick" style="left:' + pct(60) + '%">01:00</span><span class="tick last" style="left:100%">01:30</span>' + markers + '</div></div>';
   }
   function outcome(text, selected) { return t >= 70 ? '<span class="outcome' + (selected ? ' selected' : '') + '">' + esc(text) + '</span>' : ""; }
@@ -768,24 +769,24 @@ button, input { font: inherit; }
     let html = axis("endpoint");
     let sTrack = seg(0,22,"accepted") + node(22,"diamond good","✓");
     html += row("A1–6","Six specialist agents",t<22?"analysing navigation · war cover · charter · sanctions · cargo · class":"6 domain analyses complete · case basis established",sTrack,"cohort");
-    let dTrack = seg(22,28,"accepted") + seg(28,34,"endpoint-live") + seg(34,40,"attention") + node(34,"diamond warn","!") + node(40,"bad","×");
-    html += row("D0","Integrated transit decision", t < 28 ? "waiting for six agent analyses" : t < 34 ? "generating" : t < 40 ? "advisory pending" : "CALL EP-042 ENDED", dTrack,"group-break state-trunk");
+    let dTrack = seg(22,28,"accepted") + seg(28,MOMENT.THREAT_ALERT,"endpoint-live") + seg(MOMENT.THREAT_ALERT,40,"attention") + node(MOMENT.THREAT_ALERT,"diamond warn","!") + node(40,"bad","×");
+    html += row("D0","Integrated transit decision", t < 28 ? "waiting for six agent analyses" : t < MOMENT.THREAT_ALERT ? "generating" : t < 40 ? "threat alert pending · AP referred" : "CALL EP-042 ENDED", dTrack,"group-break state-trunk");
     if (t >= 40) {
       html += '<div class="request-boundary"><span>live execution unavailable</span></div>';
       html += '<div class="replacement-stack">';
       courses.forEach((course, index) => {
         let tr = seg(40,52,"rebuild") + seg(52,70,"endpoint-live") + seg(70,76,"accepted") + node(52,"circle","");
         if (t >= 52) tr += '<span class="request-root-flag" style="left:' + pct(52) + '%">new endpoint call</span>';
-        const displayedOutcome = course.selected && t >= 83 ? "STALE · revised cover pending" : course.outcome;
-        tr += node(70,"diamond good","✓") + outcome(displayedOutcome, course.selected && t < 83);
-        if (course.selected) tr += node(76,"bad","×") + stateFlag(78,"bad",t>=83?"state unavailable · R4 rebuilds":"response selected · execution ended");
-        const state = t < 52 ? "reconstructing record + policy" : t < 70 ? "independent execution" : course.selected && t >= 83 ? "selected response superseded by new terms" : course.endpoint;
-        const cardClass = course.selected && t >= 83 ? ' stale-response' : course.selected && t >= 76 ? ' selected-response' : '';
+        const displayedOutcome = course.selected && t >= MOMENT.UNDERWRITER_RESPONSE ? "STALE · $7.5m terms pending" : course.outcome;
+        tr += node(70,"diamond good","✓") + outcome(displayedOutcome, course.selected && t < MOMENT.UNDERWRITER_RESPONSE);
+        if (course.selected) tr += node(76,"bad","×") + stateFlag(78,"bad",t>=MOMENT.UNDERWRITER_RESPONSE?"state unavailable · R4 rebuilds":"response selected · execution ended");
+        const state = t < 52 ? "reconstructing record + policy" : t < 70 ? "independent execution" : course.selected && t >= MOMENT.UNDERWRITER_RESPONSE ? "selected response superseded by AP response" : course.endpoint;
+        const cardClass = course.selected && t >= MOMENT.UNDERWRITER_RESPONSE ? ' stale-response' : course.selected && t >= 76 ? ' selected-response' : '';
         html += '<div class="request-card' + cardClass + '"><div class="request-card-head"><div class="request-card-id">REPLACEMENT POLICY AGENT ' + (index+1) + '</div><div class="request-card-title">' + esc(course.name) + '</div><div class="request-card-sub">' + esc(state) + '</div></div><div class="request-card-track">' + tr + cursor() + '</div></div>';
       });
-      if (t >= 83) {
-        const followTrack = seg(83,90,"rebuild") + node(83,"circle","") + '<span class="request-root-flag" style="left:' + pct(83) + '%">new endpoint call</span>';
-        html += '<div class="request-card follow-up"><div class="request-card-head"><div class="request-card-id">REPLACEMENT POLICY AGENT 4</div><div class="request-card-title">Reconcile revised cover</div><div class="request-card-sub">premium allocation + amended master orders pending</div></div><div class="request-card-track">' + followTrack + cursor() + '</div></div>';
+      if (t >= MOMENT.UNDERWRITER_RESPONSE) {
+        const followTrack = seg(MOMENT.UNDERWRITER_RESPONSE,90,"rebuild") + node(MOMENT.UNDERWRITER_RESPONSE,"circle","") + '<span class="request-root-flag" style="left:' + pct(MOMENT.UNDERWRITER_RESPONSE) + '%">new endpoint call</span>';
+        html += '<div class="request-card follow-up"><div class="request-card-head"><div class="request-card-id">REPLACEMENT POLICY AGENT 4</div><div class="request-card-title">Reconcile final AP terms</div><div class="request-card-sub">$7.5m reimbursement + amended master orders pending</div></div><div class="request-card-track">' + followTrack + cursor() + '</div></div>';
       }
       html += '</div>';
     }
@@ -795,21 +796,25 @@ button, input { font: inherit; }
     let html = axis("lloyal");
     let sTrack = seg(0,22,"accepted") + node(22,"diamond good","✓");
     html += row("A1–6","Six specialist agents",t<22?"analysing navigation · war cover · charter · sanctions · cargo · class":"6 domain analyses complete · case basis established",sTrack,"cohort");
-    let dTrack = seg(22,28,"accepted") + seg(28,34,"endpoint-live") + seg(34,37,"attention") + seg(37,44,"admitted") + node(34,"diamond warn","!") + node(37,"diamond good","+") + node(44,"good","3");
+    let dTrack = seg(22,28,"accepted") + seg(28,MOMENT.THREAT_ALERT,"endpoint-live") + seg(MOMENT.THREAT_ALERT,37,"attention") + seg(37,44,"admitted") + node(MOMENT.THREAT_ALERT,"diamond warn","!") + node(37,"diamond good","+") + node(44,"good","3");
     if (t >= 44) dTrack += '<span class="fork-stem" style="left:' + pct(44) + '%"></span>';
-    html += row("S-17","Resident decision state",t<28?"waiting for six agent analyses":t<34?"decoding":t<37?"held at boundary":t<44?"advisory admitted":"LIVE PARENT · FORK SOURCE",dTrack,"group-break state-trunk");
+    html += row("S-17","Live decision state",t<28?"waiting for six agent analyses":t<MOMENT.THREAT_ALERT?"forming transit recommendation":t<37?"held before completion · AP referred":t<44?"threat alert added · final AP pending":"ONE LIVE STATE · THREE AGENTS START HERE",dTrack,"group-break state-trunk");
     if (t >= 44) {
       html += '<div class="lineage-banner"><strong>S-17</strong><span>forks 3 policy agents</span><strong>S-17.1 / .2 / .3</strong></div>';
       courses.forEach((course,index) => {
         let tr = '<span class="child-link" style="left:' + pct(44) + '%;width:' + (((46-44)/90)*100).toFixed(3) + '%"></span>';
-        const displayedOutcome = course.selected && t >= 88 ? "1.5% AP · $3.75m · charterer reimburses" : course.outcome;
+        const displayedOutcome = course.selected && t >= MOMENT.FINAL_COVER
+          ? "3.0% AP · $7.5m · reimbursement reconciled"
+          : course.selected && t >= MOMENT.UNDERWRITER_RESPONSE
+            ? "3.0% AP received · cover reconciling"
+            : course.outcome;
         tr += node(46,"circle good","") + seg(46,70,"live") + seg(70,76,"held") + node(70,"diamond good","✓") + outcome(displayedOutcome, course.selected);
         if (course.selected) {
-          tr += seg(76,83,"live selected") + node(76,"diamond good","↑");
-          tr += seg(83,88,"admitted") + node(83,"diamond warn","$") + seg(88,90,"live selected") + node(88,"diamond good","✓");
-          tr += stateFlag(78,"good",t>=83?"same state · revised terms admitted":"promoted state continues");
+          tr += seg(76,MOMENT.UNDERWRITER_RESPONSE,"live selected") + node(76,"diamond good","↑");
+          tr += seg(MOMENT.UNDERWRITER_RESPONSE,MOMENT.FINAL_COVER,"admitted") + node(MOMENT.UNDERWRITER_RESPONSE,"diamond warn","$") + seg(MOMENT.FINAL_COVER,90,"live selected") + node(MOMENT.FINAL_COVER,"diamond good","✓");
+          tr += stateFlag(78,"good",t>=MOMENT.UNDERWRITER_RESPONSE?"same agent · AP response admitted":"promoted state continues");
         }
-        const state = t<46 ? "forked agent · policy queued" : t<70 ? "live agent continuation" : course.selected && t>=83 && t<88 ? "reconciling revised premium + conditions" : displayedOutcome;
+        const state = t<46 ? "forked agent · policy queued" : t<70 ? "live agent continuation" : course.selected && t>=MOMENT.UNDERWRITER_RESPONSE && t<MOMENT.FINAL_COVER ? "reconciling 3.0% AP + conditions" : displayedOutcome;
         html += row("S17."+(index+1),"Policy agent · "+course.name,state,tr,"child");
       });
     }
@@ -817,7 +822,7 @@ button, input { font: inherit; }
   }
   function proofChip(text, on) { return '<span class="proof-chip' + (on ? ' on' : '') + '">' + esc(text) + '</span>'; }
   function storyMarkup(mode) {
-    const afterTermsChange = t >= 83;
+    const afterTermsChange = t >= MOMENT.UNDERWRITER_RESPONSE;
     const selected = t >= 76;
     let title, context, heroLabel, hero, heroDetail, rows;
     if (mode === "endpoint") {
@@ -825,25 +830,25 @@ button, input { font: inherit; }
       context = "Without Lloyal";
       heroLabel = afterTermsChange ? "At the 02:10Z decision window" : "After response selection";
       hero = afterTermsChange ? "Quote and orders unresolved" : selected ? "A static answer" : "Independent replacement runs";
-      heroDetail = afterTermsChange ? "1.5% AP · $3.75m quote cannot yet drive amended orders" : selected ? "Useful now; not available as execution state for the next change" : "Same record, but each course begins as a new execution";
+      heroDetail = afterTermsChange ? "3.0% AP · $7.5m response cannot yet drive amended orders" : selected ? "Preferred course is useful now; final AP terms still require another cycle" : "Same record, but each course begins as a new execution";
       rows = afterTermsChange
-        ? [["Fresh agent executions", "4"], ["Conditional cover", "REOPENED"], ["CONWARTIME allocation", "REVALIDATING"], ["Master's amended orders", "PENDING"]]
+        ? [["Fresh agent executions", "4"], ["Final cover", "REOPENED"], ["$7.5m reimbursement", "PENDING"], ["Master's amended orders", "PENDING"]]
         : [["Fresh agent executions", t<52?"3 PREPARING":"3"], ["Matched agent continuations", "0 / 3"], ["Prefixes reconstructed", t<52?"IN PROGRESS":"3"], ["Execution state after selection", selected?"UNAVAILABLE":"—"]];
     } else {
       title = afterTermsChange ? "Commercial control" : "What Lloyal keeps under control";
       context = "With Lloyal";
       heroLabel = afterTermsChange ? "Before the 02:10Z decision window" : "After state promotion";
-      hero = afterTermsChange ? "$3.75m cover decision ready" : selected ? "A continuing case" : "Matched policy agents";
-      heroDetail = afterTermsChange ? "Revised terms, charter allocation and amended orders remain tied to S-17.2" : selected ? "The chosen course remains available for the next insurance or operational change" : "Every course starts from the same instantiated model state";
+      hero = afterTermsChange ? "$7.5m cover decision ready" : selected ? "A continuing case" : "Matched policy agents";
+      heroDetail = afterTermsChange ? "Final terms, charterer reimbursement and amended orders remain tied to S-17.2" : selected ? "The chosen course remains available for the underwriter response or next operational change" : "Every course starts from the same instantiated model state";
       rows = afterTermsChange
-        ? [["Fresh agent executions", "0"], ["Conditional cover", "RECONCILED"], ["CONWARTIME allocation", "CHARTERER RETAINED"], ["Master's amended orders", "READY"]]
+        ? [["Fresh agent executions", "0"], ["Final cover", "RECONCILED"], ["Charterer reimbursement", "$7.5m READY"], ["Master's amended orders", "READY"]]
         : [["Fresh agent executions", "0"], ["Matched agent continuations", t<44?"0 / 3":"3 / 3"], ["Agent reseeds", "0"], ["Execution state after selection", selected?"CONTINUING":"PARENT LIVE"]];
     }
     return '<div class="tab-story ' + (mode === "endpoint" ? 'endpoint-story' : 'with-story') + '"><div class="tab-story-head"><strong>' + esc(title) + '</strong><span>' + esc(context) + '</span></div><div class="tab-story-hero"><span>' + esc(heroLabel) + '</span><strong>' + esc(hero) + '</strong><small>' + esc(heroDetail) + '</small></div><div class="tab-story-rows">' + rows.map((item) => '<div class="tab-story-row"><span>' + esc(item[0]) + '</span><strong>' + esc(item[1]) + '</strong></div>').join("") + '</div></div>';
   }
   function evidenceMarkup(mode) {
     if (mode === "endpoint") return '<div class="research-block endpoint-evidence"><div class="research-block-head"><strong>Fresh-run exposure</strong><span>Published research · red denotes risk</span></div><div class="research-grid"><div class="research-stat risk"><div class="research-stat-value">median ≤1%</div><div class="research-stat-label">to first trajectory divergence</div><div class="research-stat-copy">Median first divergence occurred within the first 1% of generated tokens.</div><a href="https://arxiv.org/abs/2602.07150" target="_blank" rel="noopener">KTH · 60,000 trajectories ↗</a></div><div class="research-stat risk"><div class="research-stat-value">2.2–6.0pp</div><div class="research-stat-label">temperature-0 pass@1 spread</div><div class="research-stat-copy">Observed single-run result variation across evaluated agent configurations.</div><a href="https://arxiv.org/abs/2602.07150" target="_blank" rel="noopener">KTH study ↗</a></div><div class="research-stat risk"><div class="research-stat-value">up to 15%</div><div class="research-stat-label">accuracy variation</div><div class="research-stat-copy">Repeated nominally deterministic hosted calls across five models and eight tasks.</div><a href="https://aclanthology.org/2025.eval4nlp-1.12/" target="_blank" rel="noopener">Atıl et al. · 10 runs ↗</a></div><div class="research-stat risk"><div class="research-stat-value">up to 70%</div><div class="research-stat-label">best-to-worst performance gap</div><div class="research-stat-copy">Largest reported spread between repeated runs under deterministic settings.</div><a href="https://aclanthology.org/2025.eval4nlp-1.12/" target="_blank" rel="noopener">Atıl et al. ↗</a></div></div><div class="research-foot"><strong>Baseline boundary:</strong> LangGraph-style orchestration can persist graph and message state and append later turns. In this arm it calls independent model endpoints, so R4 cannot resume the in-flight execution that produced the selected response. These published findings are not a Lloyal benchmark; they show the fresh-run variance that reconstruction reintroduces.</div></div>';
-    return '<div class="research-block with-evidence"><div class="research-block-head"><strong>Control achieved in this run</strong><span>Execution invariants · green denotes preserved control</span></div><div class="research-grid"><div class="research-stat good"><div class="research-stat-value">1</div><div class="research-stat-label">instantiated parent</div><div class="research-stat-copy">All three policy agents fork from resident state S-17.</div><span class="research-stat-source">Execution invariant</span></div><div class="research-stat good"><div class="research-stat-value">3 / 3</div><div class="research-stat-label">matched agent continuations</div><div class="research-stat-copy">Each policy agent inherits matching carrier, sampler, PRNG position and pre-intervention logits before policy differs.</div><span class="research-stat-source">Execution invariant</span></div><div class="research-stat good"><div class="research-stat-value">0</div><div class="research-stat-label">agent reseeds</div><div class="research-stat-copy">Every forked agent continues the parent’s current stochastic state.</div><span class="research-stat-source">Execution invariant</span></div><div class="research-stat good"><div class="research-stat-value">0</div><div class="research-stat-label">prefixes reconstructed</div><div class="research-stat-copy">The established case is forked and updated in place rather than replayed.</div><span class="research-stat-source">Execution invariant</span></div></div><div class="research-foot">Published fresh-run research establishes the confound these controls remove: <a href="https://arxiv.org/abs/2602.07150" target="_blank" rel="noopener">KTH ↗</a> · <a href="https://aclanthology.org/2025.eval4nlp-1.12/" target="_blank" rel="noopener">Atıl et al. ↗</a></div></div>';
+    return '<div class="research-block with-evidence"><div class="research-block-head"><strong>Control achieved in this run</strong><span>Execution invariants · green denotes preserved control</span></div><div class="research-grid"><div class="research-stat good"><div class="research-stat-value">1</div><div class="research-stat-label">live starting state</div><div class="research-stat-copy">All three policy agents start from the same live state, S-17.</div><span class="research-stat-source">Execution invariant</span></div><div class="research-stat good"><div class="research-stat-value">3 / 3</div><div class="research-stat-label">matched agent continuations</div><div class="research-stat-copy">Each policy agent inherits matching carrier, sampler, PRNG position and pre-intervention logits before policy differs.</div><span class="research-stat-source">Execution invariant</span></div><div class="research-stat good"><div class="research-stat-value">0</div><div class="research-stat-label">agent reseeds</div><div class="research-stat-copy">Every policy agent continues the same current random state rather than starting a new draw.</div><span class="research-stat-source">Execution invariant</span></div><div class="research-stat good"><div class="research-stat-value">0</div><div class="research-stat-label">prefixes reconstructed</div><div class="research-stat-copy">The established case is continued and updated in place rather than replayed.</div><span class="research-stat-source">Execution invariant</span></div></div><div class="research-foot">Published fresh-run research establishes the confound these controls remove: <a href="https://arxiv.org/abs/2602.07150" target="_blank" rel="noopener">KTH ↗</a> · <a href="https://aclanthology.org/2025.eval4nlp-1.12/" target="_blank" rel="noopener">Atıl et al. ↗</a></div></div>';
   }
   function explainerMarkup(data, mode) {
     const rows = data.ledger.map((item) => '<div class="explain-ledger-row"><span>' + esc(item[0]) + '</span><strong class="' + esc(item[2] || '') + '">' + esc(item[1]) + '</strong></div>').join("");
@@ -864,17 +869,17 @@ button, input { font: inherit; }
       why: "Both approaches can coordinate this work. The control boundary only becomes consequential when the outside world changes while a conclusion is being generated.",
       ledger: [["Specialist agents", "6"], ["Completed domain analyses", t < 22 ? "forming" : "6"], ["Active decision calls", "0"]]
     };
-    if (t < 34) return {
+    if (t < MOMENT.THREAT_ALERT) return {
       step: 2, phase: "Decision underway", headline: "The case has become a live decision.",
       copy: "The six completed agent analyses are sent to model endpoint EP-042, which is now forming the integrated transit recommendation.",
       why: "The application owns the stored case record, but the provider owns the execution behind this request. Application policy cannot reach into that live state.",
       ledger: [["Decision basis", "case record v17"], ["Live execution", "provider-owned"], ["Application control", "outside the call"]]
     };
     if (t < 40) return {
-      step: 3, phase: "Reality changes", headline: "A verified advisory arrives mid-generation.",
-      copy: "The incident is effective now and changes the navigation, insurance and charter basis before EP-042 has settled its conclusion.",
+      step: 3, phase: "Reality changes", headline: "A verified threat alert arrives mid-generation.",
+      copy: "The alert changes the safe route and refers the provisional AP before EP-042 has settled its conclusion.",
       why: "The orchestrator has two bad choices: <strong>let the stale-basis generation finish</strong>, or cancel it and abandon its partial reasoning. Blocking a final report does not change that dilemma.",
-      ledger: [["New evidence", "verified"], ["Can EP-042 receive it?", "no", "bad"], ["Available choices", "wait or cancel", "bad"]]
+      ledger: [["New evidence", "verified"], ["Safe route", "changed"], ["AP indication", "referred · final quote pending"], ["Can EP-042 receive it?", "no", "bad"], ["Available choices", "wait or cancel", "bad"]]
     };
     if (t < 52) return {
       step: 4, phase: "Execution boundary", headline: "EP-042 is cancelled. Its live state is gone.",
@@ -892,23 +897,23 @@ button, input { font: inherit; }
       showDelta: true,
       showEvidence: true
     };
-    if (t < 83) return {
-      step: 6, phase: "Response selected", headline: "The vessel gets an instruction. The decision state does not survive.",
-      copy: "The constrained-transit response is selected and the orchestrator retains its transcript. Its model execution is no longer available for the next event.",
-      why: "The immediate answer is acceptable—but only while the premium, cover conditions and charter instructions remain unchanged. The next market move will show the business cost of the disconnect.",
-      ledger: [["Immediate instruction", "constrained transit"], ["Prefixes rebuilt", "3", "bad"], ["State ready for next event", "0", "bad"]],
+    if (t < MOMENT.UNDERWRITER_RESPONSE) return {
+      step: 6, phase: "Course selected", headline: "The desk has a preferred course. The decision state does not survive.",
+      copy: "Constrained transit is selected subject to final AP terms, and the orchestrator retains its transcript. Its model execution is no longer available for the underwriter response.",
+      why: "The preferred course is usable for planning—but final cover, charterer reimbursement and orders still depend on the underwriter's response to the same threat.",
+      ledger: [["Preferred course", "constrained transit"], ["AP status", "referred · final terms pending"], ["Prefixes rebuilt", "3", "bad"], ["State ready for AP response", "0", "bad"]],
       showDelta: true,
       showEvidence: true,
-      outcome: { title: "Current business position: transit approved at 3.0% AP ($7.5m).", copy: "The instruction is usable now; any change to the quote or conditions requires another decision cycle." }
+      outcome: { title: "Current business position: constrained transit preferred; final AP terms pending.", copy: "The pre-alert indication is no longer actionable, and the selected execution will not be available when the underwriter responds." }
     };
     return {
-      step: 7, phase: "Terms change again", headline: "The underwriter changes terms. The selected recommendation is stale.",
-      copy: "The illustrative hull war AP falls from 3.0% to 1.5%, but the new quote adds security-window conditions. The transcript cannot be amended as live execution, so a fourth replacement agent starts a new endpoint call from the stored record.",
-      why: "This is the commercial effect of the disconnect: cover, the CONWARTIME premium allocation and the master's amended orders go back into review while the 02:10Z operating window approaches.",
-      ledger: [["Revised hull war AP", "1.5% · $3.75m"], ["Cover decision", "reopened", "bad"], ["Master's amended orders", "pending", "bad"], ["Fresh agent executions", "4 total", "bad"]],
+      step: 7, phase: "Underwriter response", headline: "The underwriter responds to the threat. The selected recommendation is stale.",
+      copy: "The illustrative hull war AP rises from 1.5% to 3.0% and the underwriter adds security-window conditions. The transcript cannot be amended as live execution, so a fourth replacement agent starts from the stored record.",
+      why: "This is the commercial effect of the disconnect: final cover, the $7.5m charterer reimbursement and the master's amended orders return to application review while the 02:10Z window approaches. The contract allocation has not changed; the decision must be rebuilt around the amount and conditions that did.",
+      ledger: [["Final hull war AP", "3.0% · $7.5m"], ["Charterer reimbursement", "pending in rebuilt decision", "bad"], ["Final cover", "reopened", "bad"], ["Master's amended orders", "pending", "bad"], ["Fresh agent executions", "4 total", "bad"]],
       showDelta: true,
       showEvidence: true,
-      outcome: { title: "Business outcome: the desk cannot yet act on the $3.75m quote or issue the 02:10Z orders.", copy: "The first answer was right, but the premium change sends cover, charter allocation and vessel instructions through another decision cycle." }
+      outcome: { title: "Business outcome: the desk cannot yet bind the $7.5m cover or issue the 02:10Z orders.", copy: "The route decision still makes sense, but the underwriter response sends cover, reimbursement and vessel instructions through another decision cycle." }
     };
   }
   function lloyalExplanation() {
@@ -918,23 +923,23 @@ button, input { font: inherit; }
       why: "Both approaches can coordinate this work. Lloyal's advantage appears when the application needs to govern the model state produced by that work while it remains live.",
       ledger: [["Specialist agents", "6"], ["Completed domain analyses", t < 22 ? "forming" : "6"], ["Active decision states", "0"]]
     };
-    if (t < 34) return {
-      step: 2, phase: "Decision underway", headline: "The case becomes resident state S-17.",
-      copy: "The six completed agent analyses establish one live decision state. The integrated transit recommendation is now forming from that resident basis.",
+    if (t < MOMENT.THREAT_ALERT) return {
+      step: 2, phase: "Decision underway", headline: "The case remains live as decision state S-17.",
+      copy: "The six completed agent analyses establish one live decision state. The integrated transit recommendation is now forming from that same case basis.",
       why: "The application owns the lineage and lifecycle of the execution—not merely the messages around it. S-17 can be held, extended, forked and later promoted.",
-      ledger: [["Decision basis", "resident S-17", "good"], ["Live execution", "application-owned", "good"], ["Application control", "through inference", "good"]]
+      ledger: [["Decision basis", "live state S-17", "good"], ["Live execution", "application-owned", "good"], ["Application control", "inside the running decision", "good"]]
     };
     if (t < 37) return {
-      step: 3, phase: "Reality changes", headline: "A verified advisory reaches the live decision.",
-      copy: "A deterministic application gate verifies the advisory's effective time, vessel position and governing cover before it can affect S-17.",
+      step: 3, phase: "Reality changes", headline: "A verified threat alert reaches the live decision.",
+      copy: "A deterministic application gate verifies the alert's effective time, vessel position and governing cover before it can affect S-17.",
       why: "The live lineage is held at an explicit boundary. The stale conclusion is not allowed to settle, and no partial reasoning has to be thrown away.",
-      ledger: [["New evidence", "verified"], ["Stale settlement", "prevented", "good"], ["Reasoning abandoned", "none", "good"]]
+      ledger: [["New evidence", "verified"], ["Safe route", "changed"], ["AP indication", "referred · final quote pending"], ["Stale settlement", "prevented", "good"], ["Reasoning abandoned", "none", "good"]]
     };
     if (t < 44) return {
-      step: 4, phase: "Evidence admitted", headline: "The advisory is admitted before settlement.",
-      copy: "S-17 continues from its existing state with the new advisory. The prior case work remains resident and the evidence lands at the controlled boundary.",
+      step: 4, phase: "Evidence admitted", headline: "The threat alert is admitted before settlement.",
+      copy: "S-17 continues from its existing state with the alert. The prior case work remains live and the evidence lands before the conclusion is allowed to finish.",
       why: "Evidence position matters. Admission into the actual live state preserves the established basis instead of asking a new request to reconstruct an assumed equivalent.",
-      ledger: [["Parent state", "S-17 retained", "good"], ["Prefixes rebuilt", "0", "good"], ["Evidence boundary", "explicit", "good"]]
+      ledger: [["Parent state", "S-17 retained", "good"], ["AP status", "referred · final terms pending"], ["Prefixes rebuilt", "0", "good"], ["Evidence boundary", "explicit", "good"]]
     };
     if (t < 76) return {
       step: 5, phase: "Controlled continuations", headline: "One decision becomes three matched policy agents.",
@@ -944,23 +949,23 @@ button, input { font: inherit; }
       showDelta: true,
       showEvidence: true
     };
-    if (t < 83) return {
-      step: 6, phase: "State promoted", headline: "The vessel gets the same instruction—and the decision remains live.",
-      copy: "S-17.2, the constrained-transit course, becomes the continuing state with its evidentiary basis, reasoning lineage and policy intervention intact.",
-      why: "The first answer is the same. The advantage is that premium, cover and charter decisions remain attached to the live case and can be revised when the market moves again.",
-      ledger: [["Immediate instruction", "constrained transit"], ["Prefixes rebuilt", "0", "good"], ["State ready for next event", "1", "good"]],
+    if (t < MOMENT.UNDERWRITER_RESPONSE) return {
+      step: 6, phase: "State promoted", headline: "The desk has the same preferred course—and the decision remains live.",
+      copy: "S-17.2, the constrained-transit course, becomes the continuing state with its evidentiary basis, reasoning lineage and policy intervention intact while final AP terms remain pending.",
+      why: "The preferred course is the same. The advantage is that the underwriter's response to the same threat can enter the selected agent instead of forcing the application to reconstruct it.",
+      ledger: [["Preferred course", "constrained transit"], ["AP status", "referred · final terms pending"], ["Prefixes rebuilt", "0", "good"], ["State ready for AP response", "1", "good"]],
       showDelta: true,
       showEvidence: true,
-      outcome: { title: "Current business position: transit approved at 3.0% AP ($7.5m).", copy: "The selected course remains active, ready to update cover, cost allocation and operating orders." }
+      outcome: { title: "Current business position: constrained transit preferred; final AP terms pending.", copy: "The selected agent remains active, ready to absorb the underwriter response and update reimbursement and operating orders." }
     };
     return {
-      step: 7, phase: "Terms absorbed", headline: "The underwriter changes terms. The same case updates in place.",
-      copy: "The 1.5% AP and new security-window conditions enter promoted agent S-17.2. The live case recalculates the premium, retains the CONWARTIME allocation and issues amended orders without starting another replacement agent.",
-      why: "The business advantage is speed and control across a chain of decisions: insurance terms change, the charter allocation is preserved, and the master's orders update before the same operating window closes.",
-      ledger: [["Revised hull war AP", "1.5% · $3.75m", "good"], ["CONWARTIME AP allocation", "charterer retained", "good"], ["Conditional cover", "reconciled", "good"], ["Master's amended orders", "issued", "good"]],
+      step: 7, phase: "Response absorbed", headline: "The underwriter responds to the threat. The same case updates in place.",
+      copy: "The 3.0% AP and new security-window conditions enter promoted agent S-17.2. The live case reconciles final cover, carries the charterer's reimbursement obligation to $7.5m and issues amended orders without another replacement agent.",
+      why: "The business advantage is a completed chain of decisions before the same operating window closes: the route, final cover, charterer reimbursement and master's orders remain connected as one controlled case.",
+      ledger: [["Final hull war AP", "3.0% · $7.5m"], ["Charterer reimbursement", "$7.5m reconciled", "good"], ["Conditional cover", "reconciled", "good"], ["Master's amended orders", "issued", "good"]],
       showDelta: true,
       showEvidence: true,
-      outcome: { title: "Business outcome: the $3.75m cover decision and amended orders are ready before 02:10Z.", copy: "The same case carries the insurance, charter and operational decision forward as conditions change." }
+      outcome: { title: "Business outcome: the $7.5m cover decision and amended orders are ready before 02:10Z.", copy: "The same case carries the insurance, charter and operational decision forward from alert to underwriter response." }
     };
   }
   function renderExplainers() {
@@ -969,11 +974,11 @@ button, input { font: inherit; }
   }
   function metric(labelText, value, tone) { return '<div class="metric ' + esc(tone || '') + '"><div class="metric-label">' + esc(labelText) + '</div><div class="metric-value">' + esc(value) + '</div></div>'; }
   function renderMetrics() {
-    endpointMetrics.innerHTML = metric("Fresh agent executions",t<40?"0":t<52?"3 preparing":t<76?"3 running":t<83?"3 complete":"4 total",t>=40?"risk":"") + metric("Matched agent continuations","0 / 3",t>=44?"risk":"") + metric(t>=83?"Revised cover + orders":"State ready for next event",t>=83?"REOPENED":"0",t>=76?"risk":"");
-    lloyalMetrics.innerHTML = metric("Fresh agent executions","0",t>=44?"good":"") + metric("Matched agent continuations",t<44?"0 / 3":t<76?"3 / 3 running":"3 / 3 resolved",t>=44?"good":"") + metric(t>=83?"Revised cover + orders":"State ready for next event",t>=88?"READY":t>=83?"UPDATING":t<76?"0":"1",t>=76?"good":"");
-    endpointState.textContent = t < 40 ? "RUN EP-042 · OPEN" : t < 76 ? "3 NEW EXECUTIONS" : t < 83 ? "RESPONSE SELECTED" : "COVER REOPENED";
-    lloyalState.textContent = t < 44 ? "RUN CC-042 · RESIDENT" : t < 76 ? "3 CHILD STATES" : t < 83 ? "P2 · CONTINUING" : t < 88 ? "P2 · UPDATING" : "ORDERS READY";
-    deltaRebuilds.textContent = t < 40 ? "0 prefixes" : t < 83 ? "3 prefixes" : "4 prefixes";
+    endpointMetrics.innerHTML = metric("Fresh agent executions",t<40?"0":t<52?"3 preparing":t<76?"3 running":t<MOMENT.UNDERWRITER_RESPONSE?"3 complete":"4 total",t>=40?"risk":"") + metric("Matched agent continuations","0 / 3",t>=44?"risk":"") + metric(t>=MOMENT.UNDERWRITER_RESPONSE?"Final cover + orders":"State ready for AP response",t>=MOMENT.UNDERWRITER_RESPONSE?"REOPENED":"0",t>=76?"risk":"");
+    lloyalMetrics.innerHTML = metric("Fresh agent executions","0",t>=44?"good":"") + metric("Matched agent continuations",t<44?"0 / 3":t<76?"3 / 3 running":"3 / 3 resolved",t>=44?"good":"") + metric(t>=MOMENT.UNDERWRITER_RESPONSE?"Final cover + orders":"State ready for AP response",t>=MOMENT.FINAL_COVER?"READY":t>=MOMENT.UNDERWRITER_RESPONSE?"UPDATING":t<76?"0":"1",t>=76?"good":"");
+    endpointState.textContent = t < 22 ? "6 AGENTS · ANALYSING" : t < MOMENT.THREAT_ALERT ? "MODEL CALL · RUNNING" : t < 40 ? "THREAT ALERT · WAITING" : t < 52 ? "MODEL CALL · CANCELLED" : t < 76 ? "3 NEW AGENTS · RUNNING" : t < MOMENT.UNDERWRITER_RESPONSE ? "RESPONSE · SELECTED" : "DECISION · REOPENED";
+    lloyalState.textContent = t < 22 ? "6 AGENTS · ANALYSING" : t < MOMENT.THREAT_ALERT ? "LIVE DECISION · FORMING" : t < 37 ? "LIVE DECISION · HELD" : t < 44 ? "THREAT ALERT · ADDED" : t < 76 ? "3 POLICY AGENTS · RUNNING" : t < MOMENT.UNDERWRITER_RESPONSE ? "SELECTED AGENT · LIVE" : t < MOMENT.FINAL_COVER ? "SELECTED AGENT · UPDATING" : "COVER + ORDERS · READY";
+    deltaRebuilds.textContent = t < 40 ? "0 prefixes" : t < MOMENT.UNDERWRITER_RESPONSE ? "3 prefixes" : "4 prefixes";
     deltaContinuing.textContent = t < 22 ? "0 live states" : t < 76 ? "1 parent state" : "1 promoted state";
   }
   function renderDeployment() {
@@ -987,8 +992,8 @@ button, input { font: inherit; }
       deploymentLabel.textContent = "Compute placement";
       deploymentSelect.innerHTML = '<option value="qwen">Local · Qwen3.5 4B · M2 Metal</option><option value="glm">Frontier · GLM-5.2 · 2× B200</option>';
       deploymentDetail.innerHTML = modelKey === "glm"
-        ? '<strong>Same headless application · no code changes</strong><span>GLM-5.2 · UD-IQ2_M · 131K context · CUDA / Blackwell · application-owned resident execution</span><span>Scenario timing · performance not compared</span>'
-        : '<strong>Same headless application · no code changes</strong><span>Qwen3.5 4B · Q4_K_M · 32K context · local Metal · application-owned resident execution</span><span>Scenario timing · performance not compared</span>';
+        ? '<strong>Same headless application · no code changes</strong><span>GLM-5.2 · UD-IQ2_M · 131K context · CUDA / Blackwell · application-owned live execution</span><span>Scenario timing · performance not compared</span>'
+        : '<strong>Same headless application · no code changes</strong><span>Qwen3.5 4B · Q4_K_M · 32K context · local Metal · application-owned live execution</span><span>Scenario timing · performance not compared</span>';
     }
     deploymentSelect.value = modelKey;
   }
@@ -1003,73 +1008,82 @@ button, input { font: inherit; }
     renderDeployment();
   }
   function renderProof() {
-    endpointProof.innerHTML = proofChip("case record v17",t>=22) + proofChip(t>=83?"request IDs R1/R2/R3/R4":"request IDs R1/R2/R3",t>=52) + proofChip("live carrier unavailable",t>=40) + proofChip("independent random state",t>=52);
+    endpointProof.innerHTML = proofChip("case record v17",t>=22) + proofChip(t>=MOMENT.UNDERWRITER_RESPONSE?"request IDs R1/R2/R3/R4":"request IDs R1/R2/R3",t>=52) + proofChip("live carrier unavailable",t>=40) + proofChip("independent random state",t>=52);
     lloyalProof.innerHTML = proofChip("parent S-17",t>=22) + proofChip("carrier cloned",t>=44) + proofChip("sampler + PRNG cloned",t>=44) + proofChip("pre-intervention logits equal",t>=44) + proofChip("no reseed",t>=44);
   }
   function renderCaptions() {
-    if (t < 34) {
+    if (t < MOMENT.THREAT_ALERT) {
       endpointCaption.innerHTML = '<strong>Both systems are still equivalent:</strong> each is forming a decision from the same established case evidence.';
       lloyalCaption.innerHTML = '<strong>The difference is not visible yet.</strong> It appears when reality changes while the decision is underway.';
     } else if (t < 44) {
       endpointCaption.innerHTML = '<strong>The application hits the model-call boundary.</strong> It can wait for a stale-basis turn or end it and reconstruct.';
-      lloyalCaption.innerHTML = '<strong>The application reaches the live decision state.</strong> It admits the verified advisory before settlement.';
+      lloyalCaption.innerHTML = '<strong>The application reaches the live decision state.</strong> It admits the verified threat alert before settlement.';
     } else if (t < 76) {
       endpointCaption.innerHTML = '<strong>Three proposals, three fresh trajectories.</strong> Their differences mix policy intervention with execution variance.';
       lloyalCaption.innerHTML = '<strong>Three policies, one instantiated basis.</strong> The children inherit the same carrier and stochastic state before the declared interventions differ.';
-    } else if (t < 83) {
-      endpointCaption.innerHTML = '<strong>The first answer works.</strong> Its execution is gone, so the next change requires another replacement agent and endpoint call.';
-      lloyalCaption.innerHTML = '<strong>The first answer works—and remains live.</strong> Cover, charter allocation and orders can be revised on the same case.';
+    } else if (t < MOMENT.UNDERWRITER_RESPONSE) {
+      endpointCaption.innerHTML = '<strong>The preferred course is clear.</strong> Its execution is gone before the final AP terms arrive.';
+      lloyalCaption.innerHTML = '<strong>The preferred course remains live.</strong> Final AP terms can enter the same policy agent.';
     } else {
-      endpointCaption.innerHTML = '<strong>Premium terms move.</strong> The selected recommendation becomes stale; cover and amended orders reopen.';
-      lloyalCaption.innerHTML = '<strong>Premium terms move.</strong> The continuing case updates cover, retains the charter allocation and issues amended orders.';
+      endpointCaption.innerHTML = '<strong>The underwriter responds to the threat.</strong> The selected recommendation becomes stale; final cover and orders reopen.';
+      lloyalCaption.innerHTML = '<strong>The underwriter responds to the threat.</strong> The continuing agent reconciles final cover, reimbursement and orders.';
     }
   }
   function renderWorld() {
-    let pos = 22 + Math.min(t,34) / 34 * 25;
-    if (t >= 76 && t < 83) pos += Math.min(5,(t-76)/7*5);
-    if (t >= 83 && activeView === "lloyal") pos += 5 + Math.min(8,(t-83)/7*8);
+    let pos = 22 + Math.min(t,MOMENT.THREAT_ALERT) / MOMENT.THREAT_ALERT * 25;
+    if (t >= 76 && t < MOMENT.UNDERWRITER_RESPONSE) pos += Math.min(5,(t-76)/7*5);
+    if (t >= MOMENT.UNDERWRITER_RESPONSE && activeView === "lloyal") pos += 5 + Math.min(8,(t-MOMENT.UNDERWRITER_RESPONSE)/7*8);
     vessel.style.left = pos.toFixed(2) + "%";
-    vessel.querySelector(".vessel-label").textContent = t < 34 ? Math.max(17,Math.round(42-t*.73)) + " NM EAST" : t < 76 ? "HOLDING EAST" : t < 83 ? "WINDOW 02:10Z" : activeView === "endpoint" ? "AWAITING ORDERS" : "ORDERS RECEIVED";
-    advisoryZone.classList.toggle("visible",t>=34);
-    warPremium.textContent = t < 83 ? "3.0% · $7.5m" : "1.5% · $3.75m";
-    warPremium.classList.toggle("good",t>=83 && activeView === "lloyal");
-    warPremiumDetail.innerHTML = t < 83
-      ? 'Illustrative quote using the market example reported by Reuters. <a href="https://www.reuters.com/world/middle-east/maritime-insurance-premiums-surge-iran-conflict-widens-2026-03-06/" target="_blank" rel="noopener">Market context ↗</a>'
-      : 'Synthetic revised quote within the rate range reported by Reuters; the market move is external, not a Lloyal saving. <a href="https://www.reuters.com/world/middle-east/maritime-insurance-premiums-surge-iran-conflict-widens-2026-03-06/" target="_blank" rel="noopener">Market context ↗</a>';
-    charterAllocation.textContent = t < 83 ? "Owner may refuse · charterer reimburses AP" : activeView === "endpoint" ? "Allocation awaiting revalidation" : "Charterer reimbursement retained";
-    charterAllocation.classList.toggle("good",t>=83 && activeView === "lloyal");
+    vessel.querySelector(".vessel-label").textContent = t < MOMENT.THREAT_ALERT ? Math.max(17,Math.round(42-t*.73)) + " NM EAST" : t < 76 ? "HOLDING EAST" : t < MOMENT.UNDERWRITER_RESPONSE ? "WINDOW 02:10Z" : activeView === "endpoint" ? "AWAITING ORDERS" : "ORDERS RECEIVED";
+    advisoryZone.classList.toggle("visible",t>=MOMENT.THREAT_ALERT);
+    warPremium.classList.remove("good");
+    if (t < MOMENT.THREAT_ALERT) {
+      warPremiumLabel.textContent = "Hull war AP indication";
+      warPremium.textContent = "1.5% · $3.75m";
+      warPremiumDetail.innerHTML = 'Illustrative pre-alert indication within the market range reported by Reuters. <a href="https://www.reuters.com/world/middle-east/maritime-insurance-premiums-surge-iran-conflict-widens-2026-03-06/" target="_blank" rel="noopener">Market context ↗</a>';
+    } else if (t < MOMENT.UNDERWRITER_RESPONSE) {
+      warPremiumLabel.textContent = "Hull war AP referral";
+      warPremium.textContent = "REFERRED · FINAL AP PENDING";
+      warPremiumDetail.innerHTML = 'The threat alert changes the voyage basis; the pre-alert indication is no longer actionable while the underwriter determines final terms. <a href="https://www.reuters.com/world/middle-east/maritime-insurance-premiums-surge-iran-conflict-widens-2026-03-06/" target="_blank" rel="noopener">Market context ↗</a>';
+    } else {
+      warPremiumLabel.textContent = "Hull war AP response";
+      warPremium.textContent = "3.0% · $7.5m";
+      warPremiumDetail.innerHTML = 'Synthetic underwriter response to the same threat alert; the higher market price is external, not a Lloyal cost. <a href="https://www.reuters.com/world/middle-east/maritime-insurance-premiums-surge-iran-conflict-widens-2026-03-06/" target="_blank" rel="noopener">Market context ↗</a>';
+    }
+    charterAllocation.textContent = t < MOMENT.UNDERWRITER_RESPONSE ? "Charterer reimburses actual AP · amount pending" : activeView === "endpoint" ? "Charterer reimbursement · $7.5m pending" : "Charterer reimbursement · $7.5m reconciled";
+    charterAllocation.classList.remove("good");
     if (t < 22) {
       worldHeadline.textContent = "Tanker01 is 42 nautical miles east of the traffic scheme.";
-      worldDetail.textContent = "The master needs a proceed-or-hold instruction before the next transit window. War-risk cover is in force and the charterer is awaiting the route decision.";
-      coverState.textContent = "COVER · IN FORCE";
-    } else if (t < 34) {
+      worldDetail.textContent = "The master needs a proceed-or-hold instruction before the next transit window. Base war cover is in force; the current Hormuz AP indication is provisional.";
+      coverState.textContent = "BASE COVER · IN FORCE";
+    } else if (t < MOMENT.THREAT_ALERT) {
       worldHeadline.textContent = "Six specialist agents have completed the initial case analysis.";
       worldDetail.textContent = "Navigation, war-risk cover, charter terms, sanctions, cargo and machinery/class now form the case basis. The integrated transit recommendation is being formed.";
-      coverState.textContent = "COVER · IN FORCE";
+      coverState.textContent = "AP · INDICATION";
     } else if (t < 70) {
-      worldHeadline.textContent = "Verified security incident near the intended lane. The master reduces speed.";
-      worldDetail.textContent = "The advisory is effective immediately. Cover moves to referral required; the owner must choose between holding, a constrained security window and a major reroute.";
-      coverState.textContent = "COVER · REFERRAL REQUIRED";
+      worldHeadline.textContent = "Verified maritime threat near the intended lane. The master reduces speed.";
+      worldDetail.textContent = "The alert changes the safe route and refers the provisional AP to the underwriter. The desk must choose between holding, a constrained security window and a major reroute.";
+      coverState.textContent = "AP · REFERRED";
     } else if (t < 76) {
       worldHeadline.textContent = "Three complete courses reach the decision desk.";
       worldDetail.textContent = "Each course now includes its navigation, insurance and charter consequences. The application applies the owner’s decision policy.";
-      coverState.textContent = "COVER · TERMS AVAILABLE";
-    } else if (t < 83) {
-      worldHeadline.textContent = "Constrained transit selected. Tanker01 holds for the 02:10Z security window.";
-      worldDetail.textContent = "Cover continues on revised terms and the charterer issues conforming orders. The accepted course remains live for the next operational event.";
-      coverState.textContent = "COVER · CONDITIONAL";
+      coverState.textContent = "AP · RESPONSE PENDING";
+    } else if (t < MOMENT.UNDERWRITER_RESPONSE) {
+      worldHeadline.textContent = "Constrained transit preferred. Tanker01 holds for the 02:10Z security window.";
+      worldDetail.textContent = "The 1.5% AP remains an indication; final underwriter terms are pending. The charterer prepares conforming orders.";
+      coverState.textContent = "AP · RESPONSE PENDING";
     } else if (activeView === "endpoint") {
-      worldHeadline.textContent = "The underwriter revises the premium and conditions. The selected recommendation is stale.";
-      worldDetail.textContent = "Cover, CONWARTIME reimbursement and the master's amended orders return to review. A fourth replacement agent is still rebuilding the decision as the 02:10Z window approaches.";
+      worldHeadline.textContent = "The underwriter responds to the threat. The selected recommendation is stale.";
+      worldDetail.textContent = "Final cover, the $7.5m charterer reimbursement and the master's amended orders return to application review. A fourth replacement agent rebuilds the decision as the 02:10Z window approaches.";
       coverState.textContent = "COVER · REOPENED";
-    } else if (t < 88) {
-      worldHeadline.textContent = "The underwriter revises the premium and conditions. The live case updates.";
-      worldDetail.textContent = "S-17.2 is reconciling the 1.5% AP, security-window condition and charterer reimbursement against the already selected transit course.";
+    } else if (t < MOMENT.FINAL_COVER) {
+      worldHeadline.textContent = "The underwriter responds to the threat. The live case updates.";
+      worldDetail.textContent = "S-17.2 is reconciling the 3.0% AP, $7.5m charterer reimbursement and security-window conditions against the already selected transit course.";
       coverState.textContent = "COVER · UPDATING";
     } else {
-      worldHeadline.textContent = "Revised cover reconciled. The master receives amended 02:10Z transit orders.";
-      worldDetail.textContent = "The live case preserves the CONWARTIME allocation, updates the illustrative premium to $3.75m and carries the same controlled decision into execution.";
-      coverState.textContent = "COVER · UPDATED";
+      worldHeadline.textContent = "Final cover reconciled. The master receives amended 02:10Z transit orders.";
+      worldDetail.textContent = "The live case carries the $7.5m charterer reimbursement into the final cover decision and carries the same controlled course into execution.";
+      coverState.textContent = "COVER · FINAL";
     }
   }
   function eventAction(text, tone, mark) { return '<div class="action"><span class="status-mark ' + esc(tone || "") + '">' + esc(mark || "·") + '</span><span>' + esc(text) + '</span></div>'; }
@@ -1085,11 +1099,11 @@ button, input { font: inherit; }
   function renderPhase() {
     let value = "Case work";
     if (t >= 22) value = "Decision forming";
-    if (t >= 34) value = "Basis changed";
+    if (t >= MOMENT.THREAT_ALERT) value = "Basis changed";
     if (t >= 44) value = "Courses running";
     if (t >= 70) value = "Decision gate";
-    if (t >= 76) value = "Course executing";
-    if (t >= 83) value = activeView === "endpoint" ? "Decision reopened" : t < 88 ? "Terms updating" : "Orders ready";
+    if (t >= 76) value = "Course selected";
+    if (t >= MOMENT.UNDERWRITER_RESPONSE) value = activeView === "endpoint" ? "Decision reopened" : t < MOMENT.FINAL_COVER ? "Final terms updating" : "Orders ready";
     phase.textContent = value;
   }
   function render() {
@@ -1103,7 +1117,7 @@ button, input { font: inherit; }
   function start() {
     if (t >= 90) t = 0;
     playing = true; play.textContent = "Pause";
-    timer = setInterval(() => { t += t >= 83 ? .25 : 1; if (t >= 90) { t = 90; stop(); } render(); }, 320);
+    timer = setInterval(() => { t += t >= MOMENT.UNDERWRITER_RESPONSE ? .25 : 1; if (t >= 90) { t = 90; stop(); } render(); }, 320);
   }
   play.addEventListener("click",() => playing ? stop() : start());
   reset.addEventListener("click",() => { stop(); t = 0; render(); });
