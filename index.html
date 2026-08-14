@@ -413,6 +413,20 @@
 .band-cream .code-copy h2 { color: #050505; }
 .band-cream .code-copy > p:not(.section-index),
 .band-cream .build-entry-copy > p:not(.section-index) { color: #625e57; }
+/* The base chip is drawn for a dark band: dark border, lighter text. On cream
+   that inverts — the frame becomes the loudest thing on the row. Same
+   correction the band already makes for links. */
+.band-cream .build-meta span { border-color: #c0bab0; color: #5f5b54; }
+/* The lead sits between a 76px heading and 17px detail, so it takes a step in
+   both size and tone. .large-copy alone cannot do it: the section's own
+   `> p:not(.section-index)` rule is more specific and wins on font-size. */
+.band-cream .build-entry-copy > p.large-copy {
+    margin-top: 26px;
+    color: #2a2723;
+    font-size: clamp(20px, 1.62vw, 26px);
+    line-height: 1.4;
+    letter-spacing: -.017em;
+  }
 .band-cream .mvc-ladder { border-color: #c8c3b8; }
 .band-cream .mvc-what strong,
 .band-cream .code-tagline strong { color: #111; }
@@ -816,11 +830,16 @@
   gap: 8px;
   margin-top: 16px;
 }
+/* Uniform, in the page's existing chip language. Two visual states read as
+   selected against unselected, and colour reads as a badge component — the
+   words already say which are capabilities and which are places, so the only
+   grouping needed is the gap. */
+.build-meta .place:first-of-type { margin-left: 10px; }
 .build-meta span {
   padding: 7px 9px;
   border: 1px solid #302f2d;
   color: #85827c;
-  font: 8px var(--mono);
+  font: 600 8px/1 var(--mono);
   letter-spacing: .08em;
   text-transform: uppercase;
 }
@@ -881,7 +900,7 @@
 
 @media (max-width: 1040px) {
   .build-entry-grid { grid-template-columns: 1fr; }
-  .build-entry-copy { max-width: 820px; }
+  .build-entry-copy { max-width: 820px; min-width: 0; }
   .scaffold-shot { max-width: 900px; }
 }
 @media (max-width: 560px) {
@@ -911,6 +930,22 @@
     grid-column: auto;
   }
 }
+
+/* Below ~430px the command and the button cannot share a line: the button ends
+   up 25px past the block's edge, reachable only by scrolling a black bar
+   sideways. An earlier rule gave it its own row; making the command scrollable
+   overrode that. Restore it where it is actually needed — the prompt and
+   command still scroll on the first row. */
+@media (max-width: 430px) {
+  .build-command {
+    grid-template-columns: auto max-content;
+    row-gap: 14px;
+  }
+  .build-command button {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+}
 </style>
 </head>
 <body>
@@ -921,13 +956,13 @@
 <strong>LLoyal</strong><span>Labs</span>
 </a>
 <p class="brand-line">Engineering AI's contact with reality.</p>
-<nav aria-label="Primary" class="desktop-nav"><a href="#build">How it works</a><a href="#agentapps">AgentApps</a><a class="header-cta" href="#developers">Build your first harness</a><a href="#partner">For product teams</a><a href="/blog/">Blog</a></nav>
+<nav aria-label="Primary" class="desktop-nav"><a href="#build">How it works</a><a href="#agentapps">AgentApps</a><a class="header-cta" href="#developers">Build</a><a href="#partner">Get in touch</a><a href="/blog/">Blog</a></nav>
 <nav aria-label="Resources" class="desktop-nav utility-nav"><a href="https://docs.lloyal.ai/" rel="noreferrer" target="_blank">Docs ↗</a><a href="https://github.com/lloyal-ai" rel="noreferrer" target="_blank">GitHub ↗</a></nav>
 <button aria-controls="mobile-nav" aria-expanded="false" class="menu-button" data-menu-button="" type="button">
 <span></span><span></span><span class="sr-only">Open menu</span>
 </button>
 </div>
-<nav class="mobile-nav" data-mobile-nav="" hidden="" id="mobile-nav"><a href="#build">How it works</a><a href="#agentapps">AgentApps</a><a href="#developers">Build your first harness</a><a href="#partner">For product teams</a><a href="/blog/">Blog</a><a href="https://docs.lloyal.ai/" rel="noreferrer" target="_blank">Docs ↗</a><a href="https://github.com/lloyal-ai" rel="noreferrer" target="_blank">GitHub ↗</a></nav>
+<nav class="mobile-nav" data-mobile-nav="" hidden="" id="mobile-nav"><a href="#build">How it works</a><a href="#agentapps">AgentApps</a><a href="#developers">Build</a><a href="#partner">Get in touch</a><a href="/blog/">Blog</a><a href="https://docs.lloyal.ai/" rel="noreferrer" target="_blank">Docs ↗</a><a href="https://github.com/lloyal-ai" rel="noreferrer" target="_blank">GitHub ↗</a></nav>
 </header>
 <main id="main">
 <section class="hero" id="top">
@@ -1037,16 +1072,17 @@
 <div class="wrap build-entry-grid reveal">
 <div class="build-entry-copy">
 <p class="section-index">03 / BUILD</p>
-<h2>Build your first harness.</h2>
-<p>Scaffold a complete intelligent application: procedure, AgentApps, product surfaces and a resident model.</p>
+<h2>Ship apps that think and act.</h2>
+<p class="large-copy">Run on-device as a single binary, or on frontier compute.</p>
+<p>No OpenAI or Anthropic key. No Docker, no Ollama, no LangGraph, no vector database. Just your code and the model as a self-contained app for Desktop, CLI or Web.</p>
 <div class="build-command"><span>$</span><code>npx harness.dev@latest new</code><button type="button" data-copy-command="npx harness.dev@latest new">Copy</button></div>
-<div class="build-meta"><span>Local model</span><span>No inference-provider key</span><span>CLI included</span></div>
+<div class="build-meta"><span class="cap">Multi-agent</span><span class="cap">Adaptive-RAG</span><span class="place">Laptop</span><span class="place">Appliance</span><span class="place">Frontier</span></div>
 <a href="https://docs.lloyal.ai/build-your-first-harness/">Read the ten-minute guide →</a>
 </div>
 <figure class="scaffold-shot">
 <div class="scaffold-shot-head"><span>harness.dev</span><em>guided application scaffold</em></div>
 <div class="scaffold-shot-viewport"><img alt="The harness.dev wizard scaffolding a Wikipedia research harness — template chosen, dependencies installed, ready to run across CLI, desktop and web with a resident Qwen model." src="/assets/harness-dev-new.gif"/></div>
-<figcaption>Choose the surfaces, resident model and starting procedure. The scaffold installs a working application you can change.</figcaption>
+<figcaption>Choose the front ends, the model, and the template it starts from. The scaffold installs a working application you can change.</figcaption>
 </figure>
 </div>
 </section>
@@ -1060,7 +1096,7 @@
 <h2>Make one high-value capability native to your product.</h2>
 <p class="large-copy">Work with Lloyal to turn a consequential workflow into a production harness—integrated with your existing product, connected to the systems it depends on and deployable across the environments your customers require.</p>
 <div class="engagement">
-<span>One product capability</span><span>One product integration</span><span>Private AgentApps</span><span>Multiple placements</span><span>6–10 weeks</span>
+<span>One product capability</span><span>One product integration</span><span>Private AgentApps</span><span>Multiple placements</span>
 </div>
 </div>
 <form class="partner-form reveal" data-partner-form="" id="partner-form">
