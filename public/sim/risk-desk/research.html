@@ -362,7 +362,7 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:type" content="image/png">
-  <meta property="og:image:alt" content="Restarting is not resuming. The research basis for Lloyal live-attention control.">
+  <meta property="og:image:alt" content="A fresh model call is not continuation. The research basis for Lloyal live-attention control.">
   <meta property="og:url" content="https://lloyal.ai/sim/risk-desk/research">
   <meta property="og:site_name" content="LLoyal Labs">
   <meta property="og:locale" content="en_AU">
@@ -371,7 +371,7 @@
   <meta name="twitter:title" content="Why control over live attention matters">
   <meta name="twitter:description" content="Why Lloyal's deterministic control over live attention state matters — published research and operating evidence.">
   <meta name="twitter:image" content="https://lloyal.ai/assets/sim-risk-desk-research-og.png">
-  <meta name="twitter:image:alt" content="Restarting is not resuming. The research basis for Lloyal live-attention control.">
+  <meta name="twitter:image:alt" content="A fresh model call is not continuation. The research basis for Lloyal live-attention control.">
 </head>
 <body>
   <main class="page">
@@ -394,15 +394,15 @@
         <ul>
           <li><strong>Calling a model endpoint again is a new draw, not continuation.</strong> Agent runs diverge early, and nominally deterministic hosted settings do not guarantee the same execution.</li>
           <li><strong>New evidence creates a control problem inside inference.</strong> Applications need to decide which live trajectories receive it, what may continue and which state can become the future—not merely append another prompt chunk.</li>
-          <li><strong>Lloyal makes the instantiated trajectory application state.</strong> Application code can hold a lineage, admit evidence only where it applies, fork from that exact parent state and determine what may continue—without starting intelligence again from its transcript.</li>
+          <li><strong>Lloyal makes the instantiated trajectory application state.</strong> Application code can hold a lineage, admit evidence only where it applies, fork from that exact parent state and determine what may continue—without assembling a new prompt from the transcript and starting another model execution.</li>
         </ul>
       </div>
     </section>
 
     <section class="thesis wrap">
       <div class="thesis-grid">
-        <h2>Restarting preserves a transcript. It does not preserve the execution already underway.</h2>
-        <p><strong>The literature converges on four pressures:</strong> reruns diverge early, hosted calls vary under nominally deterministic settings, corrected evidence creates a conflict problem, and replaying a transcript cannot recover the live state that produced it.</p>
+        <h2>The transcript can survive. The execution already underway does not.</h2>
+        <p><strong>Three findings are empirical:</strong> independent runs diverge early, hosted calls vary under nominally deterministic settings, and conflict and position affect how evidence is used. <strong>The architectural fact is simpler:</strong> a transcript records an execution’s outputs, not the live model state that produced them.</p>
       </div>
     </section>
 
@@ -434,7 +434,7 @@
 
       <article class="finding">
         <div class="finding-num">03</div>
-        <h3>A corrected fact is not merely another prompt chunk.</h3>
+        <h3>Superseding evidence is not just more context.</h3>
         <div class="finding-copy">
           <p>Models often recognise that evidence conflicts while struggling to pinpoint the conflicting spans and generate robust responses. Separate ICLR research found confirmation bias when supportive and contradictory evidence coexist.</p>
           <a class="paper-link" href="https://arxiv.org/abs/2310.00935" target="_blank" rel="noopener">Resolving Knowledge Conflicts</a><br>
@@ -447,7 +447,7 @@
         <div class="finding-num">04</div>
         <h3>Where evidence appears changes whether it is used.</h3>
         <div class="finding-copy">
-          <p>Peer-reviewed TACL research found that changing the position of relevant information can significantly change model performance. Results were often strongest at the beginning or end of the context and degraded in the middle—even for long-context models. Rebuilding a prompt or appending a correction is not semantically neutral.</p>
+          <p>Peer-reviewed TACL research found that changing the position of relevant information can significantly change model performance. Results were often strongest at the beginning or end of the context and degraded in the middle—even for long-context models. Where the transcript and new evidence appear in a fresh prompt can change how the model uses them.</p>
           <a class="paper-link" href="https://aclanthology.org/2024.tacl-1.9/" target="_blank" rel="noopener">Lost in the Middle</a>
         </div>
         <div class="metric green"><strong>Position matters</strong><span>Inside supported context</span></div>
@@ -457,7 +457,7 @@
     <div class="signal-strip" aria-label="Research convergence">
       <div class="signal"><div class="label">Reliability</div><strong>Agent reruns are not behaviourally interchangeable.</strong></div>
       <div class="signal"><div class="label">Inference</div><strong>A fresh endpoint call cannot resume the same instantiated execution.</strong></div>
-      <div class="signal"><div class="label">Evidence</div><strong>Stale and corrected facts create a reasoning conflict.</strong></div>
+      <div class="signal"><div class="label">Evidence</div><strong>Old and superseding evidence create a reasoning conflict.</strong></div>
       <div class="signal"><div class="label">Admission</div><strong>Where evidence enters can change whether it is used.</strong></div>
     </div>
 
@@ -473,19 +473,19 @@
         <article class="source">
           <div class="rank">01</div>
           <div><h3>On Randomness in Agentic Evals</h3><div class="meta">Bjarnason, Silva &amp; Monperrus · KTH · arXiv preprint v3 · 2026</div></div>
-          <p>The most direct support for “a restart is a new trajectory,” backed by 60,000 agent runs and token-level divergence analysis.</p>
+          <p>The most direct support that an independent rerun becomes a new trajectory, backed by 60,000 agent runs and token-level divergence analysis.</p>
           <a class="paper-link" href="https://arxiv.org/abs/2602.07150" target="_blank" rel="noopener">Read paper</a>
         </article>
         <article class="source">
           <div class="rank">02</div>
           <div><h3>Non-Determinism of “Deterministic” LLM System Settings</h3><div class="meta">Atil et al. · Eval4NLP / ACL · 2025</div></div>
-          <p>The peer-reviewed anchor for why a restarted hosted request is not guaranteed to recreate the discarded run.</p>
+          <p>The peer-reviewed anchor for why a fresh hosted request is not guaranteed to recreate the discarded run.</p>
           <a class="paper-link" href="https://aclanthology.org/2025.eval4nlp-1.12/" target="_blank" rel="noopener">Read paper</a>
         </article>
         <article class="source">
           <div class="rank">03</div>
           <div><h3>Resolving Knowledge Conflicts in Large Language Models</h3><div class="meta">Wang et al. · Berkeley / UW / CMU · 2024 revision</div></div>
-          <p>The strongest basis for why leaving the superseded and corrected filings together is not a clean substitute for controlled applicability.</p>
+          <p>The strongest basis for why leaving provisional and final terms together is not a clean substitute for controlled applicability.</p>
           <a class="paper-link" href="https://arxiv.org/abs/2310.00935" target="_blank" rel="noopener">Read paper</a>
         </article>
         <article class="source">
@@ -503,7 +503,7 @@
         <article class="source">
           <div class="rank">06</div>
           <div><h3>Stateful Large Language Model Serving with Pensieve</h3><div class="meta">Yu, Lin &amp; Li · EuroSys · 2025</div></div>
-          <p>The systems anchor for the repeated-work claim: processed state retained across requests rather than reconstructed from the history log.</p>
+          <p>The systems anchor for the repeated-work claim: processed state retained across requests rather than recomputed from the history log.</p>
           <a class="paper-link" href="https://dl.acm.org/doi/10.1145/3689031.3696086" target="_blank" rel="noopener">Read paper</a>
         </article>
       </div>
@@ -577,13 +577,13 @@
       <div class="claim-grid">
         <article class="claim supported">
           <div class="status label">Published research</div>
-          <strong>Restarting is not guaranteed continuation.</strong>
+          <strong>Running the model again is not behaviourally interchangeable.</strong>
           <p>Research directly demonstrates early agent-trajectory divergence and hosted-call variation.</p>
         </article>
         <article class="claim supported">
           <div class="status label">Published research</div>
-          <strong>Reconstructed context is not semantically neutral.</strong>
-          <p>Conflict, ordering and evidence position can materially change how a model reasons.</p>
+          <strong>A fresh prompt can change how prior and new evidence are used.</strong>
+          <p>Conflict, ordering and evidence position can materially change model behaviour.</p>
         </article>
         <article class="claim operating">
           <div class="status label">Lloyal operating evidence</div>
@@ -593,7 +593,7 @@
         <article class="claim definition">
           <div class="status label">What deterministic means</div>
           <strong>Control over live state—not a promise of identical future tokens.</strong>
-          <p>The application deterministically chooses which exact trajectory is held, forked, admitted, continued or pruned. Generation after that decision can remain stochastic.</p>
+          <p>The application deterministically chooses which lineage is held, forked, continued or pruned—and which evidence each lineage receives. Generation after those choices may remain stochastic.</p>
         </article>
       </div>
     </section>
@@ -602,7 +602,7 @@
       <div class="close-grid">
         <div class="label">The architectural shift</div>
         <blockquote>When the world changes during a valuable agent run, conventional applications can preserve a transcript and start another call. Lloyal makes the execution already underway an object ordinary application code can govern.</blockquote>
-        <p>Published research establishes why that distinction compounds with task length: new runs diverge early, conflicting context is hard to reconcile, and rebuilding processed state is costly. The Lloyal-specific claim is application control over live lineage—what continues, what receives new evidence, and which state may become the future.</p>
+        <p>Published research establishes why that distinction compounds with task length: new runs diverge early, conflicting context is hard to reconcile, and reprocessing conversation history is costly. The Lloyal-specific claim is application control over live lineage—what continues, what receives new evidence, and which state may become the future.</p>
       </div>
     </section>
 
