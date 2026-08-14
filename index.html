@@ -413,6 +413,16 @@
 .band-cream .code-copy h2 { color: #050505; }
 .band-cream .code-copy > p:not(.section-index),
 .band-cream .build-entry-copy > p:not(.section-index) { color: #625e57; }
+/* The lead sits between a 76px heading and 17px detail, so it takes a step in
+   both size and tone. .large-copy alone cannot do it: the section's own
+   `> p:not(.section-index)` rule is more specific and wins on font-size. */
+.band-cream .build-entry-copy > p.large-copy {
+    margin-top: 26px;
+    color: #2a2723;
+    font-size: clamp(20px, 1.62vw, 26px);
+    line-height: 1.4;
+    letter-spacing: -.017em;
+  }
 .band-cream .mvc-ladder { border-color: #c8c3b8; }
 .band-cream .mvc-what strong,
 .band-cream .code-tagline strong { color: #111; }
@@ -816,12 +826,23 @@
   gap: 8px;
   margin-top: 16px;
 }
-.build-meta .cap { background: #302f2d; border-color: #302f2d; color: #e8e5df; }
-/* Colour on this page already means "a distinct agent lineage" in the controller
-   graph, so the two chip families are told apart by weight, not hue — the same
-   filled/outlined idiom the docs use for current vs planned. */
-.band-cream .build-meta .cap { background: #181715; border-color: #181715; color: #f4f1ea; }
-.band-cream .build-meta .place { border-color: #aaa49a; color: #625e57; }
+/* Chips borrow the KV cell recipe from the controller graph — tinted fill,
+   coloured border, coloured label — so they read as part of the same system
+   rather than as a set of toggles. Filled-vs-outlined was the problem: solid
+   black against transparent looks like selected against unselected.
+
+   Two hues for the two families: what it does, and where it runs. Rose is left
+   to the graph, where that lineage is the one that gets reaped. */
+.build-meta .cap {
+    border-color: #17697a;
+    background: rgba(23, 105, 122, .13);
+    color: #17697a;
+  }
+.build-meta .place {
+    border-color: #5b32ab;
+    background: rgba(91, 50, 171, .11);
+    color: #5b32ab;
+  }
 .build-meta .place:first-of-type { margin-left: 10px; }
 .build-meta span {
   padding: 7px 9px;
@@ -1045,7 +1066,7 @@
 <div class="build-entry-copy">
 <p class="section-index">03 / BUILD</p>
 <h2>Build your first harness.</h2>
-<p>Ship apps that think and act. Nothing else to run.</p>
+<p class="large-copy">Ship apps that think and act. Nothing else to run.</p>
 <p>No OpenAI or Anthropic key. No Docker, no Ollama, no LangGraph, no vector database. Just your code and the model as a self-contained app for Desktop, CLI or Web.</p>
 <div class="build-command"><span>$</span><code>npx harness.dev@latest new</code><button type="button" data-copy-command="npx harness.dev@latest new">Copy</button></div>
 <div class="build-meta"><span class="cap">Multi-agent</span><span class="cap">Adaptive-RAG</span><span class="place">Laptop</span><span class="place">Appliance</span><span class="place">Frontier</span></div>
