@@ -413,6 +413,10 @@
 .band-cream .code-copy h2 { color: #050505; }
 .band-cream .code-copy > p:not(.section-index),
 .band-cream .build-entry-copy > p:not(.section-index) { color: #625e57; }
+/* The base chip is drawn for a dark band: dark border, lighter text. On cream
+   that inverts — the frame becomes the loudest thing on the row. Same
+   correction the band already makes for links. */
+.band-cream .build-meta span { border-color: #c0bab0; color: #5f5b54; }
 /* The lead sits between a 76px heading and 17px detail, so it takes a step in
    both size and tone. .large-copy alone cannot do it: the section's own
    `> p:not(.section-index)` rule is more specific and wins on font-size. */
@@ -826,23 +830,10 @@
   gap: 8px;
   margin-top: 16px;
 }
-/* Chips borrow the KV cell recipe from the controller graph — tinted fill,
-   coloured border, coloured label — so they read as part of the same system
-   rather than as a set of toggles. Filled-vs-outlined was the problem: solid
-   black against transparent looks like selected against unselected.
-
-   Two hues for the two families: what it does, and where it runs. Rose is left
-   to the graph, where that lineage is the one that gets reaped. */
-.build-meta .cap {
-    border-color: #17697a;
-    background: rgba(23, 105, 122, .14);
-    color: #17697a;
-  }
-.build-meta .place {
-    border-color: #5b32ab;
-    background: rgba(91, 50, 171, .12);
-    color: #5b32ab;
-  }
+/* Uniform, in the page's existing chip language. Two visual states read as
+   selected against unselected, and colour reads as a badge component — the
+   words already say which are capabilities and which are places, so the only
+   grouping needed is the gap. */
 .build-meta .place:first-of-type { margin-left: 10px; }
 .build-meta span {
   padding: 7px 9px;
