@@ -444,16 +444,6 @@
    that inverts — the frame becomes the loudest thing on the row. Same
    correction the band already makes for links. */
 .band-cream .build-meta span { border-color: #c0bab0; color: #5f5b54; }
-/* The lead sits between a 76px heading and 17px detail, so it takes a step in
-   both size and tone. .large-copy alone cannot do it: the section's own
-   `> p:not(.section-index)` rule is more specific and wins on font-size. */
-.band-cream .build-entry-copy > p.large-copy {
-    margin-top: 26px;
-    color: #2a2723;
-    font-size: clamp(20px, 1.62vw, 26px);
-    line-height: 1.4;
-    letter-spacing: -.017em;
-  }
 .band-cream .mvc-ladder { border-color: #c8c3b8; }
 .band-cream .mvc-what strong,
 .band-cream .code-tagline strong { color: #111; }
@@ -822,6 +812,18 @@
   font-size: clamp(17px, 1.35vw, 21px);
   line-height: 1.55;
 }
+/* The lead sits between a 76px heading and 17px detail, so it takes a step in
+   both size and tone. Size is band-agnostic on purpose: it lived in a
+   .band-cream rule and vanished the moment this section moved to the dark
+   band. Only the tone differs per band. */
+.build-entry-copy > p.large-copy {
+    margin-top: 26px;
+    font-size: clamp(20px, 1.62vw, 26px);
+    line-height: 1.4;
+    letter-spacing: -.017em;
+    color: #e4e0d9;
+  }
+.band-cream .build-entry-copy > p.large-copy { color: #2a2723; }
 .build-command {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
@@ -1080,7 +1082,7 @@
 <div class="build-entry-copy">
 <p class="section-index">02 / BUILD</p>
 <h2>Ship apps that think and act.</h2>
-<p class="large-copy">Run on-device as a single binary, or on frontier compute.</p>
+<p class="large-copy">The same application runs offline as a single on-device binary, privately as an appliance service, and online on frontier compute.</p>
 <p>No OpenAI or Anthropic key. No Docker, no Ollama, no LangGraph, no vector database. Just your code and the model as a self-contained app for Desktop, CLI or Web.</p>
 <div class="build-command"><span>$</span><code>npx harness.dev@latest new</code><button type="button" data-copy-command="npx harness.dev@latest new">Copy</button></div>
 <div class="build-meta"><span class="cap">Multi-agent</span><span class="cap">Adaptive-RAG</span><span class="place">Laptop</span><span class="place">Appliance</span><span class="place">Frontier</span></div>
