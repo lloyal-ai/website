@@ -967,7 +967,7 @@
 }
 @media (max-width: 560px) {
   .build-command {
-    grid-template-columns: auto max-content auto;
+    grid-template-columns: max-content 1fr auto;
   }
   .build-command button {
     grid-column: auto;
@@ -979,9 +979,9 @@
    sideways. An earlier rule gave it its own row; making the command scrollable
    overrode that. Restore it where it is actually needed — the prompt and
    command still scroll on the first row. */
-@media (max-width: 430px) {
+@media (max-width: 420px) {
   .build-command {
-    grid-template-columns: auto max-content;
+    grid-template-columns: max-content 1fr;
     row-gap: 14px;
   }
   .build-command button {
@@ -1096,7 +1096,7 @@
 <div class="build-entry-copy">
 <p class="section-index">02 / BUILD</p>
 <h2>Ship apps that think and act.</h2>
-<p class="large-copy">Run your app offline as a single on-device binary, privately as an appliance service, and online on frontier compute.</p>
+<p class="large-copy">Run your app offline as a single on-device binary, as a private service on an appliance, and online on frontier compute.</p>
 <div class="build-command"><span>$</span><code><span class="cmd-run">npx</span> harness.dev@latest new</code><button type="button" data-copy-command="npx harness.dev@latest new">Copy</button></div>
 <div class="build-meta"><span class="cap">Multi-agent</span><span class="cap">Adaptive-RAG</span><span class="place">Laptop</span><span class="place">Appliance</span><span class="place">Frontier</span></div>
 <a href="https://docs.lloyal.ai/build-your-first-harness/">Read the ten-minute guide →</a>
