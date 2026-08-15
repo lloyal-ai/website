@@ -812,6 +812,16 @@
   font-size: clamp(17px, 1.35vw, 21px);
   line-height: 1.55;
 }
+/* The absences sit under the capture: the terminal shows what you ran, this
+   says what you did not need to have installed to run it. */
+.build-entry-visual { display: grid; gap: 26px; align-content: start; }
+.build-absences {
+    max-width: 640px;
+    margin: 0;
+    color: #aaa7a1;
+    font-size: clamp(15px, 1.15vw, 18px);
+    line-height: 1.6;
+  }
 /* The lead sits between a 76px heading and 17px detail, so it takes a step in
    both size and tone. Size is band-agnostic on purpose: it lived in a
    .band-cream rule and vanished the moment this section moved to the dark
@@ -1088,14 +1098,16 @@
 <p class="large-copy">Run your app offline as a single on-device binary, privately as an appliance service, and online on frontier compute.</p>
 <div class="build-command"><span>$</span><code><span class="cmd-run">npx</span> harness.dev@latest new</code><button type="button" data-copy-command="npx harness.dev@latest new">Copy</button></div>
 <div class="build-meta"><span class="cap">Multi-agent</span><span class="cap">Adaptive-RAG</span><span class="place">Laptop</span><span class="place">Appliance</span><span class="place">Frontier</span></div>
-<p>No OpenAI or Anthropic key. No Docker, no Ollama, no LangGraph, no vector database. Just your code and the model as a self-contained app for Desktop, CLI or Web.</p>
 <a href="https://docs.lloyal.ai/build-your-first-harness/">Read the ten-minute guide →</a>
 </div>
+<div class="build-entry-visual">
 <figure class="scaffold-shot">
 <div class="scaffold-shot-head"><span>harness.dev</span><em>guided application scaffold</em></div>
 <div class="scaffold-shot-viewport"><img alt="The harness.dev wizard scaffolding a Wikipedia research harness — template chosen, dependencies installed, ready to run across CLI, desktop and web with a resident Qwen model." src="/assets/harness-dev-new.gif"/></div>
 <figcaption>Choose the front ends, the model, and the template it starts from. The scaffold installs a working application you can change.</figcaption>
 </figure>
+<p class="build-absences">No OpenAI or Anthropic key. No Docker, no Ollama, no LangGraph, no vector database. Just your code and the model.</p>
+</div>
 </div>
 </section>
 <section class="agentapps-section section band-cream" id="agentapps">
