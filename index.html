@@ -835,7 +835,10 @@
   background: #080808;
   font-family: var(--mono);
 }
-.build-command > span { color: #6d6a64; font-size: 22px; }
+.build-command > span { color: #47d57b; font-size: 22px; }
+/* #47d57b is sampled from the prompt in the terminal capture beside it, so
+   the two agree. npx is the runner, not the point — it recedes. */
+.build-command code .cmd-run { color: #8b8780; }
 .build-command code {
   overflow-wrap: anywhere;
   color: var(--ink);
@@ -1083,8 +1086,8 @@
 <p class="section-index">02 / BUILD</p>
 <h2>Ship apps that think and act.</h2>
 <p class="large-copy">The same application runs offline as a single on-device binary, privately as an appliance service, and online on frontier compute.</p>
+<div class="build-command"><span>$</span><code><span class="cmd-run">npx</span> harness.dev@latest new</code><button type="button" data-copy-command="npx harness.dev@latest new">Copy</button></div>
 <p>No OpenAI or Anthropic key. No Docker, no Ollama, no LangGraph, no vector database. Just your code and the model as a self-contained app for Desktop, CLI or Web.</p>
-<div class="build-command"><span>$</span><code>npx harness.dev@latest new</code><button type="button" data-copy-command="npx harness.dev@latest new">Copy</button></div>
 <div class="build-meta"><span class="cap">Multi-agent</span><span class="cap">Adaptive-RAG</span><span class="place">Laptop</span><span class="place">Appliance</span><span class="place">Frontier</span></div>
 <a href="https://docs.lloyal.ai/build-your-first-harness/">Read the ten-minute guide →</a>
 </div>
