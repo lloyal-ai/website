@@ -107,13 +107,14 @@
 }
 .agentapps-head {
   display: grid;
-  grid-template-columns: minmax(150px, .33fr) minmax(0, 1fr);
-  gap: clamp(40px, 7vw, 120px);
+  grid-template-columns: minmax(360px, .86fr) minmax(420px, 1.14fr);
+  gap: clamp(48px, 6vw, 104px);
+  align-items: start;
 }
-.agentapps-head .section-index { padding-top: 11px; }
+
 .agentapps-head h2 {
   max-width: 950px;
-  margin: 0;
+  margin: 24px 0 0;
   color: var(--ink);
   font-size: clamp(50px, 6vw, 94px);
   line-height: .91;
@@ -128,16 +129,17 @@
 }
 .capability-modes {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  margin-top: clamp(58px, 7vw, 104px);
-  border-block: 1px solid var(--line);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 0;
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
 }
 .capability-modes article {
   min-height: 280px;
   padding: 30px;
   border-right: 1px solid var(--line);
 }
-.capability-modes article:first-child { border-left: 1px solid var(--line); }
+.capability-modes article { border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .capability-modes span,
 .admission-bridge span {
   color: #77736c;
@@ -275,7 +277,10 @@
 .inline-links { margin-top: 24px; }
 .agentapps-head p { margin-top: 24px; }
 .capability-modes { margin-top: clamp(44px, 5vw, 72px); }
-.capability-modes article { min-height: 230px; padding: 28px; }
+.capability-modes article {
+    min-height: 0;
+    padding: 26px 28px 28px;
+  }
 .capability-modes h3 {
   margin: 0;
   color: var(--ink);
@@ -411,6 +416,28 @@
 .band-cream h2,
 .band-cream .build-entry-copy h2,
 .band-cream .code-copy h2 { color: #050505; }
+
+/* AgentApps on a cream band. The section was written for the dark treatment and
+   takes its colours from --ink, which is #f2f1ed — the light value the dark page
+   uses. On cream its card headings and every <strong> land at 1.0:1 against the
+   background. Same explicit correction the band already makes for h2, p and a. */
+.band-cream .capability-modes h3 { color: #050505; }
+.band-cream .capability-modes strong { color: #1f1d1a; }
+.band-cream .capability-modes p { color: #625e57; }
+.band-cream .agentapp-contract p { color: #625e57; }
+.band-cream .agentapp-contract p strong { color: #050505; }
+.band-cream .capability-modes,
+.band-cream .capability-modes article { border-color: #cdc7bd; }
+.agentapps-copy > a {
+  display: inline-block;
+  margin-top: 28px;
+  padding-bottom: 5px;
+  font-size: 13px;
+}
+.band-cream .agentapps-copy > a { color: #181715; border-bottom: 1px solid #aaa49a; }
+.band-cream .agentapps-copy > a:hover { color: #000; border-color: #000; }
+.band-cream .agentapps-head p:not(.section-index) { color: #625e57; }
+.band-cream .agentapp-contract > strong { color: #050505; }
 .band-cream .code-copy > p:not(.section-index),
 .band-cream .build-entry-copy > p:not(.section-index) { color: #625e57; }
 /* The base chip is drawn for a dark band: dark border, lighter text. On cream
@@ -956,13 +983,13 @@
 <strong>LLoyal</strong><span>Labs</span>
 </a>
 <p class="brand-line">Engineering AI's contact with reality.</p>
-<nav aria-label="Primary" class="desktop-nav"><a href="#build">How it works</a><a href="#agentapps">AgentApps</a><a class="header-cta" href="#developers">Build</a><a href="#partner">Get in touch</a><a href="/blog/">Blog</a></nav>
+<nav aria-label="Primary" class="desktop-nav"><a href="#build">How it works</a><a class="header-cta" href="#developers">Build</a><a href="#agentapps">AgentApps</a><a href="#partner">Get in touch</a><a href="/blog/">Blog</a></nav>
 <nav aria-label="Resources" class="desktop-nav utility-nav"><a href="https://docs.lloyal.ai/" rel="noreferrer" target="_blank">Docs ↗</a><a href="https://github.com/lloyal-ai" rel="noreferrer" target="_blank">GitHub ↗</a></nav>
 <button aria-controls="mobile-nav" aria-expanded="false" class="menu-button" data-menu-button="" type="button">
 <span></span><span></span><span class="sr-only">Open menu</span>
 </button>
 </div>
-<nav class="mobile-nav" data-mobile-nav="" hidden="" id="mobile-nav"><a href="#build">How it works</a><a href="#agentapps">AgentApps</a><a href="#developers">Build</a><a href="#partner">Get in touch</a><a href="/blog/">Blog</a><a href="https://docs.lloyal.ai/" rel="noreferrer" target="_blank">Docs ↗</a><a href="https://github.com/lloyal-ai" rel="noreferrer" target="_blank">GitHub ↗</a></nav>
+<nav class="mobile-nav" data-mobile-nav="" hidden="" id="mobile-nav"><a href="#build">How it works</a><a href="#developers">Build</a><a href="#agentapps">AgentApps</a><a href="#partner">Get in touch</a><a href="/blog/">Blog</a><a href="https://docs.lloyal.ai/" rel="noreferrer" target="_blank">Docs ↗</a><a href="https://github.com/lloyal-ai" rel="noreferrer" target="_blank">GitHub ↗</a></nav>
 </header>
 <main id="main">
 <section class="hero" id="top">
@@ -1048,30 +1075,10 @@
 </div>
 </div>
 </section>
-<section class="agentapps-section section" id="agentapps">
-<div class="wrap">
-<div class="agentapps-head reveal">
-<p class="section-index">02 / AGENTAPPS</p>
-<div>
-<h2>Intelligence needs contact with reality.</h2>
-<p>An AgentApp is a whole capability in one package: a live source, the tools that work it, the skill to use them well, and the grants that bound what it may do. An agent acquires one and then exercises it on its own judgement—retrieving, observing, acting. The harness decides which agents may hold which capability, which live lineage receives what comes back, and what consequence is permitted.</p>
-</div>
-</div>
-<div class="capability-modes reveal">
-<article><h3>Retrieve</h3><p><strong>Acquire and evaluate evidence</strong> across search, corpora, documents and databases.</p></article>
-<article><h3>Observe</h3><p><strong>Read the world as it changes</strong> through browsers, feeds, telemetry and application state.</p></article>
-<article><h3>Act</h3><p><strong>Produce permitted consequence</strong> through computer use, workflows, APIs and operational tools.</p></article>
-</div>
-<div class="agentapp-contract reveal">
-<p>AgentApps are signed, portable capability contracts combining <strong>Skills · Live Sources · Tools · Grants · Protocol</strong></p>
-<strong>AgentApps provide contact with reality. The harness supplies procedure and authority.</strong>
-</div>
-</div>
-</section>
-<section class="build-entry band-cream" id="developers">
+<section class="build-entry" id="developers">
 <div class="wrap build-entry-grid reveal">
 <div class="build-entry-copy">
-<p class="section-index">03 / BUILD</p>
+<p class="section-index">02 / BUILD</p>
 <h2>Ship apps that think and act.</h2>
 <p class="large-copy">Run on-device as a single binary, or on frontier compute.</p>
 <p>No OpenAI or Anthropic key. No Docker, no Ollama, no LangGraph, no vector database. Just your code and the model as a self-contained app for Desktop, CLI or Web.</p>
@@ -1084,6 +1091,24 @@
 <div class="scaffold-shot-viewport"><img alt="The harness.dev wizard scaffolding a Wikipedia research harness — template chosen, dependencies installed, ready to run across CLI, desktop and web with a resident Qwen model." src="/assets/harness-dev-new.gif"/></div>
 <figcaption>Choose the front ends, the model, and the template it starts from. The scaffold installs a working application you can change.</figcaption>
 </figure>
+</div>
+</section>
+<section class="agentapps-section section band-cream" id="agentapps">
+<div class="wrap">
+<div class="agentapps-head reveal">
+<div class="agentapps-copy">
+<p class="section-index">03 / AGENTAPPS</p>
+<h2>Intelligence needs contact with reality.</h2>
+<p>Give the agents in your app new capabilities in an instant &mdash; from web research and a local knowledge base to Calendars, Spreadsheets, Databricks and more.</p>
+<a href="https://apps.lloyal.ai/" target="_blank" rel="noreferrer">Browse AgentApps &rarr;</a>
+</div>
+<div class="capability-modes">
+<article><h3>Install</h3><p><strong>One signed, portable package</strong> carrying skills, live sources, tools, grants and protocol.</p></article>
+<article><h3>Retrieve</h3><p><strong>Acquire and evaluate evidence</strong> across search, corpora, documents and databases.</p></article>
+<article><h3>Observe</h3><p><strong>Read the world as it changes</strong> through browsers, feeds, telemetry and application state.</p></article>
+<article><h3>Act</h3><p><strong>Produce permitted consequence</strong> through computer use, workflows, APIs and operational tools.</p></article>
+</div>
+</div>
 </div>
 </section>
 <section class="ship section" id="partner">
