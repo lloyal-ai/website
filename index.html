@@ -644,7 +644,14 @@
 .kv { margin: 18px 0 6px; }
 .kv-grid { position: relative; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)) 18px repeat(14, minmax(0, 1fr)); gap: 6px 0; align-items: center; }
 
-.kvt { grid-column: 1 / span 6; grid-row: 1; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 4px; }
+.kvt { position: relative; grid-column: 1 / span 6; grid-row: 1; margin-bottom: 15px; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 4px; }
+/* the shared prefix is the one thing in the picture with no name on it; without
+   it the cells below read as generic boxes rather than KV */
+.kvt::after {
+  content: "kv_prefix"; position: absolute; left: 0; top: 100%; margin-top: 5px;
+  color: #3f3b36; font-family: var(--mono); font-size: 8.5px;
+  letter-spacing: .1em; text-transform: uppercase; white-space: nowrap;
+}
 .tc { position: relative; height: 32px; border: 1px solid #2f2c28; background: #fff; }
 .tc u { position: absolute; left: 50%; top: 50%; width: 5px; height: 5px; margin: -2.5px 0 0 -2.5px; border-radius: 50%; background: #2f2c28; }
 
