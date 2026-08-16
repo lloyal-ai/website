@@ -107,7 +107,7 @@
 }
 .abilities-head {
   display: grid;
-  grid-template-columns: minmax(360px, .86fr) minmax(420px, 1.14fr);
+  grid-template-columns: minmax(300px, .86fr) minmax(360px, 1.14fr);
   gap: clamp(48px, 6vw, 104px);
   align-items: start;
 }
@@ -281,6 +281,11 @@
     min-height: 0;
     padding: 26px 28px 28px;
   }
+/* Four short cards beside a long argument left the ladder ending ~300px above
+   the copy. Stretching the cards to close it only moved the void inside them,
+   so centre the block instead - the air sits outside the frames, where it
+   reads as spacing rather than as four half-empty cards. */
+.capability-modes { align-self: center; }
 .capability-modes h3 {
   margin: 0;
   color: var(--ink);
@@ -442,9 +447,8 @@
 .band-cream .abilities-copy > a:hover { color: #000; border-color: #000; }
 .capability-modes h3 a { color: inherit; text-decoration: none; border-bottom: 1px solid currentColor; opacity: .85; }
 .capability-modes h3 a:hover { opacity: 1; }
-.ladder-note { margin-top: 40px; max-width: 62ch; font-size: 15px; line-height: 1.65; color: #625e57; }
-.ladder-note a { color: inherit; border-bottom: 1px solid currentColor; text-decoration: none; }
-.ladder-note a:hover { color: #000; }
+.abilities-copy p a { color: inherit; border-bottom: 1px solid currentColor; text-decoration: none; }
+.abilities-copy p a:hover { color: #000; }
 .band-cream .abilities-head p:not(.section-index) { color: #625e57; }
 .band-cream .ability-contract > strong { color: #050505; }
 .band-cream .code-copy > p:not(.section-index),
@@ -1132,9 +1136,9 @@
 <div class="abilities-head reveal">
 <div class="abilities-copy">
 <p class="section-index">03 / ABILITIES</p>
-<h2>Capabilities that know where they are.</h2>
+<h2>Abilities that know where they are.</h2>
 <p><strong>Abilities are inference-native.</strong> They run inside the model&rsquo;s execution rather than behind a network boundary, so an extension can see who called it, what that caller already knows, and what else is running &mdash; and can fork that state into new agents.</p>
-<p>In practice: five agents on one question, each handed only the pages it has not already read. Web research, a local knowledge base, Calendars, Spreadsheets and Databricks ship today &mdash; what separates an Ability from a connector is the answer to one question: <em>what does the extension get to know?</em></p>
+<p>An Ability sees the caller &mdash; its live inference state, its lineage, its siblings &mdash; and can fork that state into agents that inherit it. That is what running inside the execution buys, and it is why the ladder tops out here. <a href="https://deepseek.com/harness/en/" target="_blank" rel="noreferrer">DeepSeek&rsquo;s Harness</a> is making the same bet: an agent assembled entirely from plugins &mdash; models, tools, sessions, scheduling, the UI &mdash; with the extension model as the architecture rather than an add-on. It defines a plugin by what it can supply. An Ability is defined by what it can see.</p>
 <a href="https://apps.lloyal.ai/" target="_blank" rel="noreferrer">Browse Abilities &rarr;</a>
 </div>
 <div class="capability-modes">
@@ -1143,7 +1147,6 @@
 <article><span>Level 2</span><h3><a href="https://code.claude.com/docs/en/skills" target="_blank" rel="noreferrer">Skills</a></h3><p><strong>Its arguments, and the context window.</strong> The extension carries procedure now, not only operations.</p></article>
 <article class="level-native"><span>Level 3</span><h3><a href="https://docs.lloyal.ai/abilities" target="_blank" rel="noreferrer">Abilities</a></h3><p><strong>The execution itself.</strong> The calling agent, its live inference state, its lineage, its siblings &mdash; and the authority to fork it into new agents.</p></article>
 </div>
-<p class="ladder-note">An Ability sees the caller &mdash; its live inference state, its lineage, its siblings &mdash; and can fork that state into agents that inherit it. That is what running inside the execution buys, and it is why the ladder tops out here. <a href="https://deepseek.com/harness/en/" target="_blank" rel="noreferrer">DeepSeek&rsquo;s Harness</a> is making the same bet: an agent assembled entirely from plugins &mdash; models, tools, sessions, scheduling, the UI &mdash; with the extension model as the architecture rather than an add-on. It defines a plugin by what it can supply. An Ability is defined by what it can see.</p>
 </div>
 </div>
 </section>
