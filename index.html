@@ -443,6 +443,7 @@
   padding-bottom: 5px;
   font-size: 13px;
 }
+.abilities-copy > a + a { margin-left: 26px; }
 .band-cream .abilities-copy > a { color: #181715; border-bottom: 1px solid #aaa49a; }
 .band-cream .abilities-copy > a:hover { color: #000; border-color: #000; }
 .capability-modes h3 a { color: inherit; text-decoration: none; border-bottom: 1px solid currentColor; opacity: .85; }
@@ -1139,7 +1140,7 @@
 <h2>Abilities that know where they are.</h2>
 <p><strong>Abilities are inference-native.</strong> They run inside the model&rsquo;s execution rather than behind a network boundary, so an extension can see who called it, what that caller already knows, and what else is running &mdash; and can fork that state into new agents.</p>
 <p>An Ability sees the caller &mdash; its live inference state, its lineage, its siblings &mdash; and can fork that state into agents that inherit it. That is what running inside the execution buys, and it is why the ladder tops out here. <a href="https://deepseek.com/harness/en/" target="_blank" rel="noreferrer">DeepSeek&rsquo;s Harness</a> is making the same bet: an agent assembled entirely from plugins &mdash; models, tools, sessions, scheduling, the UI &mdash; with the extension model as the architecture rather than an add-on. It defines a plugin by what it can supply. An Ability is defined by what it can see.</p>
-<a href="https://apps.lloyal.ai/" target="_blank" rel="noreferrer">Browse Abilities &rarr;</a>
+<a href="https://docs.lloyal.ai/abilities" target="_blank" rel="noreferrer">How Abilities work &rarr;</a><a href="https://apps.lloyal.ai/" target="_blank" rel="noreferrer">Browse Abilities &rarr;</a>
 </div>
 <div class="capability-modes">
 <article><span>Level 0</span><h3>Tool calling</h3><p><strong>Its arguments.</strong> The function cannot know who called it, what else is running, or what happens next.</p></article>
