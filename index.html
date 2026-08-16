@@ -1133,8 +1133,8 @@
 <div class="abilities-copy">
 <p class="section-index">03 / ABILITIES</p>
 <h2>Capabilities that know where they are.</h2>
-<p>Two agents read the same file and get different text back, because the tool remembers what each of them has already seen. A hosted endpoint cannot do that &mdash; it never learns who called it. Abilities are <strong>inference-native</strong>: they run inside the model&rsquo;s execution rather than behind a network boundary, close enough to read the calling agent&rsquo;s live state, fork it, and spawn agents that inherit it.</p>
-<p>Every way of extending a model answers one question: <em>what does the extension get to know?</em> Web research, a local knowledge base, Calendars, Spreadsheets and Databricks all ship today &mdash; what separates an Ability from a connector is the answer to that question.</p>
+<p><strong>Abilities are inference-native.</strong> They run inside the model&rsquo;s execution rather than behind a network boundary, so an extension can see who called it, what that caller already knows, and what else is running &mdash; and can fork that state into new agents.</p>
+<p>In practice: five agents on one question, each handed only the pages it has not already read. Web research, a local knowledge base, Calendars, Spreadsheets and Databricks ship today &mdash; what separates an Ability from a connector is the answer to one question: <em>what does the extension get to know?</em></p>
 <a href="https://apps.lloyal.ai/" target="_blank" rel="noreferrer">Browse Abilities &rarr;</a>
 </div>
 <div class="capability-modes">
