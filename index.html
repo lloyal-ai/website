@@ -98,21 +98,21 @@
         }
 </style>
 <style>
-/* AgentApps capability layer and final conversion */
+/* Abilities access ladder and final conversion */
 
-.agentapps-section {
+.abilities-section {
   color: var(--ink);
   background: rgba(8,8,8,.78);
   border-bottom: 1px solid var(--line-soft);
 }
-.agentapps-head {
+.abilities-head {
   display: grid;
   grid-template-columns: minmax(360px, .86fr) minmax(420px, 1.14fr);
   gap: clamp(48px, 6vw, 104px);
   align-items: start;
 }
 
-.agentapps-head h2 {
+.abilities-head h2 {
   max-width: 950px;
   margin: 24px 0 0;
   color: var(--ink);
@@ -120,7 +120,7 @@
   line-height: .91;
   letter-spacing: -.067em;
 }
-.agentapps-head p {
+.abilities-head p {
   max-width: 850px;
   margin: 34px 0 0;
   color: var(--muted);
@@ -183,21 +183,21 @@
   font-size: clamp(15px, 1.15vw, 18px);
   line-height: 1.6;
 }
-.agentapp-contract {
+.ability-contract {
   display: grid;
   grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr);
   gap: 60px;
   padding: 30px 0 0;
 }
-.agentapp-contract p,
-.agentapp-contract > strong {
+.ability-contract p,
+.ability-contract > strong {
   margin: 0;
   color: var(--muted);
   font-size: 15px;
   line-height: 1.55;
 }
-.agentapp-contract p strong { color: var(--ink); }
-.agentapp-contract > strong {
+.ability-contract p strong { color: var(--ink); }
+.ability-contract > strong {
   color: var(--ink);
   font-size: clamp(19px, 1.7vw, 27px);
   line-height: 1.25;
@@ -237,11 +237,11 @@
 @media (max-width: 1100px) {
       }
 @media (max-width: 820px) {
-  .agentapps-head,
+  .abilities-head,
   .admission-bridge,
-  .agentapp-contract,
+  .ability-contract,
   .final-start-band .section-head { grid-template-columns: 1fr; }
-  .agentapps-head { gap: 30px; }
+  .abilities-head { gap: 30px; }
   .capability-modes { grid-template-columns: 1fr; }
   .capability-modes article,
   .capability-modes article:first-child {
@@ -256,10 +256,10 @@
   .final-start-band .conversion-paths article { min-height: 0; }
 }
 @media (max-width: 560px) {
-      .agentapps-head h2 { font-size: clamp(48px, 14vw, 68px); }
+      .abilities-head h2 { font-size: clamp(48px, 14vw, 68px); }
   .capability-modes article { padding: 24px; }
   .admission-bridge { padding: 28px 24px; }
-  .agentapp-contract { gap: 24px; }
+  .ability-contract { gap: 24px; }
 }
 </style>
 <style>
@@ -275,7 +275,7 @@
 .mvc-arrow { padding-block: 5px; }
 .code-tagline { margin-top: 18px; }
 .inline-links { margin-top: 24px; }
-.agentapps-head p { margin-top: 24px; }
+.abilities-head p { margin-top: 24px; }
 .capability-modes { margin-top: clamp(44px, 5vw, 72px); }
 .capability-modes article {
     min-height: 0;
@@ -304,7 +304,7 @@
   letter-spacing: -.025em;
 }
 .admission-bridge { margin-top: clamp(34px, 4vw, 54px); }
-.agentapp-contract { padding-top: 24px; }
+.ability-contract { padding-top: 24px; }
 
 .final-start-band { padding-block: clamp(72px, 6.5vw, 104px); }
 .final-start-band .conversion-paths { margin-top: clamp(42px, 4.5vw, 64px); }
@@ -417,27 +417,31 @@
 .band-cream .build-entry-copy h2,
 .band-cream .code-copy h2 { color: #050505; }
 
-/* AgentApps on a cream band. The section was written for the dark treatment and
+/* Abilities on a cream band. The section was written for the dark treatment and
    takes its colours from --ink, which is #f2f1ed — the light value the dark page
    uses. On cream its card headings and every <strong> land at 1.0:1 against the
    background. Same explicit correction the band already makes for h2, p and a. */
 .band-cream .capability-modes h3 { color: #050505; }
 .band-cream .capability-modes strong { color: #1f1d1a; }
 .band-cream .capability-modes p { color: #625e57; }
-.band-cream .agentapp-contract p { color: #625e57; }
-.band-cream .agentapp-contract p strong { color: #050505; }
+.band-cream .ability-contract p { color: #625e57; }
+.band-cream .ability-contract p strong { color: #050505; }
 .band-cream .capability-modes,
 .band-cream .capability-modes article { border-color: #cdc7bd; }
-.agentapps-copy > a {
+/* level 3 is the claim the section exists to make; the other three are the
+   ladder that gives it meaning. */
+.capability-modes .level-native { background: rgba(255,255,255,.04); }
+.band-cream .capability-modes .level-native { background: rgba(8,8,8,.045); }
+.abilities-copy > a {
   display: inline-block;
   margin-top: 28px;
   padding-bottom: 5px;
   font-size: 13px;
 }
-.band-cream .agentapps-copy > a { color: #181715; border-bottom: 1px solid #aaa49a; }
-.band-cream .agentapps-copy > a:hover { color: #000; border-color: #000; }
-.band-cream .agentapps-head p:not(.section-index) { color: #625e57; }
-.band-cream .agentapp-contract > strong { color: #050505; }
+.band-cream .abilities-copy > a { color: #181715; border-bottom: 1px solid #aaa49a; }
+.band-cream .abilities-copy > a:hover { color: #000; border-color: #000; }
+.band-cream .abilities-head p:not(.section-index) { color: #625e57; }
+.band-cream .ability-contract > strong { color: #050505; }
 .band-cream .code-copy > p:not(.section-index),
 .band-cream .build-entry-copy > p:not(.section-index) { color: #625e57; }
 /* The base chip is drawn for a dark band: dark border, lighter text. On cream
@@ -1006,13 +1010,13 @@
 <strong>LLoyal</strong><span>Labs</span>
 </a>
 <p class="brand-line">Engineering AI's contact with reality.</p>
-<nav aria-label="Primary" class="desktop-nav"><a href="#build">How it works</a><a class="header-cta" href="#developers">Build</a><a href="#agentapps">AgentApps</a><a href="#partner">Get in touch</a><a href="/blog/">Blog</a></nav>
+<nav aria-label="Primary" class="desktop-nav"><a href="#build">How it works</a><a class="header-cta" href="#developers">Build</a><a href="#abilities">Abilities</a><a href="#partner">Get in touch</a><a href="/blog/">Blog</a></nav>
 <nav aria-label="Resources" class="desktop-nav utility-nav"><a href="https://docs.lloyal.ai/" rel="noreferrer" target="_blank">Docs ↗</a><a href="https://github.com/lloyal-ai" rel="noreferrer" target="_blank">GitHub ↗</a></nav>
 <button aria-controls="mobile-nav" aria-expanded="false" class="menu-button" data-menu-button="" type="button">
 <span></span><span></span><span class="sr-only">Open menu</span>
 </button>
 </div>
-<nav class="mobile-nav" data-mobile-nav="" hidden="" id="mobile-nav"><a href="#build">How it works</a><a href="#developers">Build</a><a href="#agentapps">AgentApps</a><a href="#partner">Get in touch</a><a href="/blog/">Blog</a><a href="https://docs.lloyal.ai/" rel="noreferrer" target="_blank">Docs ↗</a><a href="https://github.com/lloyal-ai" rel="noreferrer" target="_blank">GitHub ↗</a></nav>
+<nav class="mobile-nav" data-mobile-nav="" hidden="" id="mobile-nav"><a href="#build">How it works</a><a href="#developers">Build</a><a href="#abilities">Abilities</a><a href="#partner">Get in touch</a><a href="/blog/">Blog</a><a href="https://docs.lloyal.ai/" rel="noreferrer" target="_blank">Docs ↗</a><a href="https://github.com/lloyal-ai" rel="noreferrer" target="_blank">GitHub ↗</a></nav>
 </header>
 <main id="main">
 <section class="hero" id="top">
@@ -1104,34 +1108,34 @@
 <p class="section-index">02 / BUILD</p>
 <h2>Ship apps that think and act.</h2>
 <p class="large-copy">Run your app offline as a single on-device binary, as a private service on an appliance, and online on frontier compute.</p>
-<div class="build-command"><span>$</span><code><span class="cmd-run">npx</span> harness.dev@latest new</code><button type="button" data-copy-command="npx harness.dev@latest new">Copy</button></div>
+<div class="build-command"><span>$</span><code><span class="cmd-run">npx</span> lloyal-ai new</code><button type="button" data-copy-command="npx lloyal-ai new">Copy</button></div>
 <div class="build-meta"><span class="cap">Multi-agent</span><span class="cap">Adaptive-RAG</span><span class="place">Laptop</span><span class="place">Appliance</span><span class="place">Frontier</span></div>
 <a href="https://docs.lloyal.ai/build-your-first-harness/">Read the ten-minute guide →</a>
 </div>
 <div class="build-entry-visual">
 <figure class="scaffold-shot">
-<div class="scaffold-shot-head"><span>harness.dev</span><em>guided application scaffold</em></div>
-<div class="scaffold-shot-viewport"><img alt="The harness.dev wizard scaffolding a Wikipedia research harness — template chosen, dependencies installed, ready to run across CLI, desktop and web with a resident Qwen model." src="/assets/harness-dev-new.gif"/></div>
+<div class="scaffold-shot-head"><span>lloyal-ai</span><em>guided application scaffold</em></div>
+<div class="scaffold-shot-viewport"><img alt="The lloyal-ai wizard scaffolding a Wikipedia research harness — template chosen, dependencies installed, ready to run across CLI, desktop and web with a resident Qwen model." src="/assets/harness-dev-new.gif"/></div>
 <figcaption>Choose the front ends, the model, and the template it starts from. The scaffold installs a working application you can change.</figcaption>
 </figure>
 <p class="build-absences">No OpenAI or Anthropic key. No Docker, no Ollama, no LangGraph, no vector database. <strong>Just your code and the model.</strong></p>
 </div>
 </div>
 </section>
-<section class="agentapps-section section band-cream" id="agentapps">
+<section class="abilities-section section band-cream" id="abilities">
 <div class="wrap">
-<div class="agentapps-head reveal">
-<div class="agentapps-copy">
-<p class="section-index">03 / AGENTAPPS</p>
-<h2>Intelligence needs contact with reality.</h2>
-<p>Give the agents in your app new capabilities in an instant &mdash; from web research and a local knowledge base to Calendars, Spreadsheets, Databricks and more.</p>
-<a href="https://apps.lloyal.ai/" target="_blank" rel="noreferrer">Browse AgentApps &rarr;</a>
+<div class="abilities-head reveal">
+<div class="abilities-copy">
+<p class="section-index">03 / ABILITIES</p>
+<h2>Capabilities that know where they are.</h2>
+<p>Give your agents new powers in an instant &mdash; web research, a local knowledge base, Calendars, Spreadsheets, Databricks and more. Every way of extending a model answers one question: <em>what does the extension get to know?</em></p>
+<a href="https://apps.lloyal.ai/" target="_blank" rel="noreferrer">Browse Abilities &rarr;</a>
 </div>
 <div class="capability-modes">
-<article><h3>Install</h3><p><strong>One signed, portable package</strong> carrying skills, live sources, tools, grants and protocol.</p></article>
-<article><h3>Retrieve</h3><p><strong>Acquire and evaluate evidence</strong> across search, corpora, documents and databases.</p></article>
-<article><h3>Observe</h3><p><strong>Read the world as it changes</strong> through browsers, feeds, telemetry and application state.</p></article>
-<article><h3>Act</h3><p><strong>Produce permitted consequence</strong> through computer use, workflows, APIs and operational tools.</p></article>
+<article><span>Level 0</span><h3>Tool calling</h3><p><strong>Its arguments.</strong> The function cannot know who called it, what else is running, or what happens next.</p></article>
+<article><span>Level 1</span><h3>MCP</h3><p><strong>Its arguments, in its own process.</strong> Language freedom and isolation &mdash; the right default for most integrations.</p></article>
+<article><span>Level 2</span><h3>Skills</h3><p><strong>Its arguments, and the context window.</strong> The extension carries procedure now, not only operations.</p></article>
+<article class="level-native"><span>Level 3</span><h3>Abilities</h3><p><strong>The execution itself.</strong> The calling agent, its live inference state, its lineage, its siblings &mdash; and the authority to fork it into new agents.</p></article>
 </div>
 </div>
 </div>
@@ -1146,7 +1150,7 @@
 <h2>Make one high-value capability native to your product.</h2>
 <p class="large-copy">Work with Lloyal to turn a consequential workflow into a production harness—integrated with your existing product, connected to the systems it depends on and deployable across the environments your customers require.</p>
 <div class="engagement">
-<span>One product capability</span><span>One product integration</span><span>Private AgentApps</span><span>Multiple placements</span>
+<span>One product capability</span><span>One product integration</span><span>Private Abilities</span><span>Multiple placements</span>
 </div>
 </div>
 <form class="partner-form reveal" data-partner-form="" id="partner-form">
@@ -1192,7 +1196,7 @@
 <b data-event-label="">agent:spawn</b>
 <i></i>
 </div>
-<small>same program · same AgentApps · same event contract</small>
+<small>same program · same Abilities · same event contract</small>
 </div>
 <div class="proof-pane frontier-pane">
 <div class="pane-head">
@@ -1226,7 +1230,7 @@
 <div class="footer-links">
 <div><span>Engineering</span><a href="https://hdk.lloyal.ai/">HDK</a><a href="https://reasoning.run/">reasoning.run</a><a href="https://docs.lloyal.ai/">Documentation</a></div>
 <div><span>Blog</span><a href="/blog/">Blog</a></div>
-<div><span>Community</span><a href="https://github.com/lloyal-ai">GitHub</a><a href="https://www.npmjs.com/org/lloyal-labs">npm</a><a href="https://apps.lloyal.ai/">AgentApps</a></div>
+<div><span>Community</span><a href="https://github.com/lloyal-ai">GitHub</a><a href="https://www.npmjs.com/org/lloyal-labs">npm</a><a href="https://apps.lloyal.ai/">Abilities</a></div>
 </div>
 </div>
 <div class="wrap footer-bottom"><span>© 2026 LLoyal AI. All rights reserved.</span><span>Melbourne, Australia</span></div>

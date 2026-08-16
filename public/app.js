@@ -33,7 +33,7 @@
 
   // Reactive nav underline: highlights the nav item for the section under the
   // header, immediately on click and via scrollspy as the user scrolls.
-  const scrollspyIds = ['build', 'developers', 'agentapps', 'partner'];
+  const scrollspyIds = ['build', 'developers', 'abilities', 'partner'];
   const scrollspySections = scrollspyIds.map((id) => document.getElementById(id)).filter(Boolean);
   const navItems = document.querySelectorAll('.desktop-nav a, .header-cta');
 
