@@ -440,6 +440,8 @@
 }
 .band-cream .abilities-copy > a { color: #181715; border-bottom: 1px solid #aaa49a; }
 .band-cream .abilities-copy > a:hover { color: #000; border-color: #000; }
+.capability-modes h3 a { color: inherit; text-decoration: none; border-bottom: 1px solid currentColor; opacity: .85; }
+.capability-modes h3 a:hover { opacity: 1; }
 .band-cream .abilities-head p:not(.section-index) { color: #625e57; }
 .band-cream .ability-contract > strong { color: #050505; }
 .band-cream .code-copy > p:not(.section-index),
@@ -1128,14 +1130,15 @@
 <div class="abilities-copy">
 <p class="section-index">03 / ABILITIES</p>
 <h2>Capabilities that know where they are.</h2>
-<p>Give your agents new powers in an instant &mdash; web research, a local knowledge base, Calendars, Spreadsheets, Databricks and more. Every way of extending a model answers one question: <em>what does the extension get to know?</em></p>
+<p>Two agents read the same file and get different text back, because the tool remembers what each of them has already seen. A hosted endpoint cannot do that &mdash; it never learns who called it. Abilities are <strong>inference-native</strong>: they run inside the model&rsquo;s execution rather than behind a network boundary, close enough to read the calling agent&rsquo;s live state, fork it, and spawn agents that inherit it.</p>
+<p>Every way of extending a model answers one question: <em>what does the extension get to know?</em> Web research, a local knowledge base, Calendars, Spreadsheets and Databricks all ship today &mdash; what separates an Ability from a connector is the answer to that question.</p>
 <a href="https://apps.lloyal.ai/" target="_blank" rel="noreferrer">Browse Abilities &rarr;</a>
 </div>
 <div class="capability-modes">
 <article><span>Level 0</span><h3>Tool calling</h3><p><strong>Its arguments.</strong> The function cannot know who called it, what else is running, or what happens next.</p></article>
-<article><span>Level 1</span><h3>MCP</h3><p><strong>Its arguments, in its own process.</strong> Language freedom and isolation &mdash; the right default for most integrations.</p></article>
-<article><span>Level 2</span><h3>Skills</h3><p><strong>Its arguments, and the context window.</strong> The extension carries procedure now, not only operations.</p></article>
-<article class="level-native"><span>Level 3</span><h3>Abilities</h3><p><strong>The execution itself.</strong> The calling agent, its live inference state, its lineage, its siblings &mdash; and the authority to fork it into new agents.</p></article>
+<article><span>Level 1</span><h3><a href="https://modelcontextprotocol.io" target="_blank" rel="noreferrer">MCP</a></h3><p><strong>Its arguments, in its own process.</strong> Language freedom and isolation &mdash; the right default for most integrations.</p></article>
+<article><span>Level 2</span><h3><a href="https://code.claude.com/docs/en/skills" target="_blank" rel="noreferrer">Skills</a></h3><p><strong>Its arguments, and the context window.</strong> The extension carries procedure now, not only operations.</p></article>
+<article class="level-native"><span>Level 3</span><h3><a href="https://docs.lloyal.ai/abilities" target="_blank" rel="noreferrer">Abilities</a></h3><p><strong>The execution itself.</strong> The calling agent, its live inference state, its lineage, its siblings &mdash; and the authority to fork it into new agents.</p></article>
 </div>
 </div>
 </div>
