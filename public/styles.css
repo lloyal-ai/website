@@ -116,6 +116,15 @@ section[id], [id="same-harness"], [id="partner-form"] { scroll-margin-top: 76px;
 .quiet-link { display: inline-block; margin-top: 18px; color: #8d8a84; font-size: 12px; border-bottom: 1px solid transparent; }
 .quiet-link:hover { color: var(--ink); border-color: #66635e; }
 
+.trust-strip { margin-top: 46px; padding-top: 28px; border-top: 1px solid var(--line-soft); display: flex; flex-direction: column; align-items: center; gap: 18px; }
+.trust-kicker { margin: 0; color: var(--faint); font-family: var(--mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; }
+.trust-marks { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: clamp(28px, 4vw, 64px); }
+.trust-marks li { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.trust-marks a { display: flex; align-items: center; height: 69px; opacity: .92; }
+.trust-marks a:hover { opacity: 1; }
+.trust-marks img { display: block; height: auto; }
+.trust-marks span { color: #8d8a84; font-size: 12px; }
+
 .hero-proof {
   position: relative;
   margin-top: clamp(62px, 7vw, 106px);
@@ -384,6 +393,7 @@ footer { padding:80px 0 32px; background:#070707; }
 .footer-links a { color:#aaa7a1; font-size:12px; }
 .footer-links a:hover { color:#fff; }
 .footer-bottom { margin-top:65px; padding-top:20px; border-top:1px solid var(--line-soft); display:flex; justify-content:space-between; gap:30px; color:#595651; font-family:var(--mono); font-size:8px; text-transform:uppercase; letter-spacing:.08em; }
+.footer-legal { margin: 10px auto 0; padding-bottom: 28px; color: #55524d; font-family: var(--mono); font-size: 9px; letter-spacing: .02em; text-align: left; }
 
 @keyframes blink { 50% { opacity: 0; } }
 @keyframes travel { to { left: 100%; } }
@@ -447,6 +457,8 @@ footer { padding:80px 0 32px; background:#070707; }
   :root { --gutter: 18px; }
   body { font-size:15px; }
   .hero { padding-top:54px; }
+  .trust-strip { margin-top: 34px; }
+  .trust-marks { gap: 24px; }
   .kicker { font-size:8px; }
   .hero-proof-label { margin-top:15px; font-size:9px; }
   .hero h1 { font-size:clamp(43px,14.6vw,70px); letter-spacing:-.075em; }
