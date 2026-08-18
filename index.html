@@ -239,6 +239,18 @@
 
 @media (max-width: 1100px) {
       }
+/* Two-column layout only. The heading is sized from its own column rather than
+   the viewport: the two scale at different rates - the column is a grid fraction
+   minus a gap that itself grows with vw - so a vw-based size lands its line
+   break by luck, and landed it differently at every width. In container units
+   the slack is proportional, so "Extend. Interact." holds line one from 900px up
+   and "Recurse." gets a line of its own. Below 821px this is a single column and
+   the viewport-based rule above still applies. */
+@media (min-width: 821px) {
+  .abilities-copy { container-type: inline-size; }
+  .abilities-head h2 { font-size: clamp(50px, 15.5cqw, 85px); }
+}
+
 @media (max-width: 820px) {
   .abilities-head,
   .admission-bridge,
