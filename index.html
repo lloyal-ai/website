@@ -130,6 +130,9 @@
 .capability-modes {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  /* Level 3 carries the longest copy, so auto rows made the bottom half of the
+     quadrant taller than the top. Equal rows keep it a quadrant. */
+  grid-auto-rows: 1fr;
   margin-top: 0;
   border-top: 1px solid var(--line);
   border-left: 1px solid var(--line);
@@ -242,7 +245,7 @@
   .ability-contract,
   .final-start-band .section-head { grid-template-columns: 1fr; }
   .abilities-head { gap: 30px; }
-  .capability-modes { grid-template-columns: 1fr; }
+  .capability-modes { grid-template-columns: 1fr; grid-auto-rows: auto; }
   .capability-modes article,
   .capability-modes article:first-child {
     min-height: 0;
@@ -1148,8 +1151,8 @@
 <p class="section-index">03 / ABILITIES</p>
 <h2>Extend. Interact. Recurse.</h2>
 <p class="abilities-lede">Agents use Abilities to act on the world and on live inference simultaneously.</p>
-<p><strong>Abilities are inference-native.</strong> They run inside the model&rsquo;s execution rather than behind a network boundary. Everything Level 3 lists follows from that one difference, and it is why the ladder tops out there.</p>
-<p><a href="https://deepseek.com/harness/en/" target="_blank" rel="noreferrer">DeepSeek&rsquo;s Harness</a> is making the same bet: an agent assembled entirely from plugins &mdash; models, tools, sessions, scheduling, the UI &mdash; with the extension model as the architecture rather than an add-on. It defines a plugin by what it can supply. An Ability is defined by what it can see.</p>
+<p><strong>Abilities are inference-native.</strong> They run inside the model&rsquo;s execution rather than behind a network boundary, so an extension can see who called it, what that caller already knows, and what else is running &mdash; and can fork that state into new agents.</p>
+<p>An agent is assembled from Abilities rather than wired to them: each one brings its own tools, the models the harness must provision before it can be enabled, and a statement of when to reach for it. <a href="https://deepseek.com/harness/en/" target="_blank" rel="noreferrer">DeepSeek&rsquo;s Harness</a> is making a similar bet: an agent assembled entirely from plugins &mdash; models, tools, sessions, scheduling, the UI &mdash; with the extension model as the architecture rather than an add-on. It defines a plugin by what it can supply. An Ability is defined by what it can see.</p>
 <a href="https://docs.lloyal.ai/abilities" target="_blank" rel="noreferrer">How Abilities work &rarr;</a><a href="https://apps.lloyal.ai/" target="_blank" rel="noreferrer">Browse Abilities &rarr;</a>
 </div>
 <div class="capability-modes">
