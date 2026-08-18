@@ -39,7 +39,12 @@ img, svg { max-width: 100%; display: block; }
 a { color: inherit; text-decoration: none; }
 button, input, textarea { font: inherit; }
 button { color: inherit; }
-::selection { color: #080808; background: #f2f1ed; }
+/* Selection is drawn for the dark bands the page mostly is: near-white on black.
+   The cream bands invert it, because #f2f1ed on #efede6 is a three-value
+   difference per channel — a highlight you cannot see. */
+::selection { color: var(--black); background: var(--ink); }
+.band-cream ::selection,
+.band-cream::selection { color: var(--cream); background: var(--black); }
 
 .wrap { width: min(calc(100% - (var(--gutter) * 2)), var(--max)); margin-inline: auto; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
