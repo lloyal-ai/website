@@ -116,10 +116,10 @@ section[id], [id="same-harness"], [id="partner-form"] { scroll-margin-top: 76px;
 .quiet-link { display: inline-block; margin-top: 18px; color: #8d8a84; font-size: 12px; border-bottom: 1px solid transparent; }
 .quiet-link:hover { color: var(--ink); border-color: #66635e; }
 
-.trust-strip { margin-top: 46px; padding-top: 28px; border-top: 1px solid var(--line-soft); display: flex; flex-direction: column; align-items: center; gap: 18px; }
+.trust-strip { grid-column: 1 / -1; margin-top: 46px; padding-top: 28px; border-top: 1px solid var(--line-soft); display: flex; flex-direction: column; align-items: flex-start; gap: 18px; text-align: left; }
 .trust-kicker { margin: 0; color: var(--faint); font-family: var(--mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; }
-.trust-marks { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: clamp(28px, 4vw, 64px); }
-.trust-marks li { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.trust-marks { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: flex-start; align-items: flex-start; gap: clamp(28px, 4vw, 64px); }
+.trust-marks li { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
 .trust-marks a { display: flex; align-items: center; height: 69px; opacity: .92; }
 .trust-marks a:hover { opacity: 1; }
 .trust-marks img { display: block; height: auto; }
