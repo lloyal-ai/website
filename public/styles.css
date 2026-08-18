@@ -458,7 +458,11 @@ footer { padding:80px 0 32px; background:#070707; }
   body { font-size:15px; }
   .hero { padding-top:54px; }
   .trust-strip { margin-top: 34px; }
-  .trust-marks { gap: 24px; }
+  .trust-marks { flex-wrap: nowrap; gap: 20px; }
+  .trust-marks li { flex: 1 1 0; min-width: 0; }
+  .trust-marks a { height: 69px; }
+  .trust-marks img { max-width: 100%; }
+  .trust-marks span { font-size: 11px; line-height: 1.35; }
   .kicker { font-size:8px; }
   .hero-proof-label { margin-top:15px; font-size:9px; }
   .hero h1 { font-size:clamp(43px,14.6vw,70px); letter-spacing:-.075em; }
