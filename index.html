@@ -1074,8 +1074,12 @@
    baseline as the tile grid opposite. Unscoped, this placement forces a row 2
    in the single-column layout and the logos land on top of the tiles. */
 @media (min-width: 821px) {
-  .hero-copy.hero-editorial > .hero-category { grid-column: 1; grid-row: 1; }
-  .hero-copy.hero-editorial > .hero-definition { grid-column: 2; grid-row: 1 / 3; }
+  /* Both columns start on the same line. The grid centres its items, and once
+     the strip added a second row the right column spanned both and centred over
+     the taller total - so it began 32px above the left at 1920px and 54px above
+     it at 1280px, widening as the columns narrowed. */
+  .hero-copy.hero-editorial > .hero-category { grid-column: 1; grid-row: 1; align-self: start; }
+  .hero-copy.hero-editorial > .hero-definition { grid-column: 2; grid-row: 1 / 3; align-self: start; }
   .hero-copy.hero-editorial > .trust-strip { grid-column: 1; grid-row: 2; align-self: end; margin-top: 0; }
 }
 .dispatch-rail {
