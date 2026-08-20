@@ -17,10 +17,14 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; background: var(--bg); }
+/* clip, not hidden: overflow:hidden on the root makes it a scroll container and
+   kills position:sticky on the header. clip contains the same overflow without
+   creating one. */
+html { scroll-behavior: smooth; background: var(--bg); overflow-x: clip; }
 body {
   margin: 0;
   min-width: 320px;
+  overflow-x: clip;
   color: var(--ink);
   background:
     linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px),
