@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ship a local AI app in TypeScript | LLoyal Labs</title>
+    <meta name="description" content="One command scaffolds a working TypeScript application with the model, the agents, the retrieval and the runtime already inside it. Your users install nothing, subscribe to nothing, and send their data nowhere." />
+    <meta name="theme-color" content="#050505" />
+    <link rel="canonical" href="https://lloyal.ai/blog/ship-a-local-ai-app-in-typescript/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Ship a local AI app in TypeScript" />
+    <meta property="og:description" content="One command scaffolds a working TypeScript application with the model, the agents, the retrieval and the runtime already inside it. Your users install nothing, subscribe to nothing, and send their data nowhere." />
+    <meta property="og:image" content="https://lloyal.ai/blog/assets/rails-og-card.png" />
+    <meta property="og:url" content="https://lloyal.ai/blog/ship-a-local-ai-app-in-typescript/" />
+    <meta property="og:site_name" content="LLoyal Labs" />
+    <meta property="article:published_time" content="2026-08-20" />
+    <meta property="article:author" content="LLoyal Labs" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Ship a local AI app in TypeScript" />
+    <meta name="twitter:description" content="One command scaffolds a working TypeScript application with the model, the agents, the retrieval and the runtime already inside it. Your users install nothing, subscribe to nothing, and send their data nowhere." />
+    <meta name="twitter:image" content="https://lloyal.ai/blog/assets/rails-og-card.png" />
+
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link rel="stylesheet" href="/blog/assets/lloyal-docs.css" />
+  </head>
+  <body>
+    <div class="sheet" id="top">
+      <header class="mast wrap">
+        <a class="mast__brand" href="/" aria-label="Lloyal Labs home">
+          <svg class="mast__logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 64" fill="currentColor" width="45" height="24" aria-hidden="true">
+            <path d="M0 0h20v8H8v48h12v8H0V0z"/>
+            <path d="M28 8h8v40h16v8H28V8z"/>
+            <path d="M68 8h8v40h16v8H68V8z"/>
+            <path d="M100 0h20v64h-20v-8h12V8h-12V0z"/>
+          </svg>
+          <span>
+            <span class="mast__wordmark">Lloyal Labs</span>
+            <span class="mast__tagline">Engineering AI's contact with reality.</span>
+          </span>
+        </a>
+        <div class="mast__issue">
+          <span>Dispatch /<br />Getting started</span>
+          <span>August<br />2026</span>
+        </div>
+      </header>
+
+      <div class="navstrip wrap">
+        <nav aria-label="Site">
+          <a href="/#build">How it works</a>
+          <a href="/#abilities">Abilities</a>
+          <a href="/#developers">Build a harness</a>
+          <a href="/#partner">For product teams</a>
+          <a href="/blog/" aria-current="page">Blog</a>
+        </nav>
+        <a class="navstrip__back" href="/blog/">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+          All dispatches
+        </a>
+      </div>
+
+      <section class="hero wrap">
+        <p class="hero__eyebrow">Dispatch<span>August 2026</span></p>
+        <h1 class="hero__title">Ship a local AI app in TypeScript</h1>
+        <p class="hero__dek">Familiar language, native intelligence.</p>
+      </section>
+
+      <section class="thesis wrap">
+        <div>
+          <p>Local AI has mostly meant one of two things: using an application someone else built, or wiring your own stack around a local model server. What has been missing is a straightforward way to ship a cross-platform application with the intelligence <strong>inside</strong> the product — one your users can run privately, offline, and without an OpenAI or Anthropic subscription.</p>
+        </div>
+        <div class="thesis__principle">Nothing for your users to assemble. Nothing for them to subscribe to.</div>
+      </section>
+
+      <div class="shell wrap">
+        <aside class="rail" aria-label="Contents">
+          <strong class="rail__label">In this dispatch</strong>
+          <a class="rail__link" href="#one-command">One command</a>
+          <a class="rail__link" href="#inside-generation">Inside generation, not around it</a>
+          <a class="rail__link" href="#working-memory">Agents share working memory</a>
+          <a class="rail__link" href="#abilities">Give your agents new abilities</a>
+          <a class="rail__link" href="#edge-to-frontier">One application, edge to frontier</a>
+          <a class="rail__link" href="#start">Start with a working application</a>
+          <p class="rail__meta">Lloyal Labs<br />August 2026</p>
+        </aside>
+
+        <article class="post">
+          <p>Imagine shipping an app where the intelligence is native to it — model runtime, agents and retrieval all just working, the way a database driver just works. No key to paste. No second process for your users to install. No monthly bill that grows with your success.</p>
+
+          <p>The gap between that and reality is one command.</p>
+
+          <h2 id="one-command">One command</h2>
+
+          <div class="code" data-label="Terminal">
+            <pre><code><span class="f">npx</span> <span class="s">lloyal-ai</span> new</code></pre>
+          </div>
+
+          <p>You get a working TypeScript application. The guided scaffold asks you to choose three things:</p>
+
+          <ol>
+            <li>CLI, desktop and web surfaces</li>
+            <li>The recommended bundled model, your own GGUF, or one to add later</li>
+            <li>The harness template your application starts from</li>
+          </ol>
+
+          <p>It installs dependencies, fetches and digest-verifies the model, and leaves you a codebase you own and can change. Node 24+, about a minute of installs, and a ~2.7&nbsp;GB model on first run.</p>
+
+          <p>No API key. No Docker, Ollama, LangGraph or vector database.</p>
+
+          <blockquote class="pullquote">
+            <p>Just your code and the model.</p>
+          </blockquote>
+
+          <h2 id="inside-generation">Inside generation, not around it</h2>
+
+          <p>The scaffold is the smallest part of this. What makes the application different from a wrapper is where your code sits relative to the model.</p>
+
+          <p>The model&rsquo;s execution becomes application state, so ordinary TypeScript governs how the intelligence retrieves, collaborates, acts, recovers and continues <em>while it is running</em>. Your code sits inside generation rather than around it.</p>
+
+          <p>The sharpest consequence: a candidate token can be checked before it becomes state. Malformed output does not have to be caught after the fact and retried — it can be refused before it is ever part of the conversation.</p>
+
+          <h2 id="working-memory">Agents share working memory</h2>
+
+          <p>When your application delegates work, new agents fork from the model&rsquo;s live state. They do not receive reconstructed prompts, or separate copies of what the calling agent already knows. Their inherited working memory stays physically shared while each agent develops its own continuation, and active agents advance together in one model dispatch per step.</p>
+
+          <p>Your application decides when agents split up, delegate and come back together. The number changes as the work unfolds.</p>
+
+          <p>In one run on a 16&nbsp;GB MacBook, the application fanned out to eight agents over the same resident model. In <a href="/blog/shifting-the-harness-left/">the published frontier run</a>, it fanned out to ten agents over a 239&nbsp;GB open-weight model — GLM-5.2 at a 2-bit quant, on two B200s. Those are points reached during execution, not fixed configurations.</p>
+
+          <p>As RunPod CEO Zhen Lu put it:</p>
+
+          <blockquote class="pullquote">
+            <p>Cost scales with the size of the cache, not the number of agents.</p>
+          </blockquote>
+
+          <p>That session cost $16 in total — not per agent — and its traces, configuration and annexes are published. If you want the mechanism rather than the result, <a href="/blog/working-memory-into-agents/">how working memory becomes agents on the GPU</a> walks it down to the attention mask.</p>
+
+          <h2 id="abilities">Give your agents new abilities</h2>
+
+          <p>Install an Ability and the agents in your application gain new tools, sources, skills and supporting models. Install the Web Research Ability and they gain web search, page retrieval, reranking, and the procedure for using them together.</p>
+
+          <p>With it, five researchers can divide an investigation, each inheriting the exact state that produced its assignment. Because an Ability runs inside the harness — seeing the calling agent, its live state and its lineage, rather than the arguments an MCP server receives across a process boundary — it knows which agent is asking and what its siblings have already covered. They do not keep retrieving the same pages.</p>
+
+          <p>You can publish your own. <code>npx lloyal-ai ability:new</code> scaffolds one: a manifest, working tools, a skill template, and a live source you can wire to your own data or an external system. Abilities are signed npm tarballs distributed through a verified channel, and everything listed is reviewed for contract conformance, tool safety and signature provenance before publication.</p>
+
+          <p>Each one also publishes an <strong>attention surface</strong> — derived from the package at publication, signed, and inspectable without executing its code. You can read what an Ability puts in your model&rsquo;s context before you install it.</p>
+
+          <h2 id="edge-to-frontier">One application, edge to frontier</h2>
+
+          <p>The same harness runs:</p>
+
+          <ul>
+            <li>offline as a single binary on a user&rsquo;s device</li>
+            <li>privately as a service on your own hardware</li>
+            <li>online as a multi-session web application on frontier compute</li>
+          </ul>
+
+          <p>Features and UX stay identical. Only the intelligence scales with the model and hardware you give it. That is not a coincidence of design — it is the same shape that carried Rails for two decades, and <a href="/blog/you-already-know-this-architecture/">you already know this architecture</a>.</p>
+
+          <h2 id="start">Start with a working application</h2>
+
+          <p>Two applications built this way, running now:</p>
+
+          <ul>
+            <li><a href="https://apps.lloyal.ai/#/ability/Artifact" target="_blank" rel="noreferrer">Artifact</a> — the reference application</li>
+            <li><a href="https://reasoning.run/" target="_blank" rel="noreferrer">reasoning.run</a> — an open source research tool that decomposes a question, researches it in parallel and writes one cited report</li>
+          </ul>
+
+          <div class="code" data-label="Terminal">
+            <pre><code><span class="f">npx</span> <span class="s">lloyal-ai</span> new</code></pre>
+          </div>
+
+          <p>Start with a working application. Ship it as your own.</p>
+
+          <hr class="post-rule" />
+
+          <div class="post-coda">
+            <p><em>The <a href="https://www.npmjs.com/package/lloyal-ai" target="_blank" rel="noreferrer">lloyal-ai</a> CLI is MIT and the scaffolder is Apache 2.0; the HDK runtime and SDK are <a href="https://docs.lloyal.ai/licensing" target="_blank" rel="noreferrer">Fair Source</a> under FSL-1.1-Apache-2.0, converting to Apache 2.0 two years after each release. The docs are at <a href="https://docs.lloyal.ai" target="_blank" rel="noreferrer">docs.lloyal.ai</a>, the code at <a href="https://github.com/lloyal-ai" target="_blank" rel="noreferrer">github.com/lloyal-ai</a>.</em></p>
+          </div>
+</article>
+      </div>
+
+      <footer class="colophon wrap">
+        <div class="colophon__grid">
+          <div>
+            <span class="colophon__mark" aria-label="Lloyal Labs">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 136 136" aria-hidden="true">
+                <rect width="136" height="136" fill="#050505"/>
+                <g transform="translate(8, 36)" fill="#fff">
+                  <path d="M0 0h20v8H8v48h12v8H0V0z"/>
+                  <path d="M28 8h8v40h16v8H28V8z"/>
+                  <path d="M68 8h8v40h16v8H68V8z"/>
+                  <path d="M100 0h20v64h-20v-8h12V8h-12V0z"/>
+                </g>
+              </svg>
+            </span>
+            <p class="colophon__label">Subscribe for product updates</p>
+            <form class="colophon__form" onsubmit="return false;">
+              <input type="email" placeholder="Enter your email" aria-label="Enter your email" />
+              <button type="submit" aria-label="Subscribe">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+              </button>
+            </form>
+          </div>
+
+          <div class="colophon__cols">
+            <div>
+              <h2>Engineering</h2>
+              <ul>
+                <li><a href="https://hdk.lloyal.ai">HDK</a></li>
+                <li><a href="https://reasoning.run">reasoning.run</a></li>
+                <li><a href="https://lloyal-ai.github.io/lloyal.node/" target="_blank" rel="noreferrer">lloyal.node</a></li>
+                <li><a href="https://lloyal-ai.github.io/liblloyal/" target="_blank" rel="noreferrer">liblloyal</a></li>
+                <li><a href="https://www.npmjs.com/package/@lloyal-labs/tsampler" target="_blank" rel="noreferrer">TSampler</a></li>
+              </ul>
+            </div>
+            <div>
+              <h2>Resources</h2>
+              <ul>
+                <li><a href="https://docs.lloyal.ai" target="_blank" rel="noreferrer">Documentation</a></li>
+                <li><a href="/blog/">Blog</a></li>
+                <li><a href="/#partner">For product teams</a></li>
+              </ul>
+            </div>
+            <div>
+              <h2>Community</h2>
+              <ul>
+                <li><a href="https://github.com/lloyal-ai/" target="_blank" rel="noreferrer">GitHub</a></li>
+                <li><a href="https://www.npmjs.com/org/lloyal-labs" target="_blank" rel="noreferrer">npm</a></li>
+              </ul>
+            </div>
+            <div>
+              <h2>Contact</h2>
+              <ul>
+                <li><a href="mailto:research@lloyal.ai">Get in touch</a></li>
+                <li><span>Melbourne, AU</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="colophon__strip">
+          <span>Enable every organisation to deliver intelligence on its terms.</span>
+          <span>Lloyal Labs · Melbourne</span>
+          <span>&copy; 2026 LLoyal AI</span>
+        </div>
+      </footer>
+    </div>
+
+    <a class="totop" href="#top" aria-label="Back to top">&uarr;</a>
+    <script src="/blog/assets/lloyal-docs.js" defer></script>
+  </body>
+</html>
