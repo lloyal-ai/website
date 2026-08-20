@@ -1080,6 +1080,10 @@
      it at 1280px, widening as the columns narrowed. */
   .hero-copy.hero-editorial > .hero-category { grid-column: 1; grid-row: 1; align-self: start; }
   .hero-copy.hero-editorial > .hero-definition { grid-column: 2; grid-row: 1 / 3; align-self: start; }
+  /* The column used to open on an h2 with no top margin; it now opens on a
+     paragraph that has 22px of one, which put its first line below the eyebrow
+     opposite. */
+  .hero-copy.hero-editorial > .hero-definition > p:first-child { margin-top: 0; }
   .hero-copy.hero-editorial > .trust-strip { grid-column: 1; grid-row: 2; align-self: end; margin-top: 0; }
 }
 .dispatch-rail {
@@ -1177,8 +1181,7 @@
 <p class="hero-category-dek">System intelligence beyond the model.</p>
 </div>
 <div class="hero-definition">
-<h2>The application, model runtime and live inference state become one programmable system.</h2>
-<p><strong>Vertical Inference</strong> is an application architecture in which model execution becomes resident application state. Ordinary code governs how intelligence retrieves, reasons, acts and continues while it is underway.</p>
+<p><strong>Vertical Inference</strong> is an architecture in which the application, the model runtime and live inference state become one programmable system. Ordinary code governs how intelligence retrieves, reasons, acts and continues while it is underway.</p>
 <p>Lloyal is the platform for building and deploying this architecture—from local applications to frontier compute.</p>
 <div class="hero-actions">
 <a class="button button-light" href="https://docs.lloyal.ai/build-your-first-harness/">Build your first harness</a>
