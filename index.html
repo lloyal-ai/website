@@ -1065,6 +1065,19 @@
    min-width:0 on the scroller alone is not enough if an ancestor can still size
    to content. */
 .hero-definition { min-width: 0; }
+/* The grid centres its columns, which left the left one short and the logos
+   stranded in a band below the hero. Stretching it and pushing the strip down
+   puts them on the same baseline as the tile grid opposite. */
+/* Two columns only. The strip is the grid's last child so a stacked layout puts
+   it last by source order; above the breakpoint it is placed into the left
+   column's second row and pushed to the bottom, which lands it on the same
+   baseline as the tile grid opposite. Unscoped, this placement forces a row 2
+   in the single-column layout and the logos land on top of the tiles. */
+@media (min-width: 821px) {
+  .hero-copy.hero-editorial > .hero-category { grid-column: 1; grid-row: 1; }
+  .hero-copy.hero-editorial > .hero-definition { grid-column: 2; grid-row: 1 / 3; }
+  .hero-copy.hero-editorial > .trust-strip { grid-column: 1; grid-row: 2; align-self: end; margin-top: 0; }
+}
 .dispatch-rail {
   min-width: 0;
   margin-top: 40px;
@@ -1117,19 +1130,6 @@
   font-size: 9px;
   letter-spacing: .14em;
   text-transform: uppercase;
-}
-/* Its own band now, so the tiles can have the hero's foot. */
-.trust-band {
-  padding-block: clamp(30px, 3vw, 44px);
-  border-bottom: 1px solid var(--line-soft);
-  background: rgba(8,8,8,.78);
-}
-.trust-band .trust-strip {
-  width: min(calc(100% - (var(--gutter) * 2)), var(--max));
-  margin-inline: auto;
-  margin-top: 0;
-  padding-top: 0;
-  border-top: 0;
 }
 @media (max-width: 820px) {
   .dispatch-rail { margin-top: 32px; padding-top: 22px; }
@@ -1208,15 +1208,13 @@
 
 </div>
 </div>
-</div>
-</section>
-<section class="trust-band">
 <div aria-label="Recognition" class="trust-strip">
 <p class="trust-kicker">Recognised by</p>
 <ul class="trust-marks">
 <li><a href="https://www.nvidia.com/en-us/startups/" rel="noreferrer" target="_blank"><img alt="NVIDIA Inception Program member badge" height="69" src="/assets/nvidia-inception-program-badge.svg" width="160"/></a><span>NVIDIA Inception program member</span></li>
 <li><a href="https://www.linkedin.com/posts/zeen_ten-ai-agents-shared-a-single-239-gb-model-activity-7486095326706257921-613r" rel="noreferrer" target="_blank"><img alt="RunPod" height="32" src="/assets/runpod-logo-white.svg" width="141"/></a><span>Endorsed publicly by RunPod's CEO</span></li>
 </ul>
+</div>
 </div>
 </section>
 <section class="code-section section band-cream" id="build">
