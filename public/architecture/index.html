@@ -3,100 +3,31 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<meta content="Model execution becomes resident application state. Ordinary TypeScript governs how intelligence reasons, acts and continues — laptop to frontier compute." name="description"/>
+<meta content="The full Vertical Inference architecture: one harness in ordinary TypeScript governing live inference and every product surface, from a 4B model on a laptop to GLM-5.2 on frontier compute." name="description"/>
 <meta content="#080808" name="theme-color"/>
-<link href="https://lloyal.ai/" rel="canonical"/>
+<link href="https://lloyal.ai/architecture/" rel="canonical"/>
 
 <meta content="website" property="og:type"/>
-<meta content="Ordinary code governs the model while it runs." property="og:title"/>
-<meta content="Model execution becomes resident application state. Ordinary TypeScript governs how intelligence reasons, acts and continues — laptop to frontier compute." property="og:description"/>
+<meta content="LLoyal Labs — The Architecture" property="og:title"/>
+<meta content="The full Vertical Inference architecture: one harness in ordinary TypeScript governing live inference and every product surface, from a 4B model on a laptop to GLM-5.2 on frontier compute." property="og:description"/>
 <meta content="https://lloyal.ai/assets/home-og.png" property="og:image"/>
 <meta content="1200" property="og:image:width"/>
 <meta content="630" property="og:image:height"/>
 <meta content="image/png" property="og:image:type"/>
 <meta content="Vertical Inference — system intelligence beyond the model. Lloyal Labs." property="og:image:alt"/>
-<meta content="https://lloyal.ai/" property="og:url"/>
+<meta content="https://lloyal.ai/architecture/" property="og:url"/>
 <meta content="LLoyal Labs" property="og:site_name"/>
 <meta content="en_AU" property="og:locale"/>
 
 <meta content="summary_large_image" name="twitter:card"/>
-<meta content="Ordinary code governs the model while it runs." name="twitter:title"/>
-<meta content="Model execution becomes resident application state. Ordinary TypeScript governs how intelligence reasons, acts and continues — laptop to frontier compute." name="twitter:description"/>
+<meta content="LLoyal Labs — The Architecture" name="twitter:title"/>
+<meta content="The full Vertical Inference architecture: one harness in ordinary TypeScript governing live inference and every product surface, from a 4B model on a laptop to GLM-5.2 on frontier compute." name="twitter:description"/>
 <meta content="https://lloyal.ai/assets/home-og.png" name="twitter:image"/>
 <meta content="Vertical Inference — system intelligence beyond the model. Lloyal Labs." name="twitter:image:alt"/>
-<title>LLoyal Labs — Vertical Inference</title>
+<title>LLoyal Labs — The Architecture</title>
 <link href="/styles.css" rel="stylesheet"/>
 <link rel="icon" href="/favicon.png"/>
 
-<style>
-/* Vertical Inference category hero */
-.hero-copy.hero-editorial {
-  display: grid;
-  grid-template-columns: minmax(0, .82fr) minmax(420px, 1fr);
-  gap: clamp(56px, 8vw, 138px);
-  align-items: center;
-  max-width: 1480px;
-  padding-top: 0;
-  text-align: left;
-}
-.hero-category .kicker { margin-bottom: clamp(28px, 4vw, 58px); }
-.hero .hero-category h1 {
-  max-width: none;
-  margin: 0;
-  font-size: clamp(76px, 9.2vw, 148px);
-  line-height: .82;
-  letter-spacing: -.075em;
-  text-wrap: initial;
-}
-.hero-category-dek {
-  margin: clamp(26px, 3vw, 42px) 0 0;
-  color: #aaa7a1;
-  font-size: clamp(21px, 1.75vw, 29px);
-  line-height: 1.2;
-  letter-spacing: -.035em;
-}
-.hero-definition {
-  padding: 0;
-}
-.hero-definition h2 {
-  max-width: 760px;
-  margin: 0;
-  color: var(--ink);
-  font-size: clamp(32px, 3.25vw, 52px);
-  font-weight: 620;
-  line-height: 1.02;
-  letter-spacing: -.055em;
-}
-.hero-definition > p {
-  max-width: 710px;
-  margin: 22px 0 0;
-  color: var(--muted);
-  font-size: clamp(15px, 1.15vw, 18px);
-  line-height: 1.58;
-}
-.hero-definition > p + p { margin-top: 12px; }
-.hero-definition strong { color: var(--ink); font-weight: 620; }
-.hero-definition .hero-actions { justify-content: flex-start; margin-top: 30px; }
-.hero-definition .quiet-link { margin-top: 18px; }
-.partner-band .hero-proof { margin-top: clamp(58px, 6vw, 98px); margin-bottom: 44px; }
-
-@media (max-width: 980px) {
-  .hero-copy.hero-editorial {
-    grid-template-columns: 1fr;
-    gap: 60px;
-    align-items: start;
-  }
-  .hero .hero-category h1 { font-size: clamp(78px, 16vw, 132px); }
-  .hero-definition { max-width: 760px; }
-        }
-@media (max-width: 560px) {
-  .hero-copy.hero-editorial { padding-top: 36px; gap: 46px; }
-  .hero .hero-category h1 { font-size: clamp(66px, 22vw, 102px); }
-  .hero-category-dek { max-width: 300px; }
-  .hero-definition h2 { font-size: clamp(32px, 9.7vw, 46px); }
-  .hero-definition .hero-actions { display: grid; }
-        }
-</style>
 <style>
 /* Abilities access ladder and final conversion */
 
@@ -360,78 +291,6 @@
   .hero { padding-top: 54px; padding-bottom: 64px; }
   .capability-modes h3 { font-size: 42px; }
   .capability-modes p { margin-top: 24px; }
-}
-</style>
-<style>
-/* Compact self-service exit before the product-team close */
-.developer-entry {
-  color: #111;
-  background: #ded9cf;
-  border-bottom: 1px solid #bdb7ab;
-}
-.developer-entry-inner {
-  display: grid;
-  grid-template-columns: minmax(260px, 1fr) minmax(320px, 480px) auto;
-  gap: clamp(28px, 4vw, 64px);
-  align-items: center;
-  min-height: 156px;
-  padding-block: 30px;
-}
-.developer-entry span {
-  color: #6d6962;
-  font-family: var(--mono);
-  font-size: 9px;
-  letter-spacing: .17em;
-}
-.developer-entry p {
-  max-width: 490px;
-  margin: 12px 0 0;
-  color: #56524c;
-  font-size: 15px;
-  line-height: 1.45;
-}
-.developer-command {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 19px 22px;
-  color: #f0eee8;
-  background: #090909;
-  font-family: var(--mono);
-  font-size: clamp(14px, 1.2vw, 18px);
-  white-space: nowrap;
-}
-.developer-command b { color: #77736c; font-weight: 400; }
-.developer-entry a {
-  color: #171717;
-  font-size: 13px;
-  font-weight: 620;
-  padding-bottom: 5px;
-  border-bottom: 1px solid #8e897f;
-  white-space: nowrap;
-}
-.developer-entry a:hover { border-color: #111; }
-
-@media (max-width: 980px) {
-  .developer-entry-inner {
-    grid-template-columns: 1fr auto;
-  }
-  .developer-command { grid-column: 1; }
-  .developer-entry a { grid-column: 2; grid-row: 2; }
-}
-@media (max-width: 680px) {
-  .developer-entry-inner {
-    grid-template-columns: 1fr;
-    gap: 22px;
-    padding-block: 34px;
-  }
-  .developer-command,
-  .developer-entry a {
-    grid-column: 1;
-    grid-row: auto;
-  }
-  .developer-command { white-space: normal; }
-  .developer-entry a { justify-self: start; }
 }
 </style>
 <style>
@@ -1023,299 +882,225 @@
 }
 </style>
 <style>
-.build-command { overflow-x: auto; }
-.build-command code {
-  white-space: nowrap;
-  overflow-wrap: normal;
-  word-break: normal;
-  font-size: clamp(16px, 1.35vw, 22px);
+/* ---- /architecture/ ----------------------------------------------------
+   The deep material from the homepage, given room. Band alternation stays in
+   phase with home: dark hero, cream graph, dark proof, cream essay, dark close.
+   ---- */
+.page-hero { border-bottom: 1px solid var(--line-soft); }
+.page-hero-copy { max-width: 1180px; }
+.page-hero h1 {
+  margin: clamp(22px, 2.6vw, 38px) 0 0;
+  max-width: 16ch;
+  font-size: clamp(52px, 6.6vw, 108px);
+  font-weight: 700;
+  line-height: .88;
+  letter-spacing: -.068em;
+  text-wrap: balance;
 }
+.page-hero-dek {
+  max-width: 780px;
+  margin: clamp(26px, 3vw, 42px) 0 0;
+  color: var(--muted);
+  font-size: clamp(16px, 1.3vw, 20px);
+  line-height: 1.55;
+}
+.arch-head { max-width: 900px; }
+.arch-head h2 { margin-top: 20px; }
+.arch-head > p:not(.section-index) { max-width: 700px; }
+/* The graph carries its MVC braces in a left gutter (a negative margin against
+   the homepage's two-column grid). Here it has a column of its own, so the
+   gutter is paid for with padding instead. */
+.arch-graph {
+  max-width: 720px;
+  margin: clamp(48px, 5vw, 76px) auto 0;
+  padding-left: 110px;
+}
+.arch-graph .code-kicker { margin-left: -110px; }
+@media (max-width: 1100px) {
+  .arch-graph { max-width: 660px; padding-left: 0; }
+  .arch-graph .code-kicker { margin-left: 0; }
+}
+/* .proof-caption hangs 34px below the frame; give it the room. */
+.arch-proof.hero-proof { margin-top: clamp(48px, 5vw, 76px); margin-bottom: 44px; }
+.arch-essay p { max-width: 760px; }
+.arch-essay > a {
+  display: inline-block;
+  margin-top: 28px;
+  padding-bottom: 5px;
+  font-size: 13px;
+}
+.band-cream .arch-essay > a { color: #181715; border-bottom: 1px solid #aaa49a; }
+.band-cream .arch-essay > a:hover { color: #000; border-color: #000; }
+.arch-essay p a { color: inherit; border-bottom: 1px solid currentColor; }
+.band-cream .arch-essay p a:hover { color: #000; }
+.arch-close { text-align: left; }
+.arch-close .hero-actions { justify-content: flex-start; margin-top: 26px; }
 @media (max-width: 560px) {
-  .build-command {
-    grid-template-columns: max-content 1fr auto;
-  }
-  .build-command button {
-    grid-column: auto;
-  }
+  .arch-close .hero-actions { display: grid; }
 }
-
-/* Below ~430px the command and the button cannot share a line: the button ends
-   up 25px past the block's edge, reachable only by scrolling a black bar
-   sideways. An earlier rule gave it its own row; making the command scrollable
-   overrode that. Restore it where it is actually needed — the prompt and
-   command still scroll on the first row. */
-@media (max-width: 420px) {
-  .build-command {
-    grid-template-columns: max-content 1fr;
-    row-gap: 14px;
-  }
-  .build-command button {
-    grid-column: 1 / -1;
-    justify-self: start;
-  }
-}
-
-/* Dispatch tiles, in the hero's right column under the calls to action.
-   A 2x2 grid there rather than a full-width strip: the strip read as a detached
-   band with dead space above it, and the right column had room going spare.
-   Below 820px the column is the page, so the grid becomes a horizontal scroller
-   — one row, thumb-driven, with the next tile peeking so the affordance is
-   visible without a scrollbar. */
-/* The column that holds the rail is itself a grid item, so it needs this too —
-   min-width:0 on the scroller alone is not enough if an ancestor can still size
-   to content. */
-.hero-definition { min-width: 0; }
-/* The grid centres its columns, which left the left one short and the logos
-   stranded in a band below the hero. Stretching it and pushing the strip down
-   puts them on the same baseline as the tile grid opposite. */
-/* Two columns only. The strip is the grid's last child so a stacked layout puts
-   it last by source order; above the breakpoint it is placed into the left
-   column's second row and pushed to the bottom, which lands it on the same
-   baseline as the tile grid opposite. Unscoped, this placement forces a row 2
-   in the single-column layout and the logos land on top of the tiles. */
-@media (min-width: 821px) {
-  /* Both columns start on the same line. The grid centres its items, and once
-     the strip added a second row the right column spanned both and centred over
-     the taller total - so it began 32px above the left at 1920px and 54px above
-     it at 1280px, widening as the columns narrowed. */
-  .hero-copy.hero-editorial > .hero-category { grid-column: 1; grid-row: 1; align-self: start; }
-  .hero-copy.hero-editorial > .hero-definition { grid-column: 2; grid-row: 1 / 3; align-self: start; }
-  /* The column used to open on an h2 with no top margin; it now opens on a
-     paragraph that has 22px of one, which put its first line below the eyebrow
-     opposite. */
-  .hero-copy.hero-editorial > .hero-definition > p:first-child { margin-top: 0; }
-  .hero-copy.hero-editorial > .trust-strip { grid-column: 1; grid-row: 2; align-self: end; margin-top: 0; }
-}
-.dispatch-rail {
-  min-width: 0;
-  margin-top: 40px;
-  padding-top: 26px;
-  border-top: 1px solid var(--line-soft);
-}
-.dispatch-rail__kicker {
-  margin: 0 0 14px;
-  color: var(--faint);
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-}
-.dispatch-tiles {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-  min-width: 0;
-}
-.dispatch-tile {
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-  min-width: 0;
-  padding: 15px 17px 16px;
-  border: 1px solid var(--line-soft);
-  background: rgba(255,255,255,.02);
-  text-decoration: none;
-  transition: background .18s ease, border-color .18s ease;
-}
-.dispatch-tile:hover { background: rgba(255,255,255,.055); border-color: #444; }
-.dispatch-tile__lead {
-  color: var(--ink);
-  font-size: 16px;
-  line-height: 1.18;
-  letter-spacing: -.022em;
-  font-weight: 600;
-}
-.dispatch-tile__body {
-  color: #8d8a84;
-  font-size: 12.5px;
-  line-height: 1.42;
-}
-.dispatch-tile__meta {
-  margin-top: auto;
-  padding-top: 9px;
-  color: var(--faint);
-  font-family: var(--mono);
-  font-size: 9px;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-}
-@media (max-width: 820px) {
-  .dispatch-rail { margin-top: 32px; padding-top: 22px; }
-  .dispatch-tiles {
-    display: flex;
-    gap: 12px;
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-    scroll-snap-type: x proximity;
-    scrollbar-width: none;
-    padding-bottom: 2px;
-  }
-  .dispatch-tiles::-webkit-scrollbar { display: none; }
-  .dispatch-tile { flex: 0 0 min(74vw, 260px); scroll-snap-align: start; }
-}
-</style>
-<style>
-/* Section 01 now carries only the controller card; the full graph lives on
-   /architecture/. With no annotation braces the figure needs no gutter. */
-.controller-graph--card { grid-template-columns: minmax(0, 1fr); }
-.controller-graph--card > .code-card { grid-column: 1; }
-.code-side__more { margin-top: 20px; }
-.dispatch-rail__all { margin-top: 14px; }
-/* .quiet-link is drawn for the dark band; on cream it takes the same
-   correction the band already makes for the other inline links. */
-.band-cream .quiet-link { color: #625e57; }
-.band-cream .quiet-link:hover { color: #000; border-color: #000; }
 </style>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-header" data-header="">
 <div class="wrap header-inner">
-<a aria-label="LLoyal Labs home" class="wordmark" href="#top">
+<a aria-label="LLoyal Labs home" class="wordmark" href="/">
 <strong>LLoyal</strong><span>Labs</span>
 </a>
 <p class="brand-line">Engineering AI's contact with reality.</p>
-<nav aria-label="Primary" class="desktop-nav"><a href="#build">How it works</a><a class="header-cta" href="#developers">Build</a><a href="#abilities">Abilities</a><a href="#partner">Get in touch</a><a href="/blog/">Blog</a></nav>
+<nav aria-label="Primary" class="desktop-nav"><a href="/#build">How it works</a><a class="header-cta" href="/#developers">Build</a><a href="/#abilities">Abilities</a><a href="/#partner">Get in touch</a><a href="/blog/">Blog</a></nav>
 <nav aria-label="Resources" class="desktop-nav utility-nav"><a href="https://docs.lloyal.ai/" rel="noreferrer" target="_blank">Docs ↗</a><a href="https://github.com/lloyal-ai/lloyal-ai" rel="noreferrer" target="_blank">GitHub ↗</a></nav>
 <button aria-controls="mobile-nav" aria-expanded="false" class="menu-button" data-menu-button="" type="button">
 <span></span><span></span><span class="sr-only">Open menu</span>
 </button>
 </div>
-<nav class="mobile-nav" data-mobile-nav="" hidden="" id="mobile-nav"><a href="#build">How it works</a><a href="#developers">Build</a><a href="#abilities">Abilities</a><a href="#partner">Get in touch</a><a href="/blog/">Blog</a><a href="https://docs.lloyal.ai/" rel="noreferrer" target="_blank">Docs ↗</a><a href="https://github.com/lloyal-ai/lloyal-ai" rel="noreferrer" target="_blank">GitHub ↗</a></nav>
+<nav class="mobile-nav" data-mobile-nav="" hidden="" id="mobile-nav"><a href="/#build">How it works</a><a href="/#developers">Build</a><a href="/#abilities">Abilities</a><a href="/#partner">Get in touch</a><a href="/blog/">Blog</a><a href="https://docs.lloyal.ai/" rel="noreferrer" target="_blank">Docs ↗</a><a href="https://github.com/lloyal-ai/lloyal-ai" rel="noreferrer" target="_blank">GitHub ↗</a></nav>
 </header>
 <main id="main">
-<section class="hero" id="top">
-<div class="wrap hero-copy hero-editorial reveal">
-<div class="hero-category">
-<p class="kicker">Category / Application Architecture</p>
-<h1>Vertical<br/>Inference</h1>
-<p class="hero-category-dek">System intelligence beyond the model.</p>
-</div>
-<div class="hero-definition">
-<p><strong>Vertical Inference</strong> is an architecture in which the application, the model runtime and live inference state become one programmable system. Ordinary code governs how intelligence retrieves, reasons, acts and continues while it is underway.</p>
-<p>Lloyal is the platform for building and deploying this architecture—from local applications to frontier compute.</p>
-<div class="hero-actions">
-<a class="button button-light" href="https://docs.lloyal.ai/build-your-first-harness/">Build your first harness</a>
-<a class="button button-line" href="/architecture/">Explore the architecture</a>
-</div>
-<a class="quiet-link" href="https://github.com/lloyal-ai/reasoning-run" rel="noreferrer" target="_blank">Inspect a working TypeScript application <span>↗</span></a>
-<div aria-label="Dispatches" class="dispatch-rail">
-<p class="dispatch-rail__kicker">From the engineering blog</p>
-<div class="dispatch-tiles">
-<a class="dispatch-tile" href="/blog/ship-a-local-ai-app-in-typescript/">
-<span class="dispatch-tile__lead">Ship local AI apps in TypeScript</span>
-<span class="dispatch-tile__body">One command scaffolds a working app with the model, agents, retrieval and runtime already inside it.</span>
-<span class="dispatch-tile__meta">Dispatch &middot; August 2026</span>
-</a>
-<a class="dispatch-tile" href="/blog/working-memory-into-agents/">
-<span class="dispatch-tile__lead">Agents that share memory on the GPU</span>
-<span class="dispatch-tile__body">Down to the attention mask: how a fork becomes an owner bit per cell, and a cohort becomes one batched decode.</span>
-<span class="dispatch-tile__meta">Dispatch &middot; August 2026</span>
-</a>
-</div>
-<a class="quiet-link dispatch-rail__all" href="/blog/">All dispatches <span>&rarr;</span></a>
-</div>
-</div>
-<div aria-label="Recognition" class="trust-strip">
-<p class="trust-kicker">Recognised by</p>
-<ul class="trust-marks">
-<li><a href="https://www.nvidia.com/en-us/startups/" rel="noreferrer" target="_blank"><img alt="NVIDIA Inception Program member badge" height="69" src="/assets/nvidia-inception-program-badge.svg" width="160"/></a><span>NVIDIA Inception program member</span></li>
-<li><a href="https://www.linkedin.com/posts/zeen_ten-ai-agents-shared-a-single-239-gb-model-activity-7486095326706257921-613r" rel="noreferrer" target="_blank"><img alt="RunPod" height="32" src="/assets/runpod-logo-white.svg" width="141"/></a><span>Endorsed publicly by RunPod's CEO</span></li>
-</ul>
-</div>
+<section class="hero page-hero" id="top">
+<div class="wrap page-hero-copy reveal">
+<p class="kicker">Vertical Inference / The full architecture</p>
+<h1>One programmable system, end to end.</h1>
+<p class="page-hero-dek">For two decades the Model in MVC was inert—rows in a database, waiting to be queried. Put a live language model in that slot and every other part holds: product surfaces are still the Views, and the harness is the Controller, ordinary TypeScript deciding how the application's intelligence collaborates, acts, recovers and continues. What changes is that this Model thinks, and it keeps thinking while your code governs it—the same code whether it runs a 4B model on a laptop or GLM-5.2 across a cluster of B200s.</p>
 </div>
 </section>
-<section class="code-section section band-cream" id="build">
-<div class="wrap code-grid">
-<div class="code-copy reveal">
-<p class="section-index">01 / THE HARNESS</p>
-<h2>The Model in MVC now thinks.</h2>
-<p>For two decades the Model in MVC was inert—rows in a database, waiting to be queried. Put a live language model in that slot and every other part holds: product surfaces are still the Views, and the harness is the Controller, ordinary TypeScript deciding how the application's intelligence collaborates, acts, recovers and continues. What changes is that this Model thinks, and it keeps thinking while your code governs it—the same code whether it runs a 4B model on a laptop or GLM-5.2 across a cluster of B200s.</p>
-<div aria-label="Views, controller, model — how the pieces stack" class="mvc-ladder">
-<div class="mvc-row"><span class="mvc-role">Views</span><div class="mvc-what"><strong>CLI · Desktop · Web · <span class="soon">Mobile</span></strong><small>product surfaces · execution environments</small></div></div>
-<div aria-hidden="true" class="mvc-arrow">↓</div>
-<div class="mvc-row"><span class="mvc-role">Controller</span><div class="mvc-what"><strong>Your harness</strong><small>typescript · policy · capabilities · control flow</small></div></div>
-<div aria-hidden="true" class="mvc-arrow">↓</div>
-<div class="mvc-row"><span class="mvc-role">Model</span><div class="mvc-what"><strong>Resident LLM</strong><small>shared context · live branches · generative state</small></div></div>
+<section class="section band-cream" id="controller-graph">
+<div class="wrap">
+<div class="arch-head code-copy reveal">
+<p class="section-index">01 / THE CONTROLLER GRAPH</p>
+<h2>One controller. One resident model. Every surface.</h2>
+<p>The harness sits between live inference and the product. Below it, one model holds one context that forks into as many agents as the work needs. Above it, the events it commits drive whichever surface the user is on.</p>
 </div>
-<p class="code-tagline"><strong>The model supplies the intelligence. The harness supplies the institution.</strong></p>
-<div class="inline-links"><a href="https://github.com/lloyal-ai/reasoning-run" rel="noreferrer" target="_blank">Inspect the flagship application ↗</a><a href="https://docs.lloyal.ai/" rel="noreferrer" target="_blank">Read the HDK docs ↗</a></div></div>
-<div class="code-side reveal">
+<div class="arch-graph reveal">
 <p class="code-kicker">Program the behaviour once — regardless of product surface or compute:</p>
-<figure class="controller-graph controller-graph--card" aria-label="The harness controller, in ordinary TypeScript">
+<figure class="controller-graph" aria-label="One harness serving four product surfaces over one resident model">
+<div class="cg-ann"><span>model</span><i class="cg-brace"></i></div>
+<div class="graph-tier graph-inference">
+<span class="tier-label">Live inference</span>
+<div class="kv" aria-hidden="true">
+<div class="kv-grid">
+<div class="kvt"><i class="tc"><u></u></i><i class="tc"><u></u></i><i class="tc"><u></u></i><i class="tc"><u></u></i><i class="tc"><u></u></i><i class="tc"><u></u></i></div>
+<span class="kv-fork"><em>fork_head</em></span>
+<span class="kv-note">one forward pass per tick, any number of agents</span>
+<span class="kv-tag kv-tag--a">inspectTelemetry</span>
+<div class="kvb kvb--a"><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i></div>
+<span class="kv-tag kv-tag--b">searchServiceHistory</span>
+<div class="kvb kvb--b"><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i></div>
+<span class="kv-tag kv-tag--c">reviewTechnicalManuals</span>
+<div class="kvb kvb--c"><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i><i class="bc"></i></div>
+</div>
+<div class="kv-press">
+<span>cells_used_</span>
+<div class="pbar"><i class="pfill"></i><b class="psoft" data-floor="soft"></b><b class="phard" data-floor="hard"></b></div>
+</div>
+</div>
+</div>
+<div class="graph-link" aria-hidden="true"><span>one resident model</span></div>
+<div class="cg-ann"><span>controller</span><i class="cg-brace"></i></div>
 <div aria-label="Illustrative TypeScript harness code" class="code-card">
 <div class="code-head"><span>incident-harness.ts</span><em>TypeScript + Effection</em></div>
 <pre><code><span class="ln"><span class="kw">export function*</span> incidentHarness(incident) {</span><span class="ln ln--fire f1">  <span class="kw">const</span> pool = <span class="kw">yield*</span> agentPool({</span><span class="ln">    orchestrate: parallel([</span><span class="ln ln--task t1">      inspectTelemetry(incident),</span><span class="ln ln--task t2">      searchServiceHistory(incident),</span><span class="ln ln--task t3">      reviewTechnicalManuals(incident),</span><span class="ln">    ]),</span><span class="ln">  });</span><span class="ln ln--gap"></span><span class="ln">  <span class="kw">const</span> evidence = pool.agents.map((a) =&gt; a.result);</span><span class="ln ln--fire f2">  <span class="kw">const</span> assessment = <span class="kw">yield*</span> reconcile(evidence);</span><span class="ln ln--gap"></span><span class="ln">  <span class="kw">if</span> (assessment.requiresApproval) {</span><span class="ln ln--fire f3">    <span class="kw">return yield*</span> requestOperatorDecision(assessment);</span><span class="ln">  }</span><span class="ln ln--gap"></span><span class="ln ln--fire f4">  <span class="kw">return yield*</span> proposeRemediation(assessment);</span><span class="ln">}</span></code></pre>
 </div>
+<div class="graph-fan" aria-hidden="true">
+<div class="fan-event"><span>agent:spawn</span><span>evidence:admit</span><span>human:decide</span><span>turn:commit</span></div>
+<div class="fan-lanes"><i></i><i></i><i></i><i></i></div>
+<div class="fan-names"><span>native render</span><span>IPC</span><span>host + wss</span><span class="soon">JSI</span></div>
+</div>
+<div class="cg-ann"><span>view</span><i class="cg-brace"></i></div>
+<div class="graph-tier tier-views">
+<span class="tier-label">Application surfaces · execution environments</span>
+<ul class="screens">
+<li><div class="scr scr--term"><b>incident-4417</b><p>approve remediation?</p><p class="live">[y] yes  [n] hold</p></div><span class="scr-name">CLI<em>Terminal / TUI</em></span></li>
+<li><div class="scr scr--win"><b>operator</b><p>Approve remediation</p><div class="scr-act"><u>Approve</u><s>Hold</s></div></div><span class="scr-name">Desktop<em>Electron / Tauri</em></span></li>
+<li><div class="scr scr--web"><b>host.myapp.com</b><p>Approve remediation</p><div class="scr-act"><u>Approve</u><s>Hold</s></div></div><span class="scr-name">Web<em>Browser</em></span></li>
+<li class="scr-soon"><div class="scr scr--phone"><i class="scr-handle"></i><p>Approve remediation</p><div class="scr-act"><u>Approve</u></div></div><span class="scr-name">Mobile <b>soon</b><em>iOS / Android · JSI</em></span></li>
+</ul>
+</div>
 </figure>
-<a class="quiet-link code-side__more" href="/architecture/">See the full architecture &mdash; live inference, event fan and every surface <span>&rarr;</span></a>
 </div>
 </div>
 </section>
-<section class="build-entry" id="developers">
-<div class="wrap build-entry-grid reveal">
-<div class="build-entry-copy">
-<p class="section-index">02 / BUILD</p>
-<h2>Ship apps that think and act.</h2>
-<p class="large-copy">Run your app offline as a single on-device binary, as a private service on an appliance, and online on frontier compute.</p>
-<div class="build-command"><span>$</span><code><span class="cmd-run">npx</span> lloyal-ai new</code><button type="button" data-copy-command="npx lloyal-ai new">Copy</button></div>
-<div class="build-meta"><span class="cap">Multi-agent</span><span class="cap">Interleaved retrieval</span><span class="place">Laptop</span><span class="place">Appliance</span><span class="place">Frontier</span></div>
-<a href="https://docs.lloyal.ai/build-your-first-harness/">Read the ten-minute guide →</a>
-</div>
-<div class="build-entry-visual">
-<figure class="scaffold-shot">
-<div class="scaffold-shot-head"><span>lloyal-ai</span><em>guided application scaffold</em></div>
-<div class="scaffold-shot-viewport"><img alt="The lloyal-ai wizard scaffolding a Wikipedia research harness — template chosen, dependencies installed, ready to run across CLI, desktop and web with a resident Qwen model." src="/assets/harness-dev-new.gif"/></div>
-<figcaption>Choose the front ends, the model, and the template it starts from. The scaffold installs a working application you can change.</figcaption>
-</figure>
-<p class="build-absences">No OpenAI or Anthropic key. No Docker, no Ollama, no LangGraph, no vector database. <strong>Just your code and the model.</strong></p>
-</div>
-</div>
-</section>
-<section class="abilities-section section band-cream" id="abilities">
+<section class="section" id="edge-and-frontier">
 <div class="wrap">
-<div class="abilities-head reveal">
-<div class="abilities-copy">
+<div class="arch-head code-copy reveal">
+<p class="section-index">02 / EDGE AND FRONTIER</p>
+<h2>The same application, at both extremes.</h2>
+</div>
+</div>
+<div aria-label="The same deep-research harness across edge and frontier compute" class="wrap hero-proof arch-proof reveal" id="same-harness">
+<div class="proof-pane edge-pane">
+<div class="pane-head">
+<div><span>EDGE</span><strong>Qwen 3.5 · 4B</strong></div>
+<em>on-device</em>
+</div>
+<div aria-hidden="true" class="terminal-mini">
+<p><i>01</i> preflight: 2 sources</p>
+<p><i>02</i> plan: 5 research tasks</p>
+<p class="live"><i>03</i> agentPool: 5 branches</p>
+<p><i>04</i> tools: search · fetch · rerank</p>
+<p><i>05</i> synthesize: complete</p>
+</div>
+<div class="pane-metric capability-metric">
+<strong>4B → APP</strong>
+<span>planning · agents<br/>tools · recovery · synthesis</span>
+</div>
+</div>
+<div class="harness-spine">
+<div class="spine-label">ONE APPLICATION</div>
+<div class="spine-code">
+<span>preflight()</span>
+<span>plan()</span>
+<span>agentPool()</span>
+<span>policy()</span>
+<span>synthesize()</span>
+<span>commitTurn()</span>
+</div>
+<div class="spine-events">
+<b data-event-label="">agent:spawn</b>
+<i></i>
+</div>
+<small>same program · same Abilities · same event contract</small>
+</div>
+<div class="proof-pane frontier-pane">
+<div class="pane-head">
+<div><span>FRONTIER</span><strong>GLM-5.2 · 2×B200</strong></div>
+<em>hosted</em>
+</div>
+<div aria-label="Ten concurrent agents sharing a model context" class="agent-field">
+<div class="shared-board">SHARED KV</div>
+<div aria-hidden="true" class="agents">
+<i>1</i><i>2</i><i>3</i><i>4</i><i>5</i><i>6</i><i>7</i><i>8</i><i>9</i><i>10</i>
+</div>
+</div>
+<div class="pane-metric frontier-metric">
+<strong>10 → 1</strong>
+<span>ten live agents<br/>one model dispatch per step</span>
+</div>
+</div>
+<p class="proof-caption">
+          Two real runs. One flagship application built on Lloyal, spanning both extremes.
+        </p>
+</div>
+</section>
+<section class="section band-cream" id="abilities-vs-plugins">
+<div class="wrap">
+<div class="arch-head arch-essay code-copy reveal">
 <p class="section-index">03 / ABILITIES</p>
-<h2>Extend. Interact. Recurse.</h2>
-<p class="abilities-lede">Agents use Abilities to act on the world and on live inference simultaneously.</p>
-<p><strong>Abilities are inference-native.</strong> They run inside the model&rsquo;s execution rather than behind a network boundary, so an extension can see who called it, what that caller already knows, and what else is running &mdash; and can fork that state into new agents.</p>
-<p>Lloyal hosts a signed channel of verified first- and third-party Abilities, installed like any plugin.</p>
-<p class="abilities-more"><a href="/architecture/#abilities-vs-plugins">How an Ability differs from a plugin &mdash; including DeepSeek&rsquo;s Harness &rarr;</a></p>
-<a href="https://docs.lloyal.ai/abilities" target="_blank" rel="noreferrer">How Abilities work &rarr;</a><a href="https://apps.lloyal.ai/" target="_blank" rel="noreferrer">Browse Abilities &rarr;</a>
-</div>
-<div class="capability-modes">
-<article><span>Level 0</span><h3>Tool calling</h3><p><strong>Its arguments.</strong> The function cannot know who called it, what else is running, or what happens next.</p></article>
-<article><span>Level 1</span><h3><a href="https://modelcontextprotocol.io" target="_blank" rel="noreferrer">MCP</a></h3><p><strong>Its arguments, in its own process.</strong> Language freedom and isolation &mdash; the right default for most integrations.</p></article>
-<article><span>Level 2</span><h3><a href="https://code.claude.com/docs/en/skills" target="_blank" rel="noreferrer">Skills</a></h3><p><strong>Its arguments, and the context window.</strong> The extension carries procedure now, not only operations.</p></article>
-<article class="level-native"><span>Level 3</span><h3><a href="https://docs.lloyal.ai/abilities" target="_blank" rel="noreferrer">Abilities</a></h3><p><strong>The execution itself.</strong> The calling agent, its live inference state, its lineage, its siblings &mdash; the authority to fork it into new agents, and to require the harness to load another model before it will run.</p></article>
-</div>
+<h2>An Ability is defined by what it is handed.</h2>
+<p>Lloyal hosts a signed channel of verified first- and third-party Abilities, installed like any plugin. What differs is what they are handed: a plugin gets the record &mdash; arguments, a transcript, an event log &mdash; while an Ability gets live state it can fork, so a pool it spawns inherits the caller&rsquo;s attention instead of a summary of it. <a href="https://deepseek.com/harness/en/" target="_blank" rel="noreferrer">DeepSeek&rsquo;s Harness</a> is making a similar bet: an agent assembled entirely from plugins &mdash; models, tools, sessions, scheduling, the UI &mdash; with the extension model as the architecture rather than an add-on. It defines a plugin by what it can supply. An Ability, by what it is handed.</p>
+<a href="/#abilities">The capability ladder &rarr;</a>
 </div>
 </div>
 </section>
-<section class="ship section" id="partner">
-
-<div class="partner-band">
-<div class="wrap ship-wrap">
-<div class="ship-grid">
-<div class="ship-copy reveal">
-<p class="section-index">FOR PRODUCT TEAMS</p>
-<h2>Make one high-value capability native to your product.</h2>
-<p class="large-copy">Work with Lloyal to turn a consequential workflow into a production harness—integrated with your existing product, connected to the systems it depends on and deployable across the environments your customers require.</p>
-<div class="engagement">
-<span>One product capability</span><span>One product integration</span><span>Private Abilities</span><span>Multiple placements</span>
+<section class="section arch-close" id="start">
+<div class="wrap reveal">
+<div class="arch-head code-copy">
+<h2>Start with one capability.</h2>
+<p>Scaffold a working application in ten minutes, or tell us what your product should be able to do.</p>
 </div>
-</div>
-<form class="partner-form reveal" data-partner-form="" id="partner-form">
-<label>Company<input autocomplete="organization" name="company" required=""/></label>
-<label>Your name<input autocomplete="name" name="name" required=""/></label>
-<label>Email<input autocomplete="email" name="email" required="" type="email"/></label>
-<label>What should your product be able to do?<textarea name="capability" required="" rows="4"></textarea></label>
-<label>Where must it run?<input name="placement" placeholder="e.g. desktop, customer VPC and hosted GPU"/></label>
-<button class="button button-light" type="submit">Build with Lloyal</button>
-<p class="form-note">Goes straight to the founders — a reply within one business day.</p>
-</form>
-</div>
+<div class="hero-actions">
+<a class="button button-light" href="https://docs.lloyal.ai/build-your-first-harness/">Build your first harness</a>
+<a class="button button-line" href="/#partner">Get in touch</a>
 </div>
 </div>
 </section>
@@ -1323,7 +1108,7 @@
 <footer>
 <div class="wrap footer-top">
 <div>
-<a class="wordmark footer-mark" href="#top"><strong>LLoyal</strong><span>Labs</span></a>
+<a class="wordmark footer-mark" href="/"><strong>LLoyal</strong><span>Labs</span></a>
 <p>Engineering AI's contact with reality.</p>
 </div>
 <div class="footer-links">
