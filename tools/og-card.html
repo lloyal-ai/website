@@ -1,0 +1,58 @@
+<!doctype html>
+<!--
+  Source for a blog OG card. The existing cards are Figma exports with no source
+  in the repo, so this one is built from the site's own tokens instead - same
+  Readex Pro Variable off the same CDN, the same mono stack, the same lockup.
+
+  Edit the h1 and .dek, then:
+    node tools/og-card.mjs public/blog/assets/<slug>-og.png
+
+  1200x630. Keep the h1 short - it is the claim, not the title; the title goes
+  in the dek, which is how working-memory-into-agents-og.png reads.
+-->
+<html><head><meta charset="utf-8">
+<style>
+  @font-face {
+    font-family: 'Readex Pro Variable';
+    src: url('https://cdn.jsdelivr.net/fontsource/fonts/readex-pro:vf@5.3.0/latin-wght-normal.woff2') format('woff2-variations');
+    font-weight: 100 900; font-display: block;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1200px; height: 630px; }
+  body {
+    background: #0a0a0a;
+    font-family: 'Readex Pro Variable', 'Inter', Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    display: flex; flex-direction: column; justify-content: space-between;
+    padding: 72px;
+  }
+  .top { display: flex; align-items: center; justify-content: space-between; }
+  .brand { display: flex; align-items: center; gap: 14px; }
+  .brand svg { display: block; }
+  .brand span { color: #fff; font-size: 20px; font-weight: 600; letter-spacing: -.01em; }
+  .kicker { color: #86847f; font-family: 'SFMono-Regular', Consolas, monospace;
+            font-size: 13px; letter-spacing: .18em; text-transform: uppercase; }
+  .mid { margin-bottom: 34px; }
+  h1 { color: #fff; font-size: 96px; line-height: .92; letter-spacing: -.055em; font-weight: 600; }
+  .dek { margin-top: 26px; color: #86847f; font-family: 'SFMono-Regular', Consolas, monospace;
+         font-size: 19px; letter-spacing: -.01em; }
+  .foot { color: #6a6a6a; font-family: 'SFMono-Regular', Consolas, monospace;
+          font-size: 13px; letter-spacing: .16em; text-transform: uppercase; }
+</style></head>
+<body>
+  <div class="top">
+    <div class="brand">
+      <svg viewBox="0 0 120 64" fill="#fff" width="42" height="22" aria-hidden="true">
+        <path d="M0 0h20v8H8v48h12v8H0V0z"/><path d="M28 8h8v40h16v8H28V8z"/>
+        <path d="M68 8h8v40h16v8H68V8z"/><path d="M100 0h20v64h-20v-8h12V8h-12V0z"/>
+      </svg>
+      <span>Lloyal Labs</span>
+    </div>
+    <div class="kicker">Engineering</div>
+  </div>
+  <div class="mid">
+    <h1>One command.</h1>
+    <p class="dek">Ship a local AI app in TypeScript.</p>
+  </div>
+  <div class="foot">lloyal.ai/blog</div>
+</body></html>
