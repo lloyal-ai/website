@@ -1054,6 +1054,96 @@
     justify-self: start;
   }
 }
+
+/* Dispatch tiles at the foot of the hero.
+   A horizontal scroller rather than a grid: it stays one row tall at every
+   width, so it fits the space the trust strip used to occupy instead of pushing
+   the hero further past the fold. On a phone it is the same component, just
+   scrolled by thumb.
+   Scroll-snap on the tiles and scroll-padding on the rail keep a tile's left
+   edge aligned to the content column at every rest position. */
+.dispatch-rail {
+  grid-column: 1 / -1;
+  /* Grid items default to min-width:auto, so without this the rail sizes to its
+     content and the whole page scrolls sideways instead of the tiles scrolling
+     inside it. */
+  min-width: 0;
+  /* No top margin: the hero grid already puts a 128px row gap above this. The
+     trust strip carried one and it stacked with the gap. */
+  margin-top: 0;
+  padding-top: 24px;
+  border-top: 1px solid var(--line-soft);
+}
+.dispatch-rail__kicker {
+  margin: 0 0 16px;
+  color: var(--faint);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.dispatch-tiles {
+  display: flex;
+  min-width: 0;
+  gap: 14px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 2px;
+}
+.dispatch-tiles::-webkit-scrollbar { display: none; }
+.dispatch-tile {
+  flex: 0 0 clamp(216px, 21vw, 272px);
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px 20px 20px;
+  border: 1px solid var(--line-soft);
+  background: rgba(255,255,255,.02);
+  text-decoration: none;
+  transition: background .18s ease, border-color .18s ease;
+}
+.dispatch-tile:hover { background: rgba(255,255,255,.055); border-color: #444; }
+.dispatch-tile__lead {
+  color: var(--ink);
+  font-size: 21px;
+  line-height: 1.12;
+  letter-spacing: -.03em;
+  font-weight: 600;
+}
+.dispatch-tile__body {
+  color: #8d8a84;
+  font-size: 13px;
+  line-height: 1.45;
+}
+.dispatch-tile__meta {
+  margin-top: auto;
+  padding-top: 10px;
+  color: var(--faint);
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+/* Its own band now, so the tiles can have the hero's foot. */
+.trust-band {
+  padding-block: clamp(30px, 3vw, 44px);
+  border-bottom: 1px solid var(--line-soft);
+  background: rgba(8,8,8,.78);
+}
+.trust-band .trust-strip {
+  width: min(calc(100% - (var(--gutter) * 2)), var(--max));
+  margin-inline: auto;
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+@media (max-width: 820px) {
+  .dispatch-tile { flex-basis: 240px; }
+}
 </style>
 </head>
 <body>
@@ -1090,13 +1180,40 @@
 </div>
 <a class="quiet-link" href="https://github.com/lloyal-ai/reasoning-run" rel="noreferrer" target="_blank">Inspect a working TypeScript application <span>↗</span></a>
 </div>
+<div aria-label="Dispatches" class="dispatch-rail">
+<p class="dispatch-rail__kicker">From the engineering blog</p>
+<div class="dispatch-tiles">
+<a class="dispatch-tile" href="/blog/shifting-the-harness-left/">
+<span class="dispatch-tile__lead">$16</span>
+<span class="dispatch-tile__body">Ten agents shared a single 239&nbsp;GB model on two B200s. Traces, configs and cost receipts published.</span>
+<span class="dispatch-tile__meta">Dispatch &middot; August 2026</span>
+</a>
+<a class="dispatch-tile" href="/blog/ship-a-local-ai-app-in-typescript/">
+<span class="dispatch-tile__lead">One command</span>
+<span class="dispatch-tile__body">Scaffold a working TypeScript application with the model, the agents and the runtime already inside it.</span>
+<span class="dispatch-tile__meta">Dispatch &middot; August 2026</span>
+</a>
+<a class="dispatch-tile" href="/blog/working-memory-into-agents/">
+<span class="dispatch-tile__lead">Down to the attention mask</span>
+<span class="dispatch-tile__body">How fork becomes an owner bit per cell, and a cohort of agents becomes one batched decode.</span>
+<span class="dispatch-tile__meta">Dispatch &middot; August 2026</span>
+</a>
+<a class="dispatch-tile" href="/blog/you-already-know-this-architecture/">
+<span class="dispatch-tile__lead">It shipped in 2007</span>
+<span class="dispatch-tile__body">The serving stack maps noun for noun onto the one that carried Rails for two decades.</span>
+<span class="dispatch-tile__meta">Dispatch &middot; July 2026</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+<section class="trust-band">
 <div aria-label="Recognition" class="trust-strip">
 <p class="trust-kicker">Recognised by</p>
 <ul class="trust-marks">
 <li><a href="https://www.nvidia.com/en-us/startups/" rel="noreferrer" target="_blank"><img alt="NVIDIA Inception Program member badge" height="69" src="/assets/nvidia-inception-program-badge.svg" width="160"/></a><span>NVIDIA Inception program member</span></li>
 <li><a href="https://www.linkedin.com/posts/zeen_ten-ai-agents-shared-a-single-239-gb-model-activity-7486095326706257921-613r" rel="noreferrer" target="_blank"><img alt="RunPod" height="32" src="/assets/runpod-logo-white.svg" width="141"/></a><span>Endorsed publicly by RunPod's CEO</span></li>
 </ul>
-</div>
 </div>
 </section>
 <section class="code-section section band-cream" id="build">
