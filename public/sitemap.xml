@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://lloyal.ai/</loc>
+    <lastmod>2026-08-21</lastmod>
+  </url>
+  <url>
+    <loc>https://lloyal.ai/blog/</loc>
+    <lastmod>2026-08-21</lastmod>
+  </url>
+  <url>
+    <loc>https://lloyal.ai/blog/working-memory-into-agents/</loc>
+    <lastmod>2026-08-21</lastmod>
+  </url>
+  <url>
+    <loc>https://lloyal.ai/blog/you-already-know-this-architecture/</loc>
+    <lastmod>2026-08-21</lastmod>
+  </url>
+  <url>
+    <loc>https://lloyal.ai/blog/shifting-the-harness-left/</loc>
+    <lastmod>2026-08-17</lastmod>
+  </url>
+  <url>
+    <loc>https://lloyal.ai/blog/ship-a-local-ai-app-in-typescript/</loc>
+    <lastmod>2026-08-21</lastmod>
+  </url>
+  <url>
+    <loc>https://lloyal.ai/sim/risk-desk</loc>
+    <lastmod>2026-08-14</lastmod>
+  </url>
+  <url>
+    <loc>https://lloyal.ai/sim/risk-desk/research</loc>
+    <lastmod>2026-08-14</lastmod>
+  </url>
+</urlset>
