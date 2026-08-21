@@ -457,6 +457,19 @@ footer { padding:80px 0 32px; background:#070707; }
   .footer-top { grid-template-columns:1fr; }
 }
 
+/* Mid-width band (~980-1200px viewport, which is also what a 1440/1470
+   display shows at 110-125% browser zoom): the hero is still two-column, but
+   its left column gets too narrow for both recognition marks side by side and
+   the second one wrapped underneath. Keep them on one row, the way the phone
+   rule below already does. Scoped to the band so tablet widths, where the hero
+   is single-column and the strip is full width, are left as they were. */
+@media (min-width: 981px) and (max-width: 1200px) {
+  .trust-marks { flex-wrap: nowrap; gap: 20px; }
+  .trust-marks li { flex: 1 1 0; min-width: 0; }
+  .trust-marks img { max-width: 100%; }
+  .trust-marks span { line-height: 1.35; }
+}
+
 @media (max-width: 560px) {
   :root { --gutter: 18px; }
   body { font-size:15px; }
