@@ -1117,6 +1117,12 @@ main > section > .partner-band { width: 100%; }
      left in it. The definition column still spanned 1/3 and carried the row
      gap as dead space beneath the copy — it ends at row 1 now. */
   .hero.hero--section .hero-copy.hero-editorial > .hero-definition { grid-row: 1; }
+  /* The dispatch rail is the grid's last child and spans both columns on its
+     own row, so the four tiles run in a single line under the copy. The rail's
+     own margin-top is the only gap above it. */
+  .hero.hero--section .hero-copy.hero-editorial { row-gap: 0; }
+  .hero.hero--section .hero-copy.hero-editorial > .dispatch-rail { grid-column: 1 / -1; grid-row: 2; }
+  .hero.hero--section .dispatch-tiles { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 
 /* ── The page opens on "Ship apps that think and act."; Vertical Inference is
@@ -1287,6 +1293,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <a class="button button-line" href="https://docs.lloyal.ai/where-a-harness-runs">Explore the architecture</a>
 </div>
 <a class="quiet-link" href="https://github.com/lloyal-ai/reasoning-run" rel="noreferrer" target="_blank">Inspect a working TypeScript application <span>↗</span></a>
+</div>
 <div aria-label="Dispatches" class="dispatch-rail">
 <p class="dispatch-rail__kicker">From the engineering blog</p>
 <div class="dispatch-tiles">
@@ -1313,7 +1320,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 <a class="quiet-link dispatch-rail__all" href="/blog/">All dispatches <span>&rarr;</span></a>
 
-</div>
 </div>
 </div>
 </section>
