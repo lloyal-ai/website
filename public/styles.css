@@ -387,6 +387,12 @@ dt { color:#77746e; } dd { margin:0; color:#d2cfc9; text-align:right; }
 .partner-form input:focus, .partner-form textarea:focus { border-color:#c5c2bc; }
 .partner-form .button { margin-top:6px; width:100%; cursor:pointer; }
 .form-note { margin:0; color:#625f5a; font-size:9px; line-height:1.45; }
+/* The three placements are the answer this question is fishing for, so they
+   have to stay readable. In the placeholder the list was clipped at 1180 and
+   below — losing the last item, which is the one furthest from what a reader
+   assumes — and vanished entirely the moment anyone typed. As a hint it wraps
+   instead of clipping and survives the field being filled in. */
+.field-hint { display:block; margin-top:7px; color:#625f5a; font-family:var(--sans); font-size:10.5px; letter-spacing:normal; text-transform:none; line-height:1.5; }
 
 footer { padding:80px 0 32px; background:#070707; }
 .footer-top { display:grid; grid-template-columns:1fr 1.2fr; gap:70px; }
