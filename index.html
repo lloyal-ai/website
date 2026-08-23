@@ -521,9 +521,9 @@ main > section > .partner-band { width: 100%; }
      two or three tracked words. A seventeen-word sentence in it reads as a
      code comment, and the fixed advance widths leave lowercase prose looking
      slack. A footnote is prose: same face as the paragraph it qualifies, a
-     step down in size and weight of colour. The measure is capped so the
-     second line carries more than a couple of words. */
-  max-width: 54ch;
+     step down in size and weight of colour. No measure cap — the items are
+     short enough that the column governs, and a cap forced a wrap at the
+     single-column widths where the whole list fits on one line. */
   color: #7b756c;
   font-size: 13.5px;
   line-height: 1.5;
@@ -1291,7 +1291,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <p class="abilities-lede">Agents use Abilities to act on the world and on live inference simultaneously.</p>
 <p><strong>Abilities are inference-native.</strong> They run inside the model&rsquo;s execution rather than behind a network boundary, so an extension can see who called it, what that caller already knows, and what else is running &mdash; and can fork that state into new agents.</p>
 <p>Lloyal hosts a signed channel of 1st &amp; 3rd party Abilities. Installing one brings it all into your app in a single command, for your in-app agents to consume: tools and their schemas, a live source, situation-aware skills<span class="fn-ref">[1]</span>, and the models it composes. <a href="https://deepseek.com/harness/en/" target="_blank" rel="noreferrer">DeepSeek&rsquo;s Harness</a> bets on a plugin ecosystem for its own agent. Abilities are that ecosystem for the apps you ship.</p>
-<p class="fn-note"><span class="fn-ref">[1]</span> <span>how many agents are running and what each is covering</span> &middot; <span>tool-call budget</span> &middot; <span>position in a chain</span> &middot; <span>date</span></p>
+<p class="fn-note"><span class="fn-ref">[1]</span> <span>agent count</span> &middot; <span>other agents&rsquo; tasks</span> &middot; <span>tool budgets</span> &middot; <span>chain position</span> &middot; <span>date</span></p>
 <a href="https://docs.lloyal.ai/abilities" target="_blank" rel="noreferrer">How Abilities work &rarr;</a><a href="https://abilities.lloyal.ai/" target="_blank" rel="noreferrer">Browse Abilities &rarr;</a>
 </div>
 <div class="capability-modes">
