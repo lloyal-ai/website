@@ -510,6 +510,21 @@ main > section > .partner-band { width: 100%; }
 .abilities-copy p a { color: inherit; border-bottom: 1px solid currentColor; text-decoration: none; }
 .abilities-copy p a:hover { color: #000; }
 .band-cream .abilities-head p:not(.section-index) { color: #625e57; }
+/* A two-word claim has to say what it means. The note sits directly under the
+   paragraph rather than at the foot of the page — there is exactly one, and a
+   jump link to something four lines below is a nuisance, not an affordance.
+   Weight matches the band-cream paragraph rule above so it lands after it
+   rather than under it. */
+.band-cream .abilities-head p.fn-note {
+  margin-top: 16px;
+  color: #7b756c;
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 1.55;
+  letter-spacing: .01em;
+}
+.fn-ref { font-family: var(--mono); font-size: .62em; letter-spacing: normal; vertical-align: .38em; }
+.fn-note .fn-ref { margin-right: 5px; font-size: 1em; vertical-align: baseline; }
 /* The lede sits between the display heading and the body, so it takes a
    size of its own rather than reading as a first paragraph. */
 .abilities-lede {
@@ -1266,7 +1281,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <h2>Extend. Interact. Recurse.</h2>
 <p class="abilities-lede">Agents use Abilities to act on the world and on live inference simultaneously.</p>
 <p><strong>Abilities are inference-native.</strong> They run inside the model&rsquo;s execution rather than behind a network boundary, so an extension can see who called it, what that caller already knows, and what else is running &mdash; and can fork that state into new agents.</p>
-<p>Lloyal hosts a signed channel of verified first- and third-party Abilities, installed like any plugin. What differs is what they are handed: a plugin gets the record &mdash; arguments, a transcript, an event log &mdash; while an Ability gets live state it can fork, so a pool it spawns inherits the caller&rsquo;s attention instead of a summary of it. <a href="https://deepseek.com/harness/en/" target="_blank" rel="noreferrer">DeepSeek&rsquo;s Harness</a> is making a similar bet: an agent assembled entirely from plugins &mdash; models, tools, sessions, scheduling, the UI &mdash; with the extension model as the architecture rather than an add-on. It defines a plugin by what it can supply. An Ability, by what it is handed.</p>
+<p>Lloyal hosts a signed channel of 1st &amp; 3rd party Abilities. Installing one brings it all into your app in a single command, for your in-app agents to consume: tools and their schemas, a live source, situation-aware skills<span class="fn-ref">[1]</span>, and the models it composes. <a href="https://deepseek.com/harness/en/" target="_blank" rel="noreferrer">DeepSeek&rsquo;s Harness</a> bets on a plugin ecosystem for its own agent. Abilities are that ecosystem for the apps you ship.</p>
+<p class="fn-note"><span class="fn-ref">[1]</span> how many agents are running and what each is covering &middot; tool-call budget &middot; position in a chain &middot; date</p>
 <a href="https://docs.lloyal.ai/abilities" target="_blank" rel="noreferrer">How Abilities work &rarr;</a><a href="https://abilities.lloyal.ai/" target="_blank" rel="noreferrer">Browse Abilities &rarr;</a>
 </div>
 <div class="capability-modes">
