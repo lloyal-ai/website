@@ -477,7 +477,7 @@ main > section > .partner-band { width: 100%; }
 .band-cream .section-index,
 .band-cream .code-kicker,
 .band-cream .mvc-role,
-.band-cream .mvc-what small { color: #77736c; }
+.band-cream .mvc-what small { color: #625e57; }
 .band-cream h2,
 .band-cream .build-entry-copy h2,
 .band-cream .code-copy h2 { color: #050505; }
@@ -1239,8 +1239,50 @@ main > section > .partner-band { width: 100%; }
 
 /* Closing band: .form-note is tuned for the light partner card and reads at
    3.15:1 on this ground. Palette values that clear AA on #080808. */
-#start .form-note{color:#8b8780}
-#start .form-note a{color:#c9c6c0}
+/* Closing band is cream. .build-command keeps its own #080808 ground, so the
+   terminal reads the same on either band; only the prose needs restating. */
+/* .partner-band paints its own rgba(8,8,8,.78) over the band, which is why the
+   section read black with a cream background underneath it. */
+#start .partner-band{background:transparent}
+#start .wrap{text-align:center}
+/* Left as a full-width grid the Copy button ends up a screen away from the
+   command. Constrained and centred, it reads as one object. */
+#start .build-command{max-width:min(600px,100%);margin-inline:auto;text-align:left}
+#start .form-note{color:#625e57;margin-top:20px}
+/* The proof card carries its own dark ground, so it can sit on the cream band —
+   but .band-cream sets color:#111 and that inherits into it. Anything inside
+   without its own colour was rendering near-black on near-black. */
+/* The proof is inverted for the cream band: no dark rectangle, no outer bound —
+   the composition sits directly on the paper. Every value below is the light
+   counterpart of the dark original in styles.css, chosen to clear AA on #efede6. */
+/* The band centres its own copy; the proof is a designed composition and must
+   keep its own alignment, or the pane labels stop sharing a left edge. */
+#start .hero-proof{background:transparent;border:0;box-shadow:none;color:#2f2c28;text-align:left;margin-top:0;margin-bottom:clamp(62px,5.4vw,88px)}
+#start .harness-spine{background:transparent;border:0}
+#start .pane-head span,#start .pane-head em{color:#625e57}
+#start .pane-head strong{color:#050505}
+#start .terminal-mini{color:#3f3c36}
+#start .terminal-mini p{border-bottom-color:#ddd9d0}
+#start .terminal-mini i{color:#625e57}
+#start .terminal-mini .live{color:#050505}
+#start .terminal-mini .live::after{background:#050505}
+/* Large text, so 3:1 is the bar — #8a857c reads as a figure rather than a slab. */
+#start .pane-metric strong{color:#8a857c;font-weight:500}
+#start .pane-metric span{color:#625e57}
+#start .spine-label{color:#050505}
+#start .spine-label::before,#start .spine-label::after{background:#b9b3a8}
+#start .spine-code span{border-color:#cdc7bd;color:#2f2c28}
+#start .spine-events b{color:#2f2c28}
+#start .spine-events i{background:linear-gradient(90deg,#8a857c,transparent)}
+#start .spine-events i::after{background:#181715}
+#start .harness-spine small{color:#625e57}
+#start .proof-caption{color:#625e57}
+#start .agent-field::before,#start .agent-field::after{border-color:#d3cec4}
+#start .shared-board{background:#efede6;border-color:#8a857c;color:#181715}
+#start .agents i{background:#e5e2d9;border-color:#c3bdb2;color:#2f2c28}
+
+#start .form-note a{color:#181715;border-bottom:1px solid #aaa49a}
+#start .form-note a:hover{color:#000;border-color:#000}
 
 /* Contact block. Routing form, not a project brief: the reason selects the
    thread, the note carries whatever the sender wants to say. */
@@ -1456,7 +1498,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <form class="partner-form reveal" data-partner-form="" id="partner-form"><label>Name<input autocomplete="name" name="name" required=""/></label><label>Email<input autocomplete="email" name="email" required="" type="email"/></label><label>Reason<select name="reason"><option>Building something</option><option>Partnership</option><option>Hardware / OEM</option><option>Press</option><option>Something else</option></select></label><label>Note<textarea name="note" rows="4"></textarea></label><fieldset class="sender-choice"><legend>I&rsquo;m</legend><label><input type="radio" name="sender" value="a human" checked=""/>a human</label><label><input type="radio" name="sender" value="an agent"/>an agent</label></fieldset><div aria-hidden="true" class="hp"><label>Website<input name="website" tabindex="-1" autocomplete="off"/></label></div><button class="button button-light" type="submit">Send</button><p class="form-note">Goes straight to the founders &mdash; a reply within one business day.</p></form>
 </div>
 </div>
-<div aria-label="The same deep-research harness across edge and frontier compute" class="wrap hero-proof reveal" id="same-harness">
+
+</div>
+</section>
+<section class="band-cream" id="start"><div class="partner-band"><div class="wrap"><div aria-label="The same deep-research harness across edge and frontier compute" class="wrap hero-proof reveal" id="same-harness">
 <div class="proof-pane edge-pane">
 <div class="pane-head">
 <div><span>EDGE</span><strong>Qwen 3.5 · 4B</strong></div>
@@ -1509,10 +1554,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <p class="proof-caption">
           Two real runs. One flagship application built on Lloyal, spanning both extremes.
         </p>
-</div>
-</div>
-</section>
-<section id="start"><div class="partner-band"><div class="wrap"><p class="section-index">START</p><h2>All of it ships from one command.</h2><div class="build-command"><span>$</span><code><span class="cmd-run">npx</span> lloyal-ai new</code><button type="button" data-copy-command="npx lloyal-ai new">Copy</button></div><p class="form-note">No API key, no inference server, no vector database. <a href="https://docs.lloyal.ai/build-your-first-harness">Ten-minute guide</a> · <a href="https://docs.lloyal.ai/">Docs</a> · <a href="https://github.com/lloyal-ai/hdk">HDK on GitHub</a></p></div></div></section></main>
+</div><p class="section-index">START</p><h2>All of it ships from one command.</h2><div class="build-command"><span>$</span><code><span class="cmd-run">npx</span> lloyal-ai new</code><button type="button" data-copy-command="npx lloyal-ai new">Copy</button></div><p class="form-note">No API key, no inference server, no vector database. <a href="https://docs.lloyal.ai/build-your-first-harness">Ten-minute guide</a> · <a href="https://docs.lloyal.ai/">Docs</a> · <a href="https://github.com/lloyal-ai/hdk">HDK on GitHub</a></p></div></div></section></main>
 <footer>
 <div class="wrap footer-top">
 <div>
