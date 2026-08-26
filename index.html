@@ -10,28 +10,28 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- End Google Tag Manager -->
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<meta content="Model execution becomes resident application state. Ordinary TypeScript governs how intelligence reasons, acts and continues — laptop to frontier compute." name="description"/>
+<meta content="Ship apps that think and act. Build your vertical inference harness in TypeScript and ship it offline, on an appliance, or on frontier compute." name="description"/>
 <meta content="#080808" name="theme-color"/>
 <link href="https://lloyal.ai/" rel="canonical"/>
 
 <meta content="website" property="og:type"/>
-<meta content="Ordinary code governs the model while it runs." property="og:title"/>
-<meta content="Model execution becomes resident application state. Ordinary TypeScript governs how intelligence reasons, acts and continues — laptop to frontier compute." property="og:description"/>
+<meta content="Ship apps that think and act." property="og:title"/>
+<meta content="Build your harness in TypeScript. Ship it as a single on-device binary that runs offline, as a multi-user service on a private appliance, or online on frontier compute." property="og:description"/>
 <meta content="https://lloyal.ai/assets/home-og.png" property="og:image"/>
 <meta content="1200" property="og:image:width"/>
 <meta content="630" property="og:image:height"/>
 <meta content="image/png" property="og:image:type"/>
-<meta content="Vertical Inference — system intelligence beyond the model. Lloyal Labs." property="og:image:alt"/>
+<meta content="Ship apps that think and act. Just your code and the model. Lloyal Labs." property="og:image:alt"/>
 <meta content="https://lloyal.ai/" property="og:url"/>
 <meta content="LLoyal Labs" property="og:site_name"/>
 <meta content="en_AU" property="og:locale"/>
 
 <meta content="summary_large_image" name="twitter:card"/>
-<meta content="Ordinary code governs the model while it runs." name="twitter:title"/>
-<meta content="Model execution becomes resident application state. Ordinary TypeScript governs how intelligence reasons, acts and continues — laptop to frontier compute." name="twitter:description"/>
+<meta content="Ship apps that think and act." name="twitter:title"/>
+<meta content="Build your harness in TypeScript. Ship it as a single on-device binary that runs offline, as a multi-user service on a private appliance, or online on frontier compute." name="twitter:description"/>
 <meta content="https://lloyal.ai/assets/home-og.png" name="twitter:image"/>
-<meta content="Vertical Inference — system intelligence beyond the model. Lloyal Labs." name="twitter:image:alt"/>
-<meta name="description" content="Ship apps that think and act. Run your vertical inference app offline as a single on-device binary, on an appliance, or on frontier compute.">
+<meta content="Ship apps that think and act. Just your code and the model. Lloyal Labs." name="twitter:image:alt"/>
+
 <title>LLoyal Labs — Vertical Inference</title>
 <link href="/styles.css" rel="stylesheet"/>
 <link rel="icon" href="/favicon.png"/>
@@ -1236,6 +1236,32 @@ main > section > .partner-band { width: 100%; }
   .dispatch-tile { flex: 0 0 min(74vw, 260px); scroll-snap-align: start; }
 }
 .dispatch-rail__all { display: inline-flex; margin-top: 14px; }
+
+/* Closing band: .form-note is tuned for the light partner card and reads at
+   3.15:1 on this ground. Palette values that clear AA on #080808. */
+#start .form-note{color:#8b8780}
+#start .form-note a{color:#c9c6c0}
+
+/* Contact block. Routing form, not a project brief: the reason selects the
+   thread, the note carries whatever the sender wants to say. */
+.form-heading{margin:0 0 4px;font-size:clamp(21px,1.8vw,26px);letter-spacing:-.03em;
+  font-weight:660;color:var(--ink)}
+.partner-form select{width:100%;font:inherit;color:inherit;background:transparent;
+  border:0;border-bottom:1px solid #4c4a45;padding:8px 0;border-radius:0}
+.sender-choice{border:0;margin:4px 0 0;padding:0;display:flex;align-items:center;
+  gap:18px;flex-wrap:wrap}
+/* Matches the other field labels on this card: 5.71:1, where #77736c was 4.22. */
+.sender-choice legend{float:left;padding:0;margin-right:14px;color:#8c8983;
+  font-size:14px;text-transform:none;letter-spacing:normal}
+.sender-choice label{display:inline-flex;align-items:center;gap:7px;margin:0;
+  font-size:14px;cursor:pointer;
+  /* Choices read as content, not as another field name: legend stays muted. */
+  color:#f2f1ed;
+  /* .partner-form label is uppercase for field names; this is a sentence. */
+  text-transform:none;letter-spacing:normal}
+.sender-choice input{width:auto;margin:0}
+/* Honeypot: invisible to people and to well-behaved agents alike. */
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://lloyal.ai/#organization","name":"Lloyal Labs","url":"https://lloyal.ai/","logo":"https://lloyal.ai/favicon.png","description":"Lloyal Labs builds the platform for Vertical Inference \u2014 an architecture in which the application, the model runtime and live inference state become one programmable system.","sameAs":["https://github.com/lloyal-ai","https://www.npmjs.com/org/lloyal-labs"],"knowsAbout":{"@id":"https://verticalinference.lloyal.ai/#term"}},{"@type":"WebSite","@id":"https://lloyal.ai/#website","url":"https://lloyal.ai/","name":"Lloyal Labs","publisher":{"@id":"https://lloyal.ai/#organization"},"about":{"@id":"https://verticalinference.lloyal.ai/#term"}}]}</script>
 </head>
@@ -1245,26 +1271,26 @@ main > section > .partner-band { width: 100%; }
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 <a class="skip" href="#main">Skip to content</a>
-<header class="site-header" data-header="">
+<header class="site-header" id="top" data-header="">
 <div class="wrap header-inner">
 <a aria-label="LLoyal Labs home" class="wordmark" href="#top">
 <strong>LLoyal</strong><span>Labs</span>
 </a>
 <p class="brand-line">Engineering AI's contact with reality.</p>
-<nav aria-label="Primary" class="desktop-nav"><a href="#abilities">Abilities</a><a href="#top">Vertical Inference</a><a href="#build">How it works</a><a href="#partner">Get in touch</a><a href="/blog/">Blog</a></nav>
+<nav aria-label="Primary" class="desktop-nav"><a href="#abilities">Abilities</a><a href="#verticalinference">How it works</a><a href="#partner">Get in touch</a><a href="/blog/">Blog</a></nav>
 <nav aria-label="Resources" class="desktop-nav utility-nav"><a href="https://docs.lloyal.ai/" rel="noreferrer" target="_blank">Docs ↗</a><a href="https://github.com/lloyal-ai/lloyal-ai" rel="noreferrer" target="_blank">GitHub ↗</a></nav>
 <button aria-controls="mobile-nav" aria-expanded="false" class="menu-button" data-menu-button="" type="button">
 <span></span><span></span><span class="sr-only">Open menu</span>
 </button>
 </div>
-<nav class="mobile-nav" data-mobile-nav="" hidden="" id="mobile-nav"><a href="#abilities">Abilities</a><a href="#top">Vertical Inference</a><a href="#build">How it works</a><a href="#partner">Get in touch</a><a href="/blog/">Blog</a><a href="https://docs.lloyal.ai/" rel="noreferrer" target="_blank">Docs ↗</a><a href="https://github.com/lloyal-ai/lloyal-ai" rel="noreferrer" target="_blank">GitHub ↗</a></nav>
+<nav class="mobile-nav" data-mobile-nav="" hidden="" id="mobile-nav"><a href="#abilities">Abilities</a><a href="#verticalinference">How it works</a><a href="#partner">Get in touch</a><a href="/blog/">Blog</a><a href="https://docs.lloyal.ai/" rel="noreferrer" target="_blank">Docs ↗</a><a href="https://github.com/lloyal-ai/lloyal-ai" rel="noreferrer" target="_blank">GitHub ↗</a></nav>
 </header>
 <main id="main">
 <section class="build-entry build-entry--hero" id="developers">
 <div class="wrap build-entry-grid reveal">
 <div class="build-entry-copy">
 <h2>Ship apps that think and act.</h2>
-<p class="large-copy">Run your app offline as a single on-device binary, as a private service on an appliance, and online on frontier compute.</p>
+<p class="large-copy">Build your harness in TypeScript. Ship it as a single on-device binary that runs offline, as a multi-user service on a private appliance, or online on frontier compute.</p>
 <div class="build-command"><span>$</span><code><span class="cmd-run">npx</span> lloyal-ai new</code><button type="button" data-copy-command="npx lloyal-ai new">Copy</button></div>
 <div aria-label="Recognition" class="trust-strip">
 <p class="trust-kicker">Recognised by</p>
@@ -1305,15 +1331,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 </div>
 </section>
-<section class="hero hero--section" id="top">
+<section class="hero hero--section" id="verticalinference">
 <div class="wrap hero-copy hero-editorial reveal">
 <div class="hero-category">
-<p class="kicker">02 / Application Architecture</p>
+<p class="kicker">02 / Architecture</p>
 <h1>Vertical<br/>Inference</h1>
 <p class="hero-category-dek">System intelligence beyond the model.</p>
 </div>
 <div class="hero-definition">
-<p><strong>Vertical Inference</strong> is an architecture in which the application, the model runtime and live inference state become one programmable system. Ordinary code governs how intelligence retrieves, reasons, acts and continues while it is underway.</p>
+<p><strong>Vertical Inference</strong> is the architecture in which the application, the model runtime and live inference state become one programmable system. Ordinary code governs how intelligence retrieves, reasons, acts and continues while it is underway.</p>
 <p>Lloyal is the platform for building and deploying this architecture—from local applications to frontier compute.</p>
 <div class="hero-actions">
 <a class="button button-light" href="https://docs.lloyal.ai/build-your-first-harness/">Build your first harness</a>
@@ -1420,22 +1446,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="wrap ship-wrap">
 <div class="ship-grid">
 <div class="ship-copy reveal">
-<p class="section-index">FOR PRODUCT TEAMS</p>
-<h2>Make one high-value capability native to your product.</h2>
-<p class="large-copy">Work with Lloyal to turn a consequential workflow into a production harness—integrated with your existing product, connected to the systems it depends on and deployable across the environments your customers require.</p>
+<p class="section-index">CONTACT</p>
+<h2>Get in touch.</h2>
+<p class="large-copy">The platform is public and the docs are open — everything above is self-serve. This is the door for partnerships, the hardware programme, press, and anything the documentation does not answer.</p>
 <div class="engagement">
-<span>One product capability</span><span>One product integration</span><span>Private Abilities</span><span>Multiple placements</span>
+<span>Private Abilities</span><span>Your own signed channel</span><span>One program, every placement</span>
 </div>
 </div>
-<form class="partner-form reveal" data-partner-form="" id="partner-form">
-<label>Company<input autocomplete="organization" name="company" required=""/></label>
-<label>Your name<input autocomplete="name" name="name" required=""/></label>
-<label>Email<input autocomplete="email" name="email" required="" type="email"/></label>
-<label>What should your product be able to do?<textarea name="capability" required="" rows="4"></textarea></label>
-<label>Where must it run?<input name="placement" placeholder="desktop, appliance, cluster…"/><small class="field-hint">e.g. desktop &middot; on-prem NVIDIA DGX-class appliance &middot; frontier GPU cluster</small></label>
-<button class="button button-light" type="submit">Build with Lloyal</button>
-<p class="form-note">Goes straight to the founders — a reply within one business day.</p>
-</form>
+<form class="partner-form reveal" data-partner-form="" id="partner-form"><label>Name<input autocomplete="name" name="name" required=""/></label><label>Email<input autocomplete="email" name="email" required="" type="email"/></label><label>Reason<select name="reason"><option>Building something</option><option>Partnership</option><option>Hardware / OEM</option><option>Press</option><option>Something else</option></select></label><label>Note<textarea name="note" rows="4"></textarea></label><fieldset class="sender-choice"><legend>I&rsquo;m</legend><label><input type="radio" name="sender" value="a human" checked=""/>a human</label><label><input type="radio" name="sender" value="an agent"/>an agent</label></fieldset><div aria-hidden="true" class="hp"><label>Website<input name="website" tabindex="-1" autocomplete="off"/></label></div><button class="button button-light" type="submit">Send</button><p class="form-note">Goes straight to the founders &mdash; a reply within one business day.</p></form>
 </div>
 </div>
 <div aria-label="The same deep-research harness across edge and frontier compute" class="wrap hero-proof reveal" id="same-harness">
@@ -1494,7 +1512,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 </div>
 </section>
-</main>
+<section id="start"><div class="partner-band"><div class="wrap"><p class="section-index">START</p><h2>All of it ships from one command.</h2><div class="build-command"><span>$</span><code><span class="cmd-run">npx</span> lloyal-ai new</code><button type="button" data-copy-command="npx lloyal-ai new">Copy</button></div><p class="form-note">No API key, no inference server, no vector database. <a href="https://docs.lloyal.ai/build-your-first-harness">Ten-minute guide</a> · <a href="https://docs.lloyal.ai/">Docs</a> · <a href="https://github.com/lloyal-ai/hdk">HDK on GitHub</a></p></div></div></section></main>
 <footer>
 <div class="wrap footer-top">
 <div>
