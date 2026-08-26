@@ -1241,6 +1241,27 @@ main > section > .partner-band { width: 100%; }
    3.15:1 on this ground. Palette values that clear AA on #080808. */
 #start .form-note{color:#8b8780}
 #start .form-note a{color:#c9c6c0}
+
+/* Contact block. Routing form, not a project brief: the reason selects the
+   thread, the note carries whatever the sender wants to say. */
+.form-heading{margin:0 0 4px;font-size:clamp(21px,1.8vw,26px);letter-spacing:-.03em;
+  font-weight:660;color:var(--ink)}
+.partner-form select{width:100%;font:inherit;color:inherit;background:transparent;
+  border:0;border-bottom:1px solid #4c4a45;padding:8px 0;border-radius:0}
+.sender-choice{border:0;margin:4px 0 0;padding:0;display:flex;align-items:center;
+  gap:18px;flex-wrap:wrap}
+/* Matches the other field labels on this card: 5.71:1, where #77736c was 4.22. */
+.sender-choice legend{float:left;padding:0;margin-right:14px;color:#8c8983;
+  font-size:14px;text-transform:none;letter-spacing:normal}
+.sender-choice label{display:inline-flex;align-items:center;gap:7px;margin:0;
+  font-size:14px;cursor:pointer;
+  /* Choices read as content, not as another field name: legend stays muted. */
+  color:#f2f1ed;
+  /* .partner-form label is uppercase for field names; this is a sentence. */
+  text-transform:none;letter-spacing:normal}
+.sender-choice input{width:auto;margin:0}
+/* Honeypot: invisible to people and to well-behaved agents alike. */
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://lloyal.ai/#organization","name":"Lloyal Labs","url":"https://lloyal.ai/","logo":"https://lloyal.ai/favicon.png","description":"Lloyal Labs builds the platform for Vertical Inference \u2014 an architecture in which the application, the model runtime and live inference state become one programmable system.","sameAs":["https://github.com/lloyal-ai","https://www.npmjs.com/org/lloyal-labs"],"knowsAbout":{"@id":"https://verticalinference.lloyal.ai/#term"}},{"@type":"WebSite","@id":"https://lloyal.ai/#website","url":"https://lloyal.ai/","name":"Lloyal Labs","publisher":{"@id":"https://lloyal.ai/#organization"},"about":{"@id":"https://verticalinference.lloyal.ai/#term"}}]}</script>
 </head>
@@ -1432,15 +1453,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <span>Private Abilities</span><span>Your own signed channel</span><span>One program, every placement</span><span>Production support</span>
 </div>
 </div>
-<form class="partner-form reveal" data-partner-form="" id="partner-form">
-<label>Company<input autocomplete="organization" name="company" required=""/></label>
-<label>Your name<input autocomplete="name" name="name" required=""/></label>
-<label>Email<input autocomplete="email" name="email" required="" type="email"/></label>
-<label>What should your product be able to do?<textarea name="capability" required="" rows="4"></textarea></label>
-<label>Where must it run?<input name="placement" placeholder="desktop, appliance, cluster…"/><small class="field-hint">e.g. desktop &middot; on-prem NVIDIA DGX-class appliance &middot; frontier GPU cluster</small></label>
-<button class="button button-light" type="submit">Build with Lloyal</button>
-<p class="form-note">Goes straight to the founders — a reply within one business day.</p>
-</form>
+<form class="partner-form reveal" data-partner-form="" id="partner-form"><p class="form-heading">Get in touch.</p><label>Name<input autocomplete="name" name="name" required=""/></label><label>Email<input autocomplete="email" name="email" required="" type="email"/></label><label>Reason<select name="reason"><option>Building something</option><option>Partnership</option><option>Hardware / OEM</option><option>Press</option><option>Something else</option></select></label><label>Note<textarea name="note" rows="4"></textarea></label><fieldset class="sender-choice"><legend>I&rsquo;m</legend><label><input type="radio" name="sender" value="a human" checked=""/>a human</label><label><input type="radio" name="sender" value="an agent"/>an agent</label></fieldset><div aria-hidden="true" class="hp"><label>Website<input name="website" tabindex="-1" autocomplete="off"/></label></div><button class="button button-light" type="submit">Send</button><p class="form-note">Goes straight to the founders &mdash; a reply within one business day.</p></form>
 </div>
 </div>
 <div aria-label="The same deep-research harness across edge and frontier compute" class="wrap hero-proof reveal" id="same-harness">

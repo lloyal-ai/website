@@ -101,12 +101,23 @@
   form?.addEventListener('submit', async (event) => {
     event.preventDefault();
     const data = new FormData(form);
+    // Honeypot: only a naive bot fills a field parked off-screen. Bail
+    // silently so it learns nothing about why nothing happened.
+    if (String(data.get('website') || '')) { form.reset(); return; }
+
+    const note = String(data.get('note') || '');
+    const reason = String(data.get('reason') || '');
     const fields = {
-      company: String(data.get('company') || ''),
       name: String(data.get('name') || ''),
       email: String(data.get('email') || ''),
-      capability: String(data.get('capability') || ''),
-      placement: String(data.get('placement') || ''),
+      reason,
+      note,
+      sender: String(data.get('sender') || 'a human'),
+      // Legacy keys so the existing Sheet columns keep filling until they are
+      // renamed: capability held the free text, placement held the routing.
+      company: '',
+      capability: note,
+      placement: reason,
     };
 
     if (SHEET_ENDPOINT) {
@@ -137,17 +148,14 @@
       }
     }
 
-    const subject = `Lloyal product capability — ${fields.company || 'product discussion'}`;
+    const subject = `Lloyal — ${fields.reason || 'get in touch'}`;
     const body = [
-      `Company: ${fields.company}`,
       `Name: ${fields.name}`,
       `Email: ${fields.email}`,
+      `Reason: ${fields.reason}`,
+      `Sent by: ${fields.sender}`,
       '',
-      'What the product should be able to do:',
-      fields.capability,
-      '',
-      'Required placements:',
-      fields.placement,
+      fields.note,
     ].join('\n');
     window.location.href = `mailto:zuhair@lloyal.ai?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   });
