@@ -1236,6 +1236,11 @@ main > section > .partner-band { width: 100%; }
   .dispatch-tile { flex: 0 0 min(74vw, 260px); scroll-snap-align: start; }
 }
 .dispatch-rail__all { display: inline-flex; margin-top: 14px; }
+
+/* Closing band: .form-note is tuned for the light partner card and reads at
+   3.15:1 on this ground. Palette values that clear AA on #080808. */
+#start .form-note{color:#8b8780}
+#start .form-note a{color:#c9c6c0}
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://lloyal.ai/#organization","name":"Lloyal Labs","url":"https://lloyal.ai/","logo":"https://lloyal.ai/favicon.png","description":"Lloyal Labs builds the platform for Vertical Inference \u2014 an architecture in which the application, the model runtime and live inference state become one programmable system.","sameAs":["https://github.com/lloyal-ai","https://www.npmjs.com/org/lloyal-labs"],"knowsAbout":{"@id":"https://verticalinference.lloyal.ai/#term"}},{"@type":"WebSite","@id":"https://lloyal.ai/#website","url":"https://lloyal.ai/","name":"Lloyal Labs","publisher":{"@id":"https://lloyal.ai/#organization"},"about":{"@id":"https://verticalinference.lloyal.ai/#term"}}]}</script>
 </head>
@@ -1422,9 +1427,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="ship-copy reveal">
 <p class="section-index">FOR PRODUCT TEAMS</p>
 <h2>Make one high-value capability native to your product.</h2>
-<p class="large-copy">Work with Lloyal to turn a consequential workflow into a production harness—integrated with your existing product, connected to the systems it depends on and deployable across the environments your customers require.</p>
+<p class="large-copy">You build the harness and you keep it. For a first capability going to production — inside your existing product, on the systems it depends on, across the environments your customers require — we engineer alongside your team.</p>
 <div class="engagement">
-<span>One product capability</span><span>One product integration</span><span>Private Abilities</span><span>Multiple placements</span>
+<span>Private Abilities</span><span>Your own signed channel</span><span>One program, every placement</span><span>Production support</span>
 </div>
 </div>
 <form class="partner-form reveal" data-partner-form="" id="partner-form">
@@ -1494,7 +1499,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 </div>
 </section>
-</main>
+<section id="start"><div class="partner-band"><div class="wrap"><p class="section-index">START</p><h2>All of it ships from one command.</h2><div class="build-command"><span>$</span><code><span class="cmd-run">npx</span> lloyal-ai new</code><button type="button" data-copy-command="npx lloyal-ai new">Copy</button></div><p class="form-note">No API key, no inference server, no vector database. <a href="https://docs.lloyal.ai/build-your-first-harness">Ten-minute guide</a> · <a href="https://docs.lloyal.ai/">Docs</a> · <a href="https://github.com/lloyal-ai/hdk">HDK on GitHub</a></p></div></div></section></main>
 <footer>
 <div class="wrap footer-top">
 <div>
