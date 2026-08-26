@@ -13,9 +13,9 @@
 import { dirname, resolve } from 'node:path';
 import puppeteer from 'puppeteer';
 
-const [out, lead, dek] = process.argv.slice(2);
+const [out, lead, dek, kicker, foot] = process.argv.slice(2);
 if (!out || !lead || !dek) {
-  console.error('usage: og-card.mjs <out.png> "<headline>" "<dek>"');
+  console.error('usage: og-card.mjs <out.png> "<headline>" "<dek>" [kicker] [foot]');
   process.exit(2);
 }
 
@@ -23,9 +23,11 @@ const b = await puppeteer.launch({ headless: 'shell', args: ['--hide-scrollbars'
 const p = await b.newPage();
 await p.setViewport({ width: 1200, height: 630, deviceScaleFactor: 1 });
 await p.goto(`file://${resolve('tools/og-card.html')}`, { waitUntil: 'networkidle0' });
-await p.evaluate(([lead, dek]) => {
+await p.evaluate(([lead, dek, kicker, foot]) => {
   document.getElementById('lead').textContent = lead;
   document.getElementById('dek').textContent = dek;
+  if (kicker) document.getElementById('kicker').textContent = kicker;
+  if (foot) document.getElementById('foot').textContent = foot;
   // shrink until the headline fits two lines, so a long claim degrades rather
   // than overflowing the card
   const h = document.getElementById('lead');
@@ -33,7 +35,7 @@ await p.evaluate(([lead, dek]) => {
     h.style.fontSize = size + 'px';
     if (h.getBoundingClientRect().height <= size * 0.92 * 2 + 4) break;
   }
-}, [lead, dek]);
+}, [lead, dek, kicker, foot]);
 await p.evaluate(() => document.fonts.ready);
 await new Promise((r) => setTimeout(r, 600));
 await p.screenshot({ path: out, clip: { x: 0, y: 0, width: 1200, height: 630 } });
