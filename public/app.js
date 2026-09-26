@@ -152,7 +152,7 @@
     const body = [
       `Name: ${fields.name}`,
       `Email: ${fields.email}`,
-      `Organisation: ${fields.company}`,
+      ...(fields.company ? [`Organisation: ${fields.company}`] : []),
       `Reason: ${fields.reason}`,
       `Sent by: ${fields.sender}`,
       '',

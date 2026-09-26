@@ -348,7 +348,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <a class="button button-light" href="#contact">Talk to the founders</a>
 <a class="button button-line" href="#how">See how it works</a>
 </div>
-<p class="biz-hero-note">Your message goes straight to the two founders.</p>
+<p class="biz-hero-note">Your message goes straight to the founders.</p>
 </div>
 </div>
 </section>
@@ -457,7 +457,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <article>
 <p class="biz-label">Control</p>
 <h3>It only reaches what you allow.</h3>
-<p>You grant the AI exactly the documents and tools it may use. Anything else is refused before it runs.</p>
+<p>You decide which tools and data sources the AI can use, and which ones need your approval. Anything else is refused before it runs.</p>
 </article>
 <article>
 <p class="biz-label">Custody</p>
@@ -537,8 +537,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div><dt>RUNTIME</dt><dd>The model runs in the same process as your application, through HDK (Harness Development Kit). No API key and no separate inference server.</dd></div>
 <div><dt>MODELS</dt><dd>Open-weight models in GGUF format, from small models on a laptop to frontier-scale models on your own infrastructure. The model is a file path; changing it doesn't change your application.</dd></div>
 <div><dt>PERMISSIONS</dt><dd>Your application grants tools to the AI. A protected tool without a grant is refused before it executes, and the refusal is recorded as an event.</dd></div>
-<div><dt>AUDIT</dt><dd>Every agent step is emitted as an event (<code>agent:spawn</code>, <code>agent:tool_call</code>, <code>agent:tool_result</code>, <code>agent:return</code>, <code>tool:error</code>). Your application writes those events to your own log.</dd></div>
-<div><dt>NETWORK</dt><dd>Inference is local. Data leaves only through tools you grant, such as web search, which sends the search query.</dd></div>
+<div><dt>AUDIT</dt><dd>Every agent step is emitted as a structured event (<code>agent:spawn</code>, <code>agent:tool_call</code>, <code>agent:tool_result</code>, <code>agent:return</code>, <code>tool:error</code>, <code>tool:authReject</code>). Your application writes those events to your own log.</dd></div>
+<div><dt>NETWORK</dt><dd>Inference is local. Data leaves only through tools you give it, such as web search, which sends the search query.</dd></div>
 <div><dt>SET-UP</dt><dd><code>npx lloyal-ai new</code> scaffolds a TypeScript application. On first run it downloads the model and verifies its digest.</dd></div>
 </dl>
 <div class="biz-links">
@@ -550,7 +550,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="biz-tech-visual">
 <figure class="scaffold-shot">
 <div class="scaffold-shot-head"><span>lloyal-ai</span><em>guided application scaffold</em></div>
-<div class="scaffold-shot-viewport"><img alt="The lloyal-ai wizard scaffolding a Wikipedia research harness — template chosen, dependencies installed, ready to run across CLI, desktop and web with a resident Qwen model." src="/assets/harness-dev-new.gif"/></div>
+<div class="scaffold-shot-viewport"><img alt="The lloyal-ai wizard scaffolding a Wikipedia research harness — template chosen, dependencies installed, ready to run across CLI, desktop and web with a resident Qwen model." src="/assets/business-scaffold.gif"/></div>
 <figcaption>One command scaffolds a working application that runs the model inside it.</figcaption>
 </figure>
 </div>
@@ -566,7 +566,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <p class="section-index">Talk to us</p>
 <h2>Talk to the founders.</h2>
 <p class="large-copy">Lloyal Labs is a two-founder company building HDK, the runtime behind Lloyal.</p>
-<p class="biz-contact-note">Tell us what you're working on and what can't leave your organisation. It comes straight to the two of us. If there's a fit, we'll walk you through a working prototype and talk about where Lloyal could sit in your work.</p>
+<p class="biz-contact-note">Tell us what you're working on and what can't leave your organisation. It comes straight to the founders. If there's a fit, we'll walk you through a working prototype and talk about where Lloyal could sit in your work.</p>
 <ul class="biz-founders">
 <li><strong>Zuhair Naqvi</strong><span>FOUNDER</span></li>
 <li><strong>Kazim Musa</strong><span>CO-FOUNDER</span></li>
@@ -606,7 +606,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 </div>
 <div class="wrap footer-bottom"><span>© 2026 LLoyal AI. All rights reserved.</span><span>Melbourne, Australia</span></div>
-<p class="wrap footer-legal">NVIDIA, the NVIDIA logo, and NVIDIA Inception are trademarks and/or registered trademarks of NVIDIA Corporation in the U.S. and other countries. RunPod is a trademark of its owner.</p>
+<p class="wrap footer-legal">NVIDIA, the NVIDIA logo, and NVIDIA Inception are trademarks and/or registered trademarks of NVIDIA Corporation in the U.S. and other countries.</p>
 </footer>
 <script src="/app.js"></script>
 </body>
