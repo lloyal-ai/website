@@ -148,6 +148,21 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 .biz-sub { margin: 18px 0 0; max-width: 760px; color: var(--ink); font-family: var(--display); font-size: clamp(22px, 2vw, 30px); font-weight: 600; line-height: 1.2; letter-spacing: -.02em; }
 .band-cream .biz-sub { color: #111; }
 
+/* ---- .hl: drawn gold underline under one phrase. Default state is drawn,
+   so no-JS and reduced motion both show the finished stroke. JS adds
+   .hl-armed (undrawn), then .hl-on when the heading scrolls into view. ---- */
+/* padding-bottom reserves the stroke's room in the line box: it clears the
+   descenders and can never run into a following line. The viewBox is about
+   the phrase's aspect (~5.3em x .1em) so the stroke barely distorts. */
+.hl { position: relative; display: inline-block; padding-bottom: .3em; white-space: nowrap; }
+.hl > svg { position: absolute; left: -.02em; bottom: .04em; width: calc(100% + .04em); height: .1em; overflow: visible; pointer-events: none; }
+.hl > svg path { fill: none; stroke: #B7791F; stroke-width: 7.5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 100; stroke-dashoffset: 0; }
+.hl.hl-armed > svg path { stroke-dashoffset: 100; }
+.hl.hl-armed.hl-on > svg path { stroke-dashoffset: 0; transition: stroke-dashoffset .7s cubic-bezier(.22,.61,.36,1); }
+@media (prefers-reduced-motion: reduce) {
+  .hl > svg path, .hl.hl-armed > svg path { stroke-dashoffset: 0 !important; transition: none !important; }
+}
+
 /* ---- Shared section furniture ---- */
 .biz-lede { max-width: 680px; margin: 26px 0 0; color: var(--muted); font-size: clamp(18px, 1.35vw, 20px); line-height: 1.6; }
 .biz-lede + .biz-lede { margin-top: 14px; }
@@ -569,7 +584,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="wrap">
 <div class="section-head">
 <p class="section-index">The problem</p>
-<h2>Most AI is out of your control.</h2>
+<h2>Most AI is out of <span class="hl">your control<svg aria-hidden="true" focusable="false" viewBox="0 0 528 10" preserveAspectRatio="none"><path pathLength="100" d="M5 6.6C92 3.4 172 2.8 262 4.4S424 8.2 523 3.8"/></svg></span>.</h2>
 </div>
 <div class="biz-worries biz-offset">
 <article><h3>Your data leaves the building.</h3><p>Client files and internal documents go to someone else's servers, and you can't see what happens to them there.</p></article>
@@ -601,7 +616,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </article>
 <article>
 <svg aria-hidden="true" class="biz-icon" viewBox="0 0 40 40"><path d="M2 20c5-8 11-12 18-12s13 4 18 12c-5 8-11 12-18 12S7 28 2 20z"/><circle cx="20" cy="20" r="6"/><circle class="dot" cx="20" cy="20" r="2.2"/></svg>
-<h3>Full transparency.</h3>
+<h3>Fully transparent.</h3>
 <p>See every step the AI takes in your own log, including anything your rules refused.</p>
 </article>
 </div>
@@ -839,6 +854,24 @@ document.querySelectorAll('.yt-facade').forEach(function (b) {
     });
   });
 });
+
+(function () {
+  var els = document.querySelectorAll('.hl');
+  if (!els.length || !('IntersectionObserver' in window)) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      var t = e.target; (t.classList.contains('hl') ? [t] : t.querySelectorAll('.hl')).forEach(function (h) { h.classList.add('hl-on'); });
+      io.unobserve(e.target);
+    });
+  }, { threshold: 0.6 });
+  els.forEach(function (el) {
+    el.classList.add('hl-armed');
+    el.getBoundingClientRect();
+    io.observe(el.closest('h2, h3, p') || el);
+  });
+})();
 </script>
 </body>
 </html>
