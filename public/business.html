@@ -174,6 +174,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   33%, 99% { stroke-dashoffset: 100; opacity: 0; }
   100% { stroke-dashoffset: 100; opacity: 1; }
 }
+.nowrap { white-space: nowrap; }
+/* Build it yourself / with us: underline alternates, 6s cycle. */
+.hl.hl-turn.hl-pair { padding-bottom: .3em; }
+.hl.hl-turn.hl-pair > svg { height: .1em; }
+.hl.hl-armed.hl-on.hl-turn.hl-pair > svg path { animation: hl-pair 6s cubic-bezier(.22,.61,.36,1) infinite; }
+.hl.hl-armed.hl-on.hl-turn.hl-pair.hl-pair-2 > svg path { animation-delay: 3s; }
+@keyframes hl-pair {
+  0% { stroke-dashoffset: 100; opacity: 1; }
+  12% { stroke-dashoffset: 0; opacity: 1; }
+  40% { stroke-dashoffset: 0; opacity: 1; }
+  48% { stroke-dashoffset: 0; opacity: 0; }
+  49%, 99% { stroke-dashoffset: 100; opacity: 0; }
+  100% { stroke-dashoffset: 100; opacity: 1; }
+}
 /* Draw .7s, hold ~3s, fade out, short pause, redraw. */
 @keyframes hl-loop {
   0% { stroke-dashoffset: 100; opacity: 1; }
@@ -762,7 +776,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="wrap">
 <div class="section-head">
 <p class="section-index">Work with us</p>
-<h2>Build it yourself, or build it <span class="hl">with us<svg aria-hidden="true" focusable="false" viewBox="0 0 308 10" preserveAspectRatio="none"><path pathLength="100" d="M2.9 6.6C53.7 3.4 100.3 2.8 152.8 4.4S247.3 8.2 305.1 3.8"/></svg></span>.</h2>
+<h2>Build it <span class="nowrap"><span class="hl hl-turn hl-pair">yourself<svg aria-hidden="true" focusable="false" viewBox="0 0 352 10" preserveAspectRatio="none"><path pathLength="100" d="M3.3 6.6C61.3 3.4 114.7 2.8 174.7 4.4S282.7 8.2 348.7 3.8"/></svg></span>,</span><br/> or build it <span class="hl hl-turn hl-pair hl-pair-2">with us<svg aria-hidden="true" focusable="false" viewBox="0 0 308 10" preserveAspectRatio="none"><path pathLength="100" d="M2.9 6.6C53.7 3.4 100.3 2.8 152.8 4.4S247.3 8.2 305.1 3.8"/></svg></span>.</h2>
 </div>
 <div class="biz-routes">
 <article class="biz-route">
