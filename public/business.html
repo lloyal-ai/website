@@ -158,9 +158,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 .hl > svg { position: absolute; left: -.02em; bottom: .04em; width: calc(100% + .04em); height: .1em; overflow: visible; pointer-events: none; }
 .hl > svg path { fill: none; stroke: #B7791F; stroke-width: 7.5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 100; stroke-dashoffset: 0; }
 .hl.hl-armed > svg path { stroke-dashoffset: 100; }
-.hl.hl-armed.hl-on > svg path { stroke-dashoffset: 0; transition: stroke-dashoffset .7s cubic-bezier(.22,.61,.36,1); }
+.hl.hl-armed.hl-on > svg path { animation: hl-loop 5.4s cubic-bezier(.22,.61,.36,1) infinite; }
+/* Draw .7s, hold ~3s, fade out, short pause, redraw. */
+@keyframes hl-loop {
+  0% { stroke-dashoffset: 100; opacity: 1; }
+  13% { stroke-dashoffset: 0; opacity: 1; }
+  70% { stroke-dashoffset: 0; opacity: 1; }
+  84% { stroke-dashoffset: 0; opacity: 0; }
+  85% { stroke-dashoffset: 100; opacity: 0; }
+  92% { stroke-dashoffset: 100; opacity: 1; }
+  100% { stroke-dashoffset: 100; opacity: 1; }
+}
 @media (prefers-reduced-motion: reduce) {
-  .hl > svg path, .hl.hl-armed > svg path { stroke-dashoffset: 0 !important; transition: none !important; }
+  .hl > svg path, .hl.hl-armed > svg path { stroke-dashoffset: 0 !important; opacity: 1 !important; transition: none !important; animation: none !important; }
 }
 
 /* ---- Shared section furniture ---- */
