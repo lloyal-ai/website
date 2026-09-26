@@ -35,81 +35,189 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <title>Lloyal for businesses · AI that you control</title>
 <link href="/styles.css" rel="stylesheet"/>
 <link rel="icon" href="/favicon.png"/>
+<!-- Business page only: Archivo (headings) + Manrope (text). The homepage keeps its own type. -->
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;900&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
 
 <style>
 /* ==== /business ============================================================
-   Built on the homepage system: styles.css tokens, the dark / cream band
-   alternation, hairline joins, square corners, mono labels. The band-cream,
-   rhythm and scaffold-shot rules below are copied from index.html's inline
-   blocks, because they live there rather than in styles.css. */
+   Built on the homepage system (styles.css tokens, dark / cream bands,
+   hairline joins, square corners), plus a colour layer that exists on this
+   page only: gold for action, cobalt for trust cues. Everything here is
+   scoped to .biz, so styles.css and the homepage are untouched.
+
+   Contrast (WCAG AA), checked:
+   #0A0A0A on gold #B7791F 5.4 · on gold hover #D9A441 8.8
+   cobalt #2E5EAA on cream #EFEDE6 5.4 · label blue #4A8FBF on #080808 5.7, on #111 5.3
+   white on cobalt 6.4 · gold #B7791F on cream 3.1 (rules and marks only,
+   never text). */
+
+/* The page sets .biz on body; the phone preview wraps the page in a .biz div. */
+.biz {
+  --gold: #B7791F;
+  --gold-hi: #D9A441;
+  --cobalt: #2E5EAA;
+  --steel: #4A6FA0;
+  --blue-on-dark: #4A8FBF;
+  --on-gold: #0A0A0A;
+  --display: "Archivo", "Manrope", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --sans: "Manrope", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: var(--sans);
+  font-size: 18px;
+  line-height: 1.6;
+  letter-spacing: 0;
+}
+.biz h1, .biz h2, .biz h3, .biz .form-heading { font-family: var(--display); }
+
+/* ---- Header, on this page only: larger, sentence-case, readable ---- */
+.biz .brand-line { font-family: var(--sans); font-size: 13px; letter-spacing: 0; text-transform: none; color: #9a978f; }
+.biz .desktop-nav a { font-size: 14px; font-weight: 500; }
+/* Concept 8's one gold mark in the header: a dot beside the wordmark. */
+.biz .site-header .wordmark::after { content: ""; width: 6px; height: 6px; margin-left: 4px; align-self: center; border-radius: 50%; background: var(--gold); }
+.biz .wordmark strong { font-family: var(--display); font-weight: 700; }
+.biz .desktop-nav a:hover { border-bottom-color: var(--gold); }
+.biz .mobile-nav a { font-size: 17px; }
+
+/* ---- Buttons: gold carries the action ---- */
+.biz .button { min-height: 50px; padding: 0 22px; font-size: 15px; font-weight: 700; letter-spacing: 0; }
+.biz .button-gold { color: var(--on-gold); background: var(--gold); border-color: var(--gold); }
+.biz .button-gold:hover { background: var(--gold-hi); border-color: var(--gold-hi); }
+.biz .button-line { border-color: #4a4843; }
+.biz .button-line:hover { border-color: var(--ink); }
+.biz .band-cream .button-line { color: #111; border-color: #aaa49a; }
+.biz .band-cream .button-line:hover { border-color: #111; }
+.biz .button:focus-visible { outline: 2px solid var(--blue-on-dark); outline-offset: 3px; }
+.biz .band-cream .button:focus-visible { outline-color: var(--cobalt); }
 
 /* ---- Rhythm (homepage's compressed scale) ---- */
-.section { padding: clamp(72px, 6.5vw, 108px) 0; }
-.partner-band { padding-block: clamp(72px, 6.5vw, 104px); }
-@media (max-width: 820px) { .section, .partner-band { padding-block: 68px; } }
-@media (max-width: 560px) { .section, .partner-band { padding-block: 56px; } }
+.biz .section { padding: clamp(80px, 7vw, 120px) 0; }
+.biz .partner-band { padding-block: clamp(80px, 7vw, 116px); }
+@media (max-width: 820px) { .biz .section, .biz .partner-band { padding-block: 72px; } }
+@media (max-width: 560px) { .biz .section, .biz .partner-band { padding-block: 60px; } }
 
 /* ---- Cream band (from index.html) ---- */
-.band-cream, .section.band-cream {
+.biz .band-cream, .biz .section.band-cream {
   color: #111;
   background: var(--cream);
   border-bottom: 1px solid #c8c3b8;
 }
-.band-cream .section-index { color: #625e57; }
-.band-cream h2, .band-cream h3 { color: #050505; }
+.biz .band-cream h2, .biz .band-cream h3 { color: #050505; }
+
+/* ---- Section labels: short, sentence case, in the accent colour ---- */
+.biz .kicker, .biz .section-index, .biz .biz-label {
+  margin: 0;
+  color: var(--blue-on-dark);
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: .01em;
+  text-transform: none;
+}
+.biz .section-index { padding-top: 14px; }
+.biz .band-cream .section-index, .biz .band-cream .biz-label { color: var(--cobalt); }
+.biz .section-index::before, .biz .kicker::before {
+  content: ""; display: block; width: 28px; height: 2px; margin-bottom: 14px; background: var(--gold);
+}
+
+/* ---- Headings: Archivo wants less negative tracking than the old sans ---- */
+.biz .section-head h2, .biz .ship-copy h2 {
+  font-size: clamp(44px, 5.2vw, 80px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -.035em;
+}
+.biz-sub { margin: 18px 0 0; max-width: 760px; color: var(--ink); font-family: var(--display); font-size: clamp(22px, 2vw, 30px); font-weight: 600; line-height: 1.2; letter-spacing: -.02em; }
+.band-cream .biz-sub { color: #111; }
 
 /* ---- Shared section furniture ---- */
-.biz-lede { max-width: 640px; margin: 26px 0 0; color: var(--muted); font-size: clamp(17px, 1.3vw, 19px); line-height: 1.55; }
+.biz-lede { max-width: 680px; margin: 26px 0 0; color: var(--muted); font-size: clamp(18px, 1.35vw, 20px); line-height: 1.6; }
 .biz-lede + .biz-lede { margin-top: 14px; }
 .band-cream .biz-lede { color: #4a463f; }
-.biz-label { margin: 0; color: #96938d; font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; }
-.band-cream .biz-label { color: #625e57; }
 /* The copy column starts where the section-head's second column does. */
 .biz-offset { margin-left: 298px; }
 @media (max-width: 1100px) { .biz-offset { margin-left: 238px; } }
 @media (max-width: 820px) { .biz-offset { margin-left: 0; } }
 
-/* ---- S0 hero: typographic, left-aligned, the headline is the visual ---- */
-.biz-hero { padding: clamp(92px, 9.5vw, 156px) 0 clamp(96px, 10vw, 164px); border-bottom: 1px solid var(--line-soft); }
-.biz-hero-inner { max-width: 1060px; }
-.biz-hero .kicker { margin-bottom: clamp(28px, 3.6vw, 52px); }
+/* ---- Hero: copy at ~60%, the live log on the right ---- */
+.biz-hero {
+  padding: clamp(84px, 8vw, 136px) 0 clamp(88px, 8.5vw, 144px);
+  border-bottom: 1px solid var(--line-soft);
+  background: radial-gradient(ellipse 48% 60% at 82% 46%, rgba(46,94,170,.16), transparent 70%);
+}
+.biz-hero-grid { display: grid; grid-template-columns: minmax(0, 60fr) minmax(0, 40fr); gap: clamp(40px, 5vw, 88px); align-items: center; }
+.biz-hero .kicker { margin-bottom: clamp(26px, 3vw, 40px); font-size: 15px; }
 .biz-hero h1 {
   margin: 0;
-  font-size: clamp(56px, 7.5vw, 120px);
-  font-weight: 650;
-  line-height: .9;
-  letter-spacing: -.06em;
+  color: #fff;
+  font-size: clamp(52px, 5.9vw, 96px);
+  font-weight: 900;
+  line-height: .98;
+  letter-spacing: -.025em;
   text-wrap: balance;
 }
 .biz-hero h1 span { color: #8d8a84; }
-.biz-hero .large-copy { max-width: 640px; margin-top: clamp(30px, 3.2vw, 44px); color: #c9c6c0; font-size: clamp(18px, 1.5vw, 22px); line-height: 1.5; letter-spacing: -.015em; }
-.biz-hero .hero-actions { justify-content: flex-start; margin-top: 38px; }
-.biz-hero-note { margin: 18px 0 0; color: var(--faint); font-family: var(--mono); font-size: 11px; letter-spacing: .02em; }
+.biz-hero .large-copy { max-width: 620px; margin-top: clamp(28px, 3vw, 40px); color: #d2cfc9; font-size: clamp(19px, 1.5vw, 22px); line-height: 1.55; }
+.biz-hero .hero-actions { justify-content: flex-start; margin-top: 38px; gap: 12px; }
+.biz-hero-note { margin: 18px 0 0; color: #9a978f; font-size: 15px; }
 
-/* ---- S1 the problem ---- */
+/* The hero visual: a compact, looping version of the log in "Control locally". */
+.hero-log { min-width: 0; margin: 0; border: 1px solid #2e2d2a; border-top: 2px solid var(--cobalt); background: #0d0d0d; box-shadow: 0 34px 90px rgba(0,0,0,.5); font-family: var(--mono); }
+.hero-log-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 16px 20px; border-bottom: 1px solid #262523; color: #cfccc5; font-family: var(--sans); font-size: 14px; font-weight: 700; }
+.hero-log-head em { color: #9a978f; font-style: normal; font-weight: 500; }
+.hero-log-head em::before { content: ""; display: inline-block; width: 7px; height: 7px; margin-right: 8px; vertical-align: 1px; border-radius: 50%; background: var(--blue-on-dark); animation: blink 1.1s steps(1) infinite; }
+.hero-log ol { list-style: none; margin: 0; padding: 4px 20px; }
+.hero-log li { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; column-gap: 12px; align-items: start; padding: 16px 0; border-bottom: 1px solid #1f1e1c; }
+.hero-log li:last-child { border-bottom: 0; }
+.hero-log b { padding-top: 2px; color: #77746e; font-size: 13px; font-weight: 400; }
+.hero-log .step { display: block; color: #efede6; font-size: 15px; line-height: 1.35; overflow-wrap: anywhere; }
+.hero-log .rule { display: block; margin-top: 5px; color: #9a978f; font-family: var(--sans); font-size: 14px; line-height: 1.35; }
+.hero-log .state { align-self: center; font-style: normal; padding: 5px 9px; border: 1px solid var(--blue-on-dark); color: var(--blue-on-dark); font-family: var(--sans); font-size: 13px; font-weight: 700; white-space: nowrap; }
+.hero-log .state.is-refused { color: #fff; background: var(--cobalt); border-color: var(--cobalt); }
+.hero-log figcaption { margin: 0; padding: 14px 20px 16px; border-top: 1px solid #262523; color: #b9b6af; font-family: var(--sans); font-size: 14px; }
+.hero-log figcaption::before { content: ""; display: inline-block; width: 8px; height: 8px; margin-right: 10px; background: var(--gold); vertical-align: 1px; }
+
+/* Loop: 12 s. Resting values are the final frame, so reduced motion simply
+   switches the animation off and shows the whole log. */
+.hl-r1 { animation: hl-r1 12s infinite; }
+.hl-r2 { animation: hl-r2 12s infinite; }
+.hl-r3 { animation: hl-r3 12s infinite; }
+.hl-s1 { animation: hl-s1 12s infinite; }
+.hl-s2 { animation: hl-s2 12s infinite; }
+.hl-s3 { animation: hl-s3 12s infinite; }
+.hl-f { animation: hl-f 12s infinite; }
+@keyframes hl-r1 { 0%, 2% { opacity: 0; transform: translateY(6px); } 7%, 92% { opacity: 1; transform: none; } 97%, 100% { opacity: 0; } }
+@keyframes hl-s1 { 0%, 12% { opacity: 0; transform: scale(.9); } 15%, 92% { opacity: 1; transform: none; } 97%, 100% { opacity: 0; } }
+@keyframes hl-r2 { 0%, 24% { opacity: 0; transform: translateY(6px); } 29%, 92% { opacity: 1; transform: none; } 97%, 100% { opacity: 0; } }
+@keyframes hl-s2 { 0%, 35% { opacity: 0; transform: scale(.9); } 38%, 92% { opacity: 1; transform: none; } 97%, 100% { opacity: 0; } }
+@keyframes hl-r3 { 0%, 48% { opacity: 0; transform: translateY(6px); } 53%, 92% { opacity: 1; transform: none; } 97%, 100% { opacity: 0; } }
+@keyframes hl-s3 { 0%, 58% { opacity: 0; transform: scale(.9); } 61%, 92% { opacity: 1; transform: none; } 97%, 100% { opacity: 0; } }
+@keyframes hl-f { 0%, 70% { opacity: 0; } 75%, 92% { opacity: 1; } 97%, 100% { opacity: 0; } }
+
+/* ---- The problem ---- */
 .biz-worries { margin-top: clamp(48px, 5vw, 76px); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 clamp(32px, 4vw, 64px); }
-.biz-worries article { padding: 20px 0 36px; border-top: 1px solid #c8c3b8; }
-.biz-worries h3 { margin: 16px 0 10px; font-size: clamp(22px, 1.9vw, 28px); font-weight: 650; line-height: 1.08; letter-spacing: -.035em; }
-.biz-worries p { max-width: 440px; margin: 0; color: #4a463f; font-size: 16px; }
-.biz-close { max-width: 560px; margin-top: clamp(10px, 2vw, 24px); margin-bottom: 0; color: #2a2723; font-size: 17px; line-height: 1.5; }
-.biz-close strong { color: #050505; font-weight: 650; }
+.biz-worries article { position: relative; padding: 24px 0 38px; border-top: 1px solid #c8c3b8; }
+.biz-worries article::before { content: ""; position: absolute; left: 0; top: -1px; width: 40px; height: 2px; background: var(--cobalt); }
+.biz-worries h3 { margin: 0 0 12px; font-size: clamp(24px, 2vw, 30px); font-weight: 700; line-height: 1.12; letter-spacing: -.025em; }
+.biz-worries p { max-width: 460px; margin: 0; color: #4a463f; font-size: 18px; }
+.biz-close { max-width: 640px; margin-top: clamp(10px, 2vw, 24px); margin-bottom: 0; color: #2a2723; font-size: clamp(19px, 1.5vw, 22px); line-height: 1.5; }
+.biz-close strong { display: block; margin-top: 6px; color: #050505; font-family: var(--display); font-weight: 700; letter-spacing: -.015em; }
 
-.biz-worries .biz-label, .biz-cols .biz-label { max-width: none; margin: 0; color: #625e57; font-size: 10px; }
-
-/* ---- S2 benefits: three columns, vertical rules, no boxes ---- */
+/* ---- Three benefits: three columns, vertical rules, no boxes ---- */
 .biz-cols { margin-top: clamp(52px, 6vw, 88px); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .biz-cols article { min-width: 0; padding: 4px clamp(22px, 2.8vw, 44px) 8px; border-left: 1px solid var(--line); }
 .biz-cols article:first-child { padding-left: 0; border-left: 0; }
-.biz-icon { width: 40px; height: 40px; color: var(--ink); overflow: visible; }
+.biz-icon { width: 44px; height: 44px; color: var(--blue-on-dark); overflow: visible; }
 .biz-icon * { fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: square; stroke-linejoin: miter; }
 .biz-icon .dot { fill: currentColor; stroke: none; }
-.biz-cols h3 { margin: 30px 0 12px; font-size: 24px; font-weight: 650; line-height: 1.1; letter-spacing: -.035em; }
-.biz-cols p { max-width: 360px; margin: 0; color: var(--muted); font-size: 16px; }
+.biz-cols h3 { margin: 28px 0 12px; font-size: clamp(26px, 2vw, 30px); font-weight: 700; line-height: 1.1; letter-spacing: -.025em; }
+.biz-cols p { max-width: 380px; margin: 0; color: var(--muted); font-size: 18px; }
 .band-cream .biz-cols article { border-left-color: #c8c3b8; }
-.band-cream .biz-cols h3 { margin-top: 18px; }
+.band-cream .biz-cols h3 { margin-top: 14px; }
 .band-cream .biz-cols p { color: #4a463f; }
+.biz-upside { max-width: 900px; margin: clamp(56px, 6vw, 88px) 0 0; padding-left: 24px; border-left: 3px solid var(--gold); color: var(--ink); font-family: var(--display); font-size: clamp(24px, 2.3vw, 34px); font-weight: 600; line-height: 1.25; letter-spacing: -.02em; }
 
-/* ---- S3 the difference: two-lane diagram ---- */
+/* ---- Control locally: two-lane diagram (type ~30% up from v1) ---- */
 .biz-diagram {
   margin: clamp(52px, 6vw, 84px) 0 clamp(52px, 6vw, 84px);
   display: grid;
@@ -120,17 +228,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 .lane { min-width: 0; padding: 26px 0 36px; }
 .lane-cloud { padding-right: clamp(24px, 3vw, 48px); }
 .lane-lloyal { padding-left: clamp(24px, 3vw, 48px); border-left: 1px solid #c8c3b8; }
-.lane-caption { margin: 0; color: #625e57; font-size: 10px; letter-spacing: .18em; text-transform: uppercase; }
+.lane-caption { margin: 0; color: #4a463f; font-family: var(--sans); font-size: 15px; font-weight: 700; }
+.lane-lloyal .lane-caption { color: var(--cobalt); }
 .lane-body { margin-top: 30px; }
 
 /* Left lane: the old way, drawn quieter. Dashed = a network seam. */
-.lane-cloud .lane-body { opacity: .7; }
-.cloud-flow { display: grid; grid-template-columns: minmax(70px, .9fr) minmax(56px, 1.2fr) minmax(84px, 1fr); grid-template-rows: auto 44px auto; align-items: center; margin-top: 64px; }
-.cloud-node { min-height: 64px; display: grid; place-items: center; padding: 10px; border: 1px solid #111; color: #111; background: var(--cream); font-size: 11px; line-height: 1.3; text-align: center; position: relative; z-index: 1; }
+.lane-cloud .lane-body { opacity: .75; }
+.cloud-flow { display: grid; grid-template-columns: minmax(80px, .9fr) minmax(56px, 1.1fr) minmax(96px, 1fr); grid-template-rows: auto 44px auto; align-items: center; margin-top: 70px; }
+.cloud-node { min-height: 72px; display: grid; place-items: center; padding: 10px; border: 1px solid #111; color: #111; background: var(--cream); font-size: 14px; line-height: 1.3; text-align: center; position: relative; z-index: 1; }
 .cloud-wire { position: relative; height: 0; border-top: 1px dashed #111; }
 .cloud-wire::after { content: ""; position: absolute; right: -1px; top: -4px; border-top: 3.5px solid transparent; border-bottom: 3.5px solid transparent; border-left: 6px solid #111; }
-.cloud-seam { position: absolute; left: 50%; top: -52px; height: 136px; border-left: 1px dashed #6b6760; }
-.cloud-seam em { position: absolute; bottom: 100%; left: 0; margin-bottom: 8px; transform: translateX(-50%); color: #6b6760; font-size: 10px; font-style: normal; white-space: nowrap; }
+.cloud-seam { position: absolute; left: 50%; top: -56px; height: 144px; border-left: 1px dashed #6b6760; }
+.cloud-seam em { position: absolute; bottom: 100%; left: 0; margin-bottom: 8px; transform: translateX(-50%); color: #5d5953; font-size: 13px; font-style: normal; white-space: nowrap; }
 .cloud-ret { position: relative; height: 44px; }
 .cloud-ret::before, .cloud-ret::after { content: ""; position: absolute; }
 .cloud-ret.at-app::before { left: 50%; right: 0; bottom: 0; border-bottom: 1px dashed #111; }
@@ -139,40 +248,40 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 .cloud-ret.mid::before { left: 0; right: 0; bottom: 0; border-bottom: 1px dashed #111; }
 .cloud-ret.at-provider::before { left: 0; right: 50%; bottom: 0; border-bottom: 1px dashed #111; }
 .cloud-ret.at-provider::after { left: 50%; top: 0; bottom: 0; border-left: 1px dashed #111; }
-.cloud-ret-label { grid-column: 1 / -1; margin: 10px 0 0; color: #6b6760; font-size: 10px; text-align: center; }
+.cloud-ret-label { grid-column: 1 / -1; margin: 12px 0 0; color: #5d5953; font-size: 13px; text-align: center; }
 
 /* Right lane: one solid boundary. Everything happens inside it. */
-.app-box { position: relative; padding: 42px clamp(16px, 2vw, 26px) clamp(16px, 2vw, 26px); border: 1.5px solid #111; }
-.app-box-label { position: absolute; top: 14px; left: clamp(16px, 2vw, 26px); color: #111; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; }
-.app-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr); gap: clamp(16px, 2vw, 28px); align-items: stretch; }
-.run { position: relative; display: flex; flex-direction: column; justify-content: center; min-width: 0; padding: 34px 0 40px; }
-.run-row { display: grid; grid-template-columns: 70px minmax(0, 1fr); align-items: center; }
-.run-model { height: 70px; display: grid; place-items: center; border: 1px solid #111; background: #111; color: var(--cream); font-size: 10px; letter-spacing: .14em; }
-.run-track { position: relative; height: 70px; }
+.app-box { position: relative; padding: 48px clamp(16px, 2vw, 26px) clamp(16px, 2vw, 26px); border: 1.5px solid #111; }
+.app-box-label { position: absolute; top: 14px; left: clamp(16px, 2vw, 26px); color: #111; font-family: var(--sans); font-size: 14px; font-weight: 700; }
+.app-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr); gap: clamp(16px, 2vw, 28px); align-items: stretch; }
+.run { position: relative; display: flex; flex-direction: column; justify-content: center; min-width: 0; padding: 40px 0 48px; }
+.run-row { display: grid; grid-template-columns: 76px minmax(0, 1fr); align-items: center; }
+.run-model { height: 76px; display: grid; place-items: center; border: 1px solid #111; background: #111; color: var(--cream); font-size: 13px; letter-spacing: .1em; }
+.run-track { position: relative; height: 76px; }
 .run-track::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; border-top: 1px solid rgba(17,17,17,.28); }
-.run-gate { position: absolute; left: 66%; top: -6px; bottom: -6px; width: 2px; background: #111; }
-.run-gate-label { position: absolute; bottom: 100%; left: 50%; margin-bottom: 8px; transform: translateX(-50%); color: #111; font-size: 9px; letter-spacing: .14em; white-space: nowrap; }
-.run-gate-state { position: absolute; top: 100%; left: 50%; margin-top: 10px; padding: 3px 6px; transform: translateX(-50%); color: #111; border: 1px solid #111; font-size: 9px; letter-spacing: .14em; white-space: nowrap; opacity: 0; }
-.run-gate-state.is-refused { color: var(--cream); background: #111; }
+.run-gate { position: absolute; left: 62%; top: -6px; bottom: -6px; width: 3px; background: var(--cobalt); }
+.run-gate-label { position: absolute; bottom: 100%; left: 50%; margin-bottom: 8px; transform: translateX(-50%); color: var(--cobalt); font-family: var(--sans); font-size: 13px; font-weight: 700; white-space: nowrap; }
+.run-gate-state { position: absolute; top: 100%; left: 50%; margin-top: 10px; padding: 3px 7px; transform: translateX(-50%); color: var(--cobalt); border: 1px solid var(--cobalt); background: var(--cream); font-size: 12px; letter-spacing: .08em; white-space: nowrap; opacity: 0; }
+.run-gate-state.is-refused { color: #fff; background: var(--cobalt); }
 .run-token { position: absolute; top: 50%; left: 0; width: 12px; height: 12px; margin-top: -6px; border: 1.5px solid #111; background: #111; opacity: 0; }
-.run-req { position: absolute; left: 70px; right: 0; top: 0; height: 16px; }
-.run-req span { position: absolute; left: 0; top: 0; color: #111; font-size: 11px; white-space: nowrap; opacity: 0; }
+.run-req { position: absolute; left: 76px; right: 0; top: 0; height: 20px; }
+.run-req span { position: absolute; left: 0; top: 0; color: #111; font-size: 14px; white-space: nowrap; opacity: 0; }
 .run-req span::before { content: "\2192  "; color: #6b6760; white-space: pre; }
-.run-log { min-width: 0; padding: 14px 16px 16px; color: var(--cream); background: #111; }
-.run-log .run-log-head { display: flex; justify-content: space-between; gap: 10px; margin: 0 0 12px; padding-bottom: 10px; border-bottom: 1px solid #2c2b29; color: #8a857c; font-size: 9px; letter-spacing: .16em; }
-.run-log-head em { font-style: normal; }
-.run-log-head em::before { content: ""; display: inline-block; width: 5px; height: 5px; margin-right: 7px; vertical-align: 1px; border-radius: 50%; background: #efede6; animation: blink 1.1s steps(1) infinite; }
-.run-log p { display: grid; grid-template-columns: 24px minmax(0, 1fr) auto; column-gap: 10px; margin: 0; padding: 7px 0; border-bottom: 1px solid #1f1e1c; font-size: 10.5px; line-height: 1.4; }
+.run-log { min-width: 0; padding: 16px 18px 18px; color: var(--cream); background: #111; }
+.run-log .run-log-head { display: flex; justify-content: space-between; gap: 10px; margin: 0 0 12px; padding-bottom: 10px; border-bottom: 1px solid #2c2b29; color: #b9b4aa; font-family: var(--sans); font-size: 13px; font-weight: 700; }
+.run-log-head em { font-style: normal; font-weight: 500; }
+.run-log-head em::before { content: ""; display: inline-block; width: 6px; height: 6px; margin-right: 7px; vertical-align: 1px; border-radius: 50%; background: var(--blue-on-dark); animation: blink 1.1s steps(1) infinite; }
+.run-log p { display: grid; grid-template-columns: 26px minmax(0, 1fr); column-gap: 10px; margin: 0; padding: 8px 0; border-bottom: 1px solid #1f1e1c; font-size: 13.5px; line-height: 1.4; }
 .run-log p:last-child { border-bottom: 0; }
-.run-log b { color: #77746e; font-weight: 400; }
+.run-log b { color: #8a857c; font-weight: 400; }
 .run-log span { color: #efede6; overflow-wrap: anywhere; }
-.run-log em { color: #b9b4aa; font-style: normal; letter-spacing: .06em; text-align: right; }
-.run-log em.is-refused { color: #efede6; }
+.run-log em { grid-column: 2; margin-top: 2px; color: var(--blue-on-dark); font-style: normal; font-size: 12.5px; letter-spacing: .06em; }
+.run-log em.is-refused { justify-self: start; padding: 1px 6px; color: #fff; background: var(--cobalt); }
 
 /* The loop: 12 s, one step every 3 s, a hold, then reset. The resting
    (non-animated) values above and below are the final frame, so reduced
    motion simply switches the animation off. */
-.run-token.t2 { left: calc(66% - 18px); opacity: 1; background: transparent; }
+.run-token.t2 { left: calc(62% - 18px); opacity: 1; background: transparent; }
 .run-req .r2 { opacity: 1; }
 .run-gate-state.is-refused { opacity: 1; }
 .t1 { animation: biz-t1 12s linear infinite; }
@@ -188,9 +297,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 .run-log .l2 { animation: biz-l2 12s infinite; }
 .run-log .l3 { animation: biz-l3 12s infinite; }
 .run-log .l4 { animation: biz-l4 12s infinite; }
-@keyframes biz-t1 { 0% { left: 0; opacity: 0; } 2% { left: 0; opacity: 1; } 12% { left: calc(66% - 5px); } 20% { left: calc(100% - 12px); opacity: 1; } 24%, 100% { left: calc(100% - 12px); opacity: 0; } }
-@keyframes biz-t2 { 0%, 25% { left: 0; opacity: 0; background: #111; } 27% { left: 0; opacity: 1; } 36% { left: calc(66% - 18px); background: #111; } 40%, 92% { left: calc(66% - 18px); opacity: 1; background: transparent; } 96%, 100% { left: calc(66% - 18px); opacity: 0; background: transparent; } }
-@keyframes biz-t3 { 0%, 50% { left: 0; opacity: 0; } 52% { left: 0; opacity: 1; } 62% { left: calc(66% - 5px); } 70% { left: calc(100% - 12px); opacity: 1; } 74%, 100% { left: calc(100% - 12px); opacity: 0; } }
+@keyframes biz-t1 { 0% { left: 0; opacity: 0; } 2% { left: 0; opacity: 1; } 12% { left: calc(62% - 5px); } 20% { left: calc(100% - 12px); opacity: 1; } 24%, 100% { left: calc(100% - 12px); opacity: 0; } }
+@keyframes biz-t2 { 0%, 25% { left: 0; opacity: 0; background: #111; } 27% { left: 0; opacity: 1; } 36% { left: calc(62% - 18px); background: #111; } 40%, 92% { left: calc(62% - 18px); opacity: 1; background: transparent; } 96%, 100% { left: calc(62% - 18px); opacity: 0; background: transparent; } }
+@keyframes biz-t3 { 0%, 50% { left: 0; opacity: 0; } 52% { left: 0; opacity: 1; } 62% { left: calc(62% - 5px); } 70% { left: calc(100% - 12px); opacity: 1; } 74%, 100% { left: calc(100% - 12px); opacity: 0; } }
 @keyframes biz-r1 { 0% { opacity: 0; } 2%, 22% { opacity: 1; } 25%, 100% { opacity: 0; } }
 @keyframes biz-r2 { 0%, 25% { opacity: 0; } 27%, 47% { opacity: 1; } 50%, 100% { opacity: 0; } }
 @keyframes biz-r3 { 0%, 50% { opacity: 0; } 52%, 72% { opacity: 1; } 75%, 100% { opacity: 0; } }
@@ -206,116 +315,141 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .biz-diagram .r1, .biz-diagram .r2, .biz-diagram .r3,
   .biz-diagram .g1, .biz-diagram .g2, .biz-diagram .g3,
   .biz-diagram .l1, .biz-diagram .l2, .biz-diagram .l3, .biz-diagram .l4,
-  .biz-diagram .run-log-head em::before { animation: none !important; }
+  .biz-diagram .run-log-head em::before,
+  .hero-log .hl-r1, .hero-log .hl-r2, .hero-log .hl-r3,
+  .hero-log .hl-s1, .hero-log .hl-s2, .hero-log .hl-s3, .hero-log .hl-f,
+  .hero-log-head em::before { animation: none !important; }
 }
 
-/* ---- S4 where it runs ---- */
+/* ---- Scale easily ---- */
 .biz-scale { position: relative; margin-top: clamp(56px, 6vw, 92px); }
 .biz-scale ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .biz-scale li { min-width: 0; display: grid; grid-template-rows: 132px auto; }
-.scale-glyph { display: flex; align-items: flex-end; padding-bottom: 0; border-bottom: 1px solid var(--ink); }
+.scale-glyph { position: relative; display: flex; align-items: flex-end; padding-bottom: 0; border-bottom: 1px solid var(--ink); }
 .scale-glyph svg { width: auto; color: var(--ink); overflow: visible; }
 .scale-glyph svg * { fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: square; vector-effect: non-scaling-stroke; }
-.scale-glyph svg .dot { fill: currentColor; stroke: none; }
+.scale-glyph svg .dot { fill: var(--gold-hi); stroke: none; }
 .scale-glyph .g-laptop { height: 60px; }
 .scale-glyph .g-box { height: 46px; }
 .scale-glyph .g-rack { height: 124px; }
 /* A tick where each machine meets the line. */
-.scale-glyph { position: relative; }
-.scale-glyph::after { content: ""; position: absolute; left: 0; bottom: -5px; width: 1px; height: 9px; background: var(--ink); }
+.scale-glyph::after { content: ""; position: absolute; left: 0; bottom: -5px; width: 2px; height: 9px; background: var(--gold-hi); }
 .scale-text { padding: 26px clamp(18px, 2.4vw, 36px) 0 0; }
 .scale-text p { margin: 0; }
-.scale-text p:last-child { margin-top: 10px; color: var(--muted); font-size: 16px; max-width: 300px; }
-.biz-scale .biz-label { color: #d8d5cf; }
+.scale-text p:last-child { margin-top: 10px; color: var(--muted); font-size: 18px; max-width: 320px; }
+.biz-scale .biz-label { font-size: 16px; }
 /* The shared line carries its name, as a tag sitting on the rail. */
-.scale-tag { position: absolute; left: 50%; top: 132px; transform: translate(-50%, -50%); padding: 5px 10px; color: var(--black); background: var(--ink); font-family: var(--mono); font-size: 9px; font-weight: 600; letter-spacing: .18em; white-space: nowrap; }
-.scale-tag::before, .scale-tag::after { content: ""; position: absolute; top: 50%; width: 5px; height: 5px; margin-top: -2.5px; background: var(--ink); }
+.scale-tag { position: absolute; z-index: 2; left: 50%; top: 132px; transform: translate(-50%, -50%); padding: 6px 12px; color: var(--on-gold); background: var(--gold); font-family: var(--sans); font-size: 13px; font-weight: 700; white-space: nowrap; }
+.scale-tag::before, .scale-tag::after { content: ""; position: absolute; top: 50%; width: 5px; height: 5px; margin-top: -2.5px; background: var(--gold); }
 
-/* ---- S5 ways to work with us ---- */
+/* ---- Work with us ---- */
 .biz-routes { margin-top: clamp(52px, 6vw, 84px); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(16px, 2vw, 28px); }
-.biz-route { min-width: 0; display: flex; flex-direction: column; align-items: flex-start; padding: 32px; border: 1px solid #c8c3b8; }
-.biz-route.is-with-us { border-color: #111; }
-.biz-route h3 { margin: 30px 0 14px; font-size: clamp(28px, 2.6vw, 38px); font-weight: 650; line-height: 1.02; letter-spacing: -.045em; }
-.biz-route p:not(.biz-label) { max-width: 480px; margin: 0 0 32px; color: #4a463f; font-size: 16px; }
+.biz-route { min-width: 0; display: flex; flex-direction: column; align-items: flex-start; padding: 36px; border: 1px solid #c8c3b8; }
+.biz-route.is-with-us { border-color: #111; border-top: 3px solid var(--gold); }
+.biz-route h3 { margin: 24px 0 14px; font-size: clamp(30px, 2.6vw, 40px); font-weight: 700; line-height: 1.05; letter-spacing: -.03em; }
+.biz-route p:not(.biz-label) { max-width: 500px; margin: 0 0 32px; color: #4a463f; font-size: 18px; }
 .biz-route .button { margin-top: auto; }
-.band-cream .button-line { color: #111; border-color: #aaa49a; }
-.band-cream .button-line:hover { border-color: #111; }
-.button-ink { color: var(--cream); background: #111; border-color: #111; }
-.button-ink:hover { background: #000; border-color: #000; }
 
-/* ---- S6 technical ---- */
+/* ---- Technical detail ---- */
 .biz-tech { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(48px, 6vw, 104px); align-items: start; }
-.biz-tech h2 { margin: 24px 0 0; max-width: 620px; font-size: clamp(42px, 4.6vw, 72px); font-weight: 650; line-height: .96; letter-spacing: -.062em; text-wrap: balance; }
+.biz-tech h2 { margin: 0; max-width: 620px; font-size: clamp(42px, 4.4vw, 68px); font-weight: 700; line-height: 1; letter-spacing: -.035em; text-wrap: balance; }
+.biz-tech .section-index { padding-top: 0; margin-bottom: 22px; }
 dl.biz-spec { margin: 40px 0 0; border-top: 1px solid var(--line-soft); }
-dl.biz-spec > div { display: grid; grid-template-columns: 116px minmax(0, 1fr); gap: 20px; padding: 16px 0; border-bottom: 1px solid var(--line-soft); font-family: var(--sans); font-size: 15px; }
-dl.biz-spec dt { padding-top: 4px; color: var(--faint); font-family: var(--mono); font-size: 10px; letter-spacing: .16em; }
-dl.biz-spec dd { margin: 0; color: var(--muted); text-align: left; line-height: 1.55; }
-dl.biz-spec code { color: #e4e0d9; font-family: var(--mono); font-size: 12.5px; }
-.biz-links { display: flex; flex-wrap: wrap; gap: 8px 28px; margin-top: 26px; }
-.biz-links .quiet-link { margin-top: 0; color: #b0ada7; border-bottom-color: #3b3935; padding-bottom: 3px; }
+dl.biz-spec > div { display: grid; grid-template-columns: 130px minmax(0, 1fr); gap: 20px; padding: 18px 0; border-bottom: 1px solid var(--line-soft); font-family: var(--sans); font-size: 17px; }
+dl.biz-spec dt { padding-top: 1px; color: var(--blue-on-dark); font-family: var(--sans); font-size: 15px; font-weight: 700; }
+dl.biz-spec dd { margin: 0; color: var(--muted); text-align: left; line-height: 1.6; }
+dl.biz-spec code { color: #e4e0d9; font-family: var(--mono); font-size: 14px; }
+.biz-links { display: flex; flex-wrap: wrap; gap: 10px 28px; margin-top: 28px; }
+.biz-links .quiet-link { margin-top: 0; color: #c9c6c0; font-size: 15px; border-bottom-color: #4a4843; padding-bottom: 3px; }
+.biz-links .quiet-link:hover { border-bottom-color: var(--gold-hi); }
 .biz-tech-visual { position: sticky; top: 104px; }
 .scaffold-shot { min-width: 0; margin: 0; border: 1px solid #343331; background: #06060d; box-shadow: 0 34px 90px rgba(0,0,0,.45); }
-.scaffold-shot-head { display: flex; justify-content: space-between; gap: 20px; padding: 12px 15px; border-bottom: 1px solid #29282f; color: #aaa7a1; font: 9px var(--mono); letter-spacing: .11em; text-transform: uppercase; }
-.scaffold-shot-head em { color: #67646f; font-style: normal; }
+.scaffold-shot-head { display: flex; justify-content: space-between; gap: 20px; padding: 12px 15px; border-bottom: 1px solid #29282f; color: #aaa7a1; font: 12px var(--mono); }
+.scaffold-shot-head em { color: #807d88; font-style: normal; }
 .scaffold-shot-viewport { position: relative; overflow: hidden; aspect-ratio: 16 / 10; background: #050510; }
 .scaffold-shot-viewport img { width: 100%; height: 100%; max-width: none; object-fit: contain; object-position: left top; display: block; }
-.scaffold-shot figcaption { margin: 0; padding: 15px; color: #8d8a84; border-top: 1px solid #29282f; font-size: 12px; line-height: 1.5; }
+.scaffold-shot figcaption { margin: 0; padding: 15px; color: #a19e98; border-top: 1px solid #29282f; font-size: 15px; line-height: 1.5; }
 
-/* ---- S7 contact ---- */
-.biz-contact-note { max-width: 560px; margin: 16px 0 0; color: var(--muted); font-size: 16px; }
+/* ---- Who we are + contact ---- */
+.biz .large-copy { font-size: 20px; }
+.biz-contact-note { max-width: 580px; margin: 16px 0 0; color: var(--muted); font-size: 18px; }
 .biz-founders { list-style: none; max-width: 520px; margin: 40px 0 0; padding: 0; border-top: 1px solid var(--line-soft); }
 .biz-founders li { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; padding: 16px 0; border-bottom: 1px solid var(--line-soft); }
-.biz-founders strong { font-size: 18px; font-weight: 650; letter-spacing: -.02em; }
-.biz-founders span { color: var(--faint); font-family: var(--mono); font-size: 10px; letter-spacing: .16em; }
+.biz-founders strong { font-family: var(--display); font-size: 20px; font-weight: 700; letter-spacing: -.015em; }
+.biz-founders span { color: #9a978f; font-size: 15px; }
 .biz-badge { margin-top: 36px; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
 .biz-badge a { display: flex; align-items: center; height: 69px; opacity: .92; }
 .biz-badge a:hover { opacity: 1; }
-.biz-badge span { color: #8d8a84; font-size: 12px; }
-.form-heading { margin: 0 0 4px; color: var(--ink); font-size: clamp(21px, 1.8vw, 26px); font-weight: 660; letter-spacing: -.03em; }
-#contact .form-note { color: #8c8983; font-size: 11px; }
-.partner-form textarea::placeholder { color: #5f5c57; }
+.biz-badge span { color: #9a978f; font-size: 14px; }
+.biz .form-heading { margin: 0 0 4px; color: var(--ink); font-size: clamp(23px, 1.9vw, 28px); font-weight: 700; letter-spacing: -.02em; }
+.biz .partner-form { padding: 34px; border-top: 2px solid var(--gold); gap: 20px; }
+.biz .partner-form label { color: #b9b6af; font-family: var(--sans); font-size: 14px; font-weight: 600; letter-spacing: 0; text-transform: none; }
+.biz .partner-form input, .biz .partner-form textarea { font-size: 17px; }
+.biz .partner-form input:focus, .biz .partner-form textarea:focus { border-color: var(--blue-on-dark); }
+.biz #contact .form-note { color: #9a978f; font-size: 14px; }
+.partner-form textarea::placeholder { color: #75726c; }
 .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 
+/* ---- Footer, this page only: bump the smallest type ---- */
+.biz footer .footer-top > div:first-child p,
+.biz footer .footer-links span { font-size: 11px; }
+.biz footer .footer-links a { font-size: 14px; }
+.biz footer .footer-bottom, .biz footer .footer-legal { font-size: 11px; }
+
 /* ---- Responsive ---- */
+@media (max-width: 1100px) {
+  .biz .desktop-nav { gap: 20px; }
+  .biz .desktop-nav a { font-size: 13px; }
+}
 @media (max-width: 980px) {
+  .biz-hero-grid { grid-template-columns: 1fr; }
+  .hero-log { max-width: 560px; }
   .biz-tech { grid-template-columns: 1fr; }
   .biz-tech-visual { position: static; max-width: 760px; }
 }
 @media (max-width: 820px) {
+  .biz .section-index { padding-top: 0; }
   .biz-worries { grid-template-columns: 1fr; }
   .biz-cols, .biz-routes { grid-template-columns: 1fr; }
   .biz-cols article { padding: 30px 0 32px; border-left: 0; border-top: 1px solid var(--line); }
   .biz-cols article:first-child { padding-top: 0; border-top: 0; }
   .band-cream .biz-cols article { border-top-color: #c8c3b8; }
-  .biz-cols h3 { margin-top: 22px; }
+  .biz-cols h3 { margin-top: 20px; }
   .biz-diagram { grid-template-columns: 1fr; }
   .lane-cloud { padding-right: 0; }
   .lane-lloyal { padding-left: 0; border-left: 0; border-top: 1px solid #c8c3b8; }
   .app-grid { grid-template-columns: 1fr; }
   /* The strip turns on its side: the shared line runs down the left edge. */
-  .biz-scale { padding-top: 44px; }
+  .biz-scale { padding-top: 48px; }
   .biz-scale ol { grid-template-columns: 1fr; gap: 42px; padding-left: 28px; border-left: 1px solid var(--ink); }
   .biz-scale li { grid-template-rows: auto auto; }
   .scale-glyph { border-bottom: 0; }
-  .scale-glyph::after { left: -28px; bottom: 0; width: 20px; height: 1px; }
+  .scale-glyph::after { left: -28px; bottom: 0; width: 20px; height: 2px; }
   .scale-text { padding-top: 16px; }
   .scale-tag { left: 0; top: 0; transform: none; }
   .scale-tag::before, .scale-tag::after { display: none; }
 }
 @media (max-width: 560px) {
-  .biz-hero { padding-top: 64px; padding-bottom: 72px; }
-  .biz-hero h1 { font-size: clamp(50px, 14.5vw, 72px); }
+  .biz-hero { padding-top: 60px; padding-bottom: 68px; background: radial-gradient(ellipse 90% 40% at 50% 78%, rgba(46,94,170,.16), transparent 70%); }
+  .biz-hero h1 { font-size: clamp(44px, 12.4vw, 64px); }
   .biz-hero .hero-actions { display: grid; }
-  .biz-route { padding: 24px; }
+  .hero-log ol { padding: 2px 16px; }
+  .hero-log-head, .hero-log figcaption { padding-inline: 16px; }
+  .hero-log li { grid-template-columns: 24px minmax(0, 1fr); row-gap: 10px; }
+  .hero-log .state { grid-column: 2; justify-self: start; }
+  .biz .section-head h2, .biz .ship-copy h2 { font-size: clamp(38px, 10.6vw, 52px); }
+  .biz-upside { padding-left: 18px; }
+  .biz-route { padding: 26px; }
   dl.biz-spec > div { grid-template-columns: 1fr; gap: 6px; }
-  .run-log p { grid-template-columns: 22px minmax(0, 1fr); }
-  .run-log em { grid-column: 2; text-align: left; margin-top: 2px; }
-  .cloud-node { font-size: 10px; }
+  .cloud-flow { grid-template-columns: minmax(74px, .9fr) minmax(40px, 1fr) minmax(90px, 1fr); }
+  .cloud-node { font-size: 13px; }
+  .run { padding-top: 76px; }
+  .biz .partner-form { padding: 24px; }
   .biz-founders li { flex-wrap: wrap; gap: 4px 20px; }
 }
 </style>
 </head>
-<body>
+<body class="biz">
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WNTXF3WK"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -327,54 +461,65 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <strong>LLoyal</strong><span>Labs</span>
 </a>
 <p class="brand-line">Engineering AI's contact with reality.</p>
-<nav aria-label="Primary" class="desktop-nav"><a href="#how">How it works</a><a href="#where">Where it runs</a><a href="#work">Work with us</a><a href="#contact">Talk to us</a></nav>
+<nav aria-label="Primary" class="desktop-nav"><a href="#control">Control locally</a><a href="#scale">Scale easily</a><a href="#work">Work with us</a><a href="#contact">Talk to us</a></nav>
 <nav aria-label="Resources" class="desktop-nav utility-nav"><a href="/">For developers</a><a href="https://docs.lloyal.ai/" rel="noreferrer" target="_blank">Docs ↗</a></nav>
 <button aria-controls="mobile-nav" aria-expanded="false" class="menu-button" data-menu-button="" type="button">
 <span></span><span></span><span class="sr-only">Open menu</span>
 </button>
 </div>
-<nav class="mobile-nav" data-mobile-nav="" hidden="" id="mobile-nav"><a href="#how">How it works</a><a href="#where">Where it runs</a><a href="#work">Work with us</a><a href="#contact">Talk to us</a><a href="/">For developers</a><a href="https://docs.lloyal.ai/" rel="noreferrer" target="_blank">Docs ↗</a></nav>
+<nav class="mobile-nav" data-mobile-nav="" hidden="" id="mobile-nav"><a href="#control">Control locally</a><a href="#scale">Scale easily</a><a href="#work">Work with us</a><a href="#contact">Talk to us</a><a href="/">For developers</a><a href="https://docs.lloyal.ai/" rel="noreferrer" target="_blank">Docs ↗</a></nav>
 </header>
 <main id="main">
 
-<!-- S0 · Hero -->
+<!-- Hero -->
 <section class="biz-hero" id="top-business">
-<div class="wrap">
-<div class="biz-hero-inner">
+<div class="wrap biz-hero-grid">
+<div class="biz-hero-copy">
 <p class="kicker">Lloyal for businesses and organisations</p>
 <h1>AI that you control, <span>not AI that controls you.</span></h1>
 <p class="large-copy">Lloyal puts AI inside your own software, on machines you own. You decide what it can reach, and you can check every step it takes while it works.</p>
 <div class="hero-actions">
-<a class="button button-light" href="#contact">Talk to the founders</a>
-<a class="button button-line" href="#how">See how it works</a>
+<a class="button button-gold" href="#contact">Talk to the founders</a>
+<a class="button button-line" href="#control">See how it works</a>
 </div>
 <p class="biz-hero-note">Your message goes straight to the founders.</p>
 </div>
+<figure aria-label="An example of your log while the AI works: opening a client file is granted by your rules, a web search is refused before it runs, and drafting a summary is granted. Every step is recorded." class="hero-log" role="img">
+<div aria-hidden="true">
+<p class="hero-log-head"><span>Your log</span><em>Live</em></p>
+<ol>
+<li class="hl-r1"><b>01</b><span><span class="step">open client-file.pdf</span><span class="rule">Your rule: client files allowed</span></span><em class="state hl-s1">Granted</em></li>
+<li class="hl-r2"><b>02</b><span><span class="step">search the web</span><span class="rule">Your rule: no web access</span></span><em class="state is-refused hl-s2">Refused before it ran</em></li>
+<li class="hl-r3"><b>03</b><span><span class="step">draft summary</span><span class="rule">Your rule: drafting allowed</span></span><em class="state hl-s3">Granted</em></li>
+</ol>
+<figcaption class="hl-f">Every step recorded, as it happens.</figcaption>
+</div>
+</figure>
 </div>
 </section>
 
-<!-- S1 · The problem -->
+<!-- The problem -->
 <section class="section band-cream" id="problem">
 <div class="wrap">
 <div class="section-head">
-<p class="section-index">01 / The problem</p>
-<h2>Most AI asks you to take it on trust.</h2>
+<p class="section-index">The problem</p>
+<h2>Most AI is out of your control.</h2>
 </div>
 <div class="biz-worries biz-offset">
-<article><p class="biz-label">01</p><h3>Your data leaves the building.</h3><p>Client files and internal documents go to someone else's servers, and you can't see what happens to them there.</p></article>
-<article><p class="biz-label">02</p><h3>The model can change overnight.</h3><p>A tool your team relied on last week starts answering differently this week, and nobody asked you.</p></article>
-<article><p class="biz-label">03</p><h3>You find out afterwards.</h3><p>When the AI does something it shouldn't, you're piecing it together after the damage is done.</p></article>
-<article><p class="biz-label">04</p><h3>Staff don't wait.</h3><p>If there's no approved option, people paste work into whatever chat tool is open in the next tab.</p></article>
+<article><h3>Your data leaves the building.</h3><p>Client files and internal documents go to someone else's servers, and you can't see what happens to them there.</p></article>
+<article><h3>The model can change overnight.</h3><p>A tool your team relied on last week starts answering differently this week, and nobody asked you.</p></article>
+<article><h3>You find out afterwards.</h3><p>When the AI does something it shouldn't, you're piecing it together after the damage is done.</p></article>
+<article><h3>Staff don't wait.</h3><p>If there's no approved option, people paste work into whatever chat tool is open in the next tab.</p></article>
 </div>
-<p class="biz-close biz-offset">Being wary of AI is reasonable. <strong>What helps is AI you can actually check.</strong></p>
+<p class="biz-close biz-offset">Customers and stakeholders expect data security and sovereignty. <strong>What guarantees can you give them today?</strong></p>
 </div>
 </section>
 
-<!-- S2 · Three benefits -->
+<!-- Three benefits -->
 <section class="section" id="benefits">
 <div class="wrap">
 <div class="section-head">
-<p class="section-index">02 / What you get</p>
+<p class="section-index">What you get</p>
 <h2>Three things change when the AI is yours.</h2>
 </div>
 <div class="biz-cols">
@@ -389,23 +534,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <p>Your data stays on your devices and your network. Nothing leaves unless you choose to send it.</p>
 </article>
 <article>
-<svg aria-hidden="true" class="biz-icon" viewBox="0 0 40 40"><rect x="3" y="6" width="34" height="28"/><path d="M3 12h34"/><path d="M17 17.5v11l9-5.5z"/></svg>
-<h3>Nothing to set up by hand.</h3>
-<p>Your staff open it like any other app. There's no model to pick and no keys to paste.</p>
+<svg aria-hidden="true" class="biz-icon" viewBox="0 0 40 40"><path d="M2 20c5-8 11-12 18-12s13 4 18 12c-5 8-11 12-18 12S7 28 2 20z"/><circle cx="20" cy="20" r="6"/><circle class="dot" cx="20" cy="20" r="2.2"/></svg>
+<h3>Full transparency.</h3>
+<p>See every step the AI takes and every rule it follows, in your own log.</p>
 </article>
 </div>
+<p class="biz-upside">Less risk, and the freedom to innovate and grow safely inside your organisation.</p>
 </div>
 </section>
 
-<!-- S3 · Check it while it runs -->
-<section class="section band-cream" id="how">
+<!-- Control locally -->
+<section class="section band-cream" id="control">
 <div class="wrap">
 <div class="section-head">
-<p class="section-index">03 / How it works</p>
+<p class="section-index">How it works</p>
 <div>
-<h2>Set the rules, and check the work while it runs.</h2>
+<h2>Control locally.</h2>
+<p class="biz-sub">You set the rules and check the work while it runs.</p>
 <p class="biz-lede">With most AI, the model sits on a provider's server. Your software sends it requests over the internet, and you review what happened afterwards.</p>
-<p class="biz-lede">Lloyal puts the model inside your application. Your rules run in the same place the AI does, so they apply at every step as it happens.</p>
+<p class="biz-lede">Lloyal puts the model inside your application. All decision-making and control happens locally, with you, while the model is running.</p>
 </div>
 </div>
 
@@ -436,12 +583,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="run-model">MODEL</div>
 <div class="run-track">
 <i class="run-token t1"></i><i class="run-token t2"></i><i class="run-token t3"></i>
-<div class="run-gate"><span class="run-gate-label">YOUR RULES</span><span class="run-gate-state g1">GRANTED</span><span class="run-gate-state is-refused g2">REFUSED</span><span class="run-gate-state g3">GRANTED</span></div>
+<div class="run-gate"><span class="run-gate-label">Your rules</span><span class="run-gate-state g1">GRANTED</span><span class="run-gate-state is-refused g2">REFUSED</span><span class="run-gate-state g3">GRANTED</span></div>
 </div>
 </div>
 </div>
 <div class="run-log">
-<p class="run-log-head"><span>YOUR LOG</span><em>LIVE</em></p>
+<p class="run-log-head"><span>Your log</span><em>Live</em></p>
 <p class="l1"><b>01</b><span>open client-file.pdf</span><em>GRANTED</em></p>
 <p class="l2"><b>02</b><span>search the web</span><em class="is-refused">REFUSED · before it ran</em></p>
 <p class="l3"><b>03</b><span>draft summary</span><em>DONE</em></p>
@@ -466,25 +613,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </article>
 <article>
 <p class="biz-label">Audit</p>
-<h3>Every step goes in your log.</h3>
-<p>Each step the AI takes is recorded in your own log as it happens. Read along live, or go back through it later.</p>
+<h3>A record you can read back.</h3>
+<p>Each step is written down on your side the moment it happens. Read along live, or go back through it later.</p>
 </article>
 </div>
 </div>
 </section>
 
-<!-- S4 · Where it runs -->
-<section class="section" id="where">
+<!-- Scale easily -->
+<section class="section" id="scale">
 <div class="wrap">
 <div class="section-head">
-<p class="section-index">04 / Where it runs</p>
+<p class="section-index">Where it runs</p>
 <div>
-<h2>Start on a laptop. Grow onto your own servers.</h2>
+<h2>Scale easily.</h2>
+<p class="biz-sub">Start on a laptop, grow onto your own servers.</p>
 <p class="biz-lede">The same software runs at every size. As you grow, the machine changes and your application stays as it is.</p>
 </div>
 </div>
 <div class="biz-scale">
-<span aria-hidden="true" class="scale-tag">SAME APPLICATION</span>
+<span aria-hidden="true" class="scale-tag">Same application</span>
 <ol>
 <li>
 <div class="scale-glyph"><svg aria-hidden="true" class="g-laptop" viewBox="0 0 120 64"><rect x="16" y="2" width="88" height="52"/><path d="M2 58h116M2 58l4 5h108l4-5"/><path d="M28 16h40M28 24h28"/></svg></div>
@@ -503,11 +651,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 </section>
 
-<!-- S5 · Ways to work with us -->
+<!-- Work with us -->
 <section class="section band-cream" id="work">
 <div class="wrap">
 <div class="section-head">
-<p class="section-index">05 / Work with us</p>
+<p class="section-index">Work with us</p>
 <h2>Build it yourself, or build it with us.</h2>
 </div>
 <div class="biz-routes">
@@ -521,25 +669,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <p class="biz-label">We build it with you</p>
 <h3>We build the first one together.</h3>
 <p>Pick one piece of work that matters, where the data can't leave your organisation. We scope it with you, build it on a machine on your own network, and agree up front how we'll both know it worked.</p>
-<a class="button button-ink" href="#contact">Talk to the founders</a>
+<a class="button button-gold" href="#contact">Talk to the founders</a>
 </article>
 </div>
 </div>
 </section>
 
-<!-- S6 · For your technical team -->
+<!-- Technical detail -->
 <section class="section" id="technical">
 <div class="wrap biz-tech">
 <div class="biz-tech-copy">
-<p class="section-index">06 / For your technical team</p>
-<h2>The detail your IT team will ask for.</h2>
+<p class="section-index">For your technical leads</p>
+<h2>The technical detail, in one place.</h2>
 <dl class="biz-spec">
-<div><dt>RUNTIME</dt><dd>The model runs in the same process as your application, through HDK (Harness Development Kit). No API key and no separate inference server.</dd></div>
-<div><dt>MODELS</dt><dd>Open-weight models in GGUF format, from small models on a laptop to frontier-scale models on your own infrastructure. The model is a file path; changing it doesn't change your application.</dd></div>
-<div><dt>PERMISSIONS</dt><dd>Your application grants tools to the AI. A protected tool without a grant is refused before it executes, and the refusal is recorded as an event.</dd></div>
-<div><dt>AUDIT</dt><dd>Every agent step is emitted as a structured event (<code>agent:spawn</code>, <code>agent:tool_call</code>, <code>agent:tool_result</code>, <code>agent:return</code>, <code>tool:error</code>, <code>tool:authReject</code>). Your application writes those events to your own log.</dd></div>
-<div><dt>NETWORK</dt><dd>Inference is local. Data leaves only through tools you give it, such as web search, which sends the search query.</dd></div>
-<div><dt>SET-UP</dt><dd><code>npx lloyal-ai new</code> scaffolds a TypeScript application. On first run it downloads the model and verifies its digest.</dd></div>
+<div><dt>Runtime</dt><dd>The model runs in the same process as your application, through HDK (Harness Development Kit). No API key and no separate inference server.</dd></div>
+<div><dt>Models</dt><dd>Open-weight models in GGUF format, from small models on a laptop to frontier-scale models on your own infrastructure. The model is a file path; changing it doesn't change your application.</dd></div>
+<div><dt>Permissions</dt><dd>Your application grants tools to the AI. A protected tool without a grant is refused before it executes, and the refusal is recorded as an event.</dd></div>
+<div><dt>Audit</dt><dd>Every agent step is emitted as a structured event (<code>agent:spawn</code>, <code>agent:tool_call</code>, <code>agent:tool_result</code>, <code>agent:return</code>, <code>tool:error</code>, <code>tool:authReject</code>). Your application writes those events to your own log.</dd></div>
+<div><dt>Network</dt><dd>Inference is local. Data leaves only through tools you give it, such as web search, which sends the search query.</dd></div>
+<div><dt>Set-up</dt><dd><code>npx lloyal-ai new</code> scaffolds a TypeScript application. On first run it downloads the model and verifies its digest.</dd></div>
 </dl>
 <div class="biz-links">
 <a class="quiet-link" href="https://docs.lloyal.ai/" rel="noreferrer" target="_blank">Read the docs ↗</a>
@@ -557,7 +705,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 </section>
 
-<!-- S7 · Who we are + contact -->
+<!-- Who we are + contact -->
 <section class="ship section" id="contact">
 <div class="partner-band">
 <div class="wrap ship-wrap">
@@ -568,8 +716,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <p class="large-copy">Lloyal Labs is a two-founder company building HDK, the runtime behind Lloyal.</p>
 <p class="biz-contact-note">Tell us what you're working on and what can't leave your organisation. It comes straight to the founders. If there's a fit, we'll walk you through a working prototype and talk about where Lloyal could sit in your work.</p>
 <ul class="biz-founders">
-<li><strong>Zuhair Naqvi</strong><span>FOUNDER</span></li>
-<li><strong>Kazim Musa</strong><span>CO-FOUNDER</span></li>
+<li><strong>Zuhair Naqvi</strong><span>Founder</span></li>
+<li><strong>Kazim Musa</strong><span>Co-founder</span></li>
 </ul>
 <div class="biz-badge">
 <a href="https://www.nvidia.com/en-us/startups/" rel="noreferrer" target="_blank"><img alt="NVIDIA Inception Program member badge" height="69" src="/assets/nvidia-inception-program-badge.svg" width="160"/></a>
@@ -585,7 +733,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <input name="reason" type="hidden" value="Business page"/>
 <input name="sender" type="hidden" value="a human"/>
 <div aria-hidden="true" class="hp"><label>Website<input name="website" tabindex="-1" autocomplete="off"/></label></div>
-<button class="button button-light" type="submit">Send to the founders</button>
+<button class="button button-gold" type="submit">Send to the founders</button>
 <p class="form-note">We only use your details to reply to you.</p>
 </form>
 </div>
