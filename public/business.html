@@ -128,8 +128,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 .biz .biz-label { font-size: 19px; }
 .biz .kicker { font-size: 20px; }
 .biz-scale .biz-label { font-size: 19px; }
-.scale-tag { font-size: 15px !important; padding: 7px 16px !important; }
-@media (min-width: 821px) { .scale-tag { left: 55% !important; } }
+.biz .scale-span { display: flex; align-items: center; gap: 14px; margin: 40px 0 0; color: #D9A441; font-family: var(--sans); font-size: 16px; font-weight: 600; letter-spacing: .01em; }
+.biz .scale-span::before, .biz .scale-span::after { content: ""; flex: 1; height: 10px; background: linear-gradient(#B7791F, #B7791F) center / 100% 1px no-repeat; }
+.biz .scale-span::before { border-left: 1px solid #B7791F; }
+.biz .scale-span::after { border-right: 1px solid #B7791F; }
+.biz .scale-span span { padding: 6px 14px; border: 1px solid #B7791F; white-space: nowrap; }
+@media (max-width: 820px) { .biz .scale-span { margin-top: 28px; font-size: 15px; } }
 .biz .section-index::before, .biz .kicker::before {
   content: ""; display: block; width: 28px; height: 2px; margin-bottom: 14px; background: var(--gold);
 }
@@ -708,6 +712,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="scale-text"><p class="biz-label">Your infrastructure</p><p>Larger models, on hardware you own or rent.</p></div>
 </li>
 </ol>
+<p class="scale-span"><span>Same app on every machine</span></p>
 </div>
 </div>
 </section>
@@ -757,11 +762,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 </div>
 <div class="biz-tech-visual">
-<figure class="scaffold-shot">
-<div class="scaffold-shot-head"><span>lloyal-ai</span><em>guided application scaffold</em></div>
-<div class="scaffold-shot-viewport"><img alt="The lloyal-ai wizard scaffolding a Wikipedia research harness — template chosen, dependencies installed, ready to run across CLI, desktop and web with a resident Qwen model." src="/assets/business-scaffold.gif"/></div>
-<figcaption>One command scaffolds a working application that runs the model inside it.</figcaption>
-</figure>
 <figure class="scaffold-shot biz-video">
 <div class="scaffold-shot-head"><span>lloyal labs</span><em>film · 2 min</em></div>
 <button class="yt-facade" type="button" data-yt="OdVdXf29ywk" aria-label="Play the film: Apps that own their intelligence (2 minutes, YouTube)"><img alt="" src="https://i.ytimg.com/vi/OdVdXf29ywk/maxresdefault.jpg"/><span class="yt-play">Watch the film</span></button>
@@ -827,11 +827,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 document.querySelectorAll('.yt-facade').forEach(function (b) {
   b.addEventListener('click', function () {
     var f = document.createElement('iframe');
-    f.src = 'https://www.youtube-nocookie.com/embed/' + b.dataset.yt + '?autoplay=1&rel=0';
+    f.src = 'https://www.youtube-nocookie.com/embed/' + b.dataset.yt + '?autoplay=1&rel=0&cc_load_policy=0&enablejsapi=1';
     f.title = 'Apps that own their intelligence';
     f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
     f.allowFullscreen = true;
     b.replaceWith(f);
+    f.addEventListener('load', function () {
+      [300, 1500, 3000].forEach(function (t) {
+        setTimeout(function () { f.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'unloadModule', args: ['captions'] }), '*'); }, t);
+      });
+    });
   });
 });
 </script>
