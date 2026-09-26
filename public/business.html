@@ -392,10 +392,11 @@ dl.biz-spec code { color: #e4e0d9; font-family: var(--mono); font-size: 14px; }
 .biz-tech-visual { display: grid; gap: 28px; }
 .biz-video .yt-facade { position: relative; display: block; width: 100%; aspect-ratio: 16 / 9; padding: 0; border: 0; background: #050510 center / cover no-repeat; cursor: pointer; }
 .biz-video .yt-facade img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.biz-video .yt-facade .yt-play { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: inline-flex; align-items: center; gap: 12px; padding: 14px 22px; color: var(--on-gold); background: var(--gold); font: 700 17px var(--sans); white-space: nowrap; }
+.biz-video .yt-facade .yt-play { position: absolute; right: 20px; bottom: 20px; display: inline-flex; align-items: center; gap: 12px; padding: 14px 22px; color: var(--on-gold); background: var(--gold); font: 700 17px var(--sans); white-space: nowrap; }
 .biz-video .yt-facade .yt-play::before { content: ""; width: 0; height: 0; border-top: 8px solid transparent; border-bottom: 8px solid transparent; border-left: 13px solid currentColor; }
 .biz-video .yt-facade:hover .yt-play, .biz-video .yt-facade:focus-visible .yt-play { background: #D9A441; }
 .biz-video .yt-facade:focus-visible { outline: 3px solid #7fb3dc; outline-offset: 3px; }
+@media (max-width: 560px) { .biz-video .yt-facade .yt-play { right: 10px; bottom: 10px; gap: 8px; padding: 8px 12px; font-size: 14px; } .biz-video .yt-facade .yt-play::before { border-top-width: 6px; border-bottom-width: 6px; border-left-width: 10px; } }
 .biz-video iframe { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; }
 
 /* ---- Who we are + contact ---- */
@@ -693,7 +694,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 </div>
 <div class="biz-scale">
-<span aria-hidden="true" class="scale-tag">Same app on every machine</span>
 <ol>
 <li>
 <div class="scale-glyph"><svg aria-hidden="true" class="g-laptop" viewBox="0 0 120 64"><rect x="16" y="2" width="88" height="52"/><path d="M2 58h116M2 58l4 5h108l4-5"/><path d="M28 16h40M28 24h28"/></svg></div>
@@ -764,7 +764,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </figure>
 <figure class="scaffold-shot biz-video">
 <div class="scaffold-shot-head"><span>lloyal labs</span><em>film · 2 min</em></div>
-<button class="yt-facade" type="button" data-yt="OdVdXf29ywk" aria-label="Play the film: Apps that own their intelligence (2 minutes, YouTube)"><img alt="" src="https://i.ytimg.com/vi/OdVdXf29ywk/hqdefault.jpg"/><span class="yt-play">Watch the film</span></button>
+<button class="yt-facade" type="button" data-yt="OdVdXf29ywk" aria-label="Play the film: Apps that own their intelligence (2 minutes, YouTube)"><img alt="" src="https://i.ytimg.com/vi/OdVdXf29ywk/maxresdefault.jpg"/><span class="yt-play">Watch the film</span></button>
 <figcaption>Apps that own their intelligence: see Lloyal in two minutes.</figcaption>
 </figure>
 </div>
