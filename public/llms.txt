@@ -1,0 +1,33 @@
+# Lloyal
+
+> Lloyal (`lloyal-ai`) is a platform for building and shipping self-contained, offline-first AI apps in TypeScript.
+
+Start a project with `npx lloyal-ai new` (Node 24+). The model runs in-process with your code, so there's no API key and no HTTP boundary on the path that thinks. The CLI is MIT-licensed; apps you generate with it are yours to license as you choose.
+
+## Getting started
+
+- [GitHub](https://github.com/lloyal-ai/lloyal-ai): source, commands, and both templates; start here
+- [npm](https://www.npmjs.com/package/lloyal-ai): the `lloyal-ai` package
+- `npx lloyal-ai new my-app` scaffolds the default `basic` template, a small wiki app
+- `npx lloyal-ai new my-app --template research` scaffolds the research template: a multi-agent harness that reads documents and answers with page-level citations, model running locally
+- `npx lloyal-ai@latest new --help` lists the current commands and templates
+
+## Docs
+
+- [Docs index](https://docs.lloyal.ai/llms.txt): full docs site map for AI assistants
+- [Build with Lloyal](https://docs.lloyal.ai/): docs home
+- [Build your first harness](https://docs.lloyal.ai/build-your-first-harness): use lloyal-ai to create an application, begin a Session, inspect its procedure, change its topology, and continue from accepted state
+- [Thinking in Lloyal](https://docs.lloyal.ai/thinking-in-lloyal): how owned lifetimes, live inference state, Agents, Tools, orchestration, finality, and continuity fit together
+- [Continuous Context](https://docs.lloyal.ai/continuous-context): why live inference state changes the application boundary
+- [Abilities](https://docs.lloyal.ai/abilities): a packaged capability — manifest, source, tools, skill — that any harness can enable; how it's built, distributed, signed, and why it runs in-process
+- [Where a harness runs](https://docs.lloyal.ai/where-a-harness-runs): how one harness contract spans application surfaces, local and shared-residency execution, process boundaries, transports, hardware, and operators
+- [Lookup](https://docs.lloyal.ai/lookup): signatures, enumerations, and floors — the facts you look up mid-task
+
+## Site
+
+- [Home](https://lloyal.ai/): what Lloyal is and why it exists
+- [Blog](https://lloyal.ai/blog/): engineering and product posts
+
+## Optional
+
+- [YouTube](https://www.youtube.com/@lloyallabs): Lloyal Labs channel
