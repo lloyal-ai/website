@@ -40,7 +40,8 @@ const CAMPAIGN = 'launch_2026_09_22';
 const DEST = 'https://github.com/lloyal-ai/lloyal-ai';
 const GA4_ID = 'G-3RM5YS9XH1';
 
-// slug -> { source, medium, content }. campaign and dest are fixed above.
+// slug -> { source, medium, content, dest?, label? }. campaign is fixed above;
+// dest defaults to DEST and label (the "Taking you to …" text) to GitHub.
 const LINKS = {
   ph: { source: 'producthunt', medium: 'referral', content: 'ph-listing' },
   'ph-comment': { source: 'producthunt', medium: 'referral', content: 'ph-first-comment' },
@@ -49,6 +50,15 @@ const LINKS = {
   li: { source: 'linkedin', medium: 'social', content: 'li-company' },
   x: { source: 'x', medium: 'social', content: 'x-reply' },
   yt: { source: 'youtube', medium: 'video', content: 'yt-film-desc' },
+  'yt-docs': { source: 'youtube', medium: 'video', content: 'yt-film-docs', dest: 'https://docs.lloyal.ai/', label: 'the docs' },
+  'yt-qwen': {
+    source: 'youtube',
+    medium: 'video',
+    content: 'yt-qwen-desc',
+    dest: 'https://github.com/lloyal-ai/lloyal-ai/blob/main/templates/basic/src/harness/classify.ts',
+  },
+  'yt-media': { source: 'youtube', medium: 'video', content: 'yt-media-desc' },
+  'yt-media-hdk': { source: 'youtube', medium: 'video', content: 'yt-media-hdk', dest: 'https://github.com/lloyal-ai/hdk' },
   devto: { source: 'devto', medium: 'referral', content: 'devto-article1' },
   substack: { source: 'substack', medium: 'referral', content: 'substack-article1' },
   discord: { source: 'discord', medium: 'social', content: 'discord-technovangelist' },
@@ -64,7 +74,7 @@ const LINKS = {
   leonvanzyl: { source: 'email', medium: 'email', content: 'email-leonvanzyl' },
 };
 
-function page(slug, { source, medium, content }) {
+function page(slug, { source, medium, content, dest = DEST, label = 'GitHub' }) {
   const utm = `utm_source=${source}&utm_medium=${medium}&utm_campaign=${CAMPAIGN}&utm_content=${content}`;
   return `<!doctype html>
 <html lang="en">
@@ -103,7 +113,7 @@ function page(slug, { source, medium, content }) {
       gtag('js', new Date());
       gtag('config', '${GA4_ID}', { send_page_view: false });
     </script>
-    <meta http-equiv="refresh" content="2;url=${DEST}" />
+    <meta http-equiv="refresh" content="2;url=${dest}" />
     <style>
       html, body { background: #050505; color: #e8e8e8; font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
       body { display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 24px; text-align: center; }
@@ -112,12 +122,12 @@ function page(slug, { source, medium, content }) {
   </head>
   <body>
     <p>
-      Taking you to GitHub…<br />
-      <noscript><a href="${DEST}">${DEST}</a></noscript>
+      Taking you to ${label}…<br />
+      <noscript><a href="${dest}">${dest}</a></noscript>
     </p>
     <script>
       (function () {
-        var dest = '${DEST}';
+        var dest = '${dest}';
         var redirected = false;
         function go() {
           if (redirected) return;
