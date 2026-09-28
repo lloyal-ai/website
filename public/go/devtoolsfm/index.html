@@ -14,13 +14,14 @@
         }
       })();
     </script>
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-WNTXF3WK');</script>
-    <!-- End Google Tag Manager -->
+    <!-- Google tag (gtag.js) - direct, not via GTM: see the file header for why. -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3RM5YS9XH1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', 'G-3RM5YS9XH1', { send_page_view: false });
+    </script>
     <meta http-equiv="refresh" content="2;url=https://github.com/lloyal-ai/lloyal-ai" />
     <style>
       html, body { background: #050505; color: #e8e8e8; font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
@@ -43,16 +44,13 @@
           location.replace(dest);
         }
         var fallback = setTimeout(go, 1200);
-        if (window.dataLayer) {
-          window.dataLayer.push({
-            event: 'go_redirect',
-            eventCallback: function () {
-              clearTimeout(fallback);
-              go();
-            },
-            eventTimeout: 1200,
-          });
-        }
+        gtag('event', 'page_view', {
+          event_callback: function () {
+            clearTimeout(fallback);
+            go();
+          },
+          event_timeout: 1200,
+        });
       })();
     </script>
   </body>

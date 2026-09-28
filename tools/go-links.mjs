@@ -8,15 +8,23 @@
  * public/go/<slug>/index.html, a static page that:
  *
  *   1. Appends ?utm_source=&utm_medium=&utm_campaign=&utm_content= to the URL
- *      (via history.replaceState, before GTM loads) so GA4's page_location
+ *      (via history.replaceState, before gtag loads) so GA4's page_location
  *      carries the campaign params - but only if the visitor didn't already
  *      arrive with utm_ params of their own.
- *   2. Loads the GTM container (same GTM-WNTXF3WK snippet as the rest of the
- *      site) so the page_view fires with the UTM'd URL.
+ *   2. Loads gtag.js DIRECTLY (G-3RM5YS9XH1) - deliberately NOT the site's
+ *      usual GTM-WNTXF3WK container. GTM's container-load event has no tag
+ *      attached to it on these pages, so its eventCallback fires the instant
+ *      GTM finishes processing (no tag to wait on) - long before gtag.js has
+ *      even loaded async, let alone sent the hit. That raced the redirect
+ *      ahead of the collect request every time. Loading gtag.js directly and
+ *      firing the page_view via `gtag('event', 'page_view', {event_callback})`
+ *      ties the callback to the actual measurement hit, not to an empty tag
+ *      queue - and skips the GTM container's lloyal.ai-hostname-only rule
+ *      that also blocks it from firing off-domain (localhost, previews).
  *   3. Redirects to the destination with location.replace, once GA has had a
- *      chance to fire (dataLayer 'go_redirect' event w/ eventCallback) or
- *      after a ~1200ms hard fallback timer - whichever comes first. Visitors
- *      with GTM ad-blocked still get the fallback timer.
+ *      chance to fire (gtag event_callback) or after a ~1200ms hard fallback
+ *      timer - whichever comes first. Visitors with googletagmanager.com
+ *      blocked still get the fallback timer.
  *
  * These are plain <a>-clickable HTML pages (not server-side 301s) so the
  * click is visible to GA4 before the visitor leaves lloyal.ai.
@@ -30,6 +38,7 @@ const OUT_DIR = resolve(ROOT, 'public/go');
 
 const CAMPAIGN = 'launch_2026_09_22';
 const DEST = 'https://github.com/lloyal-ai/lloyal-ai';
+const GA4_ID = 'G-3RM5YS9XH1';
 
 // slug -> { source, medium, content }. campaign and dest are fixed above.
 const LINKS = {
@@ -73,13 +82,14 @@ function page(slug, { source, medium, content }) {
         }
       })();
     </script>
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-WNTXF3WK');</script>
-    <!-- End Google Tag Manager -->
+    <!-- Google tag (gtag.js) - direct, not via GTM: see the file header for why. -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=${GA4_ID}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', '${GA4_ID}', { send_page_view: false });
+    </script>
     <meta http-equiv="refresh" content="2;url=${DEST}" />
     <style>
       html, body { background: #050505; color: #e8e8e8; font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
@@ -102,16 +112,13 @@ function page(slug, { source, medium, content }) {
           location.replace(dest);
         }
         var fallback = setTimeout(go, 1200);
-        if (window.dataLayer) {
-          window.dataLayer.push({
-            event: 'go_redirect',
-            eventCallback: function () {
-              clearTimeout(fallback);
-              go();
-            },
-            eventTimeout: 1200,
-          });
-        }
+        gtag('event', 'page_view', {
+          event_callback: function () {
+            clearTimeout(fallback);
+            go();
+          },
+          event_timeout: 1200,
+        });
       })();
     </script>
   </body>
