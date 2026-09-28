@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>Redirecting… | LLoyal Labs</title>
+    <meta name="theme-color" content="#050505" />
+    <script>
+      (function () {
+        if (!/(?:^|[?&])utm_/.test(location.search)) {
+          var sep = location.search ? '&' : '?';
+          history.replaceState(null, '', location.pathname + location.search + sep + 'utm_source=discord&utm_medium=social&utm_campaign=launch_2026_09_22&utm_content=discord-technovangelist' + location.hash);
+        }
+      })();
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-WNTXF3WK');</script>
+    <!-- End Google Tag Manager -->
+    <meta http-equiv="refresh" content="2;url=https://github.com/lloyal-ai/lloyal-ai" />
+    <style>
+      html, body { background: #050505; color: #e8e8e8; font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      body { display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 24px; text-align: center; }
+      a { color: #e8e8e8; }
+    </style>
+  </head>
+  <body>
+    <p>
+      Taking you to GitHub…<br />
+      <noscript><a href="https://github.com/lloyal-ai/lloyal-ai">https://github.com/lloyal-ai/lloyal-ai</a></noscript>
+    </p>
+    <script>
+      (function () {
+        var dest = 'https://github.com/lloyal-ai/lloyal-ai';
+        var redirected = false;
+        function go() {
+          if (redirected) return;
+          redirected = true;
+          location.replace(dest);
+        }
+        var fallback = setTimeout(go, 1200);
+        if (window.dataLayer) {
+          window.dataLayer.push({
+            event: 'go_redirect',
+            eventCallback: function () {
+              clearTimeout(fallback);
+              go();
+            },
+            eventTimeout: 1200,
+          });
+        }
+      })();
+    </script>
+  </body>
+</html>
