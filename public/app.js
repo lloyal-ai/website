@@ -115,7 +115,7 @@
       sender: String(data.get('sender') || 'a human'),
       // Legacy keys so the existing Sheet columns keep filling until they are
       // renamed: capability held the free text, placement held the routing.
-      company: '',
+      company: String(data.get('organisation') || ''),
       capability: note,
       placement: reason,
     };
@@ -135,7 +135,7 @@
           body: JSON.stringify(fields),
         });
         form.reset();
-        button.textContent = 'Received — we’ll reply within a day';
+        button.textContent = form.dataset.sentLabel || 'Received — we’ll reply within a day';
         window.setTimeout(() => {
           button.disabled = false;
           button.textContent = label;
@@ -152,6 +152,7 @@
     const body = [
       `Name: ${fields.name}`,
       `Email: ${fields.email}`,
+      ...(fields.company ? [`Organisation: ${fields.company}`] : []),
       `Reason: ${fields.reason}`,
       `Sent by: ${fields.sender}`,
       '',

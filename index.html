@@ -1304,6 +1304,11 @@ main > section > .partner-band { width: 100%; }
 .sender-choice input{width:auto;margin:0}
 /* Honeypot: invisible to people and to well-behaved agents alike. */
 .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+/* Hero entry to /business: a secondary button under the command, with a one-line
+   aside beside it that wraps under it on narrow screens. */
+.build-entry-actions { justify-content: flex-start; gap: 12px 18px; margin-top: 26px; }
+.build-entry-aside { color: var(--muted); font-size: 13px; line-height: 1.45; }
+@media (max-width: 560px) { .build-entry-actions { display: flex; } .build-entry-actions .button { width: auto; } }
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://lloyal.ai/#organization","name":"Lloyal Labs","url":"https://lloyal.ai/","logo":"https://lloyal.ai/favicon.png","description":"Lloyal Labs builds the platform for Vertical Inference \u2014 an architecture in which the application, the model runtime and live inference state become one programmable system.","sameAs":["https://github.com/lloyal-ai","https://www.npmjs.com/org/lloyal-labs"],"knowsAbout":{"@id":"https://verticalinference.lloyal.ai/#term"}},{"@type":"WebSite","@id":"https://lloyal.ai/#website","url":"https://lloyal.ai/","name":"Lloyal Labs","publisher":{"@id":"https://lloyal.ai/#organization"},"about":{"@id":"https://verticalinference.lloyal.ai/#term"}}]}</script>
 </head>
@@ -1319,13 +1324,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <strong>LLoyal</strong><span>Labs</span>
 </a>
 <p class="brand-line">Engineering AI's contact with reality.</p>
-<nav aria-label="Primary" class="desktop-nav"><a href="#abilities">Abilities</a><a href="#verticalinference">How it works</a><a href="#partner">Get in touch</a><a href="/blog/">Blog</a></nav>
+<nav aria-label="Primary" class="desktop-nav"><a href="#abilities">Abilities</a><a href="#verticalinference">How it works</a><a href="#partner">Get in touch</a><a href="/business">For businesses</a><a href="/blog/">Blog</a></nav>
 <nav aria-label="Resources" class="desktop-nav utility-nav"><a href="https://docs.lloyal.ai/" rel="noreferrer" target="_blank">Docs ↗</a><a href="https://github.com/lloyal-ai/lloyal-ai" rel="noreferrer" target="_blank">GitHub ↗</a></nav>
 <button aria-controls="mobile-nav" aria-expanded="false" class="menu-button" data-menu-button="" type="button">
 <span></span><span></span><span class="sr-only">Open menu</span>
 </button>
 </div>
-<nav class="mobile-nav" data-mobile-nav="" hidden="" id="mobile-nav"><a href="#abilities">Abilities</a><a href="#verticalinference">How it works</a><a href="#partner">Get in touch</a><a href="/blog/">Blog</a><a href="https://docs.lloyal.ai/" rel="noreferrer" target="_blank">Docs ↗</a><a href="https://github.com/lloyal-ai/lloyal-ai" rel="noreferrer" target="_blank">GitHub ↗</a></nav>
+<nav class="mobile-nav" data-mobile-nav="" hidden="" id="mobile-nav"><a href="#abilities">Abilities</a><a href="#verticalinference">How it works</a><a href="#partner">Get in touch</a><a href="/business">For businesses</a><a href="/blog/">Blog</a><a href="https://docs.lloyal.ai/" rel="noreferrer" target="_blank">Docs ↗</a><a href="https://github.com/lloyal-ai/lloyal-ai" rel="noreferrer" target="_blank">GitHub ↗</a></nav>
 </header>
 <main id="main">
 <section class="build-entry build-entry--hero" id="developers">
@@ -1334,6 +1339,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <h2>Ship apps that think and act.</h2>
 <p class="large-copy">Build your harness in TypeScript. Ship it as a single on-device binary that runs offline, as a multi-user service on a private appliance, or online on frontier compute.</p>
 <div class="build-command"><span>$</span><code><span class="cmd-run">npx</span> lloyal-ai new</code><button type="button" data-copy-command="npx lloyal-ai new">Copy</button></div>
+<div class="hero-actions build-entry-actions">
+<a class="button button-line" href="/business">For businesses</a>
+<span class="build-entry-aside">Bringing AI into your organisation? See what Lloyal does for you.</span>
+</div>
 <div aria-label="Recognition" class="trust-strip">
 <p class="trust-kicker">Recognised by</p>
 <ul class="trust-marks">
