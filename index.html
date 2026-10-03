@@ -1352,6 +1352,75 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 </div>
 </section>
+<section class="featured-quotes" id="featured-by" aria-labelledby="featured-title" data-quote-carousel>
+<div class="wrap">
+<h2 class="featured-eyebrow" id="featured-title">Featured by</h2>
+<div class="featured-stage">
+<button class="featured-arrow featured-prev" type="button" data-quote-prev aria-label="Previous quote" aria-controls="featured-slides" hidden><span aria-hidden="true">←</span></button>
+<div id="featured-slides">
+<figure class="featured-slide" id="quote-product-hunt" data-quote-slide aria-labelledby="quote-ph-author">
+<span class="featured-quote-mark" aria-hidden="true">“</span>
+<blockquote cite="https://www.producthunt.com/newsletters/archive/56299-steal-this-site-s-design">
+<div data-quote-excerpt hidden>
+<p>Lloyal builds you a TypeScript app with the model living inside it, so the thing you hand someone is <strong>a download that works on a plane</strong>, with no API key, no Docker, no vector database and nothing to sign up for.</p>
+</div>
+<div class="featured-full" id="quote-ph-full" data-quote-full>
+<p>Lloyal builds you a TypeScript app with the model living inside it, so the thing you hand someone is <strong>a download that works on a plane</strong>, with no API key, no Docker, no vector database and nothing to sign up for.</p>
+<p>Zuhair's team took the HTTP call out from between the model and the code, which sounds like plumbing until you see what it buys: <strong>a new agent inherits everything the model has already read</strong>, so ten of them running at once <a href="https://github.com/lloyal-ai/liblloyal" target="_blank" rel="noreferrer">cost you memory and not ten times the compute</a>.</p>
+<p><em>The same app goes to a laptop, an office box or a GPU cluster.</em></p>
+</div>
+</blockquote>
+<button class="featured-disclosure" type="button" data-quote-expand aria-expanded="false" aria-controls="quote-ph-full" hidden>See more <span aria-hidden="true">↓</span><span class="sr-only"> of the Product Hunt editorial</span></button>
+<figcaption>
+<div class="featured-author">
+<svg class="featured-avatar" width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="20" fill="#da552f"/><path d="M17 12h6a6 6 0 0 1 0 12h-3v5h-4V12h1zm3 4v4h3a2 2 0 0 0 0-4h-3z" fill="#fff"/></svg>
+<div><strong id="quote-ph-author">Product Hunt</strong><span>The Leaderboard · <time datetime="2026-10-02">2 October 2026</time></span></div>
+</div>
+<a class="featured-original" href="https://www.producthunt.com/newsletters/archive/56299-steal-this-site-s-design" target="_blank" rel="noreferrer">View original <span aria-hidden="true">↗</span><span class="sr-only"> on Product Hunt (opens in a new tab)</span></a>
+</figcaption>
+</figure>
+<figure class="featured-slide" id="quote-zhen-lu" data-quote-slide aria-labelledby="quote-zhen-author">
+<span class="featured-quote-mark" aria-hidden="true">“</span>
+<blockquote cite="https://www.linkedin.com/posts/zeen_ten-ai-agents-shared-a-single-239-gb-model-share-7486095325468766208-H3cc/">
+<div data-quote-excerpt hidden>
+<p>My favorite detail: spawning agents two through ten is <strong>a single seq_cp call</strong>. It walks the shared cache and marks each cell with one more owner. <strong>No new memory, no copies, no extra decode compute.</strong></p>
+<p>Multi-agent reasoning has a reputation for multiplying inference bills. This is <strong>the cleanest counterexample I've seen</strong>…</p>
+</div>
+<div class="featured-full" id="quote-zhen-full" data-quote-full>
+<p>Ten AI agents shared a single 239 GB model on Runpod.</p>
+<p>The whole session cost $16.</p>
+<p>The project is <a href="https://reasoning.run/" target="_blank" rel="noreferrer">reasoning.run</a>, an open source research tool from the team at Lloyal AI. It lives in the terminal: pose a question, a planner splits it into tasks, and a pool of agents digs in parallel, then hands back a cited report.</p>
+<p>The clever part is how the agents share memory. Instead of loading a separate context per agent, each one forks from a shared KV cache. All ten decode in a single llama_decode per step, for about the GPU compute of one. Cost scales with the size of the cache, not the number of agents.</p>
+<p>The run they published: GLM-5.2 at a 2-bit Unsloth quant, about 239 GB, on two B200s rented from Runpod for 82 minutes.</p>
+<p>What stood out to me:</p>
+<p>→ They shipped the receipts. Session traces, the cost breakdown, the exact config, and each agent's individual annex alongside the final report. Anyone can rerun it.</p>
+<p>→ The same harness runs a 4B model on a MacBook. The datacenter run is the identical code pointed at bigger hardware.</p>
+<p>My favorite detail: spawning agents two through ten is <strong>a single seq_cp call</strong>. It walks the shared cache and marks each cell with one more owner. <strong>No new memory, no copies, no extra decode compute.</strong></p>
+<p>Multi-agent reasoning has a reputation for multiplying inference bills. This is <strong>the cleanest counterexample I've seen</strong>: ten agents thinking in parallel on frontier hardware, 82 minutes, sixteen dollars.</p>
+</div>
+</blockquote>
+<button class="featured-disclosure" type="button" data-quote-expand aria-expanded="false" aria-controls="quote-zhen-full" hidden>See more <span aria-hidden="true">↓</span><span class="sr-only"> of Zhen Lu's post</span></button>
+<figcaption>
+<div class="featured-author">
+<img class="featured-avatar" src="/assets/zhen-lu.jpg" alt="" width="40" height="40" loading="lazy" decoding="async"/>
+<div><strong id="quote-zhen-author">Zhen Lu</strong><span>CEO, RunPod</span></div>
+</div>
+<a class="featured-original" href="https://www.linkedin.com/posts/zeen_ten-ai-agents-shared-a-single-239-gb-model-share-7486095325468766208-H3cc/" target="_blank" rel="noreferrer">View original <span aria-hidden="true">↗</span><span class="sr-only"> on LinkedIn (opens in a new tab)</span></a>
+</figcaption>
+</figure>
+</div>
+<button class="featured-arrow featured-next" type="button" data-quote-next aria-label="Next quote" aria-controls="featured-slides" hidden><span aria-hidden="true">→</span></button>
+</div>
+<div class="featured-pager" data-quote-controls hidden>
+<div class="featured-sources" role="group" aria-label="Choose a quote">
+<button type="button" data-quote-select="0" aria-pressed="true" aria-controls="quote-product-hunt"><span class="featured-page-mark" aria-hidden="true"></span>Product Hunt</button>
+<button type="button" data-quote-select="1" aria-pressed="false" aria-controls="quote-zhen-lu"><span class="featured-page-mark" aria-hidden="true"></span>Zhen Lu · RunPod</button>
+</div>
+<span class="featured-count" data-quote-count aria-hidden="true">01 / 02</span>
+</div>
+<p class="sr-only" data-quote-status role="status" aria-atomic="true"></p>
+</div>
+</section>
 <section class="abilities-section section band-cream" id="abilities">
 <div class="wrap">
 <div class="abilities-head reveal">
