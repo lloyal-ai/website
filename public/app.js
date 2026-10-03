@@ -21,6 +21,71 @@
     });
   }
 
+  // The full, attributed quotes remain readable when JavaScript is unavailable.
+  const carousel = document.querySelector('[data-quote-carousel]');
+  if (carousel) {
+    const slides = [...carousel.querySelectorAll('[data-quote-slide]')];
+    const selectors = [...carousel.querySelectorAll('[data-quote-select]')];
+    const previous = carousel.querySelector('[data-quote-prev]');
+    const next = carousel.querySelector('[data-quote-next]');
+    const status = carousel.querySelector('[data-quote-status]');
+    let selected = 0;
+
+    const setExpanded = (slide, expanded) => {
+      slide.querySelector('[data-quote-excerpt]').hidden = expanded;
+      slide.querySelector('[data-quote-full]').hidden = !expanded;
+      const button = slide.querySelector('[data-quote-expand]');
+      button.setAttribute('aria-expanded', String(expanded));
+      button.firstChild.textContent = expanded ? 'Show less ' : 'See more ';
+      button.querySelector('[aria-hidden]').textContent = expanded ? '↑' : '↓';
+    };
+
+    const show = (index) => {
+      const destination = (index + slides.length) % slides.length;
+      const changed = destination !== selected;
+      selected = destination;
+      slides.forEach((slide, i) => { slide.hidden = i !== selected; });
+      selectors.forEach((button, i) => button.setAttribute('aria-pressed', String(i === selected)));
+      carousel.querySelector('[data-quote-count]').textContent = `${String(selected + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
+      status.textContent = `${selectors[selected].textContent.trim()}, quote ${selected + 1} of ${slides.length}`;
+      if (changed && carousel.getBoundingClientRect().top < 0) {
+        carousel.scrollIntoView({ behavior: 'instant', block: 'start' });
+      }
+    };
+
+    slides.forEach((slide) => {
+      const button = slide.querySelector('[data-quote-expand]');
+      setExpanded(slide, false);
+      button.hidden = false;
+      button.addEventListener('click', () => {
+        const expanded = button.getAttribute('aria-expanded') === 'true';
+        setExpanded(slide, !expanded);
+        // Collapsing a long post must not leave the reader below the quote.
+        if (expanded && slide.getBoundingClientRect().top < 0) {
+          slide.scrollIntoView({ behavior: 'instant', block: 'start' });
+        }
+      });
+    });
+    previous.addEventListener('click', () => show(selected - 1));
+    next.addEventListener('click', () => show(selected + 1));
+    selectors.forEach((button, index) => {
+      button.addEventListener('click', () => show(index));
+      button.addEventListener('keydown', (event) => {
+        const direction = event.key === 'ArrowRight' ? 1 : event.key === 'ArrowLeft' ? -1 : 0;
+        if (!direction) return;
+        event.preventDefault();
+        show(index + direction);
+        selectors[selected].focus({ preventScroll: true });
+      });
+    });
+    show(0);
+    status.textContent = '';
+    carousel.classList.add('is-ready');
+    previous.hidden = false;
+    next.hidden = false;
+    carousel.querySelector('[data-quote-controls]').hidden = false;
+  }
+
   const eventLabel = document.querySelector('[data-event-label]');
   if (eventLabel && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     const labels = ['agent:spawn', 'branch:fork', 'tool:result', 'spine:extend', 'agent:complete'];
