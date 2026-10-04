@@ -199,14 +199,11 @@ section[id], [id="partner-form"] { scroll-margin-top: 76px; }
 .quiet-link { display: inline-block; margin-top: 18px; color: #8d8a84; font-size: 12px; border-bottom: 1px solid transparent; }
 .quiet-link:hover { color: var(--ink); border-color: #66635e; }
 
-.trust-strip { grid-column: 1 / -1; margin-top: 46px; padding-top: 28px; border-top: 1px solid var(--line-soft); display: flex; flex-direction: column; align-items: flex-start; gap: 18px; text-align: left; }
-.trust-kicker { margin: 0; color: var(--faint); font-family: var(--mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; }
-.trust-marks { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: flex-start; align-items: flex-start; gap: clamp(28px, 4vw, 64px); }
-.trust-marks li { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
-.trust-marks a { display: flex; align-items: center; height: 69px; opacity: .92; }
-.trust-marks a:hover { opacity: 1; }
-.trust-marks img { display: block; height: auto; }
-.trust-marks span { color: #8d8a84; font-size: 12px; }
+.inception-membership { margin: 28px 0 0; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; text-align: left; }
+.inception-membership a { display: block; opacity: .92; }
+.inception-membership a:hover { opacity: 1; }
+.inception-membership img { display: block; max-width: 100%; height: auto; }
+.inception-membership figcaption { color: #8d8a84; font-size: 12px; line-height: 1.35; }
 
 .hero-proof {
   position: relative;
@@ -542,29 +539,11 @@ footer { padding:80px 0 32px; background:#070707; }
   .footer-top { grid-template-columns:1fr; }
 }
 
-/* Mid-width band (~980-1200px viewport, which is also what a 1440/1470
-   display shows at 110-125% browser zoom): the hero is still two-column, but
-   its left column gets too narrow for both recognition marks side by side and
-   the second one wrapped underneath. Keep them on one row, the way the phone
-   rule below already does. Scoped to the band so tablet widths, where the hero
-   is single-column and the strip is full width, are left as they were. */
-@media (min-width: 981px) and (max-width: 1200px) {
-  .trust-marks { flex-wrap: nowrap; gap: 20px; }
-  .trust-marks li { flex: 1 1 0; min-width: 0; }
-  .trust-marks img { max-width: 100%; }
-  .trust-marks span { line-height: 1.35; }
-}
-
 @media (max-width: 560px) {
   :root { --gutter: 18px; }
   body { font-size:15px; }
   .hero { padding-top:54px; }
-  .trust-strip { margin-top: 34px; }
-  .trust-marks { flex-wrap: nowrap; gap: 20px; }
-  .trust-marks li { flex: 1 1 0; min-width: 0; }
-  .trust-marks a { height: 69px; }
-  .trust-marks img { max-width: 100%; }
-  .trust-marks span { font-size: 11px; line-height: 1.35; }
+  .inception-membership figcaption { font-size: 11px; }
   .kicker { font-size:8px; }
   .hero-proof-label { margin-top:15px; font-size:9px; }
   .hero h1 { font-size:clamp(43px,14.6vw,70px); letter-spacing:-.075em; }

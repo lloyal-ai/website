@@ -1094,10 +1094,6 @@ main > section > .partner-band { width: 100%; }
 @media (max-width: 820px) { .hero.hero--section .hero-category h1 { font-size: clamp(42px, 8vw, 66px); } }
 @media (max-width: 560px) { .hero.hero--section .hero-category h1 { font-size: clamp(38px, 11vw, 56px); } }
 
-/* The marks were a child of the editorial grid; here they sit inside the copy
-   column, so the column placement they carried has to be released. */
-.build-entry--hero .trust-strip { grid-column: auto; margin-top: 38px; }
-
 /* The guide link used to sit on its own under the command. It now runs on from
    the absences line, so it takes inline flow and keeps its own underline. */
 .build-absences .guide-link { color: #dedbd4; border-bottom: 1px solid #5d5a55; }
@@ -1238,13 +1234,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <h1>Ship apps that think and act.</h1>
 <p class="large-copy">Build your harness in TypeScript. Ship it as a single on-device binary that runs offline, as a multi-user service on a private appliance, or online on frontier compute.</p>
 <div class="build-command"><span>$</span><code><span class="cmd-run">npx</span> lloyal-ai new</code><button type="button" data-copy-command="npx lloyal-ai new">Copy</button></div>
-<div aria-label="Recognition" class="trust-strip">
-<p class="trust-kicker">Recognised by</p>
-<ul class="trust-marks">
-<li><a href="https://www.nvidia.com/en-us/startups/" rel="noreferrer" target="_blank"><img alt="NVIDIA Inception Program member badge" height="69" src="/assets/nvidia-inception-program-badge.svg" width="160"/></a><span>NVIDIA Inception program member</span></li>
-<li><a href="https://www.linkedin.com/posts/zeen_ten-ai-agents-shared-a-single-239-gb-model-activity-7486095326706257921-613r" rel="noreferrer" target="_blank"><img alt="RunPod" height="32" src="/assets/runpod-logo-white.svg" width="141"/></a><span>Endorsed publicly by RunPod's CEO</span></li>
-</ul>
-</div>
+<figure class="inception-membership">
+<a href="https://www.nvidia.com/en-us/startups/" rel="noreferrer" target="_blank"><img alt="NVIDIA Inception Program member badge" height="69" src="/assets/nvidia-inception-program-badge.svg" width="160"/></a>
+<figcaption>NVIDIA Inception program member</figcaption>
+</figure>
 </div>
 <div class="build-entry-visual">
 <figure class="scaffold-shot">
