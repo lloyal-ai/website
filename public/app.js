@@ -95,6 +95,7 @@
     };
     quotes.querySelectorAll('[data-carousel-slide]').forEach((slide) => {
       const button = slide.querySelector('[data-quote-expand]');
+      if (!button) return;
       setExpanded(slide, false);
       button.hidden = false;
       button.addEventListener('click', () => {
