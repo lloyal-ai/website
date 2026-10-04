@@ -86,8 +86,8 @@
     carousel.querySelector('[data-quote-controls]').hidden = false;
   }
 
-  // Keep video paging manual. Removing the departing player stops its audio;
-  // no YouTube player is requested until the visitor chooses to play a film.
+  // Manual paging, with a single native YouTube player. Removing the departing
+  // iframe stops its audio. Off-screen players are lazy and never autoplay.
   const videos = document.querySelector('[data-video-carousel]');
   if (videos) {
     const slides = [...videos.querySelectorAll('[data-video-slide]')];
@@ -97,7 +97,7 @@
 
     const stop = (slide) => {
       slide.querySelector('iframe')?.remove();
-      slide.querySelector('[data-video-play]').hidden = false;
+      slide.querySelector('[data-video-id]').hidden = false;
     };
     const show = (index, announce = true) => {
       const destination = (index + slides.length) % slides.length;
@@ -106,33 +106,23 @@
       slides.forEach((slide, i) => { slide.hidden = i !== selected; });
       selectors.forEach((button, i) => button.setAttribute('aria-pressed', String(i === selected)));
       videos.querySelector('[data-video-count]').textContent = `${String(selected + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
-      if (announce) status.textContent = `${slides[selected].querySelector('[data-video-name]').textContent}, video ${selected + 1} of ${slides.length}`;
-    };
-
-    slides.forEach((slide) => {
-      const poster = slide.querySelector('[data-video-play]');
-      // Without JavaScript these remain ordinary links to all four films.
-      poster.setAttribute('role', 'button');
-      poster.addEventListener('keydown', (event) => {
-        if (event.key !== ' ') return;
-        event.preventDefault();
-        poster.click();
-      });
-      poster.addEventListener('click', (event) => {
-        if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-        event.preventDefault();
-        if (slide.querySelector('iframe')) return;
+      const slide = slides[selected];
+      const name = slide.querySelector('[data-video-name]').textContent;
+      if (!slide.querySelector('iframe')) {
+        const fallback = slide.querySelector('[data-video-id]');
         const player = document.createElement('iframe');
-        player.title = slide.querySelector('[data-video-name]').textContent;
-        player.src = `https://www.youtube-nocookie.com/embed/${poster.dataset.videoPlay}?autoplay=1&playsinline=1&rel=0`;
-        player.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+        player.title = name;
+        player.src = `https://www.youtube-nocookie.com/embed/${fallback.dataset.videoId}?playsinline=1&rel=0`;
+        player.loading = 'lazy';
+        player.allow = 'encrypted-media; picture-in-picture; fullscreen';
         player.allowFullscreen = true;
         player.referrerPolicy = 'strict-origin-when-cross-origin';
-        poster.hidden = true;
+        fallback.hidden = true;
         slide.querySelector('.video-stage').append(player);
-        player.focus({ preventScroll: true });
-      });
-    });
+      }
+      if (announce) status.textContent = `${name}, video ${selected + 1} of ${slides.length}`;
+    };
+
     videos.querySelector('[data-video-prev]').addEventListener('click', () => show(selected - 1));
     videos.querySelector('[data-video-next]').addEventListener('click', () => show(selected + 1));
     selectors.forEach((button, index) => {
@@ -150,6 +140,8 @@
     });
     show(0, false);
     videos.classList.add('is-ready');
+    videos.querySelector('[data-video-prev]').hidden = false;
+    videos.querySelector('[data-video-next]').hidden = false;
     videos.querySelector('[data-video-controls]').hidden = false;
   }
 
