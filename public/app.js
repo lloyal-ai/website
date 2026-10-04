@@ -23,7 +23,7 @@
 
   // One carousel component owns selection, controls, focus and motion. Content
   // supplies only lifecycle hooks; widths and controls share the same CSS grid.
-  const createCarousel = (root, { activate = () => {}, deactivate = () => {}, onChange = () => {} } = {}) => {
+  const createCarousel = (root, { activate = () => {}, deactivate = () => {} } = {}) => {
     const slides = [...root.querySelectorAll('[data-carousel-slide]')];
     const selectors = [...root.querySelectorAll('[data-carousel-select]')];
     const previous = root.querySelector('[data-carousel-prev]');
@@ -40,14 +40,16 @@
       animation?.cancel();
       if (!initial) deactivate(slides[selected]);
       selected = destination;
-      slides.forEach((slide, i) => { slide.hidden = i !== selected; });
+      slides.forEach((slide, i) => {
+        slide.hidden = i !== selected;
+        slide.inert = i !== selected;
+      });
       selectors.forEach((button, i) => button.setAttribute('aria-pressed', String(i === selected)));
       root.querySelector('[data-carousel-count]').textContent = `${String(selected + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
       const slide = slides[selected];
       activate(slide);
       if (!initial) {
         status.textContent = `${slide.dataset.carouselLabel}, ${selected + 1} of ${slides.length}`;
-        onChange(slide);
         if (!reducedMotion.matches && typeof slide.animate === 'function') {
           animation = slide.animate([
             { transform: `translateX(${direction * 64}px)`, opacity: 0 },
@@ -107,7 +109,12 @@
       });
     });
     createCarousel(quotes, {
-      onChange: () => {
+      deactivate: (slide) => {
+        // An expanded quote may grow; returning to paging restores the shared
+        // collapsed height, rather than reserving the full hidden article.
+        const expanded = slide.querySelector('[data-quote-expand]')?.getAttribute('aria-expanded') === 'true';
+        if (!expanded) return;
+        setExpanded(slide, false);
         if (quotes.getBoundingClientRect().top < 0) {
           quotes.scrollIntoView({ behavior: 'instant', block: 'start' });
         }

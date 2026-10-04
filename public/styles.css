@@ -32,6 +32,11 @@ main > section.featured-quotes { min-height: 0; }
 .featured-quotes .featured-eyebrow, .video-carousel .featured-eyebrow { margin: 0 0 26px; text-align: center; color: var(--muted); font: 11px var(--mono); letter-spacing: .18em; text-transform: uppercase; }
 .featured-stage { position: relative; padding-inline: 76px; }
 .carousel-viewport { min-width: 0; overflow: clip; padding: 6px; margin: -6px; }
+/* Stack slides in one grid cell: all contribute their intrinsic height, while
+   only the selected slide is visible and interactive. Reflows with the text. */
+.carousel--stable-height.is-ready .carousel-viewport { display: grid; }
+.carousel--stable-height.is-ready .carousel-viewport > [data-carousel-slide] { grid-area: 1 / 1; align-self: start; min-width: 0; }
+.carousel--stable-height.is-ready .carousel-viewport > [data-carousel-slide][hidden] { display: block !important; visibility: hidden; pointer-events: none; }
 .featured-slide { margin: 0; text-align: center; scroll-margin-top: calc(var(--nav-h) + 16px); }
 .featured-slide + .featured-slide { margin-top: 56px; }
 .carousel.is-ready [data-carousel-slide] { margin-top: 0; }
@@ -50,6 +55,7 @@ main > section.featured-quotes { min-height: 0; }
 .featured-avatar { flex-shrink: 0; width: 40px; height: 40px; object-fit: cover; }
 .featured-author strong { display: block; color: var(--ink); font-size: 14px; font-weight: 600; }
 .featured-author span { display: block; margin-top: 3px; color: var(--muted); font-size: 12px; }
+.featured-author a { text-decoration: underline; text-underline-offset: .2em; }
 .featured-original { display: inline-block; margin-top: 12px; padding: 10px 0; font-size: 12px; color: var(--muted); }
 .featured-arrow { position: absolute; top: var(--carousel-arrow-top, 140px); width: 44px; height: 44px; padding: 0; border: 1px solid var(--line); background: transparent; cursor: pointer; color: var(--muted); font-size: 22px; }
 .featured-prev { left: 0; }
