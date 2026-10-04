@@ -110,8 +110,8 @@
     });
     createCarousel(quotes, {
       deactivate: (slide) => {
-        // An expanded quote may grow; returning to paging restores the shared
-        // collapsed height, rather than reserving the full hidden article.
+        // Reopen departing quotes at their excerpt. Reposition only when
+        // collapsing a long article would leave the reader below the carousel.
         const expanded = slide.querySelector('[data-quote-expand]')?.getAttribute('aria-expanded') === 'true';
         if (!expanded) return;
         setExpanded(slide, false);
