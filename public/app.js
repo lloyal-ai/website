@@ -21,19 +21,131 @@
     });
   }
 
-  const eventLabel = document.querySelector('[data-event-label]');
-  if (eventLabel && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const labels = ['agent:spawn', 'branch:fork', 'tool:result', 'spine:extend', 'agent:complete'];
-    let index = 0;
-    window.setInterval(() => {
-      index = (index + 1) % labels.length;
-      eventLabel.textContent = labels[index];
-    }, 1800);
+  // One carousel component owns selection, controls, focus and motion. Content
+  // supplies only lifecycle hooks; widths and controls share the same CSS grid.
+  const createCarousel = (root, { activate = () => {}, deactivate = () => {} } = {}) => {
+    const slides = [...root.querySelectorAll('[data-carousel-slide]')];
+    const selectors = [...root.querySelectorAll('[data-carousel-select]')];
+    const previous = root.querySelector('[data-carousel-prev]');
+    const next = root.querySelector('[data-carousel-next]');
+    const status = root.querySelector('[data-carousel-status]');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let selected = 0;
+    let animation = null;
+
+    const show = (index, initial = false) => {
+      const destination = (index + slides.length) % slides.length;
+      if (!initial && destination === selected) return;
+      const direction = Math.sign(index - selected) || 1;
+      animation?.cancel();
+      if (!initial) deactivate(slides[selected]);
+      selected = destination;
+      slides.forEach((slide, i) => {
+        slide.hidden = i !== selected;
+        slide.inert = i !== selected;
+      });
+      selectors.forEach((button, i) => button.setAttribute('aria-pressed', String(i === selected)));
+      root.querySelector('[data-carousel-count]').textContent = `${String(selected + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
+      const slide = slides[selected];
+      activate(slide);
+      if (!initial) {
+        status.textContent = `${slide.dataset.carouselLabel}, ${selected + 1} of ${slides.length}`;
+        if (!reducedMotion.matches && typeof slide.animate === 'function') {
+          animation = slide.animate([
+            { transform: `translateX(${direction * 64}px)`, opacity: 0 },
+            { transform: 'translateX(0)', opacity: 1 },
+          ], { duration: 360, easing: 'cubic-bezier(.22, 1, .36, 1)' });
+        }
+      }
+    };
+
+    previous.addEventListener('click', () => show(selected - 1));
+    next.addEventListener('click', () => show(selected + 1));
+    selectors.forEach((button, index) => {
+      button.addEventListener('click', () => show(index));
+      button.addEventListener('keydown', (event) => {
+        const destination = event.key === 'ArrowRight' ? index + 1
+          : event.key === 'ArrowLeft' ? index - 1
+          : event.key === 'Home' ? 0
+          : event.key === 'End' ? slides.length - 1 : null;
+        if (destination === null) return;
+        event.preventDefault();
+        show(destination);
+        selectors[selected].focus({ preventScroll: true });
+      });
+    });
+    reducedMotion.addEventListener('change', () => {
+      if (reducedMotion.matches) animation?.cancel();
+    });
+    show(0, true);
+    root.classList.add('is-ready');
+    previous.hidden = false;
+    next.hidden = false;
+    root.querySelector('[data-carousel-controls]').hidden = false;
+  };
+
+  // Quote expansion belongs to the content, independently of carousel paging.
+  const quotes = document.querySelector('[data-quote-carousel]');
+  if (quotes) {
+    const setExpanded = (slide, expanded) => {
+      slide.querySelector('[data-quote-excerpt]').hidden = expanded;
+      slide.querySelector('[data-quote-full]').hidden = !expanded;
+      const button = slide.querySelector('[data-quote-expand]');
+      button.setAttribute('aria-expanded', String(expanded));
+      button.firstChild.textContent = expanded ? 'Show less ' : 'See more ';
+      button.querySelector('[aria-hidden]').textContent = expanded ? '↑' : '↓';
+    };
+    quotes.querySelectorAll('[data-carousel-slide]').forEach((slide) => {
+      const button = slide.querySelector('[data-quote-expand]');
+      if (!button) return;
+      setExpanded(slide, false);
+      button.hidden = false;
+      button.addEventListener('click', () => {
+        const expanded = button.getAttribute('aria-expanded') === 'true';
+        setExpanded(slide, !expanded);
+        if (expanded && slide.getBoundingClientRect().top < 0) {
+          slide.scrollIntoView({ behavior: 'instant', block: 'start' });
+        }
+      });
+    });
+    createCarousel(quotes, {
+      deactivate: (slide) => {
+        // Reopen departing quotes at their excerpt. Reposition only when
+        // collapsing a long article would leave the reader below the carousel.
+        const expanded = slide.querySelector('[data-quote-expand]')?.getAttribute('aria-expanded') === 'true';
+        if (!expanded) return;
+        setExpanded(slide, false);
+        if (quotes.getBoundingClientRect().top < 0) {
+          quotes.scrollIntoView({ behavior: 'instant', block: 'start' });
+        }
+      },
+    });
   }
+
+  // A video owns its native player, loading lazily and stopping on departure.
+  const videos = document.querySelector('[data-video-carousel]');
+  if (videos) createCarousel(videos, {
+    deactivate: (slide) => {
+      slide.querySelector('iframe')?.remove();
+      slide.querySelector('[data-video-id]').hidden = false;
+    },
+    activate: (slide) => {
+      const fallback = slide.querySelector('[data-video-id]');
+      const player = document.createElement('iframe');
+      player.title = slide.dataset.carouselLabel;
+      player.src = `https://www.youtube-nocookie.com/embed/${fallback.dataset.videoId}?playsinline=1&rel=0`;
+      player.loading = 'lazy';
+      player.allow = 'encrypted-media; picture-in-picture; fullscreen';
+      player.allowFullscreen = true;
+      player.referrerPolicy = 'strict-origin-when-cross-origin';
+      fallback.hidden = true;
+      slide.querySelector('.video-stage').append(player);
+    },
+  });
 
   // Reactive nav underline: highlights the nav item for the section under the
   // header, immediately on click and via scrollspy as the user scrolls.
-  const scrollspyIds = ['build', 'developers', 'abilities', 'partner'];
+  const scrollspyIds = ['developers', 'abilities', 'build', 'partner'];
   const scrollspySections = scrollspyIds.map((id) => document.getElementById(id)).filter(Boolean);
   const navItems = document.querySelectorAll('.desktop-nav a, .header-cta');
 
