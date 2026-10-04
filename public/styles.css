@@ -203,7 +203,6 @@ section[id], [id="partner-form"] { scroll-margin-top: 76px; }
 .inception-membership a { display: block; opacity: .92; }
 .inception-membership a:hover { opacity: 1; }
 .inception-membership img { display: block; max-width: 100%; height: auto; }
-.inception-membership figcaption { color: #8d8a84; font-size: 12px; line-height: 1.35; }
 
 .hero-proof {
   position: relative;
@@ -543,7 +542,6 @@ footer { padding:80px 0 32px; background:#070707; }
   :root { --gutter: 18px; }
   body { font-size:15px; }
   .hero { padding-top:54px; }
-  .inception-membership figcaption { font-size: 11px; }
   .kicker { font-size:8px; }
   .hero-proof-label { margin-top:15px; font-size:9px; }
   .hero h1 { font-size:clamp(43px,14.6vw,70px); letter-spacing:-.075em; }
