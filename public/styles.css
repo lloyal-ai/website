@@ -199,10 +199,12 @@ section[id], [id="partner-form"] { scroll-margin-top: 76px; }
 .quiet-link { display: inline-block; margin-top: 18px; color: #8d8a84; font-size: 12px; border-bottom: 1px solid transparent; }
 .quiet-link:hover { color: var(--ink); border-color: #66635e; }
 
-.inception-membership { margin: 28px 0 0; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; text-align: left; }
-.inception-membership a { display: block; opacity: .92; }
-.inception-membership a:hover { opacity: 1; }
-.inception-membership img { display: block; max-width: 100%; height: auto; }
+.hero-recognition { margin: 28px 0 0; padding: 0; list-style: none; display: grid; grid-template-columns: 1.45fr 1fr .36fr .36fr; align-items: center; gap: clamp(12px, 2.4vw, 28px); max-width: 440px; }
+.hero-recognition li { min-width: 0; }
+.hero-recognition a { display: flex; align-items: center; min-height: 44px; opacity: .92; }
+.hero-recognition a:hover { opacity: 1; }
+.hero-recognition a:focus-visible { outline: 2px solid var(--ink); outline-offset: 5px; }
+.hero-recognition img, .hero-recognition svg { display: block; width: 100%; height: auto; }
 
 .hero-proof {
   position: relative;
