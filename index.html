@@ -1256,13 +1256,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 </div>
 </section>
-<section class="featured-quotes band-cream" id="featured-by" aria-labelledby="featured-title" data-quote-carousel>
+<section class="featured-quotes band-cream carousel" id="featured-by" aria-labelledby="featured-title" data-quote-carousel data-carousel>
 <div class="wrap">
 <h2 class="featured-eyebrow" id="featured-title">Featured by</h2>
 <div class="featured-stage">
-<button class="featured-arrow featured-prev" type="button" data-quote-prev aria-label="Previous quote" aria-controls="featured-slides" hidden><span aria-hidden="true">←</span></button>
-<div id="featured-slides">
-<figure class="featured-slide" id="quote-product-hunt" data-quote-slide aria-labelledby="quote-ph-author">
+<button class="featured-arrow featured-prev" type="button" data-carousel-prev aria-label="Previous quote" aria-controls="featured-slides" hidden><span aria-hidden="true">←</span></button>
+<div class="carousel-viewport" id="featured-slides">
+<figure class="featured-slide" id="quote-product-hunt" data-carousel-label="Product Hunt" data-carousel-slide aria-labelledby="quote-ph-author">
 <span class="featured-quote-mark" aria-hidden="true">“</span>
 <blockquote cite="https://www.producthunt.com/newsletters/archive/56299-steal-this-site-s-design">
 <div data-quote-excerpt hidden>
@@ -1283,7 +1283,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <a class="featured-original" href="https://www.producthunt.com/newsletters/archive/56299-steal-this-site-s-design" target="_blank" rel="noreferrer">View original <span aria-hidden="true">↗</span><span class="sr-only"> on Product Hunt (opens in a new tab)</span></a>
 </figcaption>
 </figure>
-<figure class="featured-slide" id="quote-zhen-lu" data-quote-slide aria-labelledby="quote-zhen-author">
+<figure class="featured-slide" id="quote-zhen-lu" data-carousel-label="Zhen Lu · RunPod" data-carousel-slide aria-labelledby="quote-zhen-author">
 <span class="featured-quote-mark" aria-hidden="true">“</span>
 <blockquote cite="https://www.linkedin.com/posts/zeen_ten-ai-agents-shared-a-single-239-gb-model-share-7486095325468766208-H3cc/">
 <div data-quote-excerpt hidden>
@@ -1313,16 +1313,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </figcaption>
 </figure>
 </div>
-<button class="featured-arrow featured-next" type="button" data-quote-next aria-label="Next quote" aria-controls="featured-slides" hidden><span aria-hidden="true">→</span></button>
+<button class="featured-arrow featured-next" type="button" data-carousel-next aria-label="Next quote" aria-controls="featured-slides" hidden><span aria-hidden="true">→</span></button>
 </div>
-<div class="featured-pager" data-quote-controls hidden>
+<div class="featured-pager" data-carousel-controls hidden>
 <div class="featured-sources" role="group" aria-label="Choose a quote">
-<button type="button" data-quote-select="0" aria-pressed="true" aria-controls="quote-product-hunt"><span class="featured-page-mark" aria-hidden="true"></span>Product Hunt</button>
-<button type="button" data-quote-select="1" aria-pressed="false" aria-controls="quote-zhen-lu"><span class="featured-page-mark" aria-hidden="true"></span>Zhen Lu · RunPod</button>
+<button type="button" data-carousel-select="0" aria-pressed="true" aria-controls="quote-product-hunt"><span class="featured-page-mark" aria-hidden="true"></span>Product Hunt</button>
+<button type="button" data-carousel-select="1" aria-pressed="false" aria-controls="quote-zhen-lu"><span class="featured-page-mark" aria-hidden="true"></span>Zhen Lu · RunPod</button>
 </div>
-<span class="featured-count" data-quote-count aria-hidden="true">01 / 02</span>
+<span class="featured-count" data-carousel-count aria-hidden="true">01 / 02</span>
 </div>
-<p class="sr-only" data-quote-status role="status" aria-atomic="true"></p>
+<p class="sr-only" data-carousel-status role="status" aria-atomic="true"></p>
 </div>
 </section>
 <section class="abilities-section section" id="abilities">
@@ -1430,12 +1430,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 </section>
 <section class="band-cream" id="start"><div class="partner-band"><div class="wrap">
-<div class="video-carousel" data-video-carousel role="region" aria-roledescription="carousel" aria-labelledby="video-title">
+<div class="video-carousel carousel" data-video-carousel data-carousel role="region" aria-roledescription="carousel" aria-labelledby="video-title">
 <h2 class="featured-eyebrow" id="video-title">Watch lloyal in action</h2>
 <div class="featured-stage">
-<button class="featured-arrow featured-prev" type="button" data-video-prev aria-label="Previous video" aria-controls="video-slides" hidden><span aria-hidden="true">←</span></button>
-<div id="video-slides">
-<figure class="video-slide" id="video-ship" data-video-slide role="group" aria-roledescription="slide" aria-label="1 of 4">
+<button class="featured-arrow featured-prev" type="button" data-carousel-prev aria-label="Previous video" aria-controls="video-slides" hidden><span aria-hidden="true">←</span></button>
+<div class="carousel-viewport" id="video-slides">
+<figure class="video-slide" id="video-ship" data-carousel-label="Zero to Shipped AI App in Minutes" data-carousel-slide role="group" aria-roledescription="slide" aria-label="1 of 4">
 <div class="video-stage">
 <a class="video-poster" href="https://www.youtube.com/watch?v=gp6LbadjSIY" data-video-id="gp6LbadjSIY" aria-label="Watch Zero to Shipped AI App in Minutes">
 <span class="video-fallback-label">Watch on YouTube ↗</span>
@@ -1444,7 +1444,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 <figcaption><h3 data-video-name>Zero to Shipped AI App in Minutes</h3><a class="featured-original" href="https://www.youtube.com/watch?v=gp6LbadjSIY" target="_blank" rel="noopener noreferrer">Watch on YouTube <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a></figcaption>
 </figure>
-<figure class="video-slide" id="video-devtools" data-video-slide role="group" aria-roledescription="slide" aria-label="2 of 4">
+<figure class="video-slide" id="video-devtools" data-carousel-label="Look inside the model as it works" data-carousel-slide role="group" aria-roledescription="slide" aria-label="2 of 4">
 <div class="video-stage">
 <a class="video-poster" href="https://www.youtube.com/watch?v=KV-cfvyLds8" data-video-id="KV-cfvyLds8" aria-label="Watch Look inside the model as it works">
 <span class="video-fallback-label">Watch on YouTube ↗</span>
@@ -1453,7 +1453,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 <figcaption><h3 data-video-name>Look inside the model as it works</h3><a class="featured-original" href="https://www.youtube.com/watch?v=KV-cfvyLds8" target="_blank" rel="noopener noreferrer">Watch on YouTube <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a></figcaption>
 </figure>
-<figure class="video-slide" id="video-composition" data-video-slide role="group" aria-roledescription="slide" aria-label="3 of 4">
+<figure class="video-slide" id="video-composition" data-carousel-label="Should You Make One Model Do Everything?" data-carousel-slide role="group" aria-roledescription="slide" aria-label="3 of 4">
 <div class="video-stage">
 <a class="video-poster" href="https://www.youtube.com/watch?v=k0ew27w_PBc" data-video-id="k0ew27w_PBc" aria-label="Watch Should You Make One Model Do Everything?">
 <span class="video-fallback-label">Watch on YouTube ↗</span>
@@ -1462,7 +1462,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 <figcaption><h3 data-video-name>Should You Make One Model Do Everything?</h3><a class="featured-original" href="https://www.youtube.com/watch?v=k0ew27w_PBc" target="_blank" rel="noopener noreferrer">Watch on YouTube <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a></figcaption>
 </figure>
-<figure class="video-slide" id="video-multimodal" data-video-slide role="group" aria-roledescription="slide" aria-label="4 of 4">
+<figure class="video-slide" id="video-multimodal" data-carousel-label="Multimodal AI Harnesses, Done Right" data-carousel-slide role="group" aria-roledescription="slide" aria-label="4 of 4">
 <div class="video-stage">
 <a class="video-poster" href="https://www.youtube.com/watch?v=RBiUsRTVuyY" data-video-id="RBiUsRTVuyY" aria-label="Watch Multimodal AI Harnesses, Done Right">
 <span class="video-fallback-label">Watch on YouTube ↗</span>
@@ -1472,18 +1472,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <figcaption><h3 data-video-name>Multimodal AI Harnesses, Done Right</h3><a class="featured-original" href="https://www.youtube.com/watch?v=RBiUsRTVuyY" target="_blank" rel="noopener noreferrer">Watch on YouTube <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a></figcaption>
 </figure>
 </div>
-<button class="featured-arrow featured-next" type="button" data-video-next aria-label="Next video" aria-controls="video-slides" hidden><span aria-hidden="true">→</span></button>
+<button class="featured-arrow featured-next" type="button" data-carousel-next aria-label="Next video" aria-controls="video-slides" hidden><span aria-hidden="true">→</span></button>
 </div>
-<div class="featured-pager" data-video-controls hidden>
+<div class="featured-pager" data-carousel-controls hidden>
 <div class="featured-sources" role="group" aria-label="Choose a video">
-<button type="button" data-video-select="0" aria-pressed="true" aria-controls="video-ship"><span class="featured-page-mark" aria-hidden="true"></span>Ship an app</button>
-<button type="button" data-video-select="1" aria-pressed="false" aria-controls="video-devtools"><span class="featured-page-mark" aria-hidden="true"></span>Dev tools</button>
-<button type="button" data-video-select="2" aria-pressed="false" aria-controls="video-composition"><span class="featured-page-mark" aria-hidden="true"></span>Composition of models</button>
-<button type="button" data-video-select="3" aria-pressed="false" aria-controls="video-multimodal"><span class="featured-page-mark" aria-hidden="true"></span>Multimodal</button>
+<button type="button" data-carousel-select="0" aria-pressed="true" aria-controls="video-ship"><span class="featured-page-mark" aria-hidden="true"></span>Ship an app</button>
+<button type="button" data-carousel-select="1" aria-pressed="false" aria-controls="video-devtools"><span class="featured-page-mark" aria-hidden="true"></span>Dev tools</button>
+<button type="button" data-carousel-select="2" aria-pressed="false" aria-controls="video-composition"><span class="featured-page-mark" aria-hidden="true"></span>Composition of models</button>
+<button type="button" data-carousel-select="3" aria-pressed="false" aria-controls="video-multimodal"><span class="featured-page-mark" aria-hidden="true"></span>Multimodal</button>
 </div>
-<span class="featured-count" data-video-count aria-hidden="true">01 / 04</span>
+<span class="featured-count" data-carousel-count aria-hidden="true">01 / 04</span>
 </div>
-<p class="sr-only" data-video-status aria-live="polite" aria-atomic="true"></p>
+<p class="sr-only" data-carousel-status aria-live="polite" aria-atomic="true"></p>
 </div>
 <div class="video-command"><p class="section-index">START</p><h2>All of it ships from one command.</h2><div class="build-command"><span>$</span><code><span class="cmd-run">npx</span> lloyal-ai new</code><button type="button" data-copy-command="npx lloyal-ai new">Copy</button></div><p class="form-note">No API key, no inference server, no vector database. <a href="https://docs.lloyal.ai/build-your-first-harness">Ten-minute guide</a> · <a href="https://docs.lloyal.ai/">Docs</a> · <a href="https://github.com/lloyal-ai/hdk">HDK on GitHub</a></p></div>
 </div></div></section></main>

@@ -21,110 +21,44 @@
     });
   }
 
-  // The full, attributed quotes remain readable when JavaScript is unavailable.
-  const carousel = document.querySelector('[data-quote-carousel]');
-  if (carousel) {
-    const slides = [...carousel.querySelectorAll('[data-quote-slide]')];
-    const selectors = [...carousel.querySelectorAll('[data-quote-select]')];
-    const previous = carousel.querySelector('[data-quote-prev]');
-    const next = carousel.querySelector('[data-quote-next]');
-    const status = carousel.querySelector('[data-quote-status]');
+  // One carousel component owns selection, controls, focus and motion. Content
+  // supplies only lifecycle hooks; widths and controls share the same CSS grid.
+  const createCarousel = (root, { activate = () => {}, deactivate = () => {}, onChange = () => {} } = {}) => {
+    const slides = [...root.querySelectorAll('[data-carousel-slide]')];
+    const selectors = [...root.querySelectorAll('[data-carousel-select]')];
+    const previous = root.querySelector('[data-carousel-prev]');
+    const next = root.querySelector('[data-carousel-next]');
+    const status = root.querySelector('[data-carousel-status]');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     let selected = 0;
+    let animation = null;
 
-    const setExpanded = (slide, expanded) => {
-      slide.querySelector('[data-quote-excerpt]').hidden = expanded;
-      slide.querySelector('[data-quote-full]').hidden = !expanded;
-      const button = slide.querySelector('[data-quote-expand]');
-      button.setAttribute('aria-expanded', String(expanded));
-      button.firstChild.textContent = expanded ? 'Show less ' : 'See more ';
-      button.querySelector('[aria-hidden]').textContent = expanded ? '↑' : '↓';
-    };
-
-    const show = (index) => {
+    const show = (index, initial = false) => {
       const destination = (index + slides.length) % slides.length;
-      const changed = destination !== selected;
+      if (!initial && destination === selected) return;
+      const direction = Math.sign(index - selected) || 1;
+      animation?.cancel();
+      if (!initial) deactivate(slides[selected]);
       selected = destination;
       slides.forEach((slide, i) => { slide.hidden = i !== selected; });
       selectors.forEach((button, i) => button.setAttribute('aria-pressed', String(i === selected)));
-      carousel.querySelector('[data-quote-count]').textContent = `${String(selected + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
-      status.textContent = `${selectors[selected].textContent.trim()}, quote ${selected + 1} of ${slides.length}`;
-      if (changed && carousel.getBoundingClientRect().top < 0) {
-        carousel.scrollIntoView({ behavior: 'instant', block: 'start' });
+      root.querySelector('[data-carousel-count]').textContent = `${String(selected + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
+      const slide = slides[selected];
+      activate(slide);
+      if (!initial) {
+        status.textContent = `${slide.dataset.carouselLabel}, ${selected + 1} of ${slides.length}`;
+        onChange(slide);
+        if (!reducedMotion.matches && typeof slide.animate === 'function') {
+          animation = slide.animate([
+            { transform: `translateX(${direction * 64}px)`, opacity: 0 },
+            { transform: 'translateX(0)', opacity: 1 },
+          ], { duration: 360, easing: 'cubic-bezier(.22, 1, .36, 1)' });
+        }
       }
     };
 
-    slides.forEach((slide) => {
-      const button = slide.querySelector('[data-quote-expand]');
-      setExpanded(slide, false);
-      button.hidden = false;
-      button.addEventListener('click', () => {
-        const expanded = button.getAttribute('aria-expanded') === 'true';
-        setExpanded(slide, !expanded);
-        // Collapsing a long post must not leave the reader below the quote.
-        if (expanded && slide.getBoundingClientRect().top < 0) {
-          slide.scrollIntoView({ behavior: 'instant', block: 'start' });
-        }
-      });
-    });
     previous.addEventListener('click', () => show(selected - 1));
     next.addEventListener('click', () => show(selected + 1));
-    selectors.forEach((button, index) => {
-      button.addEventListener('click', () => show(index));
-      button.addEventListener('keydown', (event) => {
-        const direction = event.key === 'ArrowRight' ? 1 : event.key === 'ArrowLeft' ? -1 : 0;
-        if (!direction) return;
-        event.preventDefault();
-        show(index + direction);
-        selectors[selected].focus({ preventScroll: true });
-      });
-    });
-    show(0);
-    status.textContent = '';
-    carousel.classList.add('is-ready');
-    previous.hidden = false;
-    next.hidden = false;
-    carousel.querySelector('[data-quote-controls]').hidden = false;
-  }
-
-  // Manual paging, with a single native YouTube player. Removing the departing
-  // iframe stops its audio. Off-screen players are lazy and never autoplay.
-  const videos = document.querySelector('[data-video-carousel]');
-  if (videos) {
-    const slides = [...videos.querySelectorAll('[data-video-slide]')];
-    const selectors = [...videos.querySelectorAll('[data-video-select]')];
-    const status = videos.querySelector('[data-video-status]');
-    let selected = 0;
-
-    const stop = (slide) => {
-      slide.querySelector('iframe')?.remove();
-      slide.querySelector('[data-video-id]').hidden = false;
-    };
-    const show = (index, announce = true) => {
-      const destination = (index + slides.length) % slides.length;
-      if (destination !== selected) stop(slides[selected]);
-      selected = destination;
-      slides.forEach((slide, i) => { slide.hidden = i !== selected; });
-      selectors.forEach((button, i) => button.setAttribute('aria-pressed', String(i === selected)));
-      videos.querySelector('[data-video-count]').textContent = `${String(selected + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
-      const slide = slides[selected];
-      const name = slide.querySelector('[data-video-name]').textContent;
-      if (!slide.querySelector('iframe')) {
-        const fallback = slide.querySelector('[data-video-id]');
-        const player = document.createElement('iframe');
-        player.title = name;
-        player.src = `https://www.youtube-nocookie.com/embed/${fallback.dataset.videoId}?playsinline=1&rel=0`;
-        player.loading = 'lazy';
-        player.allow = 'encrypted-media; picture-in-picture; fullscreen';
-        player.allowFullscreen = true;
-        player.referrerPolicy = 'strict-origin-when-cross-origin';
-        fallback.hidden = true;
-        slide.querySelector('.video-stage').append(player);
-      }
-      if (announce) status.textContent = `${name}, video ${selected + 1} of ${slides.length}`;
-    };
-
-    videos.querySelector('[data-video-prev]').addEventListener('click', () => show(selected - 1));
-    videos.querySelector('[data-video-next]').addEventListener('click', () => show(selected + 1));
     selectors.forEach((button, index) => {
       button.addEventListener('click', () => show(index));
       button.addEventListener('keydown', (event) => {
@@ -138,12 +72,68 @@
         selectors[selected].focus({ preventScroll: true });
       });
     });
-    show(0, false);
-    videos.classList.add('is-ready');
-    videos.querySelector('[data-video-prev]').hidden = false;
-    videos.querySelector('[data-video-next]').hidden = false;
-    videos.querySelector('[data-video-controls]').hidden = false;
+    reducedMotion.addEventListener('change', () => {
+      if (reducedMotion.matches) animation?.cancel();
+    });
+    show(0, true);
+    root.classList.add('is-ready');
+    previous.hidden = false;
+    next.hidden = false;
+    root.querySelector('[data-carousel-controls]').hidden = false;
+  };
+
+  // Quote expansion belongs to the content, independently of carousel paging.
+  const quotes = document.querySelector('[data-quote-carousel]');
+  if (quotes) {
+    const setExpanded = (slide, expanded) => {
+      slide.querySelector('[data-quote-excerpt]').hidden = expanded;
+      slide.querySelector('[data-quote-full]').hidden = !expanded;
+      const button = slide.querySelector('[data-quote-expand]');
+      button.setAttribute('aria-expanded', String(expanded));
+      button.firstChild.textContent = expanded ? 'Show less ' : 'See more ';
+      button.querySelector('[aria-hidden]').textContent = expanded ? '↑' : '↓';
+    };
+    quotes.querySelectorAll('[data-carousel-slide]').forEach((slide) => {
+      const button = slide.querySelector('[data-quote-expand]');
+      setExpanded(slide, false);
+      button.hidden = false;
+      button.addEventListener('click', () => {
+        const expanded = button.getAttribute('aria-expanded') === 'true';
+        setExpanded(slide, !expanded);
+        if (expanded && slide.getBoundingClientRect().top < 0) {
+          slide.scrollIntoView({ behavior: 'instant', block: 'start' });
+        }
+      });
+    });
+    createCarousel(quotes, {
+      onChange: () => {
+        if (quotes.getBoundingClientRect().top < 0) {
+          quotes.scrollIntoView({ behavior: 'instant', block: 'start' });
+        }
+      },
+    });
   }
+
+  // A video owns its native player, loading lazily and stopping on departure.
+  const videos = document.querySelector('[data-video-carousel]');
+  if (videos) createCarousel(videos, {
+    deactivate: (slide) => {
+      slide.querySelector('iframe')?.remove();
+      slide.querySelector('[data-video-id]').hidden = false;
+    },
+    activate: (slide) => {
+      const fallback = slide.querySelector('[data-video-id]');
+      const player = document.createElement('iframe');
+      player.title = slide.dataset.carouselLabel;
+      player.src = `https://www.youtube-nocookie.com/embed/${fallback.dataset.videoId}?playsinline=1&rel=0`;
+      player.loading = 'lazy';
+      player.allow = 'encrypted-media; picture-in-picture; fullscreen';
+      player.allowFullscreen = true;
+      player.referrerPolicy = 'strict-origin-when-cross-origin';
+      fallback.hidden = true;
+      slide.querySelector('.video-stage').append(player);
+    },
+  });
 
   // Reactive nav underline: highlights the nav item for the section under the
   // header, immediately on click and via scrollspy as the user scrolls.
