@@ -86,19 +86,9 @@
     carousel.querySelector('[data-quote-controls]').hidden = false;
   }
 
-  const eventLabel = document.querySelector('[data-event-label]');
-  if (eventLabel && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const labels = ['agent:spawn', 'branch:fork', 'tool:result', 'spine:extend', 'agent:complete'];
-    let index = 0;
-    window.setInterval(() => {
-      index = (index + 1) % labels.length;
-      eventLabel.textContent = labels[index];
-    }, 1800);
-  }
-
   // Reactive nav underline: highlights the nav item for the section under the
   // header, immediately on click and via scrollspy as the user scrolls.
-  const scrollspyIds = ['build', 'developers', 'abilities', 'partner'];
+  const scrollspyIds = ['developers', 'abilities', 'build', 'partner'];
   const scrollspySections = scrollspyIds.map((id) => document.getElementById(id)).filter(Boolean);
   const navItems = document.querySelectorAll('.desktop-nav a, .header-cta');
 

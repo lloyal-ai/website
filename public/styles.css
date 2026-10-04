@@ -17,17 +17,25 @@
 }
 
 /* Editorial quotes between the scaffold and Abilities. No automatic paging. */
-.featured-quotes { padding: clamp(52px, 6vw, 88px) 0 40px; background: var(--bg); border-top: 1px solid var(--line); }
+.featured-quotes {
+  --ink: #111;
+  --muted: #625e57;
+  --line: #c8c3b8;
+  padding: clamp(52px, 6vw, 88px) 0 40px;
+  color: var(--ink);
+  background: var(--cream);
+  border-top: 1px solid var(--line);
+}
 /* This is an interstitial, not one of the homepage's full-screen bands. */
 main > section.featured-quotes { min-height: 0; }
 .featured-quotes [hidden] { display: none !important; }
-.featured-eyebrow { margin: 0 0 26px; text-align: center; color: var(--muted); font: 11px var(--mono); letter-spacing: .18em; text-transform: uppercase; }
+.featured-quotes .featured-eyebrow { margin: 0 0 26px; text-align: center; color: var(--muted); font: 11px var(--mono); letter-spacing: .18em; text-transform: uppercase; }
 .featured-stage { position: relative; padding-inline: 76px; }
 .featured-slide { margin: 0; text-align: center; scroll-margin-top: calc(var(--nav-h) + 16px); }
 .featured-slide + .featured-slide { margin-top: 56px; }
 .featured-quotes.is-ready .featured-slide { margin-top: 0; }
 .featured-quote-mark { display: block; height: 42px; color: #716e68; font-size: 62px; line-height: 1; }
-.featured-slide blockquote { max-width: 1020px; margin: 16px auto 0; font-size: clamp(22px, 2.5vw, 34px); line-height: 1.48; letter-spacing: -.035em; color: #c4c1bb; text-wrap: pretty; }
+.featured-slide blockquote { max-width: 1020px; margin: 16px auto 0; font-size: clamp(22px, 2.5vw, 34px); line-height: 1.48; letter-spacing: -.035em; color: #45413b; text-wrap: pretty; }
 .featured-slide blockquote p { margin: 0; }
 .featured-slide blockquote p + p { margin-top: 1em; }
 .featured-slide blockquote strong { color: var(--ink); font-weight: 620; }
@@ -111,7 +119,7 @@ button { color: inherit; }
 .skip:focus { transform: none; }
 
 /* Anchor targets land below the sticky header, not under it. */
-section[id], [id="same-harness"], [id="partner-form"] { scroll-margin-top: 76px; }
+section[id], [id="partner-form"] { scroll-margin-top: 76px; }
 
 .site-header {
   position: sticky;

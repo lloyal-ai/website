@@ -37,75 +37,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="icon" href="/favicon.png"/>
 
 <style>
-/* Vertical Inference category hero */
-.hero-copy.hero-editorial {
-  display: grid;
-  grid-template-columns: minmax(0, .82fr) minmax(420px, 1fr);
-  gap: clamp(56px, 8vw, 138px);
-  align-items: center;
-  max-width: 1480px;
-  padding-top: 0;
-  text-align: left;
-}
-.hero-category .kicker { margin-bottom: clamp(28px, 4vw, 58px); }
-.hero .hero-category h1 {
-  max-width: none;
-  margin: 0;
-  font-size: clamp(76px, 9.2vw, 148px);
-  line-height: .82;
-  letter-spacing: -.075em;
-  text-wrap: initial;
-}
-.hero-category-dek {
-  margin: clamp(26px, 3vw, 42px) 0 0;
-  color: #aaa7a1;
-  font-size: clamp(21px, 1.75vw, 29px);
-  line-height: 1.2;
-  letter-spacing: -.035em;
-}
-.hero-definition {
-  padding: 0;
-}
-.hero-definition h2 {
-  max-width: 760px;
-  margin: 0;
-  color: var(--ink);
-  font-size: clamp(32px, 3.25vw, 52px);
-  font-weight: 620;
-  line-height: 1.02;
-  letter-spacing: -.055em;
-}
-.hero-definition > p {
-  max-width: 710px;
-  margin: 22px 0 0;
-  color: var(--muted);
-  font-size: clamp(15px, 1.15vw, 18px);
-  line-height: 1.58;
-}
-.hero-definition > p + p { margin-top: 12px; }
-.hero-definition strong { color: var(--ink); font-weight: 620; }
-.hero-definition .hero-actions { justify-content: flex-start; margin-top: 30px; }
-.hero-definition .quiet-link { margin-top: 18px; }
-.partner-band .hero-proof { margin-top: clamp(58px, 6vw, 98px); margin-bottom: 44px; }
-
-@media (max-width: 980px) {
-  .hero-copy.hero-editorial {
-    grid-template-columns: 1fr;
-    gap: 60px;
-    align-items: start;
-  }
-  .hero .hero-category h1 { font-size: clamp(78px, 16vw, 132px); }
-  .hero-definition { max-width: 760px; }
-        }
-@media (max-width: 560px) {
-  .hero-copy.hero-editorial { padding-top: 36px; gap: 46px; }
-  .hero .hero-category h1 { font-size: clamp(66px, 22vw, 102px); }
-  .hero-category-dek { max-width: 300px; }
-  .hero-definition h2 { font-size: clamp(32px, 9.7vw, 46px); }
-  .hero-definition .hero-actions { display: grid; }
-        }
-</style>
-<style>
 /* Abilities access ladder and final conversion */
 
 .abilities-section {
@@ -466,9 +397,8 @@ main > section > .partner-band { width: 100%; }
 </style>
 <style>
 /* Primary product-led activation */
-/* ---- Cream band: the light half of the page's alternation. The hero is dark,
-   so 01 and 03 are cream and 02 and the partner band stay dark, which keeps the
-   rhythm in phase and gives the terminal blocks a ground to sit against. ---- */
+/* Cream quotes and Harness alternate with the dark opening, Abilities and
+   contact bands. The closing command returns to cream. */
 .band-cream, .section.band-cream {
   color: #111;
   background: var(--cream);
@@ -479,7 +409,7 @@ main > section > .partner-band { width: 100%; }
 .band-cream .mvc-role,
 .band-cream .mvc-what small { color: #625e57; }
 .band-cream h2,
-.band-cream .build-entry-copy h2,
+.band-cream .build-entry-copy h1,
 .band-cream .code-copy h2 { color: #050505; }
 
 /* Abilities on a cream band. The section was written for the dark treatment and
@@ -502,21 +432,24 @@ main > section > .partner-band { width: 100%; }
   margin-top: 28px;
   padding-bottom: 5px;
   font-size: 13px;
+  color: var(--ink);
+  border-bottom: 1px solid #77746e;
 }
+.abilities-copy > a:hover { color: #fff; border-color: var(--ink); }
 .abilities-copy > a + a { margin-left: 26px; }
 .band-cream .abilities-copy > a { color: #181715; border-bottom: 1px solid #aaa49a; }
 .band-cream .abilities-copy > a:hover { color: #000; border-color: #000; }
 .capability-modes h3 a { color: inherit; text-decoration: none; border-bottom: 1px solid currentColor; opacity: .85; }
 .capability-modes h3 a:hover { opacity: 1; }
 .abilities-copy p a { color: inherit; border-bottom: 1px solid currentColor; text-decoration: none; }
-.abilities-copy p a:hover { color: #000; }
+.abilities-copy p a:hover { color: var(--ink); }
+.band-cream .abilities-copy p a:hover { color: #000; }
 .band-cream .abilities-head p:not(.section-index) { color: #625e57; }
 /* A two-word claim has to say what it means. The note sits directly under the
    paragraph rather than at the foot of the page — there is exactly one, and a
    jump link to something four lines below is a nuisance, not an affordance.
-   Weight matches the band-cream paragraph rule above so it lands after it
-   rather than under it. */
-.band-cream .abilities-head p.fn-note {
+   Its typography applies on either background. */
+.abilities-head p.fn-note {
   margin-top: 14px;
   /* Mono is the label voice here — 01 / ABILITIES, DISPATCH · AUGUST 2026 —
      two or three tracked words. A seventeen-word sentence in it reads as a
@@ -525,10 +458,11 @@ main > section > .partner-band { width: 100%; }
      step down in size and weight of colour. No measure cap — the items are
      short enough that the column governs, and a cap forced a wrap at the
      single-column widths where the whole list fits on one line. */
-  color: #7b756c;
+  color: var(--muted);
   font-size: 13.5px;
   line-height: 1.5;
 }
+.band-cream .abilities-head p.fn-note { color: #7b756c; }
 .fn-ref { font-size: .58em; vertical-align: .42em; }
 .fn-note .fn-ref { margin-right: 6px; font-size: 1em; vertical-align: baseline; }
 /* The middots are the item separators, so they should be the only places the
@@ -915,7 +849,7 @@ main > section > .partner-band { width: 100%; }
   align-items: center;
 }
 .build-entry-copy .section-index { padding-top: 0; }
-.build-entry-copy h2 {
+.build-entry-copy h1 {
   max-width: 700px;
   margin: 25px 0 0;
   color: var(--ink);
@@ -1067,7 +1001,7 @@ main > section > .partner-band { width: 100%; }
 }
 @media (max-width: 560px) {
   .build-entry { padding-block: 62px; }
-  .build-entry-copy h2 { font-size: clamp(54px, 16vw, 76px); }
+  .build-entry-copy h1 { font-size: clamp(54px, 16vw, 76px); }
   .build-command {
     grid-template-columns: auto minmax(0, 1fr);
     padding: 20px;
@@ -1249,38 +1183,6 @@ main > section > .partner-band { width: 100%; }
    command. Constrained and centred, it reads as one object. */
 #start .build-command{max-width:min(600px,100%);margin-inline:auto;text-align:left}
 #start .form-note{color:#625e57;margin-top:20px}
-/* The proof card carries its own dark ground, so it can sit on the cream band —
-   but .band-cream sets color:#111 and that inherits into it. Anything inside
-   without its own colour was rendering near-black on near-black. */
-/* The proof is inverted for the cream band: no dark rectangle, no outer bound —
-   the composition sits directly on the paper. Every value below is the light
-   counterpart of the dark original in styles.css, chosen to clear AA on #efede6. */
-/* The band centres its own copy; the proof is a designed composition and must
-   keep its own alignment, or the pane labels stop sharing a left edge. */
-#start .hero-proof{background:transparent;border:0;box-shadow:none;color:#2f2c28;text-align:left;margin-top:0;margin-bottom:clamp(62px,5.4vw,88px)}
-#start .harness-spine{background:transparent;border:0}
-#start .pane-head span,#start .pane-head em{color:#625e57}
-#start .pane-head strong{color:#050505}
-#start .terminal-mini{color:#3f3c36}
-#start .terminal-mini p{border-bottom-color:#ddd9d0}
-#start .terminal-mini i{color:#625e57}
-#start .terminal-mini .live{color:#050505}
-#start .terminal-mini .live::after{background:#050505}
-/* Large text, so 3:1 is the bar — #8a857c reads as a figure rather than a slab. */
-#start .pane-metric strong{color:#8a857c;font-weight:500}
-#start .pane-metric span{color:#625e57}
-#start .spine-label{color:#050505}
-#start .spine-label::before,#start .spine-label::after{background:#b9b3a8}
-#start .spine-code span{border-color:#cdc7bd;color:#2f2c28}
-#start .spine-events b{color:#2f2c28}
-#start .spine-events i{background:linear-gradient(90deg,#8a857c,transparent)}
-#start .spine-events i::after{background:#181715}
-#start .harness-spine small{color:#625e57}
-#start .proof-caption{color:#625e57}
-#start .agent-field::before,#start .agent-field::after{border-color:#d3cec4}
-#start .shared-board{background:#efede6;border-color:#8a857c;color:#181715}
-#start .agents i{background:#e5e2d9;border-color:#c3bdb2;color:#2f2c28}
-
 #start .form-note a{color:#181715;border-bottom:1px solid #aaa49a}
 #start .form-note a:hover{color:#000;border-color:#000}
 
@@ -1319,19 +1221,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <strong>LLoyal</strong><span>Labs</span>
 </a>
 <p class="brand-line">Engineering AI's contact with reality.</p>
-<nav aria-label="Primary" class="desktop-nav"><a href="#abilities">Abilities</a><a href="#verticalinference">How it works</a><a href="#partner">Get in touch</a><a href="/blog/">Blog</a></nav>
+<nav aria-label="Primary" class="desktop-nav"><a href="#abilities">Abilities</a><a href="#build">How it works</a><a href="#partner">Get in touch</a><a href="/blog/">Blog</a></nav>
 <nav aria-label="Resources" class="desktop-nav utility-nav"><a href="https://docs.lloyal.ai/" rel="noreferrer" target="_blank">Docs ↗</a><a href="https://github.com/lloyal-ai/lloyal-ai" rel="noreferrer" target="_blank">GitHub ↗</a></nav>
 <button aria-controls="mobile-nav" aria-expanded="false" class="menu-button" data-menu-button="" type="button">
 <span></span><span></span><span class="sr-only">Open menu</span>
 </button>
 </div>
-<nav class="mobile-nav" data-mobile-nav="" hidden="" id="mobile-nav"><a href="#abilities">Abilities</a><a href="#verticalinference">How it works</a><a href="#partner">Get in touch</a><a href="/blog/">Blog</a><a href="https://docs.lloyal.ai/" rel="noreferrer" target="_blank">Docs ↗</a><a href="https://github.com/lloyal-ai/lloyal-ai" rel="noreferrer" target="_blank">GitHub ↗</a></nav>
+<nav class="mobile-nav" data-mobile-nav="" hidden="" id="mobile-nav"><a href="#abilities">Abilities</a><a href="#build">How it works</a><a href="#partner">Get in touch</a><a href="/blog/">Blog</a><a href="https://docs.lloyal.ai/" rel="noreferrer" target="_blank">Docs ↗</a><a href="https://github.com/lloyal-ai/lloyal-ai" rel="noreferrer" target="_blank">GitHub ↗</a></nav>
 </header>
 <main id="main">
 <section class="build-entry build-entry--hero" id="developers">
 <div class="wrap build-entry-grid reveal">
 <div class="build-entry-copy">
-<h2>Ship apps that think and act.</h2>
+<h1>Ship apps that think and act.</h1>
 <p class="large-copy">Build your harness in TypeScript. Ship it as a single on-device binary that runs offline, as a multi-user service on a private appliance, or online on frontier compute.</p>
 <div class="build-command"><span>$</span><code><span class="cmd-run">npx</span> lloyal-ai new</code><button type="button" data-copy-command="npx lloyal-ai new">Copy</button></div>
 <div aria-label="Recognition" class="trust-strip">
@@ -1352,7 +1254,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 </div>
 </section>
-<section class="featured-quotes" id="featured-by" aria-labelledby="featured-title" data-quote-carousel>
+<section class="featured-quotes band-cream" id="featured-by" aria-labelledby="featured-title" data-quote-carousel>
 <div class="wrap">
 <h2 class="featured-eyebrow" id="featured-title">Featured by</h2>
 <div class="featured-stage">
@@ -1421,7 +1323,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <p class="sr-only" data-quote-status role="status" aria-atomic="true"></p>
 </div>
 </section>
-<section class="abilities-section section band-cream" id="abilities">
+<section class="abilities-section section" id="abilities">
 <div class="wrap">
 <div class="abilities-head reveal">
 <div class="abilities-copy">
@@ -1442,55 +1344,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 </div>
 </section>
-<section class="hero hero--section" id="verticalinference">
-<div class="wrap hero-copy hero-editorial reveal">
-<div class="hero-category">
-<p class="kicker">02 / Architecture</p>
-<h1>Vertical<br/>Inference</h1>
-<p class="hero-category-dek">System intelligence beyond the model.</p>
-</div>
-<div class="hero-definition">
-<p><strong>Vertical Inference</strong> is the architecture in which the application, the model runtime and live inference state become one programmable system. Ordinary code governs how intelligence retrieves, reasons, acts and continues while it is underway.</p>
-<p>Lloyal is the platform for building and deploying this architecture—from local applications to frontier compute.</p>
-<div class="hero-actions">
-<a class="button button-light" href="https://docs.lloyal.ai/build-your-first-harness/">Build your first harness</a>
-<a class="button button-line" href="https://verticalinference.lloyal.ai/">Explore the architecture</a>
-</div>
-<a class="quiet-link" href="https://github.com/lloyal-ai/reasoning-run" rel="noreferrer" target="_blank">Inspect a working TypeScript application <span>↗</span></a>
-</div>
-<div aria-label="Dispatches" class="dispatch-rail">
-<p class="dispatch-rail__kicker">From the engineering blog</p>
-<div class="dispatch-tiles">
-<a class="dispatch-tile" href="/blog/ship-a-local-ai-app-in-typescript/">
-<span class="dispatch-tile__lead">Harness Development Kit</span>
-<span class="dispatch-tile__body">Ship local AI apps in TypeScript &mdash; one command scaffolds a working app with the model, agents, retrieval and runtime already inside it.</span>
-<span class="dispatch-tile__meta">Dispatch &middot; August 2026</span>
-</a>
-<a class="dispatch-tile" href="/blog/working-memory-into-agents/">
-<span class="dispatch-tile__lead">Agents that share memory on the GPU</span>
-<span class="dispatch-tile__body">Down to the attention mask: how a fork becomes an owner bit per cell, and a cohort becomes one batched decode.</span>
-<span class="dispatch-tile__meta">Dispatch &middot; August 2026</span>
-</a>
-<a class="dispatch-tile" href="/blog/you-already-know-this-architecture/">
-<span class="dispatch-tile__lead">You already know this architecture</span>
-<span class="dispatch-tile__body">It shipped in 2007. Lloyal&rsquo;s serving stack maps noun for noun onto the stack that carried Rails &mdash; Rack&rarr;binding, Puma&rarr;host, Unicorn&rarr;relay, config.ru&rarr;driver.</span>
-<span class="dispatch-tile__meta">Dispatch &middot; July 2026</span>
-</a>
-<a class="dispatch-tile" href="/blog/shifting-the-harness-left/">
-<span class="dispatch-tile__lead">Shifting the harness left</span>
-<span class="dispatch-tile__body">Ten concurrent GLM-5.2 agents for the compute of one &mdash; one shared KV context, one decode per step, paid in memory not compute. Full trace and cost receipt published.</span>
-<span class="dispatch-tile__meta">Dispatch &middot; July 2026</span>
-</a>
-</div>
-<a class="quiet-link dispatch-rail__all" href="/blog/">All dispatches <span>&rarr;</span></a>
-
-</div>
-</div>
-</section>
 <section class="code-section section band-cream" id="build">
 <div class="wrap code-grid">
 <div class="code-copy reveal">
-<p class="section-index">03 / THE HARNESS</p>
+<p class="section-index">02 / THE HARNESS</p>
 <h2>The Model in MVC now thinks.</h2>
 <p>For two decades the Model in MVC was inert—rows in a database, waiting to be queried. Put a live language model in that slot and every other part holds: product surfaces are still the Views, and the harness is the Controller, ordinary TypeScript deciding how the application's intelligence collaborates, acts, recovers and continues. What changes is that this Model thinks, and it keeps thinking while your code governs it—the same code whether it runs a 4B model on a laptop or GLM-5.2 across a cluster of B200s.</p>
 <div aria-label="Views, controller, model — how the pieces stack" class="mvc-ladder">
@@ -1570,60 +1427,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 </div>
 </section>
-<section class="band-cream" id="start"><div class="partner-band"><div class="wrap"><div aria-label="The same deep-research harness across edge and frontier compute" class="wrap hero-proof reveal" id="same-harness">
-<div class="proof-pane edge-pane">
-<div class="pane-head">
-<div><span>EDGE</span><strong>Qwen 3.5 · 4B</strong></div>
-<em>on-device</em>
-</div>
-<div aria-hidden="true" class="terminal-mini">
-<p><i>01</i> preflight: 2 sources</p>
-<p><i>02</i> plan: 5 research tasks</p>
-<p class="live"><i>03</i> agentPool: 5 branches</p>
-<p><i>04</i> tools: search · fetch · rerank</p>
-<p><i>05</i> synthesize: complete</p>
-</div>
-<div class="pane-metric capability-metric">
-<strong>4B → APP</strong>
-<span>planning · agents<br/>tools · recovery · synthesis</span>
-</div>
-</div>
-<div class="harness-spine">
-<div class="spine-label">ONE APPLICATION</div>
-<div class="spine-code">
-<span>preflight()</span>
-<span>plan()</span>
-<span>agentPool()</span>
-<span>policy()</span>
-<span>synthesize()</span>
-<span>commitTurn()</span>
-</div>
-<div class="spine-events">
-<b data-event-label="">agent:spawn</b>
-<i></i>
-</div>
-<small>same program · same Abilities · same event contract</small>
-</div>
-<div class="proof-pane frontier-pane">
-<div class="pane-head">
-<div><span>FRONTIER</span><strong>GLM-5.2 · 2×B200</strong></div>
-<em>hosted</em>
-</div>
-<div aria-label="Ten concurrent agents sharing a model context" class="agent-field">
-<div class="shared-board">SHARED KV</div>
-<div aria-hidden="true" class="agents">
-<i>1</i><i>2</i><i>3</i><i>4</i><i>5</i><i>6</i><i>7</i><i>8</i><i>9</i><i>10</i>
-</div>
-</div>
-<div class="pane-metric frontier-metric">
-<strong>10 → 1</strong>
-<span>ten live agents<br/>one model dispatch per step</span>
-</div>
-</div>
-<p class="proof-caption">
-          Two real runs. One flagship application built on Lloyal, spanning both extremes.
-        </p>
-</div><p class="section-index">START</p><h2>All of it ships from one command.</h2><div class="build-command"><span>$</span><code><span class="cmd-run">npx</span> lloyal-ai new</code><button type="button" data-copy-command="npx lloyal-ai new">Copy</button></div><p class="form-note">No API key, no inference server, no vector database. <a href="https://docs.lloyal.ai/build-your-first-harness">Ten-minute guide</a> · <a href="https://docs.lloyal.ai/">Docs</a> · <a href="https://github.com/lloyal-ai/hdk">HDK on GitHub</a></p></div></div></section></main>
+<section class="band-cream" id="start"><div class="partner-band"><div class="wrap"><p class="section-index">START</p><h2>All of it ships from one command.</h2><div class="build-command"><span>$</span><code><span class="cmd-run">npx</span> lloyal-ai new</code><button type="button" data-copy-command="npx lloyal-ai new">Copy</button></div><p class="form-note">No API key, no inference server, no vector database. <a href="https://docs.lloyal.ai/build-your-first-harness">Ten-minute guide</a> · <a href="https://docs.lloyal.ai/">Docs</a> · <a href="https://github.com/lloyal-ai/hdk">HDK on GitHub</a></p></div></div></section></main>
 <footer>
 <div class="wrap footer-top">
 <div>
