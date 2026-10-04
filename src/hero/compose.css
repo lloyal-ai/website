@@ -1,0 +1,121 @@
+.hero-compose{box-sizing:border-box;position:relative;display:flex;flex-direction:column;gap:17px;width:100%;height:100%;padding:27px 35px 22px;overflow:hidden;background:#efede6;color:#171715;font-family:inherit;pointer-events:none;isolation:isolate}
+.hero-compose *{box-sizing:border-box}
+.hero-compose svg{display:block}
+.hero-compose .hc-app{flex:1;min-height:0;overflow:hidden;border:1px solid #c9c5bb;border-radius:10px;background:#faf8f2;box-shadow:0 18px 36px -22px #554b394d,0 2px 5px #66573b0a}
+.hero-compose .hc-app-bar{height:46px;display:flex;align-items:center;gap:19px;padding:0 21px;border-bottom:1px solid #dedbd2;background:#faf8f2}
+.hero-compose .hc-brand{font-family:Georgia,'Times New Roman',serif;font-size:26px;font-weight:500;letter-spacing:-1.7px;line-height:1}
+.hero-compose .hc-brand>span{display:inline-block;margin-left:4px;vertical-align:top;font-family:Arial,sans-serif;font-size:8px;letter-spacing:0}
+.hero-compose .hc-app-tagline{padding-left:19px;border-left:1px solid #d9d6cd;font-size:11px;letter-spacing:-.1px;color:#78776f}
+.hero-compose .hc-app-local{display:flex;align-items:center;gap:6px;margin-left:auto;font-size:10px;color:#77776e}
+.hero-compose .hc-app-local i{width:5px;height:5px;border-radius:50%;background:#783bff}
+.hero-compose .hc-app-menu{font-size:11px;letter-spacing:1px;margin-left:2px}
+.hero-compose .hc-workspace{height:calc(100% - 46px);display:grid;grid-template-columns:minmax(0,1.63fr) minmax(0,1fr)}
+.hero-compose .hc-canvas{position:relative;min-width:0;overflow:hidden;background:#e4dfd4}
+.hero-compose .hc-art{position:absolute;width:100%;height:100%;object-fit:cover}
+.hero-compose .hc-canvas-caption{position:absolute;top:20px;left:24px;display:flex;flex-direction:column;gap:5px}
+.hero-compose .hc-canvas-caption>span:first-child{font-size:8px;letter-spacing:1.4px;color:#777062;font-weight:600}
+.hero-compose .hc-image-label{font-size:12px;letter-spacing:-.15px}
+.hero-compose .hc-state{position:absolute;right:19px;top:20px;min-width:66px;height:23px;font-size:9px;line-height:23px;border:1px solid #f7f4ea80;border-radius:3px;background:#f9f6ee73;backdrop-filter:blur(4px);text-align:center}
+.hero-compose .hc-state>span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:5px}
+.hero-compose .hc-state-after svg{width:11px;height:11px;fill:none;stroke:#171715;stroke-width:1.6}
+.hero-compose .hc-product{position:absolute;bottom:23px;left:24px;display:flex;flex-direction:column;gap:4px}
+.hero-compose .hc-product-number{font-family:monospace;font-size:8px;letter-spacing:1px;color:#797266;margin-bottom:1px}
+.hero-compose .hc-product strong{font-family:Georgia,'Times New Roman',serif;font-weight:400;font-size:30px;letter-spacing:-1px;line-height:1.08}
+.hero-compose .hc-product>span:last-child{font-size:9px;color:#777063}
+.hero-compose .hc-art-credit{position:absolute;right:18px;bottom:16px;font-size:8px;color:#746b5c}
+.hero-compose .hc-conversation{position:relative;min-width:0;border-left:1px solid #d7d1c6;padding:21px 24px;background:#faf8f2}
+.hero-compose .hc-chat-heading{display:flex;align-items:center;gap:8px;color:#54524c;font-size:10px}
+.hero-compose .hc-chat-icon{display:flex;width:20px;height:20px;align-items:center;justify-content:center;color:#783bff}
+.hero-compose .hc-chat-icon svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.5}
+.hero-compose .hc-chat-heading>i{margin-left:auto;width:4px;height:4px;background:#783bff;border-radius:50%}
+.hero-compose .hc-message{margin-top:23px}
+.hero-compose .hc-message-label,.hero-compose .hc-response-label{font-size:7px;letter-spacing:1.2px;font-weight:600;color:#938c80}
+.hero-compose .hc-message p{display:flex;align-items:center;gap:2px;max-width:fit-content;margin:7px 0 0;padding:10px 15px;font-size:16px;line-height:1.25;letter-spacing:-.3px;border:1px solid #e0dbd0;border-radius:3px 10px 10px 10px;background:#f0ece3}
+.hero-compose .hc-caret{display:inline-block;width:1px;height:15px;background:#783bff}
+.hero-compose .hc-thinking{position:absolute;top:164px;left:24px;right:24px;display:flex;align-items:center;gap:8px;color:#5f5951;font-size:10px}
+.hero-compose .hc-thinking-icon{display:flex;align-items:center;justify-content:center;width:29px;height:29px;border:1px solid #b7dadd;border-radius:5px;background:#e6f3f3;color:#248a98}
+.hero-compose .hc-thinking-icon svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.5}
+.hero-compose .hc-thinking-code{display:block;margin-top:4px;font-family:monospace;font-size:8px;color:#938b7e}
+.hero-compose .hc-thinking-dots{margin-left:auto;font-size:20px;color:#00aabc}
+.hero-compose .hc-response{position:absolute;left:24px;right:24px;top:157px}
+.hero-compose .hc-response-label{color:#783bff}
+.hero-compose .hc-response p{margin:6px 0 9px;font-size:20px;line-height:1.19;font-weight:400;letter-spacing:-.55px;color:#34312a}
+.hero-compose .hc-response-meta{display:flex;align-items:center;gap:5px;font-size:8px;color:#777169}
+.hero-compose .hc-response-meta svg{width:11px;height:11px;fill:none;stroke:#783bff;stroke-width:1.5}
+.hero-compose .hc-composer{position:absolute;bottom:17px;left:23px;right:23px;display:flex;justify-content:space-between;align-items:center;height:35px;border:1px solid #e2ddd2;border-radius:5px;padding:0 5px 0 11px;color:#a39c91;font-size:9px;background:#fffdf7}
+.hero-compose .hc-composer-send{display:grid;place-items:center;width:23px;height:23px;background:#1d1c19;border-radius:3px;color:#fffdf7}
+.hero-compose .hc-composer-send svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.5;transform:rotate(-90deg)}
+.hero-compose .hc-flow{display:flex;align-items:center;flex:0 0 51px;gap:0;min-width:0}
+.hero-compose .hc-flow-label{font-size:8px;font-weight:500;line-height:1.55;letter-spacing:1.1px;color:#8b857a;flex:0 0 150px}
+.hero-compose .hc-model{position:relative;display:flex;align-items:center;gap:9px;flex:1;min-width:0;height:49px;padding:0 12px;border:1px solid #d6d1c7;border-radius:5px;background:#f6f3ec;overflow:hidden}
+.hero-compose .hc-model-icon{display:grid;place-items:center;width:25px;height:25px;border-radius:5px;background:#e8e3da;color:#7b7062;flex:none}
+.hero-compose .hc-model-icon svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.5}
+.hero-compose .hc-model-reasoning .hc-model-icon,.hero-compose .hc-model-context .hc-model-icon{background:#e9dffc;color:#783bff}
+.hero-compose .hc-model-image .hc-model-icon{background:#d4edf0;color:#0098ab}
+.hero-compose .hc-model small{display:block;font-size:6px;letter-spacing:1px;color:#8b8378;margin-bottom:3px;line-height:1}
+.hero-compose .hc-model strong{display:block;font-size:10px;line-height:1.2;letter-spacing:-.1px;font-weight:500;white-space:nowrap}
+.hero-compose .hc-model-light{width:4px;height:4px;margin-left:auto;border-radius:50%;background:#c7c0b5;flex:none}
+.hero-compose .hc-model-progress{position:absolute;left:0;bottom:0;width:100%;height:2px;background:#783bff;transform:scaleX(0);transform-origin:left}
+.hero-compose .hc-model-image .hc-model-progress{background:#00bdd4}
+.hero-compose .hc-route{position:relative;display:flex;align-items:center;justify-content:center;flex:0 0 44px;color:#b3ab9f;overflow:hidden}
+.hero-compose .hc-route svg{width:26px;height:20px;fill:none;stroke:currentColor;stroke-width:1}
+.hero-compose .hc-route i{position:absolute;left:9px;right:9px;top:9px;height:2px;background:#783bff;transform:scaleX(0);transform-origin:left}
+.hero-compose .hc-route-back i{background:#00bdd4}
+@container hero-stage (max-width: 850px){
+  .hero-compose{padding:23px 25px 19px;gap:14px}
+  .hero-compose .hc-flow-label{flex-basis:105px;font-size:7px}
+  .hero-compose .hc-model{gap:6px;padding:0 8px}
+  .hero-compose .hc-model strong{font-size:9px}
+  .hero-compose .hc-route{flex-basis:28px}
+  .hero-compose .hc-route i{left:3px;right:3px}
+  .hero-compose .hc-model-light{display:none}
+  .hero-compose .hc-conversation{padding-left:17px;padding-right:17px}
+  .hero-compose .hc-thinking,.hero-compose .hc-response{left:17px;right:17px}
+  .hero-compose .hc-composer{left:17px;right:17px}
+}
+@container hero-stage (max-width: 650px){
+  .hero-compose{padding:17px 13px 13px;gap:12px}
+  .hero-compose .hc-app{border-radius:7px}
+  .hero-compose .hc-app-bar{height:36px;padding:0 13px;gap:11px}
+  .hero-compose .hc-brand{font-size:23px}
+  .hero-compose .hc-brand>span{font-size:6px}
+  .hero-compose .hc-app-tagline,.hero-compose .hc-app-menu{display:none}
+  .hero-compose .hc-app-local{font-size:8px;gap:5px}
+  .hero-compose .hc-workspace{height:calc(100% - 36px);grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) 91px}
+  .hero-compose .hc-canvas{min-height:0}
+  .hero-compose .hc-art{left:-13%;width:126%;height:113%;top:-6%}
+  .hero-compose .hc-canvas-caption{left:14px;top:13px;gap:4px}
+  .hero-compose .hc-canvas-caption>span:first-child{font-size:6px;letter-spacing:1px}
+  .hero-compose .hc-image-label{font-size:9px}
+  .hero-compose .hc-state{right:12px;top:12px;min-width:53px;height:19px;font-size:7px;line-height:19px}
+  .hero-compose .hc-product{left:14px;bottom:15px;gap:3px}
+  .hero-compose .hc-product-number{font-size:6px;letter-spacing:.7px}
+  .hero-compose .hc-product strong{font-size:25px}
+  .hero-compose .hc-product>span:last-child{font-size:7px}
+  .hero-compose .hc-art-credit{font-size:6px;right:12px;bottom:10px}
+  .hero-compose .hc-conversation{border-left:0;border-top:1px solid #d7d1c6;padding:14px 13px}
+  .hero-compose .hc-chat-heading,.hero-compose .hc-composer{display:none}
+  .hero-compose .hc-message{margin:0;width:46%}
+  .hero-compose .hc-message-label,.hero-compose .hc-response-label{display:block;font-size:7px;letter-spacing:1px;line-height:1}
+  .hero-compose .hc-message p{margin-top:5px;padding:8px 9px;font-size:12px;letter-spacing:-.2px;min-height:32px;border-radius:3px 7px 7px}
+  .hero-compose .hc-caret{height:12px}
+  .hero-compose .hc-thinking{left:51%;right:10px;top:31px;gap:5px;font-size:8px;line-height:1.35}
+  .hero-compose .hc-thinking-icon{width:21px;height:21px;flex:none}
+  .hero-compose .hc-thinking-icon svg{width:13px;height:13px}
+  .hero-compose .hc-thinking-code{font-size:7px;margin-top:2px}
+  .hero-compose .hc-thinking-dots{display:none}
+  .hero-compose .hc-response{left:53%;right:10px;top:14px}
+  .hero-compose .hc-response p{font-size:14px;line-height:1.16;letter-spacing:-.3px;margin:6px 0 6px}
+  .hero-compose .hc-response-meta{font-size:7px;letter-spacing:-.1px;line-height:1.2;gap:3px}
+  .hero-compose .hc-response-meta svg{width:8px;height:8px;flex:none}
+  .hero-compose .hc-flow{flex-basis:49px}
+  .hero-compose .hc-flow-label{display:none}
+  .hero-compose .hc-model{height:49px;gap:5px;padding:0 7px;border-radius:4px}
+  .hero-compose .hc-model-icon{width:15px;height:20px;background:transparent!important}
+  .hero-compose .hc-model-icon svg{width:14px;height:14px}
+  .hero-compose .hc-model small{display:none}
+  .hero-compose .hc-model strong{font-size:10px;line-height:1.18;letter-spacing:-.15px;white-space:normal}
+  .hero-compose .hc-route{flex-basis:15px}
+  .hero-compose .hc-route svg{width:14px;height:16px}
+  .hero-compose .hc-route i{left:1px;right:1px;top:7px;height:1px}
+}

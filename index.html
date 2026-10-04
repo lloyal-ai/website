@@ -34,6 +34,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 <title>LLoyal Labs — Vertical Inference</title>
 <link href="/styles.css" rel="stylesheet"/>
+<link href="/src/hero/hero.css" rel="stylesheet"/>
 <link rel="icon" href="/favicon.png"/>
 
 <style>
@@ -1220,24 +1221,40 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <nav class="mobile-nav" data-mobile-nav="" hidden="" id="mobile-nav"><a href="#abilities">Abilities</a><a href="#build">How it works</a><a href="#partner">Get in touch</a><a href="/blog/">Blog</a><a href="https://docs.lloyal.ai/" rel="noreferrer" target="_blank">Docs ↗</a><a href="https://github.com/lloyal-ai/lloyal-ai" rel="noreferrer" target="_blank">GitHub ↗</a></nav>
 </header>
 <main id="main">
-<section class="build-entry build-entry--hero" id="developers">
-<div class="wrap build-entry-grid reveal">
-<div class="build-entry-copy">
-<h1>Ship apps that think and act.</h1>
-<p class="large-copy">Build your harness in TypeScript. Ship it as a single on-device binary that runs offline, as a multi-user service on a private appliance, or online on frontier compute.</p>
-<div class="build-command"><span>$</span><code><span class="cmd-run">npx</span> lloyal-ai new</code><button type="button" data-copy-command="npx lloyal-ai new">Copy</button></div>
-<figure class="inception-membership">
-<a href="https://www.nvidia.com/en-us/startups/" rel="noreferrer" target="_blank"><img alt="NVIDIA Inception Program member badge" height="69" src="/assets/nvidia-inception-program-badge.svg" width="160"/></a>
-</figure>
+<section class="product-hero" id="developers" aria-labelledby="hero-title">
+<div class="hero-intro">
+<p class="hero-eyebrow"><i aria-hidden="true"></i> Intelligence, under your control</p>
+<h1 id="hero-title"><span>Ship apps that</span><span class="hero-action-line">think and act.</span></h1>
+<p class="hero-intro-copy"><strong>Build your AI application in TypeScript.</strong><br>Run it on-device, on your infrastructure, or at frontier scale.</p>
+<div class="hero-actions">
+<div class="hero-command"><span aria-hidden="true">$</span><code>npx lloyal-ai new</code><button type="button" data-copy-command="npx lloyal-ai new" aria-label="Copy npx lloyal-ai new">Copy</button></div>
+<a class="hero-guide" href="https://docs.lloyal.ai/build-your-first-harness/">Start building <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h11m-5-5 5 5-5 5" stroke="currentColor" stroke-width="1.3"/></svg></a>
 </div>
-<div class="build-entry-visual">
-<figure class="scaffold-shot">
-<div class="scaffold-shot-head"><span>lloyal-ai</span><em>guided application scaffold</em></div>
-<div class="scaffold-shot-viewport"><img alt="The lloyal-ai wizard scaffolding a Wikipedia research harness — template chosen, dependencies installed, ready to run across CLI, desktop and web with a resident Qwen model." src="/assets/harness-dev-new.gif"/></div>
-<figcaption>Choose the front ends, the model, and the template it starts from. The scaffold installs a working application you can change. <a href="#start">Watch the walkthrough <span aria-hidden="true">↘</span></a></figcaption>
-</figure>
-<p class="build-absences">No OpenAI or Anthropic key. No Docker, no Ollama, no LangGraph, no vector database. <strong>Just your code and the model.</strong> <a class="guide-link" href="https://docs.lloyal.ai/build-your-first-harness/">Read the ten-minute guide →</a></p>
 </div>
+<div class="hero-showcase" data-hero-showcase data-active="1" aria-label="Explore Lloyal in motion">
+<div class="hero-showcase-header"><span class="hero-showcase-label"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M1 5V1h4M11 1h4v4M15 11v4h-4M5 15H1v-4" fill="none" stroke="currentColor"/></svg> FROM CODE TO CAPABILITY</span><span class="hero-showcase-number">ILLUSTRATED WALKTHROUGHS</span></div>
+<div class="hero-stage">
+<div class="hero-static" data-hero-fallback><img src="/assets/hero/arc.svg" alt="An illustrated sculptural table lamp" width="400" height="400"/><div><span class="hero-static-kicker">COMPOSITION OF MODELS</span><h2>Make it warmer.</h2><p>Your application brings the right models together, from understanding an instruction to changing an image.</p><div class="hero-static-flow">Reasoning → Image editing → Live context</div></div></div>
+<div class="hero-scene" id="hero-scene-build" role="tabpanel" aria-labelledby="hero-tab-build" data-hero-scene hidden><div class="sr-only">An illustrated walkthrough from a TypeScript project to a shipped desktop app.</div></div>
+<div class="hero-scene" id="hero-scene-compose" role="tabpanel" aria-labelledby="hero-tab-compose" data-hero-scene hidden></div>
+<div class="hero-scene" id="hero-scene-inspect" role="tabpanel" aria-labelledby="hero-tab-inspect" data-hero-scene hidden></div>
+</div>
+<div class="hero-scenes-footer">
+<p class="hero-scene-caption" data-hero-caption>The right model for every move.</p>
+<div class="hero-playback" data-hero-controls hidden>
+<div class="hero-tablist" role="tablist" aria-label="Product capabilities">
+<button class="hero-tab" id="hero-tab-build" type="button" role="tab" aria-selected="false" aria-controls="hero-scene-build" tabindex="-1" data-hero-tab><span aria-hidden="true">01</span> Build</button>
+<button class="hero-tab" id="hero-tab-compose" type="button" role="tab" aria-selected="true" aria-controls="hero-scene-compose" tabindex="0" data-hero-tab><span aria-hidden="true">02</span> Compose</button>
+<button class="hero-tab" id="hero-tab-inspect" type="button" role="tab" aria-selected="false" aria-controls="hero-scene-inspect" tabindex="-1" data-hero-tab><span aria-hidden="true">03</span> Inspect</button>
+</div>
+<button class="hero-pause" type="button" data-hero-pause aria-label="Pause animation" aria-pressed="false"><svg class="hero-pause-icon" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><path d="M2 1h3v10H2zm5 0h3v10H7z"/></svg><svg class="hero-play-icon" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><path d="m3 1 8 5-8 5z"/></svg></button>
+</div>
+</div>
+<p class="sr-only" data-hero-description>A reasoning model calls an image-editing specialist to make a lamp warmer. The edited image returns to the application’s live context.</p>
+</div>
+<div class="hero-assurances">
+<div class="hero-assurances-copy"><strong>Just your code and the model.</strong><span>No API key</span><span>Works offline</span><span>Open source</span></div>
+<a class="hero-membership" href="https://www.nvidia.com/en-us/startups/" target="_blank" rel="noopener noreferrer"><span>Member of</span><img src="/assets/nvidia-inception-program-badge.svg" alt="NVIDIA Inception Program" width="108" height="47"/></a>
 </div>
 </section>
 <section class="featured-quotes band-cream carousel" id="featured-by" aria-labelledby="featured-title" data-quote-carousel data-carousel>
@@ -1500,5 +1517,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <p class="wrap footer-legal">NVIDIA, the NVIDIA logo, and NVIDIA Inception are trademarks and/or registered trademarks of NVIDIA Corporation in the U.S. and other countries. RunPod is a trademark of its owner.</p>
 </footer>
 <script src="/app.js"></script>
+<script type="module" src="/src/hero/main.js"></script>
 </body>
 </html>
