@@ -1098,6 +1098,35 @@ main > section > .partner-band { width: 100%; }
    column, so the column placement they carried has to be released. */
 .build-entry--hero .trust-strip { grid-column: auto; margin-top: 38px; }
 
+/* The hero's next steps: the command block shares the page's #080808 ground,
+   so in the hero it needs an edge to read as a block at all. Copy and the
+   GitHub star sit directly under the headline copy, ahead of the trust marks. */
+.build-entry--hero .build-command { border: 1px solid #3a3936; }
+.build-entry--hero .build-command button { padding: 11px 16px; border-color: var(--ink); font-size: 11px; }
+.build-entry--hero .build-command button:hover { color: #080808; background: var(--ink); }
+.build-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
+.star-github {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 0 20px;
+  color: #080808;
+  background: var(--ink);
+  border: 1px solid var(--ink);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -.01em;
+}
+.star-github:hover { color: var(--ink); background: transparent; }
+.star-github:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+.star-github svg { flex-shrink: 0; }
+
+/* Product Hunt review badge, closing the quotes it sits under. */
+.featured-quotes .ph-badge { display: flex; justify-content: center; margin-top: 32px; }
+.featured-quotes .ph-badge a { display: block; line-height: 0; }
+.featured-quotes .ph-badge img { max-width: 100%; }
+
 /* The guide link used to sit on its own under the command. It now runs on from
    the absences line, so it takes inline flow and keeps its own underline. */
 .build-absences .guide-link { color: #dedbd4; border-bottom: 1px solid #5d5a55; }
@@ -1238,6 +1267,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <h1>Ship apps that think and act.</h1>
 <p class="large-copy">Build your harness in TypeScript. Ship it as a single on-device binary that runs offline, as a multi-user service on a private appliance, or online on frontier compute.</p>
 <div class="build-command"><span>$</span><code><span class="cmd-run">npx</span> lloyal-ai new</code><button type="button" data-copy-command="npx lloyal-ai new">Copy</button></div>
+<div class="build-actions"><a class="star-github" href="https://github.com/lloyal-ai/lloyal-ai" rel="noopener" target="_blank"><svg aria-hidden="true" height="18" viewBox="0 0 16 16" width="18"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" fill="currentColor"/></svg>Star on GitHub</a></div>
 <div aria-label="Recognition" class="trust-strip">
 <p class="trust-kicker">Recognised by</p>
 <ul class="trust-marks">
@@ -1336,6 +1366,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <span class="featured-count" data-carousel-count aria-hidden="true">01 / 03</span>
 </div>
 <p class="sr-only" data-carousel-status role="status" aria-atomic="true"></p>
+<div class="ph-badge"><a href="https://www.producthunt.com/products/lloyal/reviews/new?utm_source=badge-product_review&utm_medium=badge&utm_source=badge-lloyal" target="_blank" rel="noopener"><img src="https://api.producthunt.com/widgets/embed-image/v1/product_review.svg?product_id=1331575&theme=light" alt="Lloyal - Turn&#0032;open&#0045;weight&#0032;models&#0032;into&#0032;AI&#0032;apps&#0032;people&#0032;can&#0032;download | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a></div>
 </div>
 </section>
 <section class="abilities-section section" id="abilities">
