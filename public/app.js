@@ -86,6 +86,73 @@
     carousel.querySelector('[data-quote-controls]').hidden = false;
   }
 
+  // Keep video paging manual. Removing the departing player stops its audio;
+  // no YouTube player is requested until the visitor chooses to play a film.
+  const videos = document.querySelector('[data-video-carousel]');
+  if (videos) {
+    const slides = [...videos.querySelectorAll('[data-video-slide]')];
+    const selectors = [...videos.querySelectorAll('[data-video-select]')];
+    const status = videos.querySelector('[data-video-status]');
+    let selected = 0;
+
+    const stop = (slide) => {
+      slide.querySelector('iframe')?.remove();
+      slide.querySelector('[data-video-play]').hidden = false;
+    };
+    const show = (index, announce = true) => {
+      const destination = (index + slides.length) % slides.length;
+      if (destination !== selected) stop(slides[selected]);
+      selected = destination;
+      slides.forEach((slide, i) => { slide.hidden = i !== selected; });
+      selectors.forEach((button, i) => button.setAttribute('aria-pressed', String(i === selected)));
+      videos.querySelector('[data-video-count]').textContent = `${String(selected + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
+      if (announce) status.textContent = `${slides[selected].querySelector('[data-video-name]').textContent}, video ${selected + 1} of ${slides.length}`;
+    };
+
+    slides.forEach((slide) => {
+      const poster = slide.querySelector('[data-video-play]');
+      // Without JavaScript these remain ordinary links to all four films.
+      poster.setAttribute('role', 'button');
+      poster.addEventListener('keydown', (event) => {
+        if (event.key !== ' ') return;
+        event.preventDefault();
+        poster.click();
+      });
+      poster.addEventListener('click', (event) => {
+        if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        event.preventDefault();
+        if (slide.querySelector('iframe')) return;
+        const player = document.createElement('iframe');
+        player.title = slide.querySelector('[data-video-name]').textContent;
+        player.src = `https://www.youtube-nocookie.com/embed/${poster.dataset.videoPlay}?autoplay=1&playsinline=1&rel=0`;
+        player.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+        player.allowFullscreen = true;
+        player.referrerPolicy = 'strict-origin-when-cross-origin';
+        poster.hidden = true;
+        slide.querySelector('.video-stage').append(player);
+        player.focus({ preventScroll: true });
+      });
+    });
+    videos.querySelector('[data-video-prev]').addEventListener('click', () => show(selected - 1));
+    videos.querySelector('[data-video-next]').addEventListener('click', () => show(selected + 1));
+    selectors.forEach((button, index) => {
+      button.addEventListener('click', () => show(index));
+      button.addEventListener('keydown', (event) => {
+        const destination = event.key === 'ArrowRight' ? index + 1
+          : event.key === 'ArrowLeft' ? index - 1
+          : event.key === 'Home' ? 0
+          : event.key === 'End' ? slides.length - 1 : null;
+        if (destination === null) return;
+        event.preventDefault();
+        show(destination);
+        selectors[selected].focus({ preventScroll: true });
+      });
+    });
+    show(0, false);
+    videos.classList.add('is-ready');
+    videos.querySelector('[data-video-controls]').hidden = false;
+  }
+
   // Reactive nav underline: highlights the nav item for the section under the
   // header, immediately on click and via scrollspy as the user scrolls.
   const scrollspyIds = ['developers', 'abilities', 'build', 'partner'];
