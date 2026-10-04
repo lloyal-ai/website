@@ -1177,6 +1177,8 @@ main > section > .partner-band { width: 100%; }
    terminal reads the same on either band; only the prose needs restating. */
 /* .partner-band paints its own rgba(8,8,8,.78) over the band, which is why the
    section read black with a cream background underneath it. */
+/* The closing command no longer needs the diagram's full-screen height. */
+main > section#start{min-height:0}
 #start .partner-band{background:transparent}
 #start .wrap{text-align:center}
 /* Left as a full-width grid the Copy button ends up a screen away from the
