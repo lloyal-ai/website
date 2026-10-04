@@ -939,16 +939,6 @@ main > section > .partner-band { width: 100%; }
   letter-spacing: .08em;
   text-transform: uppercase;
 }
-.build-entry-copy > a {
-  display: inline-block;
-  margin-top: 12px;
-  padding-bottom: 5px;
-  color: #dedbd4;
-  border-bottom: 1px solid #5d5a55;
-  font-size: 13px;
-}
-.build-entry-copy > a:hover { color: #fff; border-color: #fff; }
-
 .scaffold-shot {
   min-width: 0;
   margin: 0;
@@ -990,6 +980,8 @@ main > section > .partner-band { width: 100%; }
   font-size: 13px;
   line-height: 1.5;
 }
+.scaffold-shot figcaption a { color: #dedbd4; text-decoration: underline; text-underline-offset: .2em; white-space: nowrap; }
+.scaffold-shot figcaption a:hover { color: #fff; }
 
 /* Product-team engagement is deliberately secondary */
 
@@ -1234,7 +1226,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <h1>Ship apps that think and act.</h1>
 <p class="large-copy">Build your harness in TypeScript. Ship it as a single on-device binary that runs offline, as a multi-user service on a private appliance, or online on frontier compute.</p>
 <div class="build-command"><span>$</span><code><span class="cmd-run">npx</span> lloyal-ai new</code><button type="button" data-copy-command="npx lloyal-ai new">Copy</button></div>
-<a href="#start">Watch the walkthrough <span aria-hidden="true">↘</span></a>
 <figure class="inception-membership">
 <a href="https://www.nvidia.com/en-us/startups/" rel="noreferrer" target="_blank"><img alt="NVIDIA Inception Program member badge" height="69" src="/assets/nvidia-inception-program-badge.svg" width="160"/></a>
 <figcaption>NVIDIA Inception program member</figcaption>
@@ -1244,7 +1235,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <figure class="scaffold-shot">
 <div class="scaffold-shot-head"><span>lloyal-ai</span><em>guided application scaffold</em></div>
 <div class="scaffold-shot-viewport"><img alt="The lloyal-ai wizard scaffolding a Wikipedia research harness — template chosen, dependencies installed, ready to run across CLI, desktop and web with a resident Qwen model." src="/assets/harness-dev-new.gif"/></div>
-<figcaption>Choose the front ends, the model, and the template it starts from. The scaffold installs a working application you can change.</figcaption>
+<figcaption>Choose the front ends, the model, and the template it starts from. The scaffold installs a working application you can change. <a href="#start">Watch the walkthrough <span aria-hidden="true">↘</span></a></figcaption>
 </figure>
 <p class="build-absences">No OpenAI or Anthropic key. No Docker, no Ollama, no LangGraph, no vector database. <strong>Just your code and the model.</strong> <a class="guide-link" href="https://docs.lloyal.ai/build-your-first-harness/">Read the ten-minute guide →</a></p>
 </div>
