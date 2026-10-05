@@ -69,7 +69,9 @@ measurement and the clock itself.
 
 - Qwen, Gemma 4, Bonsai 2 27B and GLM 5.2 are alternative reasoning leads.
   Bonsai leads the image example with its paired vision projector; GLM 5.2 leads
-  text-based spreadsheet enrichment and is never shown with a projector. Specialists retain
+  text-based spreadsheet enrichment with Qwen Reranker and is never shown with a
+  projector. Each row follows a tool request, independent scoring, evidence return
+  to GLM, then a cell update. Specialists retain
   independent contexts. A returned tool result goes back to its caller.
 - Voice is Whisper → raw text → S1-mini cleanup → reasoning lead. S1-mini is
   not depicted as accepting an audio waveform.
@@ -108,7 +110,8 @@ node --test src/showpiece/playback/playbackStore.test.mjs \
   src/showpiece/scenes/live/liveFrame.test.js \
   src/showpiece/scenes/delivery/deliveryFrame.test.mjs \
   src/showpiece/scenes/inspect/*.test.mjs \
-  src/showpiece/scenes/compose/*.test.mjs
+  src/showpiece/scenes/compose/*.test.mjs \
+  src/showpiece/scenes/enrich/*.test.mjs
 ```
 
 Development mode exposes `window.__showpiece` for deterministic screenshot and

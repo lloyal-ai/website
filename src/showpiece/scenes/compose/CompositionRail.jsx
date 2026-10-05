@@ -52,9 +52,9 @@ function ResearchRail() {
   };
   return <>
     <svg className={styles.routes} aria-hidden="true"><Route time={time} start={4.8} end={5.65} points={routes.request} /><Route time={time} start={6.32} end={7.08} points={routes.tool} /><Route time={time} start={9.55} end={10.38} points={routes.result} /><Route time={time} start={11.55} end={12.03} points={routes.output} /></svg>
-    <div className={styles.leadPosition} style={{ left: leadX, top: faceY }}><ModelTile model={state.lead} label={MODEL_NAMES[state.lead]} role="Reasoning model" status={frame.leadStatus} active={frame.leadActive} small={compact} />{state.lead === 'qwen' && <span className={styles.projector} title="Paired vision projector"><Icon name="projector" size={17} /></span>}<ModelChooser /></div>
+    <div className={styles.leadPosition} style={{ left: leadX, top: faceY }}><ModelTile model={state.lead} label={state.lead === 'qwen' ? 'Qwen 3.5 4B' : MODEL_NAMES[state.lead]} role="Reasoning model" status={frame.leadStatus} active={frame.leadActive} small={compact} />{state.lead === 'qwen' && <span className={styles.projector} title="Paired vision projector"><Icon name="projector" size={17} /></span>}<ModelChooser /></div>
     <div className={styles.toolOperation} data-active={within(time, 6.05, 10.4)} style={{ opacity: frame.tool }}><small>TOOL CALL</small>Find sources</div>
-    <div className={styles.rankPosition} style={{ left: rankX, top: compact ? faceY : 347 }}><ModelTile model="qwen" label="Qwen" role={frame.rankActive ? 'Scoring passages' : 'Reranker · own context'} active={frame.rankActive} small={compact} /><CandidateStack time={time} frame={frame} /></div>
+    <div className={styles.rankPosition} style={{ left: rankX, top: compact ? faceY : 347 }}><ModelTile model="qwen" label="Qwen 3 0.6B" role={frame.rankActive ? 'Scoring passages' : 'Reranker · own context'} active={frame.rankActive} small={compact} /><CandidateStack time={time} frame={frame} /></div>
     <span className={styles.evidenceReturn} style={{ opacity: within(time, 9.55, 10.38) ? Math.sin(Math.PI * tween(time, 9.55, 10.38)) : 0 }}>05 · evidence → caller</span>
   </>;
 }
@@ -126,21 +126,26 @@ function EnrichRail() {
   const { compact, width } = useStageLayout();
   const frame = getEnrichFrame(enrich.time);
   const leadX = compact ? width * .27 - 34 : 48;
+  const rankX = compact ? width * .73 - 34 : 48;
   const faceY = compact ? 123 : 132;
-  const sourceX = compact ? width - 73 : 88;
-  const points = compact
-    ? [[sourceX, 190], [sourceX, 242], [leadX + 34, 242], [leadX + 34, 191]]
-    : [[88, 353], [88, 271], [88, 212]];
-  const output = compact
-    ? [[leadX + 34, 191], [leadX + 34, 285], [width * .42, 285], [width * .42, 306]]
-    : [[128, 172], [156, 172]];
+  const routes = compact ? {
+    request: [[leadX + 68, faceY + 34], [rankX, faceY + 34]],
+    result: [[rankX + 34, faceY], [rankX + 34, 97], [leadX + 34, 97], [leadX + 34, faceY]],
+    output: [[leadX + 34, faceY + 68], [leadX + 34, 290], [width * .42, 290], [width * .42, 306]],
+  } : {
+    request: [[128, 172], [146, 172], [146, 317], [142, 317], [88, 336], [88, 347]],
+    result: [[48, 387], [18, 387], [18, 172], [48, 172]],
+    output: [[128, 172], [156, 172]],
+  };
   return <>
     <svg className={styles.routes} aria-hidden="true">
-      <SignalPath points={points} active={frame.enriching} progress={frame.enriching ? frame.signalProgress : null} opacity={frame.enriching ? 1 : .28} />
-      <SignalPath points={output} active={frame.enriching} progress={frame.enriching ? frame.signalProgress : null} opacity={frame.enriching ? 1 : .28} />
+      {Object.entries(routes).map(([id, points]) => <SignalPath key={id} points={points} active={frame.routing[id].active} progress={frame.routing[id].active ? frame.routing[id].progress : null} opacity={frame.routing[id].active ? 1 : .28} />)}
     </svg>
-    <div className={styles.leadPosition} style={{ left: leadX, top: faceY }}><ModelTile model="glm" label="GLM 5.2" role="Reasoning model" status={frame.enriching ? 'Enriching rows' : frame.completed === 4 ? 'Evidence attached' : 'Ready to enrich'} active={frame.enriching} small={compact} /></div>
-    <div className={styles.enrichSources}><Icon name="document" size={24} /><span>Local sources</span><small>Evidence for each cell</small></div>
+    <div className={styles.leadPosition} style={{ left: leadX, top: faceY }}><ModelTile model="glm" label="GLM 5.2" role="Reasoning model" status={compact ? undefined : frame.leadStatus} active={frame.leadActive} small={compact} /></div>
+    <div className={`${styles.toolOperation} ${styles.enrichOperation}`} data-active={frame.enriching}><small>TOOL CALL</small>Find row evidence</div>
+    <div className={styles.rankPosition} style={{ left: rankX, top: compact ? faceY : 347 }}><ModelTile model="qwen" label="Qwen 3 0.6B" role={frame.rerankerActive ? 'Scoring passages' : 'Reranker · own context'} active={frame.rerankerActive} small={compact} /></div>
+    <div className={styles.enrichSources}><Icon name="document" size={18} /><span>Local sources</span></div>
+    <span className={styles.returnLabel} style={{ opacity: frame.operation.stage === 'return' ? 1 : 0 }}>Ranked evidence → GLM</span>
     <div className={styles.railNote}>Example 04 · Spreadsheet template</div>
   </>;
 }
