@@ -75,8 +75,9 @@ measurement and the clock itself.
 - Qwen, Gemma 4, Bonsai 2 27B and GLM 5.2 are alternative reasoning leads.
   Bonsai leads the image example with its paired vision projector; GLM 5.2 leads
   text-based spreadsheet enrichment with Qwen Reranker and is never shown with a
-  projector. Each row follows a tool request, independent scoring, evidence return
-  to GLM, then a cell update. Specialists retain
+  projector. A three-cell range dispatches parallel row agents; the fourth row
+  stays untouched. Selected rows research together, receive independently scored
+  evidence, then synthesize and reveal their summaries. Specialists retain
   independent contexts. A returned tool result goes back to its caller.
 - Voice is Whisper → raw text → S1-mini cleanup → reasoning lead. S1-mini is
   not depicted as accepting an audio waveform.
@@ -97,6 +98,8 @@ measurement and the clock itself.
 - The macOS ship illustration assumes signing is configured. Model files are
   downloaded and verified at first launch. The fresh workspace has no report.
 - Spreadsheet records are fictional; the sheet is a forthcoming template.
+  Selection, cursor gestures, per-row spinners and results share the same playhead.
+  `EnrichCursor` measures its cell and button targets on desktop and mobile.
 
 ## Accessibility and lifecycle
 
