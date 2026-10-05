@@ -76,7 +76,7 @@ export function LaunchScene() {
     <div className={`${styles.scene} ${styles.launchScene} ${compact ? styles.compact : ''}`} data-scene="launch">
       <p className={styles.caption}>One install. Intelligence inside the app.</p>
       <div className={styles.appIdentity}><span className={styles.appIcon}><Icon name="panel" size={34} /></span><p>Your App</p><small>{frame.allVerified ? 'Ready to use' : 'First launch'}</small></div>
-      <AppWindow title="Your App" className={styles.launchWindow}>
+      <AppWindow title="Your App" offline={frame.workspace === 1} className={styles.launchWindow}>
         <div className={styles.provisioning} style={{ opacity: 1 - frame.workspace, transform: `translateY(${-8 * frame.workspace}px)`, visibility: frame.workspace === 1 ? 'hidden' : 'visible' }} aria-hidden={frame.workspace === 1}>
           <div className={styles.launchHeading}><h3>{frame.allVerified ? 'Your App is ready' : 'Getting Your App ready'}</h3><p>{frame.allVerified ? 'Model files are downloaded and verified.' : 'Preparing the models that run on your machine.'}</p></div>
           <div className={styles.machine}><Icon name="desktop" size={18} /><span>This machine</span><span className={styles.machineStatus}>{frame.machine === 'ready' ? <><Icon name="check" size={13} />Ready</> : frame.machine === 'checking' ? <><Activity active time={time} />Checking compatibility</> : 'Waiting'}</span></div>

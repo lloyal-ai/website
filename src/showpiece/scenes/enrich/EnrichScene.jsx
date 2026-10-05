@@ -35,7 +35,7 @@ export default function EnrichScene() {
         <div className={styles.sources}><Icon name="document" size={22} /><span>Local sources</span><small>Evidence for each cell</small></div>
       </div>
       <div className={styles.connection} aria-hidden="true"><span style={{ left: `${frame.signalProgress * 100}%`, opacity: frame.enriching ? 1 : 0.3 }} /></div>
-      <AppWindow title="Your App" className={styles.window}>
+      <AppWindow title="Your App" offline className={styles.window}>
         <div className={styles.header}>
           <div><h3>A spreadsheet that thinks</h3><p>Template preview · Sample workspace</p></div>
           <button className={styles.enrichButton} onClick={replay} style={{ transform: frame.pressed ? 'translateY(1px)' : undefined }} aria-label="Replay row enrichment illustration"><span>Enrich rows</span><Icon name="arrow" size={12} /></button>

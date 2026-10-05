@@ -88,7 +88,7 @@ export default function LiveInferenceScene() {
 
   return <div className={`${styles.scene} ${compact ? styles.compact : ''}`} data-scene="live" data-inference-paused={frame.paused} data-agent-cancelled={frame.cancelled} data-manual-control={frame.manual}>
     <ModelOwner compact={compact} />
-    <AppWindow title="Your App" className={styles.app}>
+    <AppWindow title="Your App" offline className={styles.app}>
       <div className={styles.appContent}>
         <header className={styles.heading}>
           <h3>Research brief</h3>

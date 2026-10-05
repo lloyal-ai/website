@@ -1,6 +1,6 @@
 import { useId, useRef } from 'react';
 import { useSceneTime, usePlaybackActions, useStageLayout } from '../../playback/ShowpieceContext';
-import { ModelMark, Icon, Cursor } from '../../components';
+import { ModelMark, Icon, Cursor, OfflineIndicator } from '../../components';
 import { progress, ease, lerp } from '../../motion/math';
 import TrajectoryPanel from './TrajectoryPanel';
 import ContextAdmission from './ContextAdmission';
@@ -11,7 +11,7 @@ function WindowBar({ inspector }) {
   return <div className={styles.windowBar}>
     <span className={styles.windowDots} aria-hidden="true"><i /><i /><i /></span>
     <span>Your App {inspector && <><span className={styles.separator}>/</span> DevTools</>}</span>
-    <span className={styles.barTail}>{inspector ? <><i className={styles.statusDot} />Live inference</> : 'Local workspace'}</span>
+    <span className={styles.barTail}>{inspector ? <><i className={styles.statusDot} />Live inference</> : <OfflineIndicator />}</span>
   </div>;
 }
 
