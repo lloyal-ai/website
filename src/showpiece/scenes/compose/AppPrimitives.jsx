@@ -10,7 +10,7 @@ export function SourcePills() {
 }
 
 export function AppToolbar({ title = 'Research brief', state = 'Ready', working = false }) {
-  return <div className={styles.toolbar}><Icon name="document" size={12} /><span>{title}</span><span className={styles.runState}><i className={working ? styles.workingDot : undefined} />{state}</span><Icon name="copy" size={11} /></div>;
+  return <div className={styles.toolbar}><Icon name="document" size={12} /><span>{title}</span><span className={styles.runState} data-status={working ? 'working' : state === 'Settled' ? 'settled' : 'ready'}><i />{state}</span><Icon name="copy" size={11} /></div>;
 }
 
 export function ReportHeading() {

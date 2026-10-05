@@ -52,7 +52,7 @@ function ResearchRail() {
   return <>
     <svg className={styles.routes} aria-hidden="true"><Route time={time} start={4.8} end={5.65} points={routes.request} /><Route time={time} start={6.32} end={7.08} points={routes.tool} /><Route time={time} start={9.55} end={10.38} points={routes.result} /><Route time={time} start={11.55} end={12.03} points={routes.output} /></svg>
     <div className={styles.leadPosition} style={{ left: leadX, top: faceY }}><ModelTile model={state.lead} label={MODEL_NAMES[state.lead]} role="Reasoning model" status={frame.leadStatus} active={frame.leadActive} small={compact} />{state.lead === 'qwen' && <span className={styles.projector} title="Paired vision projector"><Icon name="projector" size={17} /></span>}<ModelChooser /></div>
-    <div className={styles.toolOperation} style={{ opacity: frame.tool }}><small>TOOL CALL</small>Find sources</div>
+    <div className={styles.toolOperation} data-active={within(time, 6.05, 10.4)} style={{ opacity: frame.tool }}><small>TOOL CALL</small>Find sources</div>
     <div className={styles.rankPosition} style={{ left: rankX, top: compact ? faceY : 347 }}><ModelTile model="qwen" label="Qwen" role={frame.rankActive ? 'Scoring passages' : 'Reranker · own context'} active={frame.rankActive} small={compact} /><CandidateStack time={time} frame={frame} /></div>
     <span className={styles.evidenceReturn} style={{ opacity: within(time, 9.55, 10.38) ? Math.sin(Math.PI * tween(time, 9.55, 10.38)) : 0 }}>05 · evidence → caller</span>
   </>;
@@ -112,7 +112,7 @@ function ImageRail() {
   return <>
     <svg className={styles.routes} aria-hidden="true"><Route time={time} start={3.2} end={4} points={routes.request} /><Route time={time} start={5.4} end={6.1} points={routes.tool} /><Route time={time} start={9.7} end={10.85} points={routes.result} /><Route time={time} start={11.85} end={12.2} points={routes.output} /></svg>
     <div className={styles.leadPosition} style={{ left: leadX, top: faceY }}><ModelTile model="glm" label="GLM 5.2" role="Reasoning model" status={frame.leadStatus} active={frame.leadActive} small={compact} /></div>
-    <div className={styles.imageTool} style={{ opacity: 0.35 + 0.65 * tween(time, 5, 5.4) }}><small>MODEL CHOOSES TOOL</small>edit_image</div>
+    <div className={styles.imageTool} data-active={within(time, 5, 10.85)} style={{ opacity: 0.35 + 0.65 * tween(time, 5, 5.4) }}><small>MODEL CHOOSES TOOL</small>edit_image</div>
     <div className={styles.imagePosition} style={{ left: imageX, top: compact ? faceY : 369 }}><ModelTile model="qwen" label="Qwen Image Edit" role={frame.working ? 'Editing the reference' : time >= 9.7 ? 'Result returned' : 'Image specialist'} active={frame.working} small={compact} /></div>
     <span className={styles.returnLabel} style={{ opacity: tween(time, 9.6, 10.2) }}>Result → same live context</span>
     {!compact && within(time, 9.7, 10.85) && <div className={styles.previewReturn} style={{ left: returnedImagePosition.x - 33, top: returnedImagePosition.y - 18.5, opacity: tween(time, 9.7, 9.85) * (1 - tween(time, 10.55, 10.85)) }}><Landscape warm /></div>}

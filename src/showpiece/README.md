@@ -13,6 +13,7 @@ no-JavaScript fallback; `entry.jsx` mounts the hero. The former imperative hero 
 | Chapter order, duration, reduced-motion still and accessible description | `config.js` |
 | Playback, seek, visibility, automatic chapter advance | `playback/` |
 | Window chrome, model marks, icons, cursor, angular signals | `components/` |
+| Shared functional colour tokens | `Showpiece.module.css` |
 | A scene's choreography and interaction state | That scene's folder in `scenes/` |
 | Interpolation and path mathematics | `motion/math.js` |
 
@@ -25,6 +26,14 @@ an isolated reducer with a pure frame projection.
 Within delivery, `ShipTerminal` owns the developer shell and its CSS. It renders
 the existing ship frame as sequential console output, separately from the
 end-user provisioning interface in `DeliveryScenes`.
+
+Scene accents inherit semantic CSS tokens: blue for actions, selection and
+activity; green for live, completed and ready states; red for recording and
+destructive actions; grey for supporting or inactive content. Entropy remains
+blue and surprisal grey/dashed, without a correctness judgment. Scene selectors
+apply those roles locally. Official model colours, graphite surfaces and the
+page ambience remain independent. Shared window controls use macOS traffic-light
+colours; the inspector's custom chrome uses the same tokens.
 
 The homepage composes the playback provider around the showpiece and ambient
 field. The provider exposes stable actions through Context. A single

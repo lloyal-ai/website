@@ -20,13 +20,14 @@ function BuildLogLine({ step, time }) {
 /** Shell presentation stays independent of the end-user installer. */
 export function ShipTerminal({ frame, time, className, replay }) {
   const { compact } = useStageLayout()
+  const [command, options] = frame.command.split(/(?= --)/)
   return (
     <AppWindow title="your-app — zsh" aria-label="Developer terminal — build and ship Your App" chromeIcon="terminal" className={`${styles.terminal} ${className}`} data-compact={compact || undefined}>
       <div className={styles.body}>
         <p className={styles.directory}>~/projects/your-app</p>
         <div className={styles.command} aria-label="npx lloyal-ai ship --notarize">
           <span className={styles.prompt} aria-hidden="true">❯</span>
-          <code>{frame.command}<span className={styles.caret} style={{ opacity: frame.caret ? 1 : 0 }} /></code>
+          <code>{command}{options && <span className={styles.options}>{options}</span>}<span className={styles.caret} style={{ opacity: frame.caret ? 1 : 0 }} /></code>
         </div>
         <div className={styles.log} aria-label="Build output">
           {frame.steps.filter(step => step.status !== 'queued').map(step => <BuildLogLine key={step.id} step={step} time={time} />)}

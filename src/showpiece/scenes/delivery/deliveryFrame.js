@@ -8,6 +8,10 @@ export const SHIP_STEPS = Object.freeze([
   { id: 'staple', label: 'Staple', detail: 'application + disk image', completeDetail: 'ticket attached', start: 12.0, end: 13.8 },
 ])
 
+// A created file opens the composition: shell first, then its output 120ms later.
+// Pure easing keeps pause, reverse seeks and the reduced-motion still identical.
+const easeOut = amount => 1 - (1 - amount) ** 3
+
 export function getShipFrame(time) {
   return {
     command: SHIP_COMMAND.slice(0, Math.floor(SHIP_COMMAND.length * progress(time, 0.7, 2.8))),
@@ -15,7 +19,10 @@ export function getShipFrame(time) {
     caret: time < 3.0 && Math.floor(time * 2.5) % 2 === 0,
     steps: SHIP_STEPS.map(step => ({ ...step, status: time >= step.end ? 'complete' : time >= step.start ? 'active' : 'queued', progress: progress(time, step.start, step.end) })),
     output: progress(time, 14.05, 14.5),
-    artifact: progress(time, 14.45, 15.25),
+    terminalShift: easeOut(progress(time, 14.05, 14.85)),
+    artifact: easeOut(progress(time, 14.17, 14.97)),
+    artifactOpacity: progress(time, 14.17, 14.41),
+    artifactDetails: progress(time, 14.82, 15.18),
   }
 }
 

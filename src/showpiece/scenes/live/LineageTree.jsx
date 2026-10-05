@@ -43,8 +43,9 @@ const layouts = {
 
 const pathData = points => points.map(([x, y], index) => `${index ? 'L' : 'M'}${x} ${y}`).join(' ');
 
-function Caption({ at, children, emphasis = false, opacity = 1, anchor }) {
-  return <text x={at[0]} y={at[1]} className={emphasis ? styles.label : undefined} opacity={opacity} textAnchor={anchor}>{children}</text>;
+function Caption({ at, children, emphasis = false, selected = false, cancelled = false, opacity = 1, anchor }) {
+  const className = [emphasis && styles.label, selected && styles.selectedLabel, cancelled && styles.cancelledLabel].filter(Boolean).join(' ');
+  return <text x={at[0]} y={at[1]} className={className || undefined} opacity={opacity} textAnchor={anchor}>{children}</text>;
 }
 
 function Document({ at, opacity = 1 }) {
@@ -88,10 +89,10 @@ export default function LineageTree({ frame, compact }) {
     <circle cx={layout.childFork[0]} cy={layout.childFork[1]} r="2.5" fill="#e3e3e9" opacity={frame.childFork} />
     <Projection layout={layout} opacity={frame.projection} gradientId={gradientId} />
     <Caption at={layout.prefixLabel} opacity={frame.prefixLabel}>Image-conditioned prefix</Caption>
-    <g opacity={frame.research01Label}><Caption at={layout.research01Label} emphasis>Research 01</Caption><Caption at={layout.research01State}>{frame.research01State}</Caption></g>
+    <g opacity={frame.research01Label}><Caption at={layout.research01Label} emphasis selected={frame.selectedAgent === 'Research 01'}>Research 01</Caption><Caption at={layout.research01State}>{frame.research01State}</Caption></g>
     <g opacity={frame.research02Label}><Caption at={layout.research02Label} emphasis>Research 02</Caption><Caption at={layout.research02State}>{frame.research02State}</Caption></g>
     <Caption at={layout.child01aLabel} emphasis opacity={frame.child01aLabel}>01a</Caption>
-    <g opacity={frame.child01bLabel}><Caption at={layout.child01bLabel} emphasis>01b</Caption><Caption at={layout.child01bState}>{frame.child01bState}</Caption></g>
+    <g opacity={frame.child01bLabel}><Caption at={layout.child01bLabel} emphasis selected={frame.selectedAgent === 'Research 01b'} cancelled={frame.cancelled}>01b</Caption><Caption at={layout.child01bState} cancelled={frame.cancelled}>{frame.child01bState}</Caption></g>
     <g opacity={frame.admission} transform={`translate(0 ${3 * (1 - frame.admission)})`}>
       <Document at={layout.admission} />
       <Caption at={layout.admissionLabel}>Admitted to 01</Caption>
@@ -106,9 +107,9 @@ export default function LineageTree({ frame, compact }) {
         <circle className={styles.token} r={name === 'prefix' ? 2.4 : 2.1} />
       </g>;
     })}
-    {frame.cancelled && <g transform={`translate(${layout.cancel[0]} ${layout.cancel[1]})`}>
-      <circle r="5" fill="#17171c" stroke="#8b8b9b" strokeWidth="1" />
-      <path d="M-2-2L2 2M2-2L-2 2" stroke="#b6b6c3" strokeWidth="1" />
+    {frame.cancelled && <g className={styles.cancelMarker} transform={`translate(${layout.cancel[0]} ${layout.cancel[1]})`}>
+      <circle r="5" fill="#17171c" strokeWidth="1" />
+      <path d="M-2-2L2 2M2-2L-2 2" strokeWidth="1" />
     </g>}
   </svg>;
 }

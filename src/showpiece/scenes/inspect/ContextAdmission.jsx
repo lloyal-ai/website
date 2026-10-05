@@ -63,7 +63,7 @@ export default function ContextAdmission() {
       <RankConnections rank={rank} highlighted={highlighted} time={time} />
       <PassageColumn reranked rank={rank} highlighted={highlighted} onAdmit={admit} />
     </div>
-    <div className={styles.admission}>
+    <div className={`${styles.admission} ${admitted ? styles.admitted : ''}`}>
       <span aria-hidden="true">↳</span>
       <span>{admitted ? <><strong>Primary evidence</strong> admitted to Research 01</> : time >= 14.6 ? 'Source 05 → rank 01 · identity preserved' : 'Comparing the same five passages'}</span>
       <span className={styles.admissionTail}>{admitted ? 'Research 02 unchanged' : 'Agent-local admission'}</span>

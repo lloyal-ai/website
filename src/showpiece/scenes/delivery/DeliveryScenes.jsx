@@ -13,9 +13,10 @@ function ReplayButton({ label }) {
   return <button className={styles.replay} onClick={() => { restart(); play() }} aria-label={`Replay ${label} illustration`}><Icon name="play" size={11} /><span>Replay</span></button>
 }
 
-function DiskImage({ reveal }) {
+function DiskImage({ frame, compact }) {
+  const offset = (compact ? 24 : 120) * (1 - frame.artifact)
   return (
-    <div className={styles.artifact} style={{ opacity: reveal, transform: `translateX(${28 * (1 - reveal)}px)` }}>
+    <div className={styles.artifact} aria-hidden={frame.artifactOpacity === 0} style={{ opacity: frame.artifactOpacity, transform: compact ? `translateY(${-offset}px)` : `translateX(${-offset}px)` }}>
       <svg className={styles.diskIcon} viewBox="0 0 86 107" fill="none" aria-hidden="true">
         <path d="M10 1.5h45L76 23v73.5a9 9 0 0 1-9 9H10a9 9 0 0 1-9-9v-86a9 9 0 0 1 9-9Z" fill="#d8d8dc" stroke="#f1f1f3" />
         <path d="M55 1.5V18a5 5 0 0 0 5 5h16" fill="#afafb6" stroke="#f1f1f3" strokeLinejoin="round" />
@@ -23,8 +24,8 @@ function DiskImage({ reveal }) {
         <circle cx="53" cy="71" r="1.5" fill="#dddde2" /><path d="M20 71h18" stroke="#b9b9c1" strokeWidth="1.3" strokeLinecap="round" />
         <text x="38" y="94" textAnchor="middle" fontFamily="Arial,sans-serif" fontSize="9" fontWeight="600" letterSpacing="1.1" fill="#53535d">DMG</text>
       </svg>
-      <div><p className={styles.artifactName}>Your-App.dmg</p><p className={styles.artifactState}><Icon name="check" size={12} />Signed · Notarized</p><p className={styles.artifactDetail}>Ticket stapled</p></div>
-      <p className={styles.modelNote}>Model files provision<br />on first launch.</p>
+      <div><p className={styles.artifactName}>Your-App.dmg</p><div style={{ opacity: frame.artifactDetails }}><p className={styles.artifactState}><Icon name="check" size={12} />Signed · Notarized</p><p className={styles.artifactDetail}>Ticket stapled</p></div></div>
+      <p className={styles.modelNote} style={{ opacity: frame.artifactDetails }}>Model files provision<br />on first launch.</p>
     </div>
   )
 }
@@ -33,13 +34,19 @@ export function ShipScene() {
   const time = useSceneTime()
   const { compact } = useStageLayout()
   const frame = getShipFrame(time)
+  const terminalPosition = compact ? undefined : {
+    left: `calc(${50 * (1 - frame.terminalShift)}% + ${48 * frame.terminalShift}px)`,
+    transform: `translateX(${-50 * (1 - frame.terminalShift)}%)`,
+  }
   return (
     <div className={`${styles.scene} ${styles.shipScene} ${compact ? styles.compact : ''}`} data-scene="ship">
       <p className={styles.caption}>From your code to their Applications folder</p>
-      <ShipTerminal frame={frame} time={time} className={styles.terminal} replay={<ReplayButton label="build" />} />
-      <p className={styles.qualifier}>Illustrated macOS build · signing configured</p>
-      <div className={styles.exportArrow} style={{ opacity: frame.artifact }} aria-hidden="true"><Icon name="arrow" size={22} /></div>
-      <DiskImage reveal={frame.artifact} />
+      <div className={styles.terminalGroup} style={terminalPosition}>
+        <ShipTerminal frame={frame} time={time} className={styles.terminal} replay={<ReplayButton label="build" />} />
+        <p className={styles.qualifier}>Illustrated macOS build · signing configured</p>
+      </div>
+      <div className={styles.exportArrow} style={{ opacity: frame.artifactDetails }} aria-hidden="true"><Icon name="arrow" size={22} /></div>
+      <DiskImage frame={frame} compact={compact} />
     </div>
   )
 }
@@ -79,7 +86,7 @@ export function LaunchScene() {
       <AppWindow title="Your App" offline={frame.workspace === 1} className={styles.launchWindow}>
         <div className={styles.provisioning} style={{ opacity: 1 - frame.workspace, transform: `translateY(${-8 * frame.workspace}px)`, visibility: frame.workspace === 1 ? 'hidden' : 'visible' }} aria-hidden={frame.workspace === 1}>
           <div className={styles.launchHeading}><h3>{frame.allVerified ? 'Your App is ready' : 'Getting Your App ready'}</h3><p>{frame.allVerified ? 'Model files are downloaded and verified.' : 'Preparing the models that run on your machine.'}</p></div>
-          <div className={styles.machine}><Icon name="desktop" size={18} /><span>This machine</span><span className={styles.machineStatus}>{frame.machine === 'ready' ? <><Icon name="check" size={13} />Ready</> : frame.machine === 'checking' ? <><Activity active time={time} />Checking compatibility</> : 'Waiting'}</span></div>
+          <div className={styles.machine}><Icon name="desktop" size={18} /><span>This machine</span><span className={styles.machineStatus} data-status={frame.machine}>{frame.machine === 'ready' ? <><Icon name="check" size={13} />Ready</> : frame.machine === 'checking' ? <><Activity active time={time} />Checking compatibility</> : 'Waiting'}</span></div>
           <div className={styles.provisionList}>{frame.models.map(model => <ProvisionRow model={model} time={time} key={model.id} />)}</div>
           <div className={styles.provisionMeta}><span className={styles.firstRun}>First run only</span><span>Model files stay on this machine.</span></div>
           <div className={styles.launchReady} style={{ opacity: frame.ready }}><Icon name="check" size={13} /><span>Opening a fresh workspace</span></div>

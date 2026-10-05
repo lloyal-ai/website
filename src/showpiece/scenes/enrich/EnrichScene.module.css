@@ -7,10 +7,10 @@
 .header { padding: 22px 24px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .header h3 { margin: 0 0 7px; color: #e9e9ed; font-size: 22px; font-weight: 450; letter-spacing: -.7px; }
 .header p { margin: 0; color: #95959f; font-size: 10px; }
-.enrichButton { flex: none; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 9px 11px; border: 1px solid #eeeeef; border-radius: 6px; background: #dcdce1; color: #242427; font: inherit; font-size: 10px; cursor: pointer; box-shadow: inset 0 1px #fff5, 0 2px 4px #0004; }
-.enrichButton:hover { background: #f0f0f4; }
+.enrichButton { flex: none; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 9px 11px; border: 1px solid #ffffff29; border-radius: 6px; background: var(--sp-accent); color: #fff; font: inherit; font-size: 10px; cursor: pointer; box-shadow: inset 0 1px #fff5, 0 2px 4px #0004; }
+.enrichButton:hover { filter: brightness(1.1); }
 .enrichButton svg { transform: rotate(45deg); }
-.enrichButton:focus-visible, .cellButton:focus-visible { outline: 2px solid #ededf0; outline-offset: 3px; }
+.enrichButton:focus-visible, .cellButton:focus-visible { outline: 2px solid var(--sp-accent); outline-offset: 3px; }
 .table { border-collapse: collapse; width: calc(100% - 48px); margin: 4px 24px; table-layout: fixed; color: #b3b3bd; font-size: 10px; }
 .table th { height: 30px; border-bottom: 1px solid #ffffff16; color: #8a8a94; font-size: 8px; text-transform: uppercase; letter-spacing: .9px; text-align: left; font-weight: 400; }
 .table th:first-child { width: 25px; }
@@ -20,13 +20,16 @@
 .table td { height: 45px; border-bottom: 1px solid #ffffff0d; }
 .table .rowNumber { color: #74747e; font-size: 9px; }
 .signalCell { position: relative; }
-.signalCell[data-selected="true"] { outline: 1px solid #a3a3ad; outline-offset: -1px; background: #ffffff05; }
-.signalCell[data-selected="true"]:after { content: ''; position: absolute; right: -1px; bottom: -1px; width: 4px; height: 4px; background: #cccbd3; pointer-events: none; }
+.signalCell[data-selected="true"] { outline: 1px solid var(--sp-accent); outline-offset: -1px; background: var(--sp-accent-soft); }
+.signalCell[data-selected="true"]:after { content: ''; position: absolute; right: -1px; bottom: -1px; width: 4px; height: 4px; background: var(--sp-accent); pointer-events: none; }
 .cellButton { display: block; width: 100%; min-height: 44px; padding: 0 8px; border: 0; color: #d0d0d8; background: transparent; text-align: left; font: inherit; cursor: pointer; }
 .cellButton > span { display: block; }
 .cellButton:disabled { cursor: default; }
-.cellArrow { margin-left: 5px; color: #a8a8b3; }
+.cellButton > .cellResult { display: flex; align-items: center; gap: 5px; }
+.cellResult > svg { flex: none; color: var(--sp-success); }
+.cellArrow { margin-left: 5px; color: var(--sp-accent); }
 .reading { color: #d1d1d9; }
+.reading::before { content: ''; display: inline-block; width: 4px; height: 4px; margin-right: 5px; vertical-align: 2px; border-radius: 50%; background: var(--sp-accent); }
 .queued { color: #72727c; }
 .evidenceArea { position: relative; min-height: 130px; margin: 13px 24px 0; display: flex; justify-content: flex-end; }
 .evidence { width: 365px; align-self: start; padding: 14px 17px; border: 1px solid #ffffff24; border-radius: 9px; background: #252528; box-shadow: 0 6px 12px #0004; }
@@ -34,8 +37,11 @@
 .evidence p { margin: 8px 0 6px; color: #d0d0d8; font-size: 11px; line-height: 1.6; }
 .evidenceCaption { color: #82828c; font-size: 9px; }
 .footer { position: absolute; inset: auto 0 0; height: 32px; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 0 24px; border-top: 1px solid #ffffff10; color: #888893; font-size: 9px; }
+.progress { display: inline-flex; align-items: center; gap: 5px; }
+.progress[data-active="true"]::before { content: ''; width: 4px; height: 4px; border-radius: 50%; background: var(--sp-accent); }
+.progress > svg { color: var(--sp-success); }
 .connection { position: absolute; top: 174px; left: 128px; width: 28px; height: 1px; background: #ffffff26; }
-.connection span { position: absolute; top: -2px; width: 5px; height: 5px; border-radius: 50%; background: #efeff4; box-shadow: 0 0 9px #fff5; }
+.connection span { position: absolute; top: -2px; width: 5px; height: 5px; border-radius: 50%; background: var(--sp-accent); box-shadow: 0 0 9px var(--sp-accent-line); }
 .mobileDetails { display: none; }
 .compact { min-height: 0; padding: 12px 0 20px; }
 .compact .caption { position: static; margin: 0 14px 18px; font-size: 12px; }

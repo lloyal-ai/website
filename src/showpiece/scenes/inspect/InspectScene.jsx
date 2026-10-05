@@ -7,11 +7,17 @@ import ContextAdmission from './ContextAdmission';
 import { cursorStops } from './inspectData';
 import styles from './InspectScene.module.css';
 
+function LiveStatusDot() {
+  const time = useSceneTime();
+  const pulse = .5 + .5 * Math.sin(time * Math.PI);
+  return <i className={styles.statusDot} aria-hidden="true" style={{ opacity: .65 + .35 * pulse, boxShadow: `0 0 0 ${1 + 2 * pulse}px color-mix(in srgb, var(--sp-success) 12%, transparent)` }} />;
+}
+
 function WindowBar({ inspector }) {
   return <div className={styles.windowBar}>
     <span className={styles.windowDots} aria-hidden="true"><i /><i /><i /></span>
     <span>Your App {inspector && <><span className={styles.separator}>/</span> DevTools</>}</span>
-    <span className={styles.barTail}>{inspector ? <><i className={styles.statusDot} />Live inference</> : <OfflineIndicator />}</span>
+    <span className={styles.barTail}>{inspector ? <><LiveStatusDot />Live inference</> : <OfflineIndicator />}</span>
   </div>;
 }
 

@@ -50,14 +50,14 @@ export default function EnrichScene() {
               <td className={styles.extraColumn}><span style={{ opacity: row.status === 'complete' ? row.reveal : 0.35 }}>{row.status === 'complete' ? row.fit : '—'}</span></td>
               <td className={styles.signalCell} data-selected={selectedIndex === index}>
                 <button className={styles.cellButton} disabled={row.status !== 'complete'} aria-pressed={selectedIndex === index} onClick={() => setSelection({ row: index, revision, time })} aria-label={`Inspect evidence for ${row.company}`}>
-                  {row.status === 'complete' ? <span style={{ opacity: row.reveal, transform: `translateY(${5 * (1 - row.reveal)}px)` }}>{row.signal}<span className={styles.cellArrow}>↗</span></span> : <span className={row.status === 'reading' ? styles.reading : styles.queued}>{row.status === 'reading' ? 'Reading evidence…' : 'Queued'}</span>}
+                  {row.status === 'complete' ? <span className={styles.cellResult} style={{ opacity: row.reveal, transform: `translateY(${5 * (1 - row.reveal)}px)` }}><Icon name="check" size={11} /><span>{row.signal}<span className={styles.cellArrow}>↗</span></span></span> : <span className={row.status === 'reading' ? styles.reading : styles.queued}>{row.status === 'reading' ? 'Reading evidence…' : 'Queued'}</span>}
                 </button>
               </td>
             </tr>
           ))}</tbody>
         </table>
         <div className={styles.evidenceArea}>{showEvidence > 0 && <Evidence row={selectedRow} opacity={showEvidence} />}</div>
-        <footer className={styles.footer}><span>{frame.completed} of 4 rows enriched</span><span>Fictional records · Local source fixture</span></footer>
+        <footer className={styles.footer}><span className={styles.progress} data-active={frame.enriching}>{frame.completed === 4 && <Icon name="check" size={11} />}{frame.completed} of 4 rows enriched</span><span>Fictional records · Local source fixture</span></footer>
       </AppWindow>
       {!compact && <Cursor x={width - 240 + 105 * frame.cursor} y={377 - 240 * frame.cursor} visible={frame.cursorVisible} pressed={frame.pressed} />}
     </div>

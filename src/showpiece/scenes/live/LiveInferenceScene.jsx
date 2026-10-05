@@ -23,7 +23,7 @@ function RunControls({ frame, onPauseToggle, onCancel }) {
       <button type="button" className={`${styles.button} ${styles.primary}`} onClick={onPauseToggle} aria-label={frame.paused ? 'Resume live inference' : 'Pause live inference'} aria-pressed={frame.paused}>
         <Icon name={frame.paused ? 'play' : 'pause'} size={11} /><span>{frame.paused ? 'Resume run' : 'Pause run'}</span>
       </button>
-      <button type="button" className={styles.button} onClick={onCancel} disabled={!frame.cancelAvailable} aria-label="Cancel Research 01b" title={!frame.childExists ? 'Available when Research 01b has forked.' : frame.cancelled ? 'Cancelled; its history remains inspectable.' : 'Cancel Research 01b'}>
+      <button type="button" className={`${styles.button} ${styles.cancel}`} data-cancelled={frame.cancelled} onClick={onCancel} disabled={!frame.cancelAvailable} aria-label="Cancel Research 01b" title={!frame.childExists ? 'Available when Research 01b has forked.' : frame.cancelled ? 'Cancelled; its history remains inspectable.' : 'Cancel Research 01b'}>
         <Icon name="close" size={11} /><span>{frame.cancelled ? 'Cancelled' : 'Cancel agent'}</span>
       </button>
     </div>
@@ -93,10 +93,10 @@ export default function LiveInferenceScene() {
         <header className={styles.heading}>
           <h3>Research brief</h3>
           <p>A shared starting point. Independent continuations.</p>
-          <span className={styles.runState}>{frame.runState}</span>
+          <span className={styles.runState} data-state={frame.paused ? 'paused' : time < 3.5 ? 'preparing' : 'live'}>{frame.runState}</span>
         </header>
         <section className={styles.panel} aria-label="Shared attention state">
-          <div className={styles.panelHeading}><h4>Shared attention state</h4><span className={`${styles.panelState} ${frame.paused ? styles.paused : ''}`}><i />{frame.panelState}</span></div>
+          <div className={styles.panelHeading}><h4>Shared attention state</h4><span className={styles.panelState} data-state={frame.paused ? 'paused' : time < 3.5 ? 'preparing' : 'live'}><i />{frame.panelState}</span></div>
           <LineageTree frame={frame} compact={compact} />
           <p className={styles.footnote}><strong>{frame.footnote[0]}</strong> {frame.footnote[1]}</p>
           {frame.cancelled && <span className={styles.history}>History retained</span>}
