@@ -176,6 +176,29 @@ section[id], [id="partner-form"] { scroll-margin-top: 76px; }
 .menu-button > span:not(.sr-only) { display: block; width: 22px; height: 1px; background: var(--ink); margin: 5px 0; transition: transform .2s ease; }
 .mobile-nav { border-top: 1px solid var(--line-soft); padding: 18px var(--gutter) 24px; background: rgba(8,8,8,.98); }
 .mobile-nav a { display: block; padding: 9px 0; color: var(--muted); }
+.site-header .desktop-nav a { padding-block: 7px; }
+.site-header a.github-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 104px;
+  min-height: 34px;
+  padding: 0 14px;
+  border: 1px solid #ffffff24;
+  border-radius: 8px;
+  background: #f4f4f6;
+  color: #141416;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0;
+  transition: background-color .2s ease, border-color .2s ease;
+}
+.site-header a.github-link img { flex: none; width: 16px; height: 16px; }
+.site-header a.github-link:hover { color: #141416; background: #fff; border-color: #fff; }
+.site-header a.github-link:focus-visible { outline: 2px solid #f4f4f6; outline-offset: 4px; }
+.mobile-nav a.github-link { min-height: 44px; margin-top: 12px; }
 
 .hero { padding: clamp(96px, 9vw, 150px) 0; border-bottom: 1px solid var(--line-soft); }
 .hero-copy { max-width: 1320px; text-align: center; }

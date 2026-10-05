@@ -14,7 +14,8 @@
       mobileNav.hidden = open;
     });
     mobileNav.addEventListener('click', (event) => {
-      if (event.target instanceof HTMLAnchorElement) {
+      const link = event.target instanceof Element ? event.target.closest('a') : null;
+      if (link && mobileNav.contains(link)) {
         menuButton.setAttribute('aria-expanded', 'false');
         mobileNav.hidden = true;
       }
