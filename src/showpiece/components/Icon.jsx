@@ -1,7 +1,7 @@
 import {
   ArrowUp, Check, ChevronDown, Copy, Download, FileText, Folder, Globe,
   Image, Mic, Monitor, PanelLeft, Paperclip, Pause, Play, Projector,
-  Search, Settings2, ShieldCheck, Sparkles, Square, Table2, Terminal, WifiOff, X,
+  Search, Settings2, ShieldCheck, Sparkles, Square, Table2, Terminal, Wifi, WifiOff, X,
 } from 'lucide-react';
 
 const icons = {
@@ -10,7 +10,7 @@ const icons = {
   terminal: Terminal, globe: Globe, play: Play, pause: Pause, close: X,
   settings: Settings2, chevron: ChevronDown, copy: Copy, panel: PanelLeft,
   download: Download, shield: ShieldCheck, search: Search, sparkles: Sparkles,
-  image: Image, sheet: Table2, wifiOff: WifiOff,
+  image: Image, sheet: Table2, wifi: Wifi, wifiOff: WifiOff,
 };
 
 /** Presentation icon. Buttons must provide their own accessible name. */

@@ -32,7 +32,7 @@
   transition: color .2s, background .2s, border-color .2s;
 }
 .tab:hover { color: #f4f4f7; background: #ffffff06; border-color: #ffffff19; }
-.tab[aria-selected="true"] { color: #f3f3f7; background: #ffffff09; border-color: #ffffff25; }
+.tab[aria-selected="true"] { color: #eeeef3; background: linear-gradient(155deg, #ffffff0e, #ffffff04); border-color: #ffffff25; }
 .number {
   position: relative;
   display: grid;
@@ -44,15 +44,28 @@
   border-radius: 50%;
   background: #ffffff04;
   color: #b4b4c0;
-  font: 12px var(--sp-mono);
+  font: 600 15px/1 system-ui, sans-serif;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
 }
-.tab[aria-selected="true"] .number { background: #eeeef3; color: #161619; border-color: #eeeef3; }
+.tab[aria-selected="true"] .number { background: linear-gradient(145deg, #48484f, #28282e); color: #eeeef3; border-color: #ffffff38; }
 .label { white-space: nowrap; }
 .connector { position: absolute; left: calc(100% + 6px); top: 50%; transform: translateY(-50%); color: #73737e; pointer-events: none; }
-.progressRing { position: absolute; inset: -5px; width: calc(100% + 10px); height: calc(100% + 10px); overflow: visible; pointer-events: none; }
-.progressTrack, .progressFill { fill: none; stroke-width: 1.3; }
+.progressRing {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(100% + 10px);
+  height: calc(100% + 10px);
+  /* The site-wide svg max-width must not squeeze this outer ring. */
+  max-width: none;
+  transform: translate(-50%, -50%);
+  overflow: visible;
+  pointer-events: none;
+}
+.progressTrack, .progressFill { fill: none; stroke-width: 2.4; }
 .progressTrack { stroke: #ffffff16; }
-.progressFill { stroke: #ededf3; stroke-linecap: round; transform: rotate(-90deg); transform-origin: center; }
+.progressFill { stroke: var(--sp-accent); stroke-linecap: round; }
 
 .details { display: grid; grid-template-columns: 96px minmax(0, 1fr) 96px; gap: 12px; align-items: center; width: 100%; margin-top: 14px; }
 .caption { grid-column: 2; margin: 0; color: #a0a0ad; font-size: 13px; line-height: 1.6; text-align: center; }

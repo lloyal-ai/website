@@ -8,7 +8,7 @@ function StepProgress({ duration }) {
   const time = useSceneTime();
   return <svg className={styles.progressRing} viewBox="0 0 40 40" aria-hidden="true">
     <circle className={styles.progressTrack} cx="20" cy="20" r="18" />
-    <circle className={styles.progressFill} cx="20" cy="20" r="18" pathLength="1" strokeDasharray="1" strokeDashoffset={1 - Math.min(time / duration, 1)} />
+    <circle className={styles.progressFill} cx="20" cy="20" r="18" pathLength="1" strokeDasharray="1" strokeDashoffset={1 - Math.min(time / duration, 1)} transform="rotate(-90 20 20)" />
   </svg>;
 }
 

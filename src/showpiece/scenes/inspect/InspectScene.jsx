@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import { useSceneTime, usePlaybackActions, useStageLayout } from '../../playback/ShowpieceContext';
-import { ModelMark, Icon, Cursor, DocsLink, OfflineIndicator, WindowChrome } from '../../components';
+import { ModelMark, Icon, Cursor, DocsLink, NetworkIndicator, WindowChrome } from '../../components';
 import { progress, ease, lerp } from '../../motion/math';
 import TrajectoryPanel from './TrajectoryPanel';
 import ContextAdmission from './ContextAdmission';
@@ -18,7 +18,7 @@ function WindowBar({ inspector }) {
     className={styles.windowBar}
     align="start"
     title={<>Your App {inspector && <><span className={styles.separator}>/</span> <DocsLink href="https://docs.lloyal.ai/traces">DevTools</DocsLink></>}</>}
-    actions={<span className={styles.barTail}>{inspector ? <><LiveStatusDot />Live inference</> : <OfflineIndicator />}</span>}
+    actions={<span className={styles.barTail}>{inspector ? <><LiveStatusDot />Live inference</> : <NetworkIndicator connection="offline" />}</span>}
   />;
 }
 

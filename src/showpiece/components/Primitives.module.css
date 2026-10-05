@@ -133,7 +133,8 @@
 .chrome[data-title-alignment='start'] .traffic { position: static; }
 .chrome[data-title-alignment='start'] .windowTitle { flex: 1; min-width: 0; max-width: none; }
 .chrome[data-title-alignment='start'] .windowAction { position: static; flex: none; margin-left: auto; color: inherit; }
-.offlineIndicator { display: inline-flex; flex: none; align-items: center; color: #b5b5bf; }
+.networkIndicator { display: inline-flex; flex: none; align-items: center; color: #b5b5bf; }
+.networkIndicator[data-connection='connected'] { color: var(--sp-accent, #007aff); }
 .docsLink { color: #bfc0c8; text-decoration: none; white-space: nowrap; }
 .docsLink:hover { color: #f1f1f5; text-decoration: underline; text-underline-offset: 3px; }
 .windowBody { position: relative; display: flex; flex: 1; min-width: 0; min-height: 0; }

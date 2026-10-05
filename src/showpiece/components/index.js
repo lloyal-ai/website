@@ -6,5 +6,5 @@ export { Icon } from './Icon';
 export { Landscape } from './Landscape';
 export { ModelMark } from './ModelMark';
 export { ModelTile } from './ModelTile';
-export { OfflineIndicator } from './OfflineIndicator';
+export { NetworkIndicator } from './NetworkIndicator';
 export { SignalPath } from './SignalPath';

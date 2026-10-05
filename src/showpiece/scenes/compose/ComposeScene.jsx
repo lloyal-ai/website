@@ -36,7 +36,7 @@ function ComposeStage() {
     <div className={styles.caption}>{captions[frame.active]}</div>
     <CompositionChoices />
     <CompositionRail />
-    <AppWindow title="Your App" offline className={styles.appWindow} aria-label="Your App — illustrated composition examples">
+    <AppWindow title="Your App" connection={frame.active === 'enrich' ? 'connected' : 'offline'} className={styles.appWindow} aria-label="Your App — illustrated composition examples">
       <div className={styles.appViewport}>{COMPOSITIONS.map(({ id }) => {
         const phase = frame[id];
         const Component = appExamples[id];
