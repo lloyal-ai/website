@@ -78,7 +78,7 @@
   background: currentColor;
 }
 
-.modelTile[data-active] .modelStatus::before { background: var(--sp-accent); }
+.modelTile[data-active] .modelStatus::before { background: var(--sp-orchestration); }
 
 .small { width: 68px; }
 .small .modelFace { height: 68px; border-radius: 18px; }
@@ -150,4 +150,4 @@
 
 .signalLine { fill: none; stroke: var(--sp-route, #ffffff19); stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: miter; }
 .signal[data-active] .signalLine { stroke: var(--sp-route-active, #ffffff68); }
-.signalToken { fill: var(--sp-token, #ededf1); filter: drop-shadow(0 0 3px var(--sp-accent-line)); }
+.signalToken { fill: var(--sp-token, #ededf1); filter: drop-shadow(0 0 3px var(--sp-orchestration-line)); }

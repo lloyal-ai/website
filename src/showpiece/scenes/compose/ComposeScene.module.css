@@ -14,7 +14,7 @@
 .caption { position: absolute; left: 156px; top: 15px; font-size: 10px; letter-spacing: 1.7px; text-transform: uppercase; color: #85858f; white-space: nowrap; }
 .choices { position: absolute; top: 41px; left: 156px; right: 24px; display: flex; gap: 12px; z-index: 15; }
 .choice { display: flex; align-items: center; gap: 7px; height: 26px; padding: 0 9px; border: 0; border-bottom: 1px solid #ffffff12; color: #8a8a93 !important; background: none; font-size: 11px !important; white-space: nowrap; }
-.choiceActive { border-bottom-color: var(--sp-accent); color: #e0e0e5 !important; }
+.choiceActive { border-bottom-color: var(--sp-orchestration); color: #e0e0e5 !important; }
 .choice img { width: 17px; height: 17px; }
 .choice em { color: #85858f; font-style: normal; }
 .rail { position: absolute; inset: 0; z-index: 2; }
@@ -28,13 +28,13 @@
 .modelMenu button { display: flex; align-items: center; gap: 9px; width: 100%; border: 0; border-radius: 7px; background: none; padding: 8px; font-size: 11px !important; text-align: left; }
 .modelMenu button:hover { background: #ffffff0b; }
 .modelMenu img { width: 21px; height: 21px; }
-.modelMenu button > svg { margin-left: auto; color: var(--sp-accent); }
+.modelMenu button > svg { margin-left: auto; color: var(--sp-orchestration); }
 .modelMenu small { display: block; margin: 6px 7px; font-size: 9px; color: #727278; }
 .toolOperation, .imageTool, .codeLabel { position: absolute; left: 35px; top: 299px; width: 107px; min-height: 37px; padding: 6px 3px; border: 1px solid #ffffff24; border-radius: 8px; background: #19191b; text-align: center; font-size: 10px; box-shadow: 0 3px 8px #0007; }
 .toolOperation small, .imageTool small { display: block; margin-bottom: 1px; font-size: 8px; letter-spacing: 0.7px; color: #7b7b80; }
 .imageTool { left: 33px; width: 111px; padding: 7px 0; }
 .imageTool small { margin-bottom: 3px; font-size: 8px; letter-spacing: 0.6px; }
-.toolOperation[data-active="true"], .imageTool[data-active="true"] { border-color: var(--sp-accent-line); background: linear-gradient(var(--sp-accent-soft), var(--sp-accent-soft)), #19191b; }
+.toolOperation[data-active="true"], .imageTool[data-active="true"] { border-color: var(--sp-orchestration-line); background: linear-gradient(var(--sp-orchestration-soft), var(--sp-orchestration-soft)), #19191b; }
 .codeLabel { left: 26px; top: 254px; width: 124px; font-size: 9px; padding: 7px 2px; box-shadow: none; }
 .codeLabel small { display: block; color: #777782; font-size: 8px; margin-top: 3px; }
 .routes { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
@@ -43,8 +43,8 @@
 .candidate { position: absolute; left: 0; top: 0; display: flex; align-items: center; gap: 6px; width: 110px; height: 18px; padding: 0 7px; border: 1px solid #ffffff16; border-radius: 4px; background: #1b1b1d; color: #666670; font-family: var(--sp-mono, monospace); font-size: 8px; }
 .candidate b { font-weight: 400; }
 .candidate i { display: block; height: 2px; background: #777; opacity: 0.45; }
-.candidateActive { border-color: var(--sp-accent-line); background: var(--sp-accent-soft); color: #d2d2da; }
-.candidateActive i { background: var(--sp-accent); opacity: 0.9; }
+.candidateActive { border-color: var(--sp-orchestration-line); background: var(--sp-orchestration-soft); color: #d2d2da; }
+.candidateActive i { background: var(--sp-orchestration); opacity: 0.9; }
 .candidateResult { display: block; width: 150px; margin: 6px -20px 0; color: #75757b; font-size: 8px; text-align: center; white-space: nowrap; }
 .evidenceReturn { position: absolute; left: -7px; top: 262px; writing-mode: vertical-rl; transform: rotate(180deg); padding: 4px 3px; color: #b9b9c5; background: #171719; font-size: 8px; }
 .returnLabel { position: absolute; left: -13px; top: 258px; font-size: 8px; writing-mode: vertical-rl; transform: rotate(180deg); letter-spacing: 0.25px; color: #a0a0ab; }
@@ -92,8 +92,8 @@
 .composerInput::placeholder { color: #85858d; }
 .composerBottom { display: flex; align-items: center; gap: 5px; margin: 2px 10px 0; }
 .ability { display: flex; align-items: center; gap: 5px; height: 21px; padding: 0 7px; border: 1px solid #ffffff12; border-radius: 5px; background: #ffffff03; color: #b4b4bd !important; font-size: 11px !important; }
-.ability[aria-pressed="true"] { border-color: var(--sp-accent-line); background: var(--sp-accent-soft); }
-.ability i { width: 3px; height: 3px; border-radius: 50%; background: var(--sp-accent); }
+.ability[aria-pressed="true"] { border-color: #ffffff25; background: #ffffff05; }
+.ability i { width: 3px; height: 3px; border-radius: 50%; background: #b9b9c0; }
 .ability > svg { box-sizing: content-box; padding-left: 5px; border-left: 1px solid #ffffff15; color: #81818a; }
 .abilityInactive { color: #676770 !important; }
 .abilityInactive i { background: #595961; }
@@ -127,7 +127,7 @@
 .waveform i { display: block; min-width: 2px; max-width: 3px; height: 3px; border-radius: 2px; background: var(--sp-accent); transform-origin: center; flex: 1; }
 .recordingLabel { color: #777782; font-size: 8px; white-space: nowrap; }
 .pipelinePill { position: absolute; left: 15px; bottom: 50px; display: flex; align-items: center; gap: 5px; color: #858590; font-size: 8px; }
-.pipelinePill i { width: 3px; height: 3px; border-radius: 50%; background: var(--sp-accent); }
+.pipelinePill i { width: 3px; height: 3px; border-radius: 50%; background: var(--sp-secondary); }
 .pipelinePill[data-complete="true"] i { background: var(--sp-success); }
 .cleanBadge { margin-left: 6px; padding: 3px 6px; border: 1px solid color-mix(in srgb, var(--sp-success) 25%, transparent); border-radius: 4px; color: var(--sp-success); font-size: 8px; white-space: nowrap; }
 .imageContent { padding: 18px 26px 0; }
@@ -145,7 +145,7 @@
 .imageEntry > span { flex: 1; }
 .placeholder { color: #888895; }
 .imageFooter { display: flex; align-items: center; gap: 6px; padding: 0 10px; color: #9898a5; font-size: 9px; }
-.imageAbility { padding: 4px 7px; border: 1px solid var(--sp-accent-line); border-radius: 5px; background: var(--sp-accent-soft); font-size: 10px; }
+.imageAbility { padding: 4px 7px; border: 1px solid #ffffff25; border-radius: 5px; background: #ffffff05; font-size: 10px; }
 .miniState { margin-left: auto; color: #797986; font-size: 8px; }
 .imageFooter .send { margin-left: 5px; }
 .imageChip { position: absolute; left: 15px; top: -29px; display: flex; align-items: center; gap: 5px; height: 23px; padding: 4px 7px; border: 1px solid #ffffff25; border-radius: 5px; background: #27272c; color: #b8b8c3; font-size: 8px; }

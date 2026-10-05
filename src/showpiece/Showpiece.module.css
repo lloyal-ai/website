@@ -15,11 +15,14 @@
   --sp-success: #34c759;
   --sp-danger: #ff3b30;
   --sp-secondary: #aeaeb2;
+  --sp-orchestration: #d6d6dd;
+  --sp-orchestration-soft: #d6d6dd0d;
+  --sp-orchestration-line: #d6d6dd70;
   --sp-window-close: #ff5f57;
   --sp-window-minimise: #ffbd2e;
   --sp-window-maximise: #28c840;
-  --sp-token: var(--sp-accent);
-  --sp-route-active: var(--sp-accent-line);
+  --sp-token: var(--sp-orchestration);
+  --sp-route-active: var(--sp-orchestration-line);
   position: relative;
   isolation: isolate;
   color: var(--sp-ink);

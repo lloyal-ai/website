@@ -27,11 +27,14 @@ Within delivery, `ShipTerminal` owns the developer shell and its CSS. It renders
 the existing ship frame as sequential console output, separately from the
 end-user provisioning interface in `DeliveryScenes`.
 
-Scene accents inherit semantic CSS tokens: blue for actions, selection and
+App accents inherit semantic CSS tokens: blue for app actions, selection and
 activity; green for live, completed and ready states; red for recording and
 destructive actions; grey for supporting or inactive content. Entropy remains
 blue and surprisal grey/dashed, without a correctness judgment. Scene selectors
-apply those roles locally. Official model colours, graphite surfaces and the
+apply those roles locally. Outside the app windows, model tabs, tool calls,
+connectors and reranker activity use separate silver orchestration tokens.
+Composer abilities stay graphite/silver so they do not compete with primary
+actions. Official model colours, graphite surfaces and the
 page ambience remain independent. Shared window controls use macOS traffic-light
 colours; the inspector's custom chrome uses the same tokens.
 

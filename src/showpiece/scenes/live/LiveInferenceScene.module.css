@@ -39,7 +39,7 @@
 .composer{position:absolute;left:20px;right:20px;top:403px;height:56px;border:1px solid #ffffff24;border-radius:8px;background:#ffffff03;padding:9px 12px}
 .composerEntry{display:flex;align-items:center;gap:9px;font-size:11px;color:#81818c;height:15px;padding-right:32px;white-space:nowrap;overflow:hidden}.composerEntry svg{flex:none;color:#aaaab5}.composerEntry span{overflow:hidden;text-overflow:ellipsis}
 .abilities{display:flex;align-items:center;gap:6px;margin:6px 0 0 23px;font-size:9px;color:#9898a4}
-.ability{height:15px;padding:1px 5px;border:1px solid #ffffff12;border-radius:3px;display:flex;align-items:center;gap:4px}.ability::before{content:"";width:3px;height:3px;border-radius:50%;background:var(--sp-accent)}
+.ability{height:15px;padding:1px 5px;border:1px solid #ffffff12;border-radius:3px;display:flex;align-items:center;gap:4px}.ability::before{content:"";width:3px;height:3px;border-radius:50%;background:var(--sp-secondary)}
 .send{position:absolute;right:9px;top:14px;display:grid;place-items:center;width:27px;height:27px;border:1px solid var(--sp-accent);border-radius:6px;background:var(--sp-accent);color:#fff}
 .caption{position:absolute;left:156px;top:592px;display:flex;gap:8px;margin:0;font-size:10px;color:#646470;line-height:1.5}.caption b{color:#9999a4;font-weight:400}.caption>span{color:#42424c}
 .compact{height:716px}

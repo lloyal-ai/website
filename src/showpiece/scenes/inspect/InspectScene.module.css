@@ -28,7 +28,7 @@
 .rerankerTile { height: 100px; }
 .rerankerTile small { color: #9b9ba6; font-size: 12px; }
 .railLine { position: absolute; left: 52px; top: 122px; height: 30px; border-left: 1px solid #74747e; }
-.activeTile { border-color: var(--sp-accent-line); box-shadow: 0 0 0 1px var(--sp-accent-soft), 0 4px 15px #0006; }
+.activeTile { border-color: var(--sp-orchestration-line); box-shadow: 0 0 0 1px var(--sp-orchestration-soft), 0 4px 15px #0006; }
 .app { position: absolute; top: 62px; left: 305px; right: 24px; height: 135px; border: 1px solid #ffffff20; border-radius: 12px; overflow: hidden; background: linear-gradient(125deg, #171719, #111113); box-shadow: 0 5px 16px #0005; }
 .windowBar { height: 32px; padding: 0 12px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #ffffff10; font-size: 12px; color: #aaaab4; white-space: nowrap; }
 .windowDots { display: inline-flex; gap: 5px; margin-right: 3px; }

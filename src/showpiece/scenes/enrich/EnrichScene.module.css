@@ -41,7 +41,7 @@
 .progress[data-active="true"]::before { content: ''; width: 4px; height: 4px; border-radius: 50%; background: var(--sp-accent); }
 .progress > svg { color: var(--sp-success); }
 .connection { position: absolute; top: 174px; left: 128px; width: 28px; height: 1px; background: #ffffff26; }
-.connection span { position: absolute; top: -2px; width: 5px; height: 5px; border-radius: 50%; background: var(--sp-accent); box-shadow: 0 0 9px var(--sp-accent-line); }
+.connection span { position: absolute; top: -2px; width: 5px; height: 5px; border-radius: 50%; background: var(--sp-orchestration); box-shadow: 0 0 9px var(--sp-orchestration-line); }
 .mobileDetails { display: none; }
 .compact { min-height: 0; padding: 12px 0 20px; }
 .compact .caption { position: static; margin: 0 14px 18px; font-size: 12px; }
