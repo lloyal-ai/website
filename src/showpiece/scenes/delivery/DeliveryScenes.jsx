@@ -1,6 +1,7 @@
 import { AppWindow, Icon } from '../../components'
 import { usePlaybackActions, useSceneTime, useStageLayout } from '../../playback/ShowpieceContext'
 import { getLaunchFrame, getShipFrame } from './deliveryFrame'
+import { ShipTerminal } from './ShipTerminal'
 import styles from './DeliveryScenes.module.css'
 
 function Activity({ active, time, className = '' }) {
@@ -35,22 +36,7 @@ export function ShipScene() {
   return (
     <div className={`${styles.scene} ${styles.shipScene} ${compact ? styles.compact : ''}`} data-scene="ship">
       <p className={styles.caption}>From your code to their Applications folder</p>
-      <AppWindow title="Terminal — Your App" className={styles.terminal}>
-        <div className={styles.terminalBody}>
-          <p className={styles.workingDirectory}>~/projects/your-app</p>
-          <div className={styles.command} aria-label="npx lloyal-ai ship --notarize"><span className={styles.prompt}>❯</span><code>{frame.command}<span className={styles.caret} style={{ opacity: frame.caret ? 1 : 0 }} /></code></div>
-          <div className={styles.steps}>
-            {frame.steps.map(step => <div key={step.id} className={styles.step} data-status={step.status}>
-              {step.status === 'complete' ? <Icon name="check" size={16} /> : <Activity active={step.status === 'active'} time={time} />}
-              <div className={styles.stepText}><span>{step.label}</span><small>{step.status === 'complete' ? step.completeDetail ?? step.detail : step.detail}</small></div>
-              <span className={styles.stepState}>{step.status === 'complete' ? step.id === 'sign' ? 'VERIFIED' : 'COMPLETE' : step.status === 'active' ? 'RUNNING' : 'QUEUED'}</span>
-              <span className={styles.stepProgress} style={{ transform: `scaleX(${step.progress})`, opacity: step.status === 'active' ? 0.8 : 0 }} />
-            </div>)}
-          </div>
-          <div className={styles.output} style={{ opacity: frame.output, transform: `translateY(${5 * (1 - frame.output)}px)` }}><Icon name="download" size={15} /><span>Created <strong>release/Your-App.dmg</strong></span></div>
-        </div>
-        <div className={styles.terminalFooter}><span>Application · Runtime · Configuration</span><ReplayButton label="build" /></div>
-      </AppWindow>
+      <ShipTerminal frame={frame} time={time} className={styles.terminal} replay={<ReplayButton label="build" />} />
       <div className={styles.exportArrow} style={{ opacity: frame.artifact }} aria-hidden="true"><Icon name="arrow" size={22} /></div>
       <DiskImage reveal={frame.artifact} />
       <p className={styles.qualifier}>Illustrated macOS build · signing configured</p>

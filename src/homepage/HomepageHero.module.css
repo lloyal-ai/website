@@ -27,9 +27,9 @@
   margin: 0;
   color: #f1f0f2;
   font-family: inherit;
-  font-size: 46px;
+  font-size: 52px;
   font-weight: 450;
-  line-height: 52px;
+  line-height: 58px;
   letter-spacing: -.025em;
   text-wrap: balance;
 }
@@ -78,7 +78,7 @@
 @media (max-width: 760px) {
   .hero { padding-top: 36px; padding-bottom: 30px; }
   .intro { padding-inline: 24px; }
-  .intro h1 { font-size: clamp(32px, 5.8vw, 40px); line-height: 1.14; }
+  .intro h1 { font-size: clamp(36px, 10vw, 48px); line-height: 1.1; }
   .subtitle { max-width: 560px; margin-top: 18px; font-size: 16px; line-height: 1.5; }
   .commandRow { margin-top: 24px; }
   .showpiece { width: calc(100% - 30px); margin-top: 28px; }

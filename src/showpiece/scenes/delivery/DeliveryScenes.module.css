@@ -1,24 +1,8 @@
 .scene { position: relative; width: 100%; min-height: 610px; color: #e4e4e9; font: inherit; }
 .caption { position: absolute; top: 27px; left: 156px; margin: 0; font-size: 12px; letter-spacing: .025em; color: #9999a1; }
 .terminal { position: absolute; left: 48px; top: 96px; width: min(562px, calc(100% - 318px)); height: 420px; }
-.terminalBody { padding: 22px 27px 18px; }
-.workingDirectory { margin: 0 0 11px; color: #777781; font: 10px/16px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
-.command { display: flex; align-items: center; gap: 13px; min-height: 25px; margin: 0 0 19px; color: #f0f0f5; font: 15px/24px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: -.025em; white-space: nowrap; }
-.command code { font: inherit; }
-.prompt { color: #85858e; font-size: 17px; }
-.caret { display: inline-block; width: 1px; height: 15px; margin-left: 3px; vertical-align: -2px; background: #dadade; }
-.steps { display: flex; flex-direction: column; }
-.step { position: relative; min-height: 47px; display: grid; grid-template-columns: 22px 1fr auto; align-items: center; gap: 10px; border-bottom: 1px solid #ffffff09; color: #dbdbe1; }
-.stepText { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 9px; font-size: 13px; line-height: 17px; }
-.stepText small { color: #94949e; font-size: 11px; line-height: 16px; }
-.stepState { color: #b5b5c0; font: 9px/17px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .01em; }
-.step[data-status="queued"] { color: #72727e; }
-.step[data-status="queued"] small, .step[data-status="queued"] .stepState { color: #656571; }
-.stepProgress { position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: #c4c4cd; transform-origin: left; }
 .activity { display: inline-block; width: 12px; height: 12px; border-radius: 50%; border: 1px solid #575763; border-top-color: #dcdce4; flex: none; }
-.output { display: flex; align-items: center; gap: 9px; margin-top: 21px; color: #a2a2ad; font: 11px/18px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
-.output strong { color: #e1e1e8; font-weight: 400; }
-.terminalFooter, .launchFooter { position: absolute; inset: auto 0 0; display: flex; justify-content: space-between; align-items: center; gap: 10px; min-height: 34px; padding: 0 16px 0 27px; border-top: 1px solid #ffffff0b; color: #82828d; font-size: 9px; background: #19191bb3; }
+.launchFooter { position: absolute; inset: auto 0 0; display: flex; justify-content: space-between; align-items: center; gap: 10px; min-height: 34px; padding: 0 16px 0 27px; border-top: 1px solid #ffffff0b; color: #82828d; font-size: 9px; background: #19191bb3; }
 .replay { display: inline-flex; align-items: center; gap: 5px; min-height: 30px; border: 0; padding: 0 4px; color: #a5a5b0; background: transparent; font: inherit; cursor: pointer; }
 .replay:hover { color: #f0f0f5; }
 .replay:focus-visible { outline: 2px solid #dedee6; outline-offset: 3px; border-radius: 3px; }
@@ -82,14 +66,7 @@
 .compact { padding: 12px 0 20px; min-height: 0; }
 .compact .caption { position: static; margin: 0 14px 20px; font-size: 12px; }
 .compact .terminal { position: relative; inset: auto; width: calc(100% - 16px); height: 405px; margin: 0 8px; }
-.compact .terminalBody { padding: 20px 17px 16px; }
-.compact .command { font-size: 12px; gap: 9px; margin-bottom: 17px; letter-spacing: -.04em; }
-.compact .step { grid-template-columns: 18px 1fr auto; gap: 8px; min-height: 50px; }
-.compact .stepText { font-size: 12px; gap: 2px 7px; }
-.compact .stepText small { font-size: 10px; }
-.compact .stepState { font-size: 8px; }
-.compact .output { font-size: 10px; gap: 6px; margin-top: 20px; }
-.compact .terminalFooter, .compact .launchFooter { min-height: 44px; padding: 0 14px; font-size: 9px; gap: 6px; }
+.compact .launchFooter { min-height: 44px; padding: 0 14px; font-size: 9px; gap: 6px; }
 .compact .replay { min-width: 55px; min-height: 44px; justify-content: center; font-size: 10px; }
 .compact .exportArrow { display: none; }
 .compact .artifact { position: relative; inset: auto; width: auto; margin: 26px 25px 0; min-height: 94px; display: flex; align-items: center; gap: 20px; text-align: left; }
@@ -126,4 +103,4 @@
 .compact .composerInput { font-size: 13px; }
 .compact .abilities { font-size: 9px; gap: 9px; }
 .compact .emptyNote { bottom: 24px; font-size: 9px; }
-@media (max-width: 380px) { .compact .artifact { gap: 13px; margin-inline: 16px; } .compact .modelNote { max-width: 83px; } .compact .command { font-size: 11px; } .compact .stepText { display: block; } .compact .stepText small { display: block; } .compact .provisioning { padding-inline: 14px; } }
+@media (max-width: 380px) { .compact .artifact { gap: 13px; margin-inline: 16px; } .compact .modelNote { max-width: 83px; } .compact .provisioning { padding-inline: 14px; } }

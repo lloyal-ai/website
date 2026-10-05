@@ -22,6 +22,10 @@ clocks. Subcomponents receive local presentation values; cross-tree interaction
 state uses Context. Compose has its own reducer/provider, while live control is
 an isolated reducer with a pure frame projection.
 
+Within delivery, `ShipTerminal` owns the developer shell and its CSS. It renders
+the existing ship frame as sequential console output, separately from the
+end-user provisioning interface in `DeliveryScenes`.
+
 The homepage composes the playback provider around the showpiece and ambient
 field. The provider exposes stable actions through Context. A single
 requestAnimationFrame clock integrates the browser with `useSyncExternalStore`.
