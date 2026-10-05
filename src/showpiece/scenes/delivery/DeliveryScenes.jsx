@@ -37,9 +37,9 @@ export function ShipScene() {
     <div className={`${styles.scene} ${styles.shipScene} ${compact ? styles.compact : ''}`} data-scene="ship">
       <p className={styles.caption}>From your code to their Applications folder</p>
       <ShipTerminal frame={frame} time={time} className={styles.terminal} replay={<ReplayButton label="build" />} />
+      <p className={styles.qualifier}>Illustrated macOS build · signing configured</p>
       <div className={styles.exportArrow} style={{ opacity: frame.artifact }} aria-hidden="true"><Icon name="arrow" size={22} /></div>
       <DiskImage reveal={frame.artifact} />
-      <p className={styles.qualifier}>Illustrated macOS build · signing configured</p>
     </div>
   )
 }
