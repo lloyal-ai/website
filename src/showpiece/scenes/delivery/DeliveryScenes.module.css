@@ -50,8 +50,8 @@
 .workspace { display: flex; width: 100%; height: 100%; }
 .workspaceSidebar { position: relative; flex: 0 0 124px; padding: 19px 13px; background: #19191c; border-right: 1px solid #ffffff0b; }
 .workspaceApp { display: flex; align-items: center; gap: 7px; color: #c7c7d0; font-size: 11px; }
-.newSession { display: flex; align-items: center; gap: 6px; margin: 26px -4px 0; padding: 8px; border-radius: 5px; background: var(--sp-accent-soft); color: #c7c7d0; font-size: 10px; }
-.newSession svg { color: var(--sp-accent); }
+.newSession { display: flex; align-items: center; gap: 6px; margin: 26px -4px 0; padding: 8px; border-radius: 5px; background: #ffffff09; color: #c7c7d0; font-size: 10px; }
+.newSession svg { color: #aaaab7; }
 .sidebarFoot { position: absolute; bottom: 18px; left: 12px; display: flex; align-items: center; gap: 5px; color: #81818e; font-size: 8px; white-space: nowrap; }
 .readyDot { width: 4px; height: 4px; border-radius: 50%; background: var(--sp-success); }
 .emptyWorkspace { position: relative; flex: 1; min-width: 0; padding: 24px 17px 15px; }
@@ -62,12 +62,12 @@
 .freshComposer { position: absolute; left: 17px; right: 17px; bottom: 44px; padding: 12px 13px 10px; border: 1px solid #656570; border-radius: 10px; background: #222225; box-shadow: inset 0 1px #ffffff05, 0 4px 11px #0003; }
 .composerInput { display: flex; align-items: center; gap: 11px; color: #9595a1; font-size: 12px; }
 .composerInput svg { flex: none; color: #b5b5c0; }
-.inputCaret { display: inline-block; width: 1px; height: 12px; margin-left: 3px; background: var(--sp-accent); vertical-align: -2px; }
+.inputCaret { display: inline-block; width: 1px; height: 12px; margin-left: 3px; background: #dddde5; vertical-align: -2px; }
 .composerFooter { display: flex; align-items: center; justify-content: space-between; margin-top: 16px; gap: 8px; }
 .abilities { display: flex; gap: 9px; color: #aaaab7; font-size: 9px; }
 .abilities > span { display: flex; align-items: center; gap: 4px; }
 .abilities .inactiveAbility { color: #676774; }
-.sendIcon { width: 23px; height: 23px; flex: none; display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--sp-accent); border-radius: 5px; color: #fff; background: var(--sp-accent); }
+.sendIcon { width: 23px; height: 23px; flex: none; display: inline-flex; align-items: center; justify-content: center; border: 1px solid #ffffff0d; border-radius: 5px; color: #73737f; background: #ffffff06; }
 .emptyNote { position: absolute; bottom: 19px; left: 17px; right: 17px; text-align: center; font-size: 9px; color: #777784; }
 .compact { padding: 12px 0 20px; min-height: 0; }
 .compact .caption { position: static; margin: 0 14px 20px; font-size: 12px; }

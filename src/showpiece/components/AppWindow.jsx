@@ -1,16 +1,13 @@
 import { Icon } from './Icon';
 import { OfflineIndicator } from './OfflineIndicator';
+import { WindowChrome } from './WindowChrome';
 import styles from './Primitives.module.css';
 
 /** Chrome is shared; scene content, sidebar and toolbar remain independent slots. */
 export function AppWindow({ title = 'Your App', chromeIcon = 'panel', offline = false, className = '', style, children, toolbar, sidebar, ...props }) {
   return (
     <section className={`${styles.appWindow} ${className}`} style={style} aria-label={title} {...props}>
-      <header className={styles.chrome} data-slot="chrome">
-        <span className={styles.traffic} aria-hidden="true"><i /><i /><i /></span>
-        <span className={styles.windowTitle}>{title}</span>
-        <span className={styles.windowAction}>{offline && <OfflineIndicator />}<Icon name={chromeIcon} size={12} /></span>
-      </header>
+      <WindowChrome title={title} actions={<>{offline && <OfflineIndicator />}<Icon name={chromeIcon} size={12} /></>} />
       <div className={styles.windowBody} data-slot="body">
         {sidebar && <aside className={styles.sidebar} data-slot="sidebar">{sidebar}</aside>}
         <div className={styles.windowMain} data-slot="main">

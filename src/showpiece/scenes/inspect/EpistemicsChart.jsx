@@ -26,7 +26,7 @@ export default function EpistemicsChart() {
         </g>
         <path d={`M${revealed} 7V83`} className={styles.traceHead} opacity={time >= .9 ? 1 : 0} />
       </svg>
-      <div className={styles.chartCaption}><span>Captured trace · animated reveal</span><span>Tool results ↓</span></div>
+      <div className={styles.chartCaption}><span>Generation history</span><span>Tool results ↓</span></div>
     </section>
   );
 }

@@ -20,14 +20,14 @@
 .table td { height: 45px; border-bottom: 1px solid #ffffff0d; }
 .table .rowNumber { color: #74747e; font-size: 9px; }
 .signalCell { position: relative; }
-.signalCell[data-selected="true"] { outline: 1px solid var(--sp-accent); outline-offset: -1px; background: var(--sp-accent-soft); }
+.signalCell[data-selected="true"] { outline: 1px solid var(--sp-accent); outline-offset: -1px; }
 .signalCell[data-selected="true"]:after { content: ''; position: absolute; right: -1px; bottom: -1px; width: 4px; height: 4px; background: var(--sp-accent); pointer-events: none; }
 .cellButton { display: block; width: 100%; min-height: 44px; padding: 0 8px; border: 0; color: #d0d0d8; background: transparent; text-align: left; font: inherit; cursor: pointer; }
 .cellButton > span { display: block; }
 .cellButton:disabled { cursor: default; }
 .cellButton > .cellResult { display: flex; align-items: center; gap: 5px; }
 .cellResult > svg { flex: none; color: var(--sp-success); }
-.cellArrow { margin-left: 5px; color: var(--sp-accent); }
+.cellArrow { margin-left: 5px; color: #8a8a94; }
 .reading { color: #d1d1d9; }
 .reading::before { content: ''; display: inline-block; width: 4px; height: 4px; margin-right: 5px; vertical-align: 2px; border-radius: 50%; background: var(--sp-accent); }
 .queued { color: #72727c; }

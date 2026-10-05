@@ -68,9 +68,9 @@ function FreshWorkspace({ caret }) {
       <div className={styles.emptyIntro}><span className={styles.emptyIcon}><Icon name="panel" size={25} /></span><h3>What would you like to explore?</h3><p>Your models are ready.<br />Start with a question or attach a document.</p></div>
       <div className={styles.freshComposer} aria-label="Fresh AI workspace with an empty question composer">
         <div className={styles.composerInput}><Icon name="attachment" size={16} /><span>Ask a question<span className={styles.inputCaret} style={{ opacity: caret ? 1 : 0 }} /></span></div>
-        <div className={styles.composerFooter}><div className={styles.abilities}><span><Icon name="document" size={11} />Documents</span><span><Icon name="folder" size={11} />Corpus</span><span className={styles.inactiveAbility}><Icon name="globe" size={11} />Web</span></div><span className={styles.sendIcon}><Icon name="arrow" size={14} /></span></div>
+        <div className={styles.composerFooter}><div className={styles.abilities}><span><Icon name="document" size={11} />Documents</span><span><Icon name="folder" size={11} />Corpus</span><span className={styles.inactiveAbility}><Icon name="globe" size={11} />Web</span></div><span className={styles.sendIcon} aria-hidden="true"><Icon name="arrow" size={14} /></span></div>
       </div>
-      <span className={styles.emptyNote}>Fresh workspace · No existing conversation</span>
+      <span className={styles.emptyNote}>Models run on this device.</span>
     </div>
   </div>
 }

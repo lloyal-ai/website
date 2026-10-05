@@ -30,6 +30,7 @@ export default function TrajectoryPanel() {
         <div className={styles.actions}>
           {actions.map(action => <button
             key={action.id}
+            data-inspect-target={action.id === 'fetch_page' ? 'fetch' : undefined}
             className={`${styles.action} ${activeAction === action.id ? styles.selectedAction : ''}`}
             onClick={() => selectAction(action)}
             disabled={action.inspectAt === null}
@@ -38,7 +39,7 @@ export default function TrajectoryPanel() {
           ><span className={styles.actionSymbol}>{action.symbol}</span><code>{action.id}</code><span className={styles.actionDescription}>{action.label}</span></button>)}
         </div>
         <div className={styles.actionDetails}>
-          {activeAction === 'fetch_page' ? <button onClick={() => { pause(); seek(9.7); }}><strong>fetch_page result</strong> · 5 passages · inspect context →</button>
+          {activeAction === 'fetch_page' ? <><span><strong>fetch_page result</strong> · 5 passages</span><button onClick={() => { pause(); seek(9.7); }}>Inspect context →</button></>
             : activeAction === 'web_search' ? <span><strong>web_search</strong> · Market outlook</span>
               : <span>Select a call to inspect its result.</span>}
         </div>

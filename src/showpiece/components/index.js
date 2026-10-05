@@ -1,4 +1,5 @@
 export { AppWindow } from './AppWindow';
+export { WindowChrome } from './WindowChrome';
 export { Cursor } from './Cursor';
 export { Icon } from './Icon';
 export { Landscape } from './Landscape';

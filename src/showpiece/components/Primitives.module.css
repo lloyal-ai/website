@@ -104,22 +104,23 @@
 .chrome {
   position: relative;
   display: flex;
-  flex: 0 0 28px;
+  flex: 0 0 var(--sp-chrome-height, 28px);
   align-items: center;
   justify-content: center;
-  height: 28px;
+  height: var(--sp-chrome-height, 28px);
   border-bottom: 1px solid #ffffff12;
-  background: linear-gradient(#262629, #222225);
-  color: #93939a;
-  font-size: 9px;
+  background: var(--sp-chrome-background, linear-gradient(#262629, #222225));
+  color: var(--sp-chrome-foreground, #93939a);
+  font-size: var(--sp-chrome-font-size, 9px);
   letter-spacing: 0.1px;
 }
 
 .traffic {
   position: absolute;
   left: 12px;
-  top: 10px;
+  top: calc((var(--sp-chrome-height, 28px) - 8px) / 2);
   display: flex;
+  flex: none;
   gap: 5px;
 }
 
@@ -128,6 +129,10 @@
 .traffic i:nth-child(3) { background: var(--sp-window-maximise); }
 .windowTitle { overflow: hidden; max-width: 65%; text-overflow: ellipsis; white-space: nowrap; }
 .windowAction { position: absolute; right: 12px; display: inline-flex; align-items: center; gap: 9px; color: #73737d; }
+.chrome[data-title-alignment='start'] { justify-content: flex-start; gap: var(--sp-chrome-gap, 8px); padding: 0 var(--sp-chrome-padding, 12px); }
+.chrome[data-title-alignment='start'] .traffic { position: static; }
+.chrome[data-title-alignment='start'] .windowTitle { flex: 1; min-width: 0; max-width: none; }
+.chrome[data-title-alignment='start'] .windowAction { position: static; flex: none; margin-left: auto; color: inherit; }
 .offlineIndicator { display: inline-flex; flex: none; align-items: center; color: #b5b5bf; }
 .windowBody { position: relative; display: flex; flex: 1; min-width: 0; min-height: 0; }
 .sidebar { position: relative; flex: 0 0 var(--sp-sidebar-width, 124px); width: var(--sp-sidebar-width, 124px); min-width: 0; border-right: 1px solid #ffffff0c; background: #141416; }

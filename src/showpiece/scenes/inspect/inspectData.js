@@ -1,9 +1,11 @@
+// Illustrative elapsed seconds, not captured performance measurements.
+export const timelineDuration = 90;
 export const agents = [
-  { id: 'root', name: 'Shared root', start: 0, from: 37, to: 37 },
-  { id: '01', name: 'Research 01', start: 0, from: 38, to: 120 },
-  { id: '02', name: 'Research 02', start: 0, from: 31, to: 112 },
-  { id: '01a', name: '01a', start: 53, from: 4, to: 55, child: true },
-  { id: '01b', name: '01b', start: 53, from: 4, to: 60, child: true },
+  { id: 'root', name: 'Shared root', start: 0, end: 16 },
+  { id: '01', name: 'Research 01', parent: 'root', start: 16, end: 82 },
+  { id: '02', name: 'Research 02', parent: 'root', start: 16, end: 78 },
+  { id: '01a', name: '01a', parent: '01', start: 58, end: 84 },
+  { id: '01b', name: '01b', parent: '01', start: 58, end: 88 },
 ];
 
 export const actions = [
@@ -22,10 +24,3 @@ export const passages = [
 ];
 
 export const rankedPassageIds = ['05', '03', '01', '04', '02'];
-
-export const cursorStops = [
-  [0, 372, 514], [.5, 240, 327], [.9, 240, 327], [1.4, 311, 376],
-  [5.6, 619, 457], [6.2, 619, 457], [7.3, 702, 488],
-  [8.7, 326, 198], [9.3, 326, 198], [10, 506, 340],
-  [15.6, 718, 342], [16.1, 718, 342], [17, 803, 511],
-];

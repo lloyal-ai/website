@@ -20,7 +20,7 @@ function RunControls({ frame, onPauseToggle, onCancel }) {
   return <div className={styles.actionBar}>
     <span className={styles.selected}>Selected <b>{frame.selectedAgent}</b></span>
     <div className={styles.actions}>
-      <button type="button" className={`${styles.button} ${styles.primary}`} onClick={onPauseToggle} aria-label={frame.paused ? 'Resume live inference' : 'Pause live inference'} aria-pressed={frame.paused}>
+      <button type="button" className={`${styles.button} ${styles.runControl}`} onClick={onPauseToggle} aria-label={frame.paused ? 'Resume live inference' : 'Pause live inference'} aria-pressed={frame.paused}>
         <Icon name={frame.paused ? 'play' : 'pause'} size={11} /><span>{frame.paused ? 'Resume run' : 'Pause run'}</span>
       </button>
       <button type="button" className={`${styles.button} ${styles.cancel}`} data-cancelled={frame.cancelled} onClick={onCancel} disabled={!frame.cancelAvailable} aria-label="Cancel Research 01b" title={!frame.childExists ? 'Available when Research 01b has forked.' : frame.cancelled ? 'Cancelled; its history remains inspectable.' : 'Cancel Research 01b'}>

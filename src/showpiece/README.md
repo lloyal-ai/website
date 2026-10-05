@@ -18,7 +18,7 @@ no-JavaScript fallback; `entry.jsx` mounts the hero. The former imperative hero 
 | Interpolation and path mathematics | `motion/math.js` |
 
 Scenes own their CSS Modules and render declaratively from time. There are no
-document selectors, injected HTML, DOM-mutation timelines, or independent scene
+global document selectors, injected HTML, DOM-mutation timelines, or independent scene
 clocks. Subcomponents receive local presentation values; cross-tree interaction
 state uses Context. Compose has its own reducer/provider, while live control is
 an isolated reducer with a pure frame projection.
@@ -27,8 +27,8 @@ Within delivery, `ShipTerminal` owns the developer shell and its CSS. It renders
 the existing ship frame as sequential console output, separately from the
 end-user provisioning interface in `DeliveryScenes`.
 
-App accents inherit semantic CSS tokens: blue for app actions, selection and
-activity; green for live, completed and ready states; red for recording and
+App accents inherit semantic CSS tokens: blue for app actions and generation
+data; neutral surfaces and restrained edges for selection; green for live, completed and ready states; red for recording and
 destructive actions; grey for supporting or inactive content. Entropy remains
 blue and surprisal grey/dashed, without a correctness judgment. Scene selectors
 apply those roles locally. Outside the app windows, model tabs, tool calls,
@@ -36,7 +36,8 @@ connectors and reranker activity use separate silver orchestration tokens.
 Composer abilities stay graphite/silver so they do not compete with primary
 actions. Official model colours, graphite surfaces and the
 page ambience remain independent. Shared window controls use macOS traffic-light
-colours; the inspector's custom chrome uses the same tokens.
+colours and one `WindowChrome` component, including the inspector. A selected
+spreadsheet cell keeps its conventional blue edge without an additional fill.
 
 The homepage composes the playback provider around the showpiece and ambient
 field. The provider exposes stable actions through Context. A single
@@ -44,7 +45,8 @@ requestAnimationFrame clock integrates the browser with `useSyncExternalStore`.
 Frame subscribers and control subscribers are separate: advancing time does not
 rerender the page introduction or navigation labels. Inactive scenes unmount.
 The few imperative operations are browser boundaries: visibility observers,
-clipboard, keyboard focus, tab-strip scrolling and the clock itself.
+clipboard, keyboard focus, tab-strip scrolling, scene-scoped cursor target
+measurement and the clock itself.
 
 ## Keeping edits independent
 
@@ -72,7 +74,10 @@ clipboard, keyboard focus, tab-strip scrolling and the clock itself.
   child; history remains while surviving agents continue.
 - Entropy and surprisal are generation signals, not factual confidence. The
   inspector uses captured display geometry from the DevTools film. Its reveal
-  timing is editorial, not a replay of raw numerical telemetry.
+  timing is editorial, not a replay of raw numerical telemetry. Timeline seconds
+  are illustrative: all lanes share one time axis with explicit ancestry and
+  tool events. Reranking moves one opaque source card at a time; connector
+  endpoints follow the same frame geometry, including the compact row spacing.
 - The macOS ship illustration assumes signing is configured. Model files are
   downloaded and verified at first launch. The fresh workspace has no report.
 - Spreadsheet records are fictional; the sheet is a forthcoming template.
@@ -93,7 +98,8 @@ npm run build
 npx eslint src/showpiece src/homepage
 node --test src/showpiece/playback/playbackStore.test.mjs \
   src/showpiece/scenes/live/liveFrame.test.js \
-  src/showpiece/scenes/delivery/deliveryFrame.test.mjs
+  src/showpiece/scenes/delivery/deliveryFrame.test.mjs \
+  src/showpiece/scenes/inspect/*.test.mjs
 ```
 
 Development mode exposes `window.__showpiece` for deterministic screenshot and

@@ -45,7 +45,7 @@ export default function EnrichScene() {
           <tbody>{frame.rows.map((row, index) => (
             <tr key={row.id} data-status={row.status}>
               <td className={styles.rowNumber}>{row.id}</td>
-              <td><span>{row.company}</span><small className={styles.mobileDetails}>{row.status === 'complete' ? `${row.sector} · ${row.fit}` : 'Local source fixture'}</small></td>
+              <td><span>{row.company}</span><small className={styles.mobileDetails}>{row.status === 'complete' ? `${row.sector} · ${row.fit}` : 'Local source'}</small></td>
               <td className={styles.extraColumn}><span className={styles.reveal} style={{ opacity: row.status === 'complete' ? row.reveal : 0.35 }}>{row.status === 'complete' ? row.sector : '—'}</span></td>
               <td className={styles.extraColumn}><span style={{ opacity: row.status === 'complete' ? row.reveal : 0.35 }}>{row.status === 'complete' ? row.fit : '—'}</span></td>
               <td className={styles.signalCell} data-selected={selectedIndex === index}>
@@ -57,7 +57,7 @@ export default function EnrichScene() {
           ))}</tbody>
         </table>
         <div className={styles.evidenceArea}>{showEvidence > 0 && <Evidence row={selectedRow} opacity={showEvidence} />}</div>
-        <footer className={styles.footer}><span className={styles.progress} data-active={frame.enriching}>{frame.completed === 4 && <Icon name="check" size={11} />}{frame.completed} of 4 rows enriched</span><span>Fictional records · Local source fixture</span></footer>
+        <footer className={styles.footer}><span className={styles.progress} data-active={frame.enriching}>{frame.completed === 4 && <Icon name="check" size={11} />}{frame.completed} of 4 rows enriched</span><span>Sample data · Local sources</span></footer>
       </AppWindow>
       {!compact && <Cursor x={width - 240 + 105 * frame.cursor} y={377 - 240 * frame.cursor} visible={frame.cursorVisible} pressed={frame.pressed} />}
     </div>
