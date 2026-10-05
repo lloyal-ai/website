@@ -50,11 +50,8 @@ function compileShader(gl, type, source) {
 }
 
 /** GPU resources only. React owns visibility, playback, loading and the clock. */
-export function createAmbientRenderer(canvas, { onContextLost, onContextRestored, onError, onFrame } = {}) {
+export function createAmbientRenderer(canvas, { onContextLost, onContextRestored, onError } = {}) {
   let gl;
-  let contextMessage = '';
-  const creationFailed = (event) => { contextMessage = event.statusMessage || ''; };
-  canvas.addEventListener('webglcontextcreationerror', creationFailed);
   try {
     gl = canvas.getContext('webgl', {
       alpha: false,
@@ -66,11 +63,9 @@ export function createAmbientRenderer(canvas, { onContextLost, onContextRestored
   } catch (error) {
     onError?.(`WebGL context creation failed: ${error.message}`);
     return null;
-  } finally {
-    canvas.removeEventListener('webglcontextcreationerror', creationFailed);
   }
   if (!gl) {
-    onError?.(`WebGL context unavailable.${contextMessage ? ` ${contextMessage}` : ''}`);
+    onError?.('WebGL context unavailable.');
     return null;
   }
 
@@ -180,9 +175,6 @@ export function createAmbientRenderer(canvas, { onContextLost, onContextRestored
       checkError('first draw');
       firstDraw = false;
     }
-    // Opt-in diagnostics read pixels before the non-preserved drawing buffer
-    // is presented. Normal browsing supplies no observer.
-    onFrame?.(gl, elapsed);
     return true;
   }
 
