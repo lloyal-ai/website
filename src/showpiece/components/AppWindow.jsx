@@ -8,13 +8,20 @@ export function AppWindow({ title = 'Your App', chromeIcon = 'panel', offline = 
   return (
     <section className={`${styles.appWindow} ${className}`} style={style} aria-label={title} {...props}>
       <WindowChrome title={title} actions={<>{offline && <OfflineIndicator />}<Icon name={chromeIcon} size={12} /></>} />
-      <div className={styles.windowBody} data-slot="body">
-        {sidebar && <aside className={styles.sidebar} data-slot="sidebar">{sidebar}</aside>}
-        <div className={styles.windowMain} data-slot="main">
-          {toolbar && <div className={styles.toolbar} data-slot="toolbar">{toolbar}</div>}
-          <div className={styles.windowContent} data-slot="content">{children}</div>
-        </div>
-      </div>
+      <WindowBody sidebar={sidebar} toolbar={toolbar}>{children}</WindowBody>
     </section>
+  );
+}
+
+/** Sidebar and app content travel together when a composition changes. */
+export function WindowBody({ sidebar, toolbar, children }) {
+  return (
+    <div className={styles.windowBody} data-slot="body">
+      {sidebar && <aside className={styles.sidebar} data-slot="sidebar">{sidebar}</aside>}
+      <div className={styles.windowMain} data-slot="main">
+        {toolbar && <div className={styles.toolbar} data-slot="toolbar">{toolbar}</div>}
+        <div className={styles.windowContent} data-slot="content">{children}</div>
+      </div>
+    </div>
   );
 }

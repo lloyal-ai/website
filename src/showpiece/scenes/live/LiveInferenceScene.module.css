@@ -65,3 +65,14 @@
 .compact .composer{left:12px;right:12px;top:461px;height:43px;padding:7px 9px}.compact .composerEntry{font-size:10px;height:12px}.compact .abilities{font-size:8px;margin-top:4px;margin-left:23px;gap:4px}.compact .ability{height:13px;padding:0 4px}.compact .send{top:8px;right:7px;width:25px;height:25px}
 .compact .caption{left:24px;right:24px;top:686px;gap:6px;font-size:9px;justify-content:center}
 @media (max-width:380px){.compact .ownerStatus{display:none}.compact .actions{margin-top:4px}.compact .selected{margin-bottom:0}.compact .actionBar{top:405px}.compact .heading p{max-width:205px}.compact .tree{height:205px}.compact .panelState{font-size:8px}}
+
+/* The orchestration title wraps naturally on narrow phones; reserve its row. */
+@container (max-width: 340px) {
+  .compact { height: 752px; }
+  .compact .app { height: 588px; }
+  .compact .appContent { height: 554px; }
+  .compact .panel { top: 144px; }
+  .compact .actionBar { top: 441px; }
+  .compact .composer { top: 497px; }
+  .compact .caption { top: 722px; }
+}

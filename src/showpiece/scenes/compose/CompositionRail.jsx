@@ -1,11 +1,12 @@
 import { Icon, Landscape, ModelMark, ModelTile, SignalPath } from '../../components';
 import { useStageLayout } from '../../playback/ShowpieceContext';
+import { getEnrichFrame } from '../enrich/enrichFrame';
 import { pointOnPolyline } from '../../motion/math';
 import { useComposeFrame, useComposeUi } from './useCompose';
 import { COMPOSITIONS, imageFrame, researchFrame, tween, voiceFrame, within } from './timeline';
 import styles from './ComposeScene.module.css';
 
-const MODEL_NAMES = { qwen: 'Qwen', gemma: 'Gemma 4', glm: 'GLM 5.2' };
+const MODEL_NAMES = Object.fromEntries(COMPOSITIONS.map(({ model, name }) => [model, name]));
 
 /** A packet's presence, route and timing are declared together for each operation. */
 function Route({ time, start, end, points }) {
@@ -111,7 +112,7 @@ function ImageRail() {
   const returnedImagePosition = pointOnPolyline(routes.result, tween(time, 9.7, 10.85));
   return <>
     <svg className={styles.routes} aria-hidden="true"><Route time={time} start={3.2} end={4} points={routes.request} /><Route time={time} start={5.4} end={6.1} points={routes.tool} /><Route time={time} start={9.7} end={10.85} points={routes.result} /><Route time={time} start={11.85} end={12.2} points={routes.output} /></svg>
-    <div className={styles.leadPosition} style={{ left: leadX, top: faceY }}><ModelTile model="glm" label="GLM 5.2" role="Reasoning model" status={frame.leadStatus} active={frame.leadActive} small={compact} /></div>
+    <div className={styles.leadPosition} style={{ left: leadX, top: faceY }}><ModelTile model="bonsai" label="Bonsai 2 27B" role="Vision + reasoning" status={compact ? undefined : frame.leadStatus} active={frame.leadActive} small={compact} /><span className={styles.projector} title="Bonsai paired vision projector"><Icon name="projector" size={17} /></span></div>
     <div className={styles.imageTool} data-active={within(time, 5, 10.85)} style={{ opacity: 0.35 + 0.65 * tween(time, 5, 5.4) }}><small>MODEL CHOOSES TOOL</small>edit_image</div>
     <div className={styles.imagePosition} style={{ left: imageX, top: compact ? faceY : 369 }}><ModelTile model="qwen" label="Qwen Image Edit" role={frame.working ? 'Editing the reference' : time >= 9.7 ? 'Result returned' : 'Image specialist'} active={frame.working} small={compact} /></div>
     <span className={styles.returnLabel} style={{ opacity: tween(time, 9.6, 10.2) }}>Result → same live context</span>
@@ -120,7 +121,31 @@ function ImageRail() {
   </>;
 }
 
-const rails = { research: ResearchRail, voice: VoiceRail, image: ImageRail };
+function EnrichRail() {
+  const { enrich } = useComposeFrame();
+  const { compact, width } = useStageLayout();
+  const frame = getEnrichFrame(enrich.time);
+  const leadX = compact ? width * .27 - 34 : 48;
+  const faceY = compact ? 123 : 132;
+  const sourceX = compact ? width - 73 : 88;
+  const points = compact
+    ? [[sourceX, 190], [sourceX, 242], [leadX + 34, 242], [leadX + 34, 191]]
+    : [[88, 353], [88, 271], [88, 212]];
+  const output = compact
+    ? [[leadX + 34, 191], [leadX + 34, 285], [width * .42, 285], [width * .42, 306]]
+    : [[128, 172], [156, 172]];
+  return <>
+    <svg className={styles.routes} aria-hidden="true">
+      <SignalPath points={points} active={frame.enriching} progress={frame.enriching ? frame.signalProgress : null} opacity={frame.enriching ? 1 : .28} />
+      <SignalPath points={output} active={frame.enriching} progress={frame.enriching ? frame.signalProgress : null} opacity={frame.enriching ? 1 : .28} />
+    </svg>
+    <div className={styles.leadPosition} style={{ left: leadX, top: faceY }}><ModelTile model="glm" label="GLM 5.2" role="Reasoning model" status={frame.enriching ? 'Enriching rows' : frame.completed === 4 ? 'Evidence attached' : 'Ready to enrich'} active={frame.enriching} small={compact} /></div>
+    <div className={styles.enrichSources}><Icon name="document" size={24} /><span>Local sources</span><small>Evidence for each cell</small></div>
+    <div className={styles.railNote}>Example 04 · Spreadsheet template</div>
+  </>;
+}
+
+const rails = { research: ResearchRail, voice: VoiceRail, image: ImageRail, enrich: EnrichRail };
 
 export default function CompositionRail() {
   const frame = useComposeFrame();

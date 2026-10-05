@@ -1,19 +1,32 @@
 .scene { position: relative; width: 100%; min-height: 610px; color: #e4e4e9; font: inherit; }
 .caption { position: absolute; top: 27px; left: 156px; margin: 0; font-size: 12px; letter-spacing: .025em; color: #9999a1; }
-.terminalGroup { position: absolute; top: 96px; width: min(562px, calc(100% - 318px)); z-index: 2; }
+.shipScene {
+  --ship-terminal-width: min(562px, calc(100% - 318px));
+  --ship-terminal-left: calc(50% * (1 - var(--ship-terminal-progress)) + 48px * var(--ship-terminal-progress));
+  /* Translation is relative to the terminal's own width. Its right edge and
+     the disk's left edge share the same animated geometry as the arrow. */
+  --ship-terminal-right: calc(var(--ship-terminal-left) + var(--ship-terminal-width) * (.5 + .5 * var(--ship-terminal-progress)));
+  --ship-artifact-right: 80px;
+  --ship-artifact-width: 150px;
+  --ship-artifact-top: 227px;
+  --ship-disk-width: 86px;
+  --ship-disk-height: 107px;
+  --ship-disk-left: calc(100% - var(--ship-artifact-right) - (var(--ship-artifact-width) + var(--ship-disk-width)) / 2 + var(--ship-artifact-offset));
+}
+.terminalGroup { position: absolute; top: 96px; left: var(--ship-terminal-left); width: var(--ship-terminal-width); transform: translateX(calc(-50% * (1 - var(--ship-terminal-progress)))); z-index: 2; }
 .terminal { width: 100%; height: 420px; }
 .activity { display: inline-block; width: 12px; height: 12px; border-radius: 50%; border: 1px solid var(--sp-accent-soft); border-top-color: var(--sp-accent); flex: none; }
 .launchFooter { position: absolute; inset: auto 0 0; display: flex; justify-content: space-between; align-items: center; gap: 10px; min-height: 34px; padding: 0 16px 0 27px; border-top: 1px solid #ffffff0b; color: #82828d; font-size: 9px; background: #19191bb3; }
 .replay { display: inline-flex; align-items: center; gap: 5px; min-height: 30px; border: 0; padding: 0 4px; color: #a5a5b0; background: transparent; font: inherit; cursor: pointer; }
 .replay:hover { color: #f0f0f5; }
 .replay:focus-visible { outline: 2px solid var(--sp-accent); outline-offset: 3px; border-radius: 3px; }
-.exportArrow { position: absolute; top: 287px; right: 240px; color: #6d6d79; }
+.exportArrow { position: absolute; top: calc(var(--ship-artifact-top) + var(--ship-disk-height) / 2); left: calc((var(--ship-terminal-right) + var(--ship-disk-left)) / 2); width: 22px; height: 22px; transform: translate(-50%, -50%); color: #6d6d79; }
 .exportArrow svg { transform: rotate(90deg); }
-.artifact { position: absolute; right: 80px; top: 227px; width: 150px; text-align: center; z-index: 1; }
-.diskIcon { width: 86px; height: 107px; margin: 0 auto 16px; display: block; filter: drop-shadow(0 9px 12px #0003); }
+.artifact { position: absolute; right: var(--ship-artifact-right); top: var(--ship-artifact-top); width: var(--ship-artifact-width); transform: translateX(var(--ship-artifact-offset)); text-align: center; z-index: 1; }
+.diskIcon { width: var(--ship-disk-width); height: var(--ship-disk-height); margin: 0 auto 16px; display: block; filter: drop-shadow(0 9px 12px #0003); }
 .artifactName { margin: 0; color: #e2e2e8; font-size: 15px; line-height: 22px; font-weight: 500; letter-spacing: -.015em; }
-.artifactState { display: flex; align-items: center; justify-content: center; gap: 5px; margin: 7px 0 0; color: #a7a7b3; font-size: 10px; line-height: 17px; white-space: nowrap; }
-.artifactState svg { color: var(--sp-success); }
+.artifactState { position: relative; width: max-content; margin: 7px auto 0; color: #a7a7b3; font-size: 10px; line-height: 17px; white-space: nowrap; }
+.artifactState svg { position: absolute; right: calc(100% + 5px); top: 50%; transform: translateY(-50%); color: var(--sp-success); }
 .artifactDetail { margin: 1px 0 0; color: #858591; font-size: 10px; line-height: 16px; }
 .modelNote { margin: 18px 0 0; color: #747481; font-size: 10px; line-height: 1.65; }
 .qualifier { margin: 21px 0 0; color: #8b8b96; font-size: 11px; line-height: 17px; }
@@ -71,15 +84,16 @@
 .emptyNote { position: absolute; bottom: 19px; left: 17px; right: 17px; text-align: center; font-size: 9px; color: #777784; }
 .compact { padding: 12px 0 20px; min-height: 0; }
 .compact .caption { position: static; margin: 0 14px 20px; font-size: 12px; }
-.compact .terminalGroup { position: relative; inset: auto; width: calc(100% - 16px); margin: 0 8px; }
+.compact .terminalGroup { position: relative; inset: auto; transform: none; width: calc(100% - 16px); margin: 0 8px; }
 .compact .terminal { height: 405px; }
 .compact .launchFooter { min-height: 44px; padding: 0 14px; font-size: 9px; gap: 6px; }
 .compact .replay { min-width: 55px; min-height: 44px; justify-content: center; font-size: 10px; }
 .compact .exportArrow { display: none; }
-.compact .artifact { position: relative; inset: auto; width: auto; margin: 26px 25px 0; min-height: 94px; display: flex; align-items: center; gap: 20px; text-align: left; }
+.compact .artifact { position: relative; inset: auto; transform: translateY(var(--ship-artifact-offset)); width: auto; margin: 26px 25px 0; min-height: 94px; display: flex; align-items: center; gap: 20px; text-align: left; }
 .compact .diskIcon { width: 60px; height: 75px; margin: 0; flex: none; }
+.compact .artifactCopy { flex: none; }
 .compact .artifactName { font-size: 15px; }
-.compact .artifactState { justify-content: flex-start; }
+.compact .artifactState { margin-inline: 0; }
 .compact .modelNote { margin: 0 0 0 auto; font-size: 9px; max-width: 100px; }
 .compact .qualifier { margin: 12px 8px 0; font-size: 10px; }
 .compact .appIdentity { position: static; width: auto; display: flex; align-items: center; gap: 10px; margin: 0 16px 20px; text-align: left; }

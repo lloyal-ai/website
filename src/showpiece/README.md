@@ -1,6 +1,6 @@
 # Homepage showpiece
 
-The approved six-scene storyboard is implemented as a React island in the existing
+The approved platform storyboard is implemented as a React island in the existing
 homepage. `index.html` retains the site header, content, analytics and a useful
 no-JavaScript fallback; `entry.jsx` mounts the hero. The former imperative hero and its unused assets have been removed.
 
@@ -20,7 +20,10 @@ no-JavaScript fallback; `entry.jsx` mounts the hero. The former imperative hero 
 Scenes own their CSS Modules and render declaratively from time. There are no
 global document selectors, injected HTML, DOM-mutation timelines, or independent scene
 clocks. Subcomponents receive local presentation values; cross-tree interaction
-state uses Context. Compose has its own reducer/provider, while live control is
+state uses Context. Compose hosts research, voice, wiki/image and spreadsheet templates under its
+own reducer/provider. `WindowBody` lets each template carry its sidebar during
+transitions; `EnrichWorkspace` owns the reusable spreadsheet content without
+adding another window or platform chapter. Live control is
 an isolated reducer with a pure frame projection.
 
 Within delivery, `ShipTerminal` owns the developer shell and its CSS. It renders
@@ -64,10 +67,15 @@ measurement and the clock itself.
 
 ## Product invariants
 
-- Qwen, Gemma 4 and GLM 5.2 are alternative reasoning leads. Specialists retain
+- Qwen, Gemma 4, Bonsai 2 27B and GLM 5.2 are alternative reasoning leads.
+  Bonsai leads the image example with its paired vision projector; GLM 5.2 leads
+  text-based spreadsheet enrichment and is never shown with a projector. Specialists retain
   independent contexts. A returned tool result goes back to its caller.
 - Voice is Whisper → raw text → S1-mini cleanup → reasoning lead. S1-mini is
   not depicted as accepting an audio waveform.
+- Media attachments are content-addressed blobs in an OCI Image Layout. The
+  example labels the store on the attachment, without inventing a digest or
+  implying raw image bytes are passed through commands.
 - A projected image enters the reasoning model before forks. Newly admitted
   evidence is inherited only by later descendants of that lineage.
 - Manual pause holds the current state. Cancel targets the existing selected
@@ -99,7 +107,8 @@ npx eslint src/showpiece src/homepage
 node --test src/showpiece/playback/playbackStore.test.mjs \
   src/showpiece/scenes/live/liveFrame.test.js \
   src/showpiece/scenes/delivery/deliveryFrame.test.mjs \
-  src/showpiece/scenes/inspect/*.test.mjs
+  src/showpiece/scenes/inspect/*.test.mjs \
+  src/showpiece/scenes/compose/*.test.mjs
 ```
 
 Development mode exposes `window.__showpiece` for deterministic screenshot and

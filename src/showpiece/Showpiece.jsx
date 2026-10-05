@@ -6,11 +6,10 @@ import { usePlaybackActions, usePlaybackState, useSceneTime } from './playback/S
 import ComposeScene from './scenes/compose/ComposeScene.jsx';
 import LiveInferenceScene from './scenes/live/LiveInferenceScene.jsx';
 import InspectScene from './scenes/inspect/InspectScene.jsx';
-import EnrichScene from './scenes/enrich/EnrichScene.jsx';
 import { ShipScene, LaunchScene } from './scenes/delivery/DeliveryScenes.jsx';
 import styles from './Showpiece.module.css';
 
-const sceneComponents = { compose: ComposeScene, live: LiveInferenceScene, inspect: InspectScene, enrich: EnrichScene, ship: ShipScene, launch: LaunchScene };
+const sceneComponents = { compose: ComposeScene, live: LiveInferenceScene, inspect: InspectScene, ship: ShipScene, launch: LaunchScene };
 
 function ProgressMark() {
   const time = useSceneTime();
@@ -76,7 +75,7 @@ function SceneStage() {
       </div>
     </StageLayoutContext>
     <SceneNavigation/>
-    <div className={styles.sceneCaption}><span className={styles.counter}>{String(SCENES.indexOf(scene) + 1).padStart(2, '0')} / 06</span><p>{scene.title}</p></div>
+    <div className={styles.sceneCaption}><span className={styles.counter}>{String(SCENES.indexOf(scene) + 1).padStart(2, '0')} / {String(SCENES.length).padStart(2, '0')}</span><p>{scene.title}</p></div>
   </div>;
 }
 

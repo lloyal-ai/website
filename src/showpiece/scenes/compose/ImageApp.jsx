@@ -19,9 +19,9 @@ function ImageComposer({ frame, time }) {
   const { playback, reducedMotion } = useComposeUi();
   const sendIllustration = () => { playback.seek(reducedMotion ? 48 : 37.48); playback.play(); };
   return <div className={styles.imageComposer}>
-    <span className={styles.imageChip}><Icon name="image" size={11} />alpine-cover.png<span>· Reference image</span></span>
+    <span className={styles.imageChip}><Icon name="image" size={13} /><span>alpine-cover.png<small>OCI · Content-addressed</small></span></span>
     <div className={styles.imageEntry}><Icon name="attachment" size={14} /><span className={time >= 13.2 ? styles.placeholder : undefined}>{time >= 13.2 ? 'Ask about this page…' : typeText(IMAGE_QUESTION, time, 0.95, 2.85)}</span></div>
-    <div className={styles.imageFooter}><span className={styles.imageAbility}>images</span><span className={styles.imageAbility}>wiki</span><span className={styles.miniState}>{frame.busy ? 'Working with your image' : 'Ask'}</span><button type="button" className={styles.send} aria-label="Play the illustrated image request" onClick={sendIllustration} disabled={frame.busy} style={{ transform: `scale(${within(time, 3.05, 3.23) ? 0.9 : 1})` }}><Icon name="arrow" size={14} /></button></div>
+    <div className={styles.imageFooter}><span className={styles.imageAbility}>media store</span><span className={styles.imageAbility}>wiki</span><span className={styles.miniState}>{frame.busy ? 'Working with your image' : 'Ask'}</span><button type="button" className={styles.send} aria-label="Play the illustrated image request" onClick={sendIllustration} disabled={frame.busy} style={{ transform: `scale(${within(time, 3.05, 3.23) ? 0.9 : 1})` }}><Icon name="arrow" size={14} /></button></div>
   </div>;
 }
 

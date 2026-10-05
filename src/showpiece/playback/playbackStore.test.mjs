@@ -77,7 +77,7 @@ test('frame updates do not notify control subscribers, and auto advance is order
   store.subscribe(() => notifications += 1);
   advance(1);
   assert.equal(notifications, 0);
-  advance(49.2);
+  advance(67.2);
   assert.equal(store.getSnapshot().sceneId, 'live');
   assert.equal(notifications, 1);
   store.unmount();

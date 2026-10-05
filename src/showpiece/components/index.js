@@ -1,4 +1,4 @@
-export { AppWindow } from './AppWindow';
+export { AppWindow, WindowBody } from './AppWindow';
 export { WindowChrome } from './WindowChrome';
 export { Cursor } from './Cursor';
 export { Icon } from './Icon';

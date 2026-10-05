@@ -13,10 +13,9 @@ function ReplayButton({ label }) {
   return <button className={styles.replay} onClick={() => { restart(); play() }} aria-label={`Replay ${label} illustration`}><Icon name="play" size={11} /><span>Replay</span></button>
 }
 
-function DiskImage({ frame, compact }) {
-  const offset = (compact ? 24 : 120) * (1 - frame.artifact)
+function DiskImage({ frame }) {
   return (
-    <div className={styles.artifact} aria-hidden={frame.artifactOpacity === 0} style={{ opacity: frame.artifactOpacity, transform: compact ? `translateY(${-offset}px)` : `translateX(${-offset}px)` }}>
+    <div className={styles.artifact} aria-hidden={frame.artifactOpacity === 0} style={{ opacity: frame.artifactOpacity }}>
       <svg className={styles.diskIcon} viewBox="0 0 86 107" fill="none" aria-hidden="true">
         <path d="M10 1.5h45L76 23v73.5a9 9 0 0 1-9 9H10a9 9 0 0 1-9-9v-86a9 9 0 0 1 9-9Z" fill="#d8d8dc" stroke="#f1f1f3" />
         <path d="M55 1.5V18a5 5 0 0 0 5 5h16" fill="#afafb6" stroke="#f1f1f3" strokeLinejoin="round" />
@@ -24,7 +23,7 @@ function DiskImage({ frame, compact }) {
         <circle cx="53" cy="71" r="1.5" fill="#dddde2" /><path d="M20 71h18" stroke="#b9b9c1" strokeWidth="1.3" strokeLinecap="round" />
         <text x="38" y="94" textAnchor="middle" fontFamily="Arial,sans-serif" fontSize="9" fontWeight="600" letterSpacing="1.1" fill="#53535d">DMG</text>
       </svg>
-      <div><p className={styles.artifactName}>Your-App.dmg</p><div style={{ opacity: frame.artifactDetails }}><p className={styles.artifactState}><Icon name="check" size={12} />Signed · Notarized</p><p className={styles.artifactDetail}>Ticket stapled</p></div></div>
+      <div className={styles.artifactCopy}><p className={styles.artifactName}>Your-App.dmg</p><div style={{ opacity: frame.artifactDetails }}><p className={styles.artifactState}><Icon name="check" size={12} /><span>Signed · Notarized</span></p><p className={styles.artifactDetail}>Ticket stapled</p></div></div>
       <p className={styles.modelNote} style={{ opacity: frame.artifactDetails }}>Model files provision<br />on first launch.</p>
     </div>
   )
@@ -34,19 +33,19 @@ export function ShipScene() {
   const time = useSceneTime()
   const { compact } = useStageLayout()
   const frame = getShipFrame(time)
-  const terminalPosition = compact ? undefined : {
-    left: `calc(${50 * (1 - frame.terminalShift)}% + ${48 * frame.terminalShift}px)`,
-    transform: `translateX(${-50 * (1 - frame.terminalShift)}%)`,
+  const deliveryPosition = {
+    '--ship-terminal-progress': frame.terminalShift,
+    '--ship-artifact-offset': `${-(compact ? 24 : 120) * (1 - frame.artifact)}px`,
   }
   return (
-    <div className={`${styles.scene} ${styles.shipScene} ${compact ? styles.compact : ''}`} data-scene="ship">
+    <div className={`${styles.scene} ${styles.shipScene} ${compact ? styles.compact : ''}`} data-scene="ship" style={deliveryPosition}>
       <p className={styles.caption}>From your code to their Applications folder</p>
-      <div className={styles.terminalGroup} style={terminalPosition}>
+      <div className={styles.terminalGroup}>
         <ShipTerminal frame={frame} time={time} className={styles.terminal} replay={<ReplayButton label="build" />} />
         <p className={styles.qualifier}>Illustrated macOS build · signing configured</p>
       </div>
       <div className={styles.exportArrow} style={{ opacity: frame.artifactDetails }} aria-hidden="true"><Icon name="arrow" size={22} /></div>
-      <DiskImage frame={frame} compact={compact} />
+      <DiskImage frame={frame} />
     </div>
   )
 }

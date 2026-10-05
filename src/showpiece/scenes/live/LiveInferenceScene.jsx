@@ -91,12 +91,12 @@ export default function LiveInferenceScene() {
     <AppWindow title="Your App" offline className={styles.app}>
       <div className={styles.appContent}>
         <header className={styles.heading}>
-          <h3>Research brief</h3>
+          <h3>KV Cache Orchestration</h3>
           <p>A shared starting point. Independent continuations.</p>
           <span className={styles.runState} data-state={frame.paused ? 'paused' : time < 3.5 ? 'preparing' : 'live'}>{frame.runState}</span>
         </header>
-        <section className={styles.panel} aria-label="Shared attention state">
-          <div className={styles.panelHeading}><h4>Shared attention state</h4><span className={styles.panelState} data-state={frame.paused ? 'paused' : time < 3.5 ? 'preparing' : 'live'}><i />{frame.panelState}</span></div>
+        <section className={styles.panel} aria-label="Agents share attention state">
+          <div className={styles.panelHeading}><h4>Agents share attention state</h4><span className={styles.panelState} data-state={frame.paused ? 'paused' : time < 3.5 ? 'preparing' : 'live'}><i />{frame.panelState}</span></div>
           <LineageTree frame={frame} compact={compact} />
           <p className={styles.footnote}><strong>{frame.footnote[0]}</strong> {frame.footnote[1]}</p>
           {frame.cancelled && <span className={styles.history}>History retained</span>}

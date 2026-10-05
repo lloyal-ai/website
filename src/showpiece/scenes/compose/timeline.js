@@ -1,9 +1,10 @@
-import { ease, progress, lerp } from '../../motion/math';
+import { ease, progress, lerp } from '../../motion/math.js';
 
 export const COMPOSITIONS = [
   { id: 'research', model: 'qwen', name: 'Qwen', purpose: 'retrieval', start: 0, still: 16 },
   { id: 'voice', model: 'gemma', name: 'Gemma 4', purpose: 'voice', start: 18.5, still: 31.2 },
-  { id: 'image', model: 'glm', name: 'GLM 5.2', purpose: 'images', start: 34.5, still: 48 },
+  { id: 'image', model: 'bonsai', name: 'Bonsai', purpose: 'media store', start: 34.5, still: 48 },
+  { id: 'enrich', model: 'glm', name: 'GLM 5.2', purpose: 'spreadsheet', start: 50, still: 65 },
 ];
 export const RESEARCH_QUESTION = 'Compare these notes with the brief.';
 export const RAW_TRANSCRIPT = 'Umm, compare these notes, ah, with the brief.';
@@ -28,25 +29,23 @@ export function cursorPosition(time, stops) {
 
 /** All motion is a pure projection of scene time. Scrubbing has no side effects. */
 export function compositionFrame(time) {
-  const entering = tween(time, 18.5, 19.25);
-  const switching = tween(time, 34.5, 35.25);
-  return {
-    time,
-    active: time < 18.5 ? 'research' : time < 34.5 ? 'voice' : 'image',
-    research: {
-      time: Math.min(time, 18.5), visible: time < 19.25,
-      opacity: 1 - tween(time, 18.5, 18.87), railY: -120 * entering, bodyY: -470 * entering,
-    },
-    voice: {
-      time: Math.max(0, time - 18.5), visible: time >= 18.5 && time < 35.25,
-      opacity: tween(time, 18.83, 19.25) * (1 - tween(time, 34.5, 34.87)),
-      railY: 120 * (1 - entering) - 120 * switching, bodyY: 470 * (1 - entering) - 470 * switching,
-    },
-    image: {
-      time: Math.max(0, time - 34.5), visible: time >= 34.5,
-      opacity: tween(time, 34.83, 35.25), railY: 120 * (1 - switching), bodyY: 470 * (1 - switching),
-    },
-  };
+  const active = COMPOSITIONS.findLast(composition => time >= composition.start) ?? COMPOSITIONS[0];
+  const phases = Object.fromEntries(COMPOSITIONS.map((composition, index) => {
+    const start = composition.start;
+    const end = COMPOSITIONS[index + 1]?.start ?? Infinity;
+    const entering = index === 0 ? 1 : tween(time, start, start + .75);
+    const leaving = Number.isFinite(end) ? tween(time, end, end + .75) : 0;
+    const opacityIn = index === 0 ? 1 : tween(time, start + .33, start + .75);
+    const opacityOut = Number.isFinite(end) ? 1 - tween(time, end, end + .37) : 1;
+    return [composition.id, {
+      time: Math.max(0, time - start),
+      visible: time >= start && time < end + .75,
+      opacity: opacityIn * opacityOut,
+      railY: 120 * (1 - entering) - 120 * leaving,
+      bodyY: 470 * (1 - entering) - 470 * leaving,
+    }];
+  }));
+  return { time, active: active.id, ...phases };
 }
 
 export function researchFrame(time) {
