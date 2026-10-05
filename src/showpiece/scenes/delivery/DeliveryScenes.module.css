@@ -1,0 +1,129 @@
+.scene { position: relative; width: 100%; min-height: 610px; color: #e4e4e9; font: inherit; }
+.caption { position: absolute; top: 27px; left: 156px; margin: 0; font-size: 12px; letter-spacing: .025em; color: #9999a1; }
+.terminal { position: absolute; left: 48px; top: 96px; width: min(562px, calc(100% - 318px)); height: 420px; }
+.terminalBody { padding: 22px 27px 18px; }
+.workingDirectory { margin: 0 0 11px; color: #777781; font: 10px/16px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+.command { display: flex; align-items: center; gap: 13px; min-height: 25px; margin: 0 0 19px; color: #f0f0f5; font: 15px/24px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: -.025em; white-space: nowrap; }
+.command code { font: inherit; }
+.prompt { color: #85858e; font-size: 17px; }
+.caret { display: inline-block; width: 1px; height: 15px; margin-left: 3px; vertical-align: -2px; background: #dadade; }
+.steps { display: flex; flex-direction: column; }
+.step { position: relative; min-height: 47px; display: grid; grid-template-columns: 22px 1fr auto; align-items: center; gap: 10px; border-bottom: 1px solid #ffffff09; color: #dbdbe1; }
+.stepText { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 9px; font-size: 13px; line-height: 17px; }
+.stepText small { color: #94949e; font-size: 11px; line-height: 16px; }
+.stepState { color: #b5b5c0; font: 9px/17px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .01em; }
+.step[data-status="queued"] { color: #72727e; }
+.step[data-status="queued"] small, .step[data-status="queued"] .stepState { color: #656571; }
+.stepProgress { position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: #c4c4cd; transform-origin: left; }
+.activity { display: inline-block; width: 12px; height: 12px; border-radius: 50%; border: 1px solid #575763; border-top-color: #dcdce4; flex: none; }
+.output { display: flex; align-items: center; gap: 9px; margin-top: 21px; color: #a2a2ad; font: 11px/18px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+.output strong { color: #e1e1e8; font-weight: 400; }
+.terminalFooter, .launchFooter { position: absolute; inset: auto 0 0; display: flex; justify-content: space-between; align-items: center; gap: 10px; min-height: 34px; padding: 0 16px 0 27px; border-top: 1px solid #ffffff0b; color: #82828d; font-size: 9px; background: #19191bb3; }
+.replay { display: inline-flex; align-items: center; gap: 5px; min-height: 30px; border: 0; padding: 0 4px; color: #a5a5b0; background: transparent; font: inherit; cursor: pointer; }
+.replay:hover { color: #f0f0f5; }
+.replay:focus-visible { outline: 2px solid #dedee6; outline-offset: 3px; border-radius: 3px; }
+.exportArrow { position: absolute; top: 287px; right: 240px; color: #6d6d79; }
+.exportArrow svg { transform: rotate(90deg); }
+.artifact { position: absolute; right: 80px; top: 227px; width: 150px; text-align: center; }
+.diskIcon { width: 86px; height: 107px; margin: 0 auto 16px; display: block; filter: drop-shadow(0 9px 12px #0003); }
+.artifactName { margin: 0; color: #e2e2e8; font-size: 15px; line-height: 22px; font-weight: 500; letter-spacing: -.015em; }
+.artifactState { display: flex; align-items: center; justify-content: center; gap: 5px; margin: 7px 0 0; color: #a7a7b3; font-size: 10px; line-height: 17px; white-space: nowrap; }
+.artifactDetail { margin: 1px 0 0; color: #858591; font-size: 10px; line-height: 16px; }
+.modelNote { margin: 18px 0 0; color: #747481; font-size: 10px; line-height: 1.65; }
+.qualifier { position: absolute; left: 48px; top: 537px; margin: 0; color: #8b8b96; font-size: 11px; line-height: 17px; }
+.appIdentity { position: absolute; left: 39px; top: 142px; width: 98px; text-align: center; }
+.appIcon { width: 72px; height: 72px; margin: 0 auto; display: flex; align-items: center; justify-content: center; border: 1px solid #e0e0e5; border-radius: 17px; color: #2b2b30; background: linear-gradient(#e4e4e8, #c6c6ce); box-shadow: 0 9px 23px #0004; }
+.appIdentity p { margin: 13px 0 3px; color: #bbbcc5; font-size: 12px; }
+.appIdentity small { color: #777783; font-size: 9px; }
+.launchWindow { position: absolute; left: 156px; right: 24px; top: 76px; height: 498px; overflow: hidden; }
+.provisioning { padding: 24px 34px 22px; }
+.launchHeading h3 { margin: 0 0 4px; color: #ededf2; font-size: 27px; line-height: 34px; font-weight: 500; letter-spacing: -.04em; }
+.launchHeading p { margin: 0; color: #9e9eaa; font-size: 12px; line-height: 20px; }
+.machine { display: flex; align-items: center; gap: 9px; height: 34px; margin: 15px 0 9px; color: #d0d0db; font-size: 12px; }
+.machineStatus { display: flex; align-items: center; gap: 6px; margin-left: auto; color: #acacb8; font-size: 10px; }
+.provisionList { border-top: 1px solid #343439; border-bottom: 1px solid #343439; }
+.provisionRow { display: grid; grid-template-columns: 24px minmax(0, 1fr) 128px; align-items: center; gap: 11px; height: 61px; border-bottom: 1px solid #ffffff0b; }
+.provisionRow:last-child { border-bottom: 0; }
+.modelIcon { color: #9999a5; }
+.modelName { color: #dddde5; font-size: 13px; line-height: 18px; letter-spacing: -.01em; }
+.modelRole { color: #8a8a97; font-size: 10px; line-height: 16px; }
+.modelState { color: #aaaab5; text-align: right; font-size: 10px; line-height: 17px; }
+.verified, .verifying { display: flex; align-items: center; justify-content: flex-end; gap: 5px; color: #c2c2cd; }
+.progressLabel { display: flex; justify-content: space-between; margin-bottom: 6px; color: #c0c0cd; font-size: 10px; line-height: 16px; }
+.progressTrack { height: 3px; border-radius: 3px; background: #3b3b43; overflow: hidden; }
+.progressTrack span { display: block; height: 100%; background: #d6d6df; transform-origin: left; }
+.waiting { color: #777784; }
+.provisionMeta { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 21px; color: #888894; font-size: 10px; line-height: 16px; }
+.firstRun { color: #b7b7c4; }
+.launchReady { display: flex; align-items: center; justify-content: center; gap: 7px; margin-top: 24px; color: #cfcfda; font-size: 11px; }
+.launchFooter { padding-left: 20px; }
+.workspaceReveal { position: absolute; top: 0; bottom: 35px; left: 0; right: 0; }
+.workspace { display: flex; width: 100%; height: 100%; }
+.workspaceSidebar { position: relative; flex: 0 0 124px; padding: 19px 13px; background: #19191c; border-right: 1px solid #ffffff0b; }
+.workspaceApp { display: flex; align-items: center; gap: 7px; color: #c7c7d0; font-size: 11px; }
+.newSession { display: flex; align-items: center; gap: 6px; margin: 26px -4px 0; padding: 8px; border-radius: 5px; background: #ffffff06; color: #aaaab5; font-size: 10px; }
+.sidebarFoot { position: absolute; bottom: 18px; left: 12px; display: flex; align-items: center; gap: 5px; color: #81818e; font-size: 8px; white-space: nowrap; }
+.readyDot { width: 4px; height: 4px; border-radius: 50%; background: #b0b0bc; }
+.emptyWorkspace { position: relative; flex: 1; min-width: 0; padding: 24px 17px 15px; }
+.emptyIntro { padding-top: 35px; text-align: center; }
+.emptyIcon { display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border: 1px solid #ffffff13; border-radius: 11px; color: #babac5; background: #ffffff04; box-shadow: inset 0 1px #fff04; }
+.emptyIntro h3 { margin: 16px 0 9px; color: #e3e3ec; font-size: 19px; line-height: 1.35; font-weight: 450; letter-spacing: -.5px; }
+.emptyIntro p { margin: 0; color: #90909e; font-size: 11px; line-height: 1.8; }
+.freshComposer { position: absolute; left: 17px; right: 17px; bottom: 44px; padding: 12px 13px 10px; border: 1px solid #656570; border-radius: 10px; background: #222225; box-shadow: inset 0 1px #ffffff05, 0 4px 11px #0003; }
+.composerInput { display: flex; align-items: center; gap: 11px; color: #9595a1; font-size: 12px; }
+.composerInput svg { flex: none; color: #b5b5c0; }
+.inputCaret { display: inline-block; width: 1px; height: 12px; margin-left: 3px; background: #b7b7c0; vertical-align: -2px; }
+.composerFooter { display: flex; align-items: center; justify-content: space-between; margin-top: 16px; gap: 8px; }
+.abilities { display: flex; gap: 9px; color: #aaaab7; font-size: 9px; }
+.abilities > span { display: flex; align-items: center; gap: 4px; }
+.abilities .inactiveAbility { color: #676774; }
+.sendIcon { width: 23px; height: 23px; flex: none; display: inline-flex; align-items: center; justify-content: center; border: 1px solid #6c6c79; border-radius: 5px; color: #2e2e34; background: #b1b1bc; }
+.emptyNote { position: absolute; bottom: 19px; left: 17px; right: 17px; text-align: center; font-size: 9px; color: #777784; }
+.compact { padding: 12px 0 20px; min-height: 0; }
+.compact .caption { position: static; margin: 0 14px 20px; font-size: 12px; }
+.compact .terminal { position: relative; inset: auto; width: calc(100% - 16px); height: 405px; margin: 0 8px; }
+.compact .terminalBody { padding: 20px 17px 16px; }
+.compact .command { font-size: 12px; gap: 9px; margin-bottom: 17px; letter-spacing: -.04em; }
+.compact .step { grid-template-columns: 18px 1fr auto; gap: 8px; min-height: 50px; }
+.compact .stepText { font-size: 12px; gap: 2px 7px; }
+.compact .stepText small { font-size: 10px; }
+.compact .stepState { font-size: 8px; }
+.compact .output { font-size: 10px; gap: 6px; margin-top: 20px; }
+.compact .terminalFooter, .compact .launchFooter { min-height: 44px; padding: 0 14px; font-size: 9px; gap: 6px; }
+.compact .replay { min-width: 55px; min-height: 44px; justify-content: center; font-size: 10px; }
+.compact .exportArrow { display: none; }
+.compact .artifact { position: relative; inset: auto; width: auto; margin: 26px 25px 0; min-height: 94px; display: flex; align-items: center; gap: 20px; text-align: left; }
+.compact .diskIcon { width: 60px; height: 75px; margin: 0; flex: none; }
+.compact .artifactName { font-size: 15px; }
+.compact .artifactState { justify-content: flex-start; }
+.compact .modelNote { margin: 0 0 0 auto; font-size: 9px; max-width: 100px; }
+.compact .qualifier { position: static; margin: 20px 16px 0; font-size: 10px; }
+.compact .appIdentity { position: static; width: auto; display: flex; align-items: center; gap: 10px; margin: 0 16px 20px; text-align: left; }
+.compact .appIcon { width: 43px; height: 43px; border-radius: 11px; margin: 0; }
+.compact .appIcon svg { width: 25px; height: 25px; }
+.compact .appIdentity p { margin: 0; font-size: 13px; }
+.compact .appIdentity small { margin-left: auto; font-size: 10px; }
+.compact .launchWindow { position: relative; inset: auto; width: calc(100% - 16px); height: 515px; margin: 0 8px; }
+.compact .provisioning { padding: 22px 18px; }
+.compact .launchHeading h3 { font-size: 23px; line-height: 29px; }
+.compact .launchHeading p { font-size: 11px; line-height: 18px; }
+.compact .machine { font-size: 11px; margin-top: 21px; }
+.compact .machineStatus { font-size: 9px; gap: 4px; }
+.compact .provisionRow { grid-template-columns: 20px minmax(0, 1fr) 94px; min-height: 68px; gap: 8px; }
+.compact .modelName { font-size: 11px; line-height: 16px; }
+.compact .modelRole { font-size: 9px; line-height: 14px; }
+.compact .modelState { font-size: 9px; }
+.compact .progressLabel { font-size: 9px; }
+.compact .provisionMeta { margin-top: 18px; font-size: 9px; gap: 10px; }
+.compact .launchReady { font-size: 11px; margin-top: 20px; }
+.compact .workspaceReveal { bottom: 45px; }
+.compact .workspaceSidebar { display: none; }
+.compact .emptyWorkspace { padding: 22px 14px; }
+.compact .emptyIntro { padding-top: 49px; }
+.compact .emptyIntro h3 { font-size: 21px; max-width: 245px; margin: 16px auto 10px; }
+.compact .emptyIntro p { font-size: 12px; }
+.compact .freshComposer { left: 14px; right: 14px; bottom: 49px; }
+.compact .composerInput { font-size: 13px; }
+.compact .abilities { font-size: 9px; gap: 9px; }
+.compact .emptyNote { bottom: 24px; font-size: 9px; }
+@media (max-width: 380px) { .compact .artifact { gap: 13px; margin-inline: 16px; } .compact .modelNote { max-width: 83px; } .compact .command { font-size: 11px; } .compact .stepText { display: block; } .compact .stepText small { display: block; } .compact .provisioning { padding-inline: 14px; } }

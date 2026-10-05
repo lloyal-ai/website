@@ -1,0 +1,150 @@
+.modelMark {
+  display: block;
+  width: 45px;
+  height: 45px;
+  object-fit: contain;
+  flex: none;
+  user-select: none;
+}
+
+.modelTile {
+  position: relative;
+  width: 80px;
+  color: var(--sp-ink, #e0e0e5);
+  text-align: center;
+}
+
+.modelFace {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 80px;
+  border: 1px solid var(--sp-model-border, #ffffff25);
+  border-radius: 21px;
+  background: linear-gradient(155deg, #272729 0%, #161618 70%);
+  box-shadow: inset 0 1px #ffffff10, 0 8px 16px #0007;
+}
+
+.modelTile[data-active] .modelFace {
+  border-color: #ffffff60;
+  box-shadow: inset 0 1px #ffffff20, 0 8px 16px #0007, 0 0 18px #ffffff07;
+}
+
+.modelFace[data-model='whisper'] {
+  background: linear-gradient(155deg, #f0f0ef, #bdbdc2);
+}
+
+.modelFace[data-model='s1'] .modelMark {
+  border-radius: 9px;
+}
+
+.modelLabel {
+  margin-top: 10px;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--sp-label, #c6c6ca);
+  white-space: nowrap;
+}
+
+.modelRole {
+  width: 160%;
+  margin: 2px -30% 0;
+  color: var(--sp-muted, #898993);
+  font-size: 10px;
+  line-height: 1.45;
+  white-space: nowrap;
+}
+
+.modelStatus {
+  position: absolute;
+  top: -32px;
+  left: -35px;
+  width: 150px;
+  color: var(--sp-secondary, #9b9ba0);
+  font-size: 10px;
+  letter-spacing: 0.2px;
+  line-height: 16px;
+  white-space: nowrap;
+}
+
+.modelStatus::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  margin: 0 6px 1px 0;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.small { width: 68px; }
+.small .modelFace { height: 68px; border-radius: 18px; }
+.small .modelMark { width: 34px; height: 34px; }
+.small .modelFace[data-model='s1'] .modelMark { width: 44px; height: 44px; }
+.small .modelLabel { font-size: 11px; margin-top: 9px; }
+.small .modelRole { font-size: 9px; }
+.small .modelStatus { left: -41px; }
+
+.appWindow {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  border: 1px solid var(--sp-window-border, #ffffff27);
+  border-radius: 12px;
+  background: var(--sp-app-surface, #171719);
+  color: var(--sp-ink, #e0e0e5);
+  box-shadow: inset 0 1px #ffffff08, 0 18px 45px #0005;
+}
+
+.chrome {
+  position: relative;
+  display: flex;
+  flex: 0 0 28px;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+  border-bottom: 1px solid #ffffff12;
+  background: linear-gradient(#262629, #222225);
+  color: #93939a;
+  font-size: 9px;
+  letter-spacing: 0.1px;
+}
+
+.traffic {
+  position: absolute;
+  left: 12px;
+  top: 10px;
+  display: flex;
+  gap: 5px;
+}
+
+.traffic i { width: 7px; height: 7px; border-radius: 50%; background: #5d5d64; box-shadow: inset 0 1px #ffffff13; }
+.traffic i:nth-child(2) { background: #53535a; }
+.traffic i:nth-child(3) { background: #494950; }
+.windowTitle { overflow: hidden; max-width: 65%; text-overflow: ellipsis; white-space: nowrap; }
+.windowAction { position: absolute; right: 12px; color: #73737d; }
+.windowBody { position: relative; display: flex; flex: 1; min-width: 0; min-height: 0; }
+.sidebar { position: relative; flex: 0 0 var(--sp-sidebar-width, 124px); width: var(--sp-sidebar-width, 124px); min-width: 0; border-right: 1px solid #ffffff0c; background: #141416; }
+.windowMain { position: relative; display: flex; flex-direction: column; flex: 1; min-width: 0; min-height: 0; }
+.toolbar { display: flex; flex: 0 0 40px; align-items: center; gap: 7px; min-width: 0; height: 40px; padding: 0 21px; border-bottom: 1px solid #ffffff0b; color: #888891; font-size: 10px; }
+.windowContent { position: relative; flex: 1; min-width: 0; min-height: 0; }
+
+.cursor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 50;
+  width: 19px;
+  height: 24px;
+  overflow: visible;
+  pointer-events: none;
+  transform-origin: 2px 2px;
+  filter: drop-shadow(0 2px 2px #000a);
+}
+
+.signalLine { fill: none; stroke: var(--sp-route, #ffffff19); stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: miter; }
+.signal[data-active] .signalLine { stroke: var(--sp-route-active, #ffffff68); }
+.signalToken { fill: var(--sp-token, #ededf1); filter: drop-shadow(0 0 3px #ffffff66); }
