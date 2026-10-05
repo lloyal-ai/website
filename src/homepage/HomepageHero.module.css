@@ -52,6 +52,27 @@
   margin-top: 22px;
 }
 
+/* Command metadata occupies the space above the scenes, without shifting them. */
+.targets {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+  color: #92929b;
+  font-size: 12px;
+  line-height: 18px;
+  white-space: nowrap;
+}
+.targets li { display: flex; align-items: center; gap: 6px; }
+.targets svg { flex: none; opacity: .8; }
+
 .showpiece {
   position: relative;
   width: 1000px;

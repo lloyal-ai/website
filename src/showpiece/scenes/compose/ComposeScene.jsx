@@ -1,4 +1,4 @@
-import { AppWindow, WindowBody, Icon, ModelMark } from '../../components';
+import { AppWindow, WindowBody, ModelMark } from '../../components';
 import { useStageLayout } from '../../playback/ShowpieceContext';
 import { ComposeProvider } from './ComposeContext';
 import { useComposeFrame, useComposeUi } from './useCompose';
@@ -13,12 +13,6 @@ import EnrichApp from './EnrichApp';
 import styles from './ComposeScene.module.css';
 
 const appExamples = { research: ResearchApp, voice: VoiceApp, image: ImageApp, enrich: EnrichApp };
-const captions = {
-  research: 'Example compositions · one lead, your choice of specialists',
-  voice: 'Your code routes. Your model reasons.',
-  image: 'Your model chooses. Your app responds.',
-  enrich: 'A spreadsheet template. Intelligence inside each cell.',
-};
 
 function CompositionChoices() {
   const { active } = useComposeFrame();
@@ -33,7 +27,6 @@ function ComposeStage() {
   const frame = useComposeFrame();
   const { compact } = useStageLayout();
   return <div className={`${styles.scene} ${compact ? styles.compact : ''}`} data-compose-example={frame.active}>
-    <div className={styles.caption}>{captions[frame.active]}</div>
     <CompositionChoices />
     <CompositionRail />
     <AppWindow title="Your App" connection={frame.active === 'enrich' ? 'connected' : 'offline'} className={styles.appWindow} aria-label="Your App — illustrated composition examples">
@@ -43,7 +36,6 @@ function ComposeStage() {
         return phase.visible && <div key={id} className={styles.appExample} data-app-example={id} style={{ transform: `translateY(${phase.bodyY}px)`, opacity: id === 'research' ? phase.opacity : 1, pointerEvents: frame.active === id ? 'auto' : 'none' }} aria-hidden={frame.active !== id} inert={frame.active !== id}><WindowBody sidebar={!compact && id !== 'enrich' && <Sidebar wiki={id === 'image'} />}><Component /></WindowBody></div>;
       })}</div>
     </AppWindow>
-    <div className={styles.targets} aria-label="Supported app targets"><span><Icon name="desktop" size={11} />Desktop</span><span><Icon name="terminal" size={11} />CLI</span><span><Icon name="globe" size={11} />Web</span></div>
   </div>;
 }
 

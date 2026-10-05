@@ -76,7 +76,6 @@ function VoiceRail() {
     <div className={styles.whisperPosition} style={{ left: whisperX, top: compact ? faceY : 304 }}><ModelTile model="whisper" label="Whisper" role={frame.transcribing ? 'Transcribing audio' : time >= 7.6 ? 'Transcript returned' : 'Speech → text'} active={frame.transcribing} small /></div>
     <div className={styles.s1Position} style={{ left: s1X, top: compact ? faceY : 450 }}><ModelTile model="s1" label="S1-mini" role={frame.cleaning ? 'Cleaning filler words' : time >= 9.25 ? 'Clean text returned' : 'Text → clean text'} active={frame.cleaning} small /></div>
     <span className={styles.returnLabel} style={{ opacity: tween(time, 9.25, 10) }}>Cleaned instruction → lead</span>
-    <div className={styles.railNote}>Example 02 · Voice intake</div>
   </>;
 }
 
@@ -107,7 +106,6 @@ function ImageRail() {
     <div className={styles.imagePosition} style={{ left: imageX, top: compact ? faceY : 369 }}><ModelTile model="qwen" label="Qwen Image Edit" role={frame.working ? 'Editing the reference' : time >= 9.7 ? 'Result returned' : 'Image specialist'} active={frame.working} small={compact} /></div>
     <span className={styles.returnLabel} style={{ opacity: tween(time, 9.6, 10.2) }}>Result → same live context</span>
     {!compact && within(time, 9.7, 10.85) && <div className={styles.previewReturn} style={{ left: returnedImagePosition.x - 33, top: returnedImagePosition.y - 18.5, opacity: tween(time, 9.7, 9.85) * (1 - tween(time, 10.55, 10.85)) }}><Landscape warm /></div>}
-    <div className={styles.railNote}>Example 03 · Wiki image tool</div>
   </>;
 }
 
@@ -136,7 +134,6 @@ function EnrichRail() {
     <div className={styles.rankPosition} style={{ left: rankX, top: compact ? faceY : 347 }}><ModelTile model="qwen" label="Qwen 3 0.6B" role={frame.rerankerActive ? 'Scoring passages' : 'Reranker · own context'} active={frame.rerankerActive} small={compact} /></div>
     <div className={styles.enrichSources}><Icon name="document" size={18} /><span>Local sources</span></div>
     <span className={styles.returnLabel} style={{ opacity: frame.operation.stage === 'return' ? 1 : 0 }}>Ranked evidence → lead</span>
-    <div className={styles.railNote}>Example 04 · Spreadsheet template</div>
   </>;
 }
 
