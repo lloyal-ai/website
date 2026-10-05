@@ -1,0 +1,216 @@
+.scene {
+  position: relative;
+  width: 100%;
+  height: 610px;
+  color: var(--sp-ink, #e0e0e5);
+  font-family: inherit;
+  isolation: isolate;
+}
+.scene *, .scene *::before, .scene *::after { box-sizing: border-box; }
+.scene button, .scene input { font: inherit; }
+.scene button { color: inherit; cursor: pointer; }
+.scene button:focus-visible, .scene input:focus-visible { outline: 1px solid #dedee7; outline-offset: 4px; }
+.scene button:disabled { cursor: default; }
+.choices { position: absolute; top: 41px; left: 156px; right: 24px; display: flex; gap: 12px; z-index: 15; }
+.choice { display: flex; align-items: center; gap: 7px; height: 26px; padding: 0 9px; border: 0; border-bottom: 1px solid #ffffff12; color: #8a8a93 !important; background: none; font-size: 11px !important; white-space: nowrap; }
+.choiceActive { border-bottom-color: var(--sp-orchestration); color: #e0e0e5 !important; }
+.choice img { width: 17px; height: 17px; }
+.choice em { color: #85858f; font-style: normal; }
+.rail { position: absolute; inset: 0; z-index: 2; }
+.leadPosition, .rankPosition, .whisperPosition, .s1Position, .imagePosition { position: absolute; width: 80px; }
+.whisperPosition, .s1Position { width: 68px; }
+.projector { position: absolute; right: -10px; top: -16px; display: grid; place-items: center; width: 32px; height: 32px; color: #bbb; background: #202022; border: 1px solid #ffffff29; border-radius: 9px; box-shadow: 0 3px 7px #0008; }
+.modelChooser { position: relative; margin-top: 11px; margin-left: -9px; width: 99px; z-index: 30; }
+.changeModel { display: flex; align-items: center; justify-content: center; gap: 5px; width: 99px; height: 27px; padding: 0 5px; border: 1px solid #ffffff17; border-radius: 7px; background: #111113; font-size: 9px !important; color: #85858c !important; white-space: nowrap; }
+.modelMenu { position: absolute; left: 50%; top: 34px; z-index: 35; width: 170px; transform: translateX(-50%); padding: 7px; border: 1px solid #ffffff25; border-radius: 12px; background: #202022; box-shadow: 0 15px 40px #000a; }
+.modelMenu header { padding: 6px 8px 9px; font-size: 9px; color: #999; text-transform: uppercase; letter-spacing: 1px; }
+.modelMenu button { display: flex; align-items: center; gap: 9px; width: 100%; border: 0; border-radius: 7px; background: none; padding: 8px; font-size: 11px !important; text-align: left; }
+.modelMenu button:hover { background: #ffffff0b; }
+.modelMenu img { width: 21px; height: 21px; }
+.modelMenu button > svg { margin-left: auto; color: var(--sp-orchestration); }
+.modelMenu small { display: block; margin: 6px 7px; font-size: 9px; color: #727278; }
+.toolOperation, .imageTool { position: absolute; left: 35px; top: 299px; width: 107px; min-height: 37px; padding: 6px 3px; border: 1px solid #ffffff24; border-radius: 8px; background: #19191b; text-align: center; font-size: 10px; box-shadow: 0 3px 8px #0007; }
+.toolOperation small, .imageTool small { display: block; margin-bottom: 1px; font-size: 8px; letter-spacing: 0.7px; color: #7b7b80; }
+.imageTool { left: 33px; top: 308px; width: 111px; padding: 7px 0; }
+.imageTool small { margin-bottom: 3px; font-size: 8px; letter-spacing: 0.6px; }
+.toolOperation[data-active="true"], .imageTool[data-active="true"] { border-color: var(--sp-orchestration-line); background: linear-gradient(var(--sp-orchestration-soft), var(--sp-orchestration-soft)), #19191b; }
+.pipelineNote { position: absolute; left: 14px; top: 87px; width: 148px; color: #9b9ba0; font-size: 10px; line-height: 16px; text-align: center; }
+.routes { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.candidateGroup { position: absolute; left: -15px; top: 139px; width: 110px; }
+.candidateStack { position: relative; height: 63px; }
+.candidate { position: absolute; left: 0; top: 0; display: flex; align-items: center; gap: 6px; width: 110px; height: 18px; padding: 0 7px; border: 1px solid #ffffff16; border-radius: 4px; background: #1b1b1d; color: #666670; font-family: var(--sp-mono, monospace); font-size: 8px; }
+.candidate b { font-weight: 400; }
+.candidate i { display: block; height: 2px; background: #777; opacity: 0.45; }
+.candidateActive { border-color: var(--sp-orchestration-line); background: var(--sp-orchestration-soft); color: #d2d2da; }
+.candidateActive i { background: var(--sp-orchestration); opacity: 0.9; }
+.candidateResult { display: block; width: 150px; margin: 6px -20px 0; color: #75757b; font-size: 8px; text-align: center; white-space: nowrap; }
+.evidenceReturn { position: absolute; left: -7px; top: 262px; writing-mode: vertical-rl; transform: rotate(180deg); padding: 4px 3px; color: #b9b9c5; background: #171719; font-size: 8px; }
+.returnLabel { position: absolute; left: -13px; top: 258px; font-size: 8px; writing-mode: vertical-rl; transform: rotate(180deg); letter-spacing: 0.25px; color: #a0a0ab; }
+.previewReturn { position: absolute; width: 66px; height: 37px; overflow: hidden; border: 1px solid #ffffff43; border-radius: 4px; box-shadow: 0 3px 7px #0008; z-index: 4; }
+.previewReturn svg { width: 100%; height: 100%; }
+.appWindow { position: absolute; left: 156px; top: 76px; width: calc(100% - 180px); height: 498px; z-index: 3; }
+.appViewport { position: absolute; inset: 0; overflow: hidden; }
+.appExample { display: flex; flex-direction: column; position: absolute; inset: 0; background: #171719; overflow: hidden; }
+.sidebar { position: absolute; inset: 0; padding: 16px 10px; }
+.appBrand { display: flex; align-items: center; gap: 8px; margin: 0 2px 31px; font-size: 11px; font-weight: 500; color: #b8b8be; }
+.sidebarLabel { margin: 0 5px 10px; color: #6e6e75; font-size: 8px; text-transform: uppercase; letter-spacing: 1px; }
+.libraryEntry { padding: 9px 7px; border: 1px solid #ffffff08; border-radius: 6px; background: #232326; font-size: 9px; line-height: 1.5; color: #b1b1b7; }
+.libraryEntry small { display: block; margin-top: 3px; font-size: 8px; color: #75757b; }
+.localStatus { position: absolute; bottom: 18px; left: 14px; color: #707078; font-size: 8px; line-height: 1.7; }
+.localStatus i { display: inline-block; width: 4px; height: 4px; margin-right: 5px; border-radius: 50%; background: var(--sp-success); }
+.toolbar { height: 40px; display: flex; align-items: center; gap: 7px; padding: 0 21px; border-bottom: 1px solid #ffffff0b; font-size: 10px; color: #85858f; }
+.runState { display: flex; align-items: center; gap: 5px; margin-left: auto; margin-right: 7px; color: #a3a3ab; font-size: 9px; }
+.runState i { width: 4px; height: 4px; border-radius: 50%; background: var(--sp-secondary); }
+.runState[data-status="working"] i { background: var(--sp-accent); }
+.runState[data-status="settled"] i { background: var(--sp-success); }
+.researchContent, .voiceContent { position: relative; padding: 22px 26px 0; }
+.reportHeading { position: relative; z-index: 2; padding-bottom: 16px; background: #171719; }
+.reportHeading h2, .imageContent h2 { margin: 0 0 7px; font-size: 25px; line-height: 1.2; font-weight: 500; letter-spacing: -0.9px; }
+.reportHeading p { margin: 0; color: #909097; font-size: 11px; line-height: 1.6; }
+.reportViewport { position: relative; height: 196px; overflow: hidden; mask-image: linear-gradient(to bottom, #000 0%, #000 90%, transparent 100%); }
+.reportRow { display: flex; gap: 15px; height: 98px; padding-top: 7px; }
+.number { color: #85858c; font-size: 14px; font-variant-numeric: tabular-nums; letter-spacing: -0.3px; line-height: 1.5; }
+.reportRow h3 { margin: 0 0 5px; font-size: 15px; font-weight: 450; letter-spacing: -0.3px; line-height: 1.4; }
+.reportRow p { margin: 0; color: #9b9ba2; font-size: 11px; line-height: 1.65; }
+.sourcePills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 11px; }
+.sourcePill { display: inline-flex; align-items: center; gap: 5px; height: 24px; padding: 0 8px; border: 1px solid #ffffff13; border-radius: 5px; background: #202023; color: #adadb4; font-size: 9px; white-space: nowrap; }
+.requestState > svg, .coverCheck > svg { color: var(--sp-success); }
+.requestState { position: absolute; right: 24px; top: 38px; z-index: 6; display: flex; align-items: center; gap: 5px; padding: 5px 8px; border: 1px solid #ffffff13; border-radius: 6px; background: #222225; font-size: 9px; color: #b8b8c1; pointer-events: none; }
+.composerArea { position: absolute; left: 0; right: 0; bottom: 0; padding: 10px 17px 16px; background: linear-gradient(transparent, #171719 13%); z-index: 5; }
+.attachmentTray { display: flex; align-items: center; gap: 6px; height: 29px; margin: 0 0 7px 3px; }
+.attachmentChip { display: flex; align-items: center; gap: 6px; height: 26px; padding: 0 8px; border: 1px solid #ffffff25; border-radius: 6px; background: #28282b; color: #d0d0d5; font-size: 9px; }
+.attachmentChip small { color: #909099; font-size: 8px; }
+.attachmentChip button { display: grid; place-items: center; border: 0; background: none; padding: 0 2px; color: #98989f; }
+.composer, .imageComposer { position: relative; height: 83px; border: 1px solid #ffffff22; border-radius: 11px; background: linear-gradient(130deg, #262629, #202023); box-shadow: inset 0 1px #ffffff05, 0 3px 9px #0002; }
+.composerEntry { display: flex; align-items: center; gap: 6px; padding: 10px 11px 7px; }
+.attach { width: 22px; height: 22px; padding: 3px; border: 0; border-radius: 5px; background: none; color: #aaaab2 !important; flex: none; }
+.attach:hover { background: #ffffff0e; }
+.composerInput { min-width: 0; width: 100%; height: 23px; padding: 3px 2px; border: 0; outline: none; background: none; color: #e0e0e4; font-size: 12px !important; letter-spacing: -0.05px; }
+.composerInput::placeholder { color: #85858d; }
+.composerBottom { display: flex; align-items: center; gap: 5px; margin: 2px 10px 0; }
+.ability { display: flex; align-items: center; gap: 5px; height: 21px; padding: 0 7px; border: 1px solid #ffffff12; border-radius: 5px; background: #ffffff03; color: #b4b4bd !important; font-size: 11px !important; }
+.ability[aria-pressed="true"] { border-color: #ffffff25; background: #ffffff05; }
+.ability i { width: 3px; height: 3px; border-radius: 50%; background: #b9b9c0; }
+.ability > svg { box-sizing: content-box; padding-left: 5px; border-left: 1px solid #ffffff15; color: #81818a; }
+.abilityInactive { color: #676770 !important; }
+.abilityInactive i { background: #595961; }
+.followUp { margin-left: auto; margin-right: 5px; color: #6d6d76; font-size: 8px; }
+.send { display: grid; place-items: center; width: 26px; height: 26px; padding: 0; border: 0; border-radius: 7px; background: var(--sp-accent); color: #fff !important; box-shadow: inset 0 1px #fff6; flex: none; }
+.send:disabled { opacity: 0.35; }
+.attachmentMenu, .abilityHint { position: absolute; left: 22px; bottom: 115px; z-index: 30; width: 218px; padding: 6px; border: 1px solid #ffffff2b; border-radius: 9px; background: #29292d; box-shadow: 0 12px 30px #0008; }
+.attachmentMenu button { display: flex; align-items: center; gap: 8px; width: 100%; padding: 9px 7px; border: 0; border-radius: 5px; background: none; font-size: 10px !important; text-align: left; }
+.attachmentMenu button:hover { background: #ffffff08; }
+.attachmentMenu small { display: block; padding: 4px 8px; color: #94949e; font-size: 8px; }
+.abilityHint { bottom: 105px; width: 285px; max-width: calc(100% - 44px); padding: 10px 13px; color: #bdbdc5; font-size: 10px; }
+.voiceContent .reportHeading { padding-bottom: 0; }
+.voiceRow { height: auto; margin-top: 19px; padding-top: 0; }
+.voiceRow .sourcePills { margin-top: 9px; }
+.voiceAnswer { height: auto; margin-top: 16px; padding-top: 13px; border-top: 1px solid #ffffff0c; }
+.voiceAnswer .number { color: #c7c7d0; }
+.voiceComposer { position: absolute; left: 17px; right: 17px; bottom: 16px; height: 127px; overflow: hidden; border: 1px solid #ffffff24; border-radius: 12px; background: linear-gradient(130deg, #252528, #202023); box-shadow: inset 0 1px #ffffff07, 0 3px 8px #0002; }
+.transcript { position: absolute; left: 15px; right: 74px; top: 14px; min-height: 44px; color: #c7c7d1; font-size: 12px; line-height: 1.75; letter-spacing: -0.08px; }
+.filler { color: #767681; }
+.transcriptEmpty { color: #81818c; }
+.collapsingFiller { display: inline-block; overflow: hidden; white-space: pre; vertical-align: bottom; color: #767681; }
+.transcriptCaret { display: inline-block; width: 1px; height: 13px; margin-left: 2px; vertical-align: -2px; background: #b8b8c4; }
+.mic { position: absolute; right: 14px; top: 13px; display: grid; place-items: center; width: 40px; height: 40px; padding: 0; border: 1px solid #ffffff29; border-radius: 50%; background: var(--sp-accent); color: #fff !important; box-shadow: inset 0 1px #fff8, 0 2px 5px #0004; }
+.mic[data-recording="true"] { background: #27272b; border-color: #ffffff29; }
+.micStop { width: 11px; height: 11px; border-radius: 2px; background: var(--sp-danger); }
+.recordingTrack { position: absolute; left: 14px; right: 14px; bottom: 12px; display: flex; align-items: center; gap: 9px; height: 29px; padding-top: 10px; border-top: 1px solid #ffffff0d; }
+.recordingDot { width: 4px; height: 4px; flex: none; border-radius: 50%; background: var(--sp-secondary); }
+.voiceComposer[data-recording="true"] .recordingDot { background: var(--sp-danger); }
+.recordingClock { min-width: 31px; color: #9e9eaa; font-family: var(--sp-mono, monospace); font-size: 9px; }
+.waveform { display: flex; align-items: center; gap: 3px; height: 19px; overflow: hidden; flex: 1; }
+.waveform i { display: block; min-width: 2px; max-width: 3px; height: 3px; border-radius: 2px; background: var(--sp-accent); transform-origin: center; flex: 1; }
+.recordingLabel { color: #777782; font-size: 8px; white-space: nowrap; }
+.pipelinePill { position: absolute; left: 15px; bottom: 50px; display: flex; align-items: center; gap: 5px; color: #858590; font-size: 8px; }
+.pipelinePill i { width: 3px; height: 3px; border-radius: 50%; background: var(--sp-secondary); }
+.pipelinePill[data-complete="true"] i { background: var(--sp-success); }
+.cleanBadge { margin-left: 6px; padding: 3px 6px; border: 1px solid color-mix(in srgb, var(--sp-success) 25%, transparent); border-radius: 4px; color: var(--sp-success); font-size: 8px; white-space: nowrap; }
+.imageContent { padding: 18px 26px 0; }
+.wikiEyebrow { margin: 0 0 8px; color: #777781; font-size: 8px; text-transform: uppercase; letter-spacing: 1.3px; }
+.imageContent h2 { margin-bottom: 12px; font-size: 24px; letter-spacing: -0.7px; }
+.cover { position: relative; height: 135px; overflow: hidden; border: 1px solid #ffffff13; border-radius: 7px; background: #252b33; }
+.landscape { position: absolute; inset: 0; width: 100%; height: 100%; }
+.coverTag, .coverCheck, .coverMetaPill { padding: 3px 6px; border: 1px solid #ffffff26; border-radius: 4px; background: #14161cbc; backdrop-filter: blur(8px); color: #d0d2da; font-size: 8px; line-height: 1.4; white-space: nowrap; }
+.coverTag { position: absolute; left: 9px; top: 9px; z-index: 3; }
+.coverCheck { position: absolute; right: 9px; top: 9px; z-index: 3; display: flex; align-items: center; gap: 4px; }
+.coverMetadata { position: absolute; right: 8px; bottom: 8px; z-index: 3; display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 4px; max-width: calc(100% - 16px); }
+.coverMetaPill { display: inline-flex; align-items: center; }
+code.coverMetaPill { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; letter-spacing: -0.15px; }
+.wikiSummary { max-width: 460px; margin: 13px 0 0; color: #9797a2; font-size: 11px; line-height: 1.7; }
+.generationMask { position: absolute; inset: 0; z-index: 2; border-right: 1px solid #ffffff40; background: linear-gradient(90deg, #a6a6b508, transparent); transform-origin: left; }
+.imageComposer { position: absolute; left: 17px; right: 17px; bottom: 16px; height: 87px; }
+.imageEntry { display: flex; align-items: center; gap: 9px; height: 43px; padding: 14px 14px 8px; color: #dbdbe2; font-size: 12px; }
+.imageEntry > svg { color: #aaaab4; flex: none; }
+.imageEntry > span { flex: 1; }
+.placeholder { color: #888895; }
+.imageFooter { display: flex; align-items: center; gap: 6px; padding: 0 10px; color: #9898a5; font-size: 9px; }
+.imageAbility { padding: 4px 7px; border: 1px solid #ffffff25; border-radius: 5px; background: #ffffff05; font-size: 10px; }
+.miniState { margin-left: auto; color: #797986; font-size: 8px; }
+.imageFooter .send { margin-left: 5px; }
+.imageChip { position: absolute; left: 15px; top: -34px; display: flex; align-items: center; gap: 5px; height: 26px; padding: 5px 8px; border: 1px solid #ffffff25; border-radius: 5px; background: #27272c; color: #b8b8c3; font-size: 8px; }
+
+/* Small screens use real layout changes, with readable app controls and text. */
+.compact { min-height: 840px; height: 840px; }
+.compact .choices { left: 8px; right: 8px; top: 42px; justify-content: center; gap: 2px; }
+.compact .choice { gap: 4px; padding: 0 4px; font-size: 11px !important; }
+.compact .choice em { display: none; }
+.compact .choice img { width: 19px; height: 19px; }
+.compact .leadPosition, .compact .rankPosition, .compact .whisperPosition, .compact .s1Position, .compact .imagePosition { width: 68px; }
+.compact .modelChooser { margin-top: 9px; margin-left: -15px; }
+.compact .modelMenu { left: 0; transform: none; }
+.compact .projector { right: -7px; width: 28px; height: 28px; }
+.compact .toolOperation { top: 270px; left: 20px; width: 135px; min-height: 25px; padding: 6px; font-size: 10px; }
+.compact .toolOperation small { display: inline; margin-right: 6px; font-size: 7px; }
+.compact .candidateGroup { top: 119px; left: -21px; }
+.compact .candidateStack { height: 63px; }
+.compact .candidateResult { display: none; }
+.compact .evidenceReturn { left: 50%; top: 83px; padding: 2px 4px; transform: translateX(-50%); writing-mode: horizontal-tb; background: #131315; font-size: 8px; }
+.compact .returnLabel { left: 50%; top: 85px; transform: translateX(-50%); writing-mode: horizontal-tb; padding: 2px 5px; background: #131315; white-space: nowrap; font-size: 8px; }
+.compact .pipelineNote { left: 12px; right: 12px; top: 77px; width: auto; }
+.compact .rail[data-composition="voice"] .returnLabel { top: 101px; }
+.compact .imageTool { left: 50%; top: 273px; width: 190px; min-height: 25px; padding: 6px; transform: translateX(-50%); }
+.compact .imageTool small { display: inline; margin-right: 6px; font-size: 7px; }
+.compact .appWindow { top: 306px; left: 8px; width: calc(100% - 16px); height: 498px; }
+.compact .toolbar { padding: 0 16px; font-size: 11px; }
+.compact .runState { font-size: 10px; }
+.compact .researchContent, .compact .voiceContent { padding: 22px 18px 0; }
+.compact .reportHeading h2 { font-size: 25px; }
+.compact .reportHeading p, .compact .reportRow p { font-size: 12px; }
+.compact .reportRow h3 { font-size: 16px; }
+.compact .sourcePill { font-size: 9px; padding: 0 5px; gap: 3px; }
+.compact .sourcePills { gap: 4px; }
+.compact .reportRow { gap: 11px; }
+.compact .composerArea { padding-left: 11px; padding-right: 11px; }
+.compact .composerEntry { padding-left: 8px; padding-right: 8px; }
+.compact .composerInput { font-size: 12px !important; }
+.compact .composerBottom { gap: 4px; margin-left: 8px; margin-right: 8px; }
+.compact .ability { font-size: 10px !important; gap: 4px; padding: 0 5px; }
+.compact .ability > svg { display: none; }
+.compact .requestState { right: 13px; top: 42px; }
+.compact .voiceComposer, .compact .imageComposer { left: 11px; right: 11px; }
+.compact .transcript { left: 12px; right: 64px; font-size: 12px; }
+.compact .mic { right: 12px; }
+.compact .pipelinePill { left: 12px; font-size: 8px; gap: 4px; }
+.compact .cleanBadge { margin-left: 0; padding: 2px 4px; }
+.compact .recordingLabel { max-width: 95px; overflow: hidden; font-size: 8px; }
+.compact .voiceAnswer { margin-top: 13px; padding-top: 10px; }
+.compact .imageContent { padding-left: 18px; padding-right: 18px; }
+.compact .wikiSummary { font-size: 12px; }
+.compact .imageEntry { font-size: 12px; gap: 7px; }
+.compact .imageChip { left: 10px; }
+.compact .miniState { max-width: 135px; text-align: right; }
+
+@container (max-width: 340px) {
+  .compact .choice { padding: 0 3px; font-size: 10px !important; }
+  .compact .choice img { width: 17px; height: 17px; }
+}
+@container (min-width: 700px) and (max-width: 900px) {
+  .choice { padding: 0 5px; gap: 5px; }
+  .choices { gap: 5px; }
+  .choice em { display: none; }
+}
+.enrichSources { position: absolute; left: 27px; top: 500px; width: 122px; display: grid; justify-items: center; gap: 9px; color: #a8a8b2; font-size: 10px; }
+.compact .enrichSources { display: none; }
+.compact .enrichOperation { left: 50%; top: 273px; width: 190px; transform: translateX(-50%); }

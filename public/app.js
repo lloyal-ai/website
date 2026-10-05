@@ -14,7 +14,8 @@
       mobileNav.hidden = open;
     });
     mobileNav.addEventListener('click', (event) => {
-      if (event.target instanceof HTMLAnchorElement) {
+      const link = event.target instanceof Element ? event.target.closest('a') : null;
+      if (link && mobileNav.contains(link)) {
         menuButton.setAttribute('aria-expanded', 'false');
         mobileNav.hidden = true;
       }
@@ -272,17 +273,3 @@
     window.location.href = `mailto:zuhair@lloyal.ai?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   });
 })();
-
-document.querySelectorAll('[data-copy-command]').forEach((button) => {
-  button.addEventListener('click', async () => {
-    const command = button.getAttribute('data-copy-command');
-    try {
-      await navigator.clipboard.writeText(command);
-      const previous = button.textContent;
-      button.textContent = 'Copied';
-      window.setTimeout(() => { button.textContent = previous; }, 1600);
-    } catch (_) {
-      button.textContent = command;
-    }
-  });
-});

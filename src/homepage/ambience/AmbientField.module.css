@@ -1,0 +1,37 @@
+.environment {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.material {
+  position: absolute;
+  inset: -3%;
+  width: 106%;
+  height: 106%;
+  max-width: none;
+  object-fit: cover;
+  object-position: center;
+}
+
+.canvas { opacity: 0; }
+.canvas[data-ready='true'] { opacity: 1; }
+
+.frost {
+  position: absolute;
+  inset: 0;
+  background: #06060845;
+  -webkit-backdrop-filter: blur(30px);
+  backdrop-filter: blur(30px);
+}
+
+.grain {
+  position: absolute;
+  inset: 0;
+  opacity: .018;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.88' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' opacity='.9' filter='url(%23grain)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  mix-blend-mode: screen;
+}

@@ -34,6 +34,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 <title>LLoyal Labs — Vertical Inference</title>
 <link href="/styles.css" rel="stylesheet"/>
+
 <link rel="icon" href="/favicon.png"/>
 
 <style>
@@ -888,38 +889,6 @@ main > section > .partner-band { width: 100%; }
     color: #e4e0d9;
   }
 .band-cream .build-entry-copy > p.large-copy { color: #2a2723; }
-.build-command {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  gap: 16px;
-  align-items: center;
-  margin-top: 42px;
-  padding: 24px 26px;
-  color: var(--ink);
-  background: #080808;
-  font-family: var(--mono);
-}
-.build-command > span { color: #47d57b; font-size: 22px; }
-/* #47d57b is sampled from the prompt in the terminal capture beside it, so
-   the two agree. npx is the runner, not the point — it recedes. */
-.build-command code .cmd-run { color: #8b8780; }
-.build-command code {
-  overflow-wrap: anywhere;
-  color: var(--ink);
-  font-size: clamp(18px, 1.55vw, 25px);
-  line-height: 1.3;
-}
-.build-command button {
-  padding: 9px 12px;
-  border: 1px solid #4c4a45;
-  color: var(--ink);
-  background: transparent;
-  font: 600 10px var(--mono);
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  cursor: pointer;
-}
-.build-command button:hover { border-color: var(--ink); }
 .build-meta {
   display: flex;
   flex-wrap: wrap;
@@ -994,47 +963,10 @@ main > section > .partner-band { width: 100%; }
 @media (max-width: 560px) {
   .build-entry { padding-block: 62px; }
   .build-entry-copy h1 { font-size: clamp(54px, 16vw, 76px); }
-  .build-command {
-    grid-template-columns: auto minmax(0, 1fr);
-    padding: 20px;
-  }
-  .build-command button { grid-column: 1 / -1; }
   .scaffold-shot-head em { display: none; }
 }
 </style>
 <style>
-.build-command { overflow-x: auto; }
-.build-command code {
-  white-space: nowrap;
-  overflow-wrap: normal;
-  word-break: normal;
-  font-size: clamp(16px, 1.35vw, 22px);
-}
-@media (max-width: 560px) {
-  .build-command {
-    grid-template-columns: max-content 1fr auto;
-  }
-  .build-command button {
-    grid-column: auto;
-  }
-}
-
-/* Below ~430px the command and the button cannot share a line: the button ends
-   up 25px past the block's edge, reachable only by scrolling a black bar
-   sideways. An earlier rule gave it its own row; making the command scrollable
-   overrode that. Restore it where it is actually needed — the prompt and
-   command still scroll on the first row. */
-@media (max-width: 420px) {
-  .build-command {
-    grid-template-columns: max-content 1fr;
-    row-gap: 14px;
-  }
-  .build-command button {
-    grid-column: 1 / -1;
-    justify-self: start;
-  }
-}
-
 /* Dispatch tiles, in the hero's right column under the calls to action.
    A 2x2 grid there rather than a full-width strip: the strip read as a detached
    band with dead space above it, and the right column had room going spare.
@@ -1161,17 +1093,12 @@ main > section > .partner-band { width: 100%; }
 
 /* Closing band: .form-note is tuned for the light partner card and reads at
    3.15:1 on this ground. Palette values that clear AA on #080808. */
-/* Closing band is cream. .build-command keeps its own #080808 ground, so the
-   terminal reads the same on either band; only the prose needs restating. */
 /* .partner-band paints its own rgba(8,8,8,.78) over the band, which is why the
    section read black with a cream background underneath it. */
 /* The closing command no longer needs the diagram's full-screen height. */
 main > section#start{min-height:0}
 #start .partner-band{background:transparent}
 #start .wrap{text-align:center}
-/* Left as a full-width grid the Copy button ends up a screen away from the
-   command. Constrained and centred, it reads as one object. */
-#start .build-command{max-width:min(600px,100%);margin-inline:auto;text-align:left}
 #start .form-note{color:#625e57;margin-top:20px}
 #start .form-note a{color:#181715;border-bottom:1px solid #aaa49a}
 #start .form-note a:hover{color:#000;border-color:#000}
@@ -1211,35 +1138,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <strong>LLoyal</strong><span>Labs</span>
 </a>
 <p class="brand-line">Engineering AI's contact with reality.</p>
-<nav aria-label="Primary" class="desktop-nav"><a href="#abilities">Abilities</a><a href="#build">How it works</a><a href="#partner">Get in touch</a><a href="/blog/">Blog</a></nav>
-<nav aria-label="Resources" class="desktop-nav utility-nav"><a href="https://docs.lloyal.ai/" rel="noreferrer" target="_blank">Docs ↗</a><a href="https://github.com/lloyal-ai/lloyal-ai" rel="noreferrer" target="_blank">GitHub ↗</a></nav>
+<nav aria-label="Primary" class="desktop-nav"><a href="#partner">Get in touch</a><a href="/blog/">Blog</a></nav>
+<nav aria-label="Resources" class="desktop-nav utility-nav"><a href="https://docs.lloyal.ai/" rel="noreferrer" target="_blank">Docs ↗</a><a class="github-link" href="https://github.com/lloyal-ai/lloyal-ai" rel="noreferrer" target="_blank"><img src="/assets/github-mark.svg" alt="" width="16" height="16" aria-hidden="true"/><span>GitHub</span></a></nav>
 <button aria-controls="mobile-nav" aria-expanded="false" class="menu-button" data-menu-button="" type="button">
 <span></span><span></span><span class="sr-only">Open menu</span>
 </button>
 </div>
-<nav class="mobile-nav" data-mobile-nav="" hidden="" id="mobile-nav"><a href="#abilities">Abilities</a><a href="#build">How it works</a><a href="#partner">Get in touch</a><a href="/blog/">Blog</a><a href="https://docs.lloyal.ai/" rel="noreferrer" target="_blank">Docs ↗</a><a href="https://github.com/lloyal-ai/lloyal-ai" rel="noreferrer" target="_blank">GitHub ↗</a></nav>
+<nav class="mobile-nav" data-mobile-nav="" hidden="" id="mobile-nav"><a href="#partner">Get in touch</a><a href="/blog/">Blog</a><a href="https://docs.lloyal.ai/" rel="noreferrer" target="_blank">Docs ↗</a><a class="github-link" href="https://github.com/lloyal-ai/lloyal-ai" rel="noreferrer" target="_blank"><img src="/assets/github-mark.svg" alt="" width="16" height="16" aria-hidden="true"/><span>GitHub</span></a></nav>
 </header>
 <main id="main">
-<section class="build-entry build-entry--hero" id="developers">
-<div class="wrap build-entry-grid reveal">
-<div class="build-entry-copy">
-<h1>Ship apps that think and act.</h1>
-<p class="large-copy">Build your harness in TypeScript. Ship it as a single on-device binary that runs offline, as a multi-user service on a private appliance, or online on frontier compute.</p>
-<div class="build-command"><span>$</span><code><span class="cmd-run">npx</span> lloyal-ai new</code><button type="button" data-copy-command="npx lloyal-ai new">Copy</button></div>
-<figure class="inception-membership">
-<a href="https://www.nvidia.com/en-us/startups/" rel="noreferrer" target="_blank"><img alt="NVIDIA Inception Program member badge" height="69" src="/assets/nvidia-inception-program-badge.svg" width="160"/></a>
-</figure>
-</div>
-<div class="build-entry-visual">
-<figure class="scaffold-shot">
-<div class="scaffold-shot-head"><span>lloyal-ai</span><em>guided application scaffold</em></div>
-<div class="scaffold-shot-viewport"><img alt="The lloyal-ai wizard scaffolding a Wikipedia research harness — template chosen, dependencies installed, ready to run across CLI, desktop and web with a resident Qwen model." src="/assets/harness-dev-new.gif"/></div>
-<figcaption>Choose the front ends, the model, and the template it starts from. The scaffold installs a working application you can change. <a href="#start">Watch the walkthrough <span aria-hidden="true">↘</span></a></figcaption>
-</figure>
-<p class="build-absences">No OpenAI or Anthropic key. No Docker, no Ollama, no LangGraph, no vector database. <strong>Just your code and the model.</strong> <a class="guide-link" href="https://docs.lloyal.ai/build-your-first-harness/">Read the ten-minute guide →</a></p>
-</div>
-</div>
+<div id="lloyal-showpiece">
+<section class="showpiece-fallback" aria-labelledby="fallback-title" style="background:#070708;color:#eee;padding:56px 6vw 80px;font-family:Arial,sans-serif;text-align:center">
+<h1 id="fallback-title" style="font-size:clamp(36px,10vw,52px);line-height:1.12;font-weight:500;letter-spacing:-.025em">Ship apps that think and act.</h1>
+<p>Compose open-weight models in TypeScript. Ship intelligence inside your application.</p>
+<p class="command-fallback" style="margin-top:24px"><code><span class="command-prompt">$</span> <span class="command-runner">npx</span> lloyal-ai new</code></p>
 </section>
+</div>
 <section class="featured-quotes band-cream carousel" id="featured-by" aria-labelledby="featured-title" data-quote-carousel data-carousel>
 <div class="wrap">
 <h2 class="featured-eyebrow" id="featured-title">Featured by</h2>
@@ -1482,13 +1396,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 <p class="sr-only" data-carousel-status aria-live="polite" aria-atomic="true"></p>
 </div>
-<div class="video-command"><div class="build-command"><span>$</span><code><span class="cmd-run">npx</span> lloyal-ai new</code><button type="button" data-copy-command="npx lloyal-ai new">Copy</button></div><p class="form-note">No API key, no inference server, no vector database. <a href="https://docs.lloyal.ai/build-your-first-harness">Ten-minute guide</a> · <a href="https://docs.lloyal.ai/">Docs</a> · <a href="https://github.com/lloyal-ai/hdk">HDK on GitHub</a></p></div>
+<div class="video-command"><div id="lloyal-closing-command"><p class="command-fallback"><code><span class="command-prompt">$</span> <span class="command-runner">npx</span> lloyal-ai new</code></p></div><p class="form-note">No API key, no inference server, no vector database. <a href="https://docs.lloyal.ai/build-your-first-harness">Ten-minute guide</a> · <a href="https://docs.lloyal.ai/">Docs</a> · <a href="https://github.com/lloyal-ai/hdk">HDK on GitHub</a></p></div>
 </div></div></section></main>
 <footer>
 <div class="wrap footer-top">
 <div>
 <a class="wordmark footer-mark" href="#top"><strong>LLoyal</strong><span>Labs</span></a>
 <p>Engineering AI's contact with reality.</p>
+<figure class="inception-membership">
+<a href="https://www.nvidia.com/en-us/startups/" rel="noreferrer" target="_blank"><img alt="NVIDIA Inception Program member badge" height="69" src="/assets/nvidia-inception-program-badge.svg" width="160" loading="lazy"/></a>
+</figure>
 </div>
 <div class="footer-links">
 <div><span>Engineering</span><a href="https://hdk.lloyal.ai/">HDK</a><a href="https://reasoning.run/">reasoning.run</a><a href="https://docs.lloyal.ai/">Documentation</a></div>
@@ -1500,5 +1417,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <p class="wrap footer-legal">NVIDIA, the NVIDIA logo, and NVIDIA Inception are trademarks and/or registered trademarks of NVIDIA Corporation in the U.S. and other countries. RunPod is a trademark of its owner.</p>
 </footer>
 <script src="/app.js"></script>
+<script type="module" src="/src/showpiece/entry.jsx"></script>
 </body>
 </html>
