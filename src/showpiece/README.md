@@ -9,7 +9,8 @@ no-JavaScript fallback; `entry.jsx` mounts the hero. The former imperative hero 
 | Change | Owner |
 | --- | --- |
 | Hero typography, command, ambience and overall proportions | `../homepage/` |
-| Scene stage, chapter controls and captions | `Showpiece.jsx`, `Showpiece.module.css` |
+| Scene stage and shared presentation tokens | `Showpiece.jsx`, `Showpiece.module.css` |
+| Numbered journey, chapter captions and playback controls | `SceneNavigation.jsx`, `SceneNavigation.module.css` |
 | Chapter order, duration, reduced-motion still and accessible description | `config.js` |
 | Playback, seek, visibility, automatic chapter advance | `playback/` |
 | Window chrome, model marks, icons, cursor, angular signals | `components/` |
@@ -104,7 +105,8 @@ measurement and the clock itself.
 ## Accessibility and lifecycle
 
 Tabs support arrows, Home and End. Keyboard focus suspends automatic motion.
-The active tab remains visible without scrolling the document. Hidden controls
+All five numbered journey steps stay visible, wrapping into centred rows on compact
+screens. Only the active step’s progress ring subscribes to the playhead. Hidden controls
 are inert. Reduced-motion preferences select readable scene stills; scene
 controls also select settled frames. Hidden tabs and an offscreen hero suspend
 the frame loop without losing user playback intent. All listeners and observers
