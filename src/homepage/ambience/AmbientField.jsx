@@ -22,18 +22,36 @@ export default function AmbientField() {
   }, [running, reducedMotion]);
 
   useEffect(() => {
+    const canvas = canvasRef.current;
     // Check the browser preference directly too: the provider synchronizes it
     // in an effect, which may run after this child mounts for the first time.
-    if (reducedMotion || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (reducedMotion || matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      canvas.dataset.renderer = 'reduced-motion';
+      return;
+    }
     const root = rootRef.current;
-    const canvas = canvasRef.current;
     const image = imageRef.current;
+    const debug = new URLSearchParams(window.location.search).has('ambient-debug');
+    canvas.dataset.renderer = 'initializing';
+    delete canvas.dataset.rendererError;
     let frameId = null;
     let previousTimestamp = null;
     let lastRenderTimestamp = null;
     let loaded = false;
     let disposed = false;
     let contextLost = false;
+    let failed = false;
+    let renderCount = 0;
+    let lastDiagnosticTime = -Infinity;
+
+    function reportFailure(message) {
+      failed = true;
+      stop();
+      canvas.removeAttribute('data-ready');
+      canvas.dataset.renderer = 'fallback';
+      canvas.dataset.rendererError = message;
+      if (debug) console.warn('[Lloyal ambience]', message);
+    }
 
     function stop() {
       if (frameId !== null) cancelAnimationFrame(frameId);
@@ -47,9 +65,12 @@ export default function AmbientField() {
         contextLost = true;
         stop();
         canvas.removeAttribute('data-ready');
+        canvas.dataset.renderer = 'context-lost';
       },
       onContextRestored() {
         contextLost = false;
+        failed = false;
+        delete canvas.dataset.rendererError;
         // Loading may have completed while the context was unavailable, before
         // the renderer could retain the image or mark the component as ready.
         if (!loaded && image.complete && image.naturalWidth) load();
@@ -58,21 +79,40 @@ export default function AmbientField() {
           start();
         }
       },
+      onError: reportFailure,
     });
     if (!renderer) return;
+    canvas.dataset.renderer = 'waiting-image';
 
     function paint() {
-      if (renderer.render(elapsedRef.current)) canvas.dataset.ready = 'true';
+      if (failed) return false;
+      try {
+        if (!renderer.render(elapsedRef.current)) return false;
+        canvas.dataset.ready = 'true';
+        canvas.dataset.renderer = 'ready';
+        renderCount += 1;
+        // Opt-in counters expose the actual render clock without a production
+        // global or per-frame React updates. No image or playback changes.
+        if (debug && elapsedRef.current - lastDiagnosticTime >= 0.5) {
+          canvas.dataset.motionTime = elapsedRef.current.toFixed(3);
+          canvas.dataset.renderCount = String(renderCount);
+          lastDiagnosticTime = elapsedRef.current;
+        }
+        return true;
+      } catch (error) {
+        reportFailure(error.message);
+        return false;
+      }
     }
 
     function tick(timestamp) {
       frameId = null;
       const playback = playbackRef.current;
-      if (disposed || contextLost || !playback.running || playback.reducedMotion) return;
+      if (disposed || contextLost || failed || !playback.running || playback.reducedMotion) return;
       if (previousTimestamp !== null) elapsedRef.current += Math.min((timestamp - previousTimestamp) / 1000, 0.1);
       previousTimestamp = timestamp;
       if (lastRenderTimestamp === null || timestamp - lastRenderTimestamp >= FRAME_INTERVAL) {
-        paint();
+        if (!paint()) return;
         lastRenderTimestamp = timestamp - (lastRenderTimestamp === null ? 0 : (timestamp - lastRenderTimestamp) % FRAME_INTERVAL);
       }
       frameId = requestAnimationFrame(tick);
@@ -80,24 +120,26 @@ export default function AmbientField() {
 
     function start() {
       const playback = playbackRef.current;
-      if (!disposed && !contextLost && loaded && playback.running && !playback.reducedMotion && frameId === null) frameId = requestAnimationFrame(tick);
+      if (!disposed && !contextLost && !failed && loaded && playback.running && !playback.reducedMotion && frameId === null) frameId = requestAnimationFrame(tick);
     }
 
     function measure() {
+      if (failed) return;
       renderer.resize(canvas.clientWidth, canvas.clientHeight, window.devicePixelRatio || 1);
       if (loaded) paint();
     }
 
     function load() {
-      if (disposed || loaded) return;
+      if (disposed || failed || loaded) return;
       try {
         loaded = renderer.load(image);
         if (!loaded) return;
         measure();
         start();
-      } catch {
+      } catch (error) {
         stop();
         canvas.removeAttribute('data-ready');
+        reportFailure(`Ambient texture setup failed: ${error.message}`);
       }
     }
 
@@ -105,22 +147,28 @@ export default function AmbientField() {
     const observer = new ResizeObserver(measure);
     observer.observe(root);
     image.addEventListener('load', load);
+    const imageFailed = () => reportFailure('Ambient material image failed to load.');
+    image.addEventListener('error', imageFailed);
     if (image.complete && image.naturalWidth) load();
+    else if (image.complete) imageFailed();
 
     return () => {
       disposed = true;
       stop();
       observer.disconnect();
       image.removeEventListener('load', load);
+      image.removeEventListener('error', imageFailed);
       controllerRef.current = null;
       canvas.removeAttribute('data-ready');
+      delete canvas.dataset.motionTime;
+      delete canvas.dataset.renderCount;
       renderer.dispose();
     };
   }, [reducedMotion]);
 
   return <div className={styles.environment} ref={rootRef} aria-hidden="true">
     <img ref={imageRef} className={styles.material} src="/assets/homepage/liquid-field.webp" alt="" decoding="async" fetchPriority="high" />
-    <canvas ref={canvasRef} className={`${styles.material} ${styles.canvas}`} />
+    <canvas ref={canvasRef} className={`${styles.material} ${styles.canvas}`} data-playback={reducedMotion ? 'reduced-motion' : running ? 'running' : 'paused'} />
     <div className={styles.frost} />
     <div className={styles.grain} />
   </div>;

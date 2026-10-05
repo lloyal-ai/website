@@ -11,6 +11,16 @@
 .scene button { color: inherit; cursor: pointer; }
 .scene button:focus-visible, .scene input:focus-visible { outline: 1px solid #dedee7; outline-offset: 4px; }
 .scene button:disabled { cursor: default; }
+/* The app anchors the composition. Let its model rail extend into the outer
+   gutter, but retain room for return labels and the model menu on narrower screens. */
+.composition {
+  --composition-offset: clamp(0px, calc((100vw / var(--sp-stage-scale, 1) - 100%) / 2 - 32px), 66px);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(-1 * var(--composition-offset));
+  right: var(--composition-offset);
+}
 .choices { position: absolute; top: 41px; left: 156px; right: 24px; display: flex; gap: 12px; z-index: 15; }
 .choice { display: flex; align-items: center; gap: 7px; height: 26px; padding: 0 9px; border: 0; border-bottom: 1px solid #ffffff12; color: #8a8a93 !important; background: none; font-size: 11px !important; white-space: nowrap; }
 .choiceActive { border-bottom-color: var(--sp-orchestration); color: #e0e0e5 !important; }
@@ -35,6 +45,7 @@
 .imageTool small { margin-bottom: 3px; font-size: 8px; letter-spacing: 0.6px; }
 .toolOperation[data-active="true"], .imageTool[data-active="true"] { border-color: var(--sp-orchestration-line); background: linear-gradient(var(--sp-orchestration-soft), var(--sp-orchestration-soft)), #19191b; }
 .pipelineNote { position: absolute; left: 14px; top: 87px; width: 148px; color: #9b9ba0; font-size: 10px; line-height: 16px; text-align: center; }
+.pipelineNote > span { display: block; }
 .routes { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
 .candidateGroup { position: absolute; left: -15px; top: 139px; width: 110px; }
 .candidateStack { position: relative; height: 63px; }
@@ -153,6 +164,7 @@ code.coverMetaPill { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, C
 
 /* Small screens use real layout changes, with readable app controls and text. */
 .compact { min-height: 840px; height: 840px; }
+.compact .composition { --composition-offset: 0px; }
 .compact .choices { left: 8px; right: 8px; top: 42px; justify-content: center; gap: 2px; }
 .compact .choice { gap: 4px; padding: 0 4px; font-size: 11px !important; }
 .compact .choice em { display: none; }
@@ -168,8 +180,8 @@ code.coverMetaPill { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, C
 .compact .candidateResult { display: none; }
 .compact .evidenceReturn { left: 50%; top: 83px; padding: 2px 4px; transform: translateX(-50%); writing-mode: horizontal-tb; background: #131315; font-size: 8px; }
 .compact .returnLabel { left: 50%; top: 85px; transform: translateX(-50%); writing-mode: horizontal-tb; padding: 2px 5px; background: #131315; white-space: nowrap; font-size: 8px; }
-.compact .pipelineNote { left: 12px; right: 12px; top: 77px; width: auto; }
-.compact .rail[data-composition="voice"] .returnLabel { top: 101px; }
+.compact .pipelineNote { left: 12px; right: 12px; top: 73px; width: auto; }
+.compact .rail[data-composition="voice"] .returnLabel { top: 108px; }
 .compact .imageTool { left: 50%; top: 273px; width: 190px; min-height: 25px; padding: 6px; transform: translateX(-50%); }
 .compact .imageTool small { display: inline; margin-right: 6px; font-size: 7px; }
 .compact .appWindow { top: 306px; left: 8px; width: calc(100% - 16px); height: 498px; }

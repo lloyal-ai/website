@@ -32,6 +32,19 @@ The atmosphere is the approved dim mercury/plasma/silk field, diffused through
 stationary frost. The renderer deforms its coordinates without recolouring it.
 The original image remains available beneath the canvas for graceful fallback.
 
+To diagnose a browser without changing the atmosphere, add `?ambient-debug` to
+the page URL. The ambient canvas exposes `data-renderer`, `data-playback`, and
+any original driver error in `data-renderer-error`. Debug mode additionally
+samples `data-motion-time` and `data-render-count` twice a second; increasing
+values confirm that the renderer is advancing. These counters are absent in
+normal browsing. Context, shader, image, texture-upload and first-draw failures
+retain the still-image fallback. No telemetry is sent.
+
+Compose aligns its application window with the hero and journey on wide
+screens, allowing the model rail into the left gutter. Its shared composition
+offset reduces when the outer gutter cannot safely contain labels and menus;
+compact layouts retain the models-above-app arrangement.
+
 ## Iterating without drift
 
 Edit these hero files to change the surrounding composition. Do not target
