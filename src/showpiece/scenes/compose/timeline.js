@@ -3,7 +3,7 @@ import { ease, progress, lerp } from '../../motion/math.js';
 export const COMPOSITIONS = [
   { id: 'research', model: 'qwen', name: 'Qwen', purpose: 'deep-research', start: 0, still: 16 },
   { id: 'voice', model: 'gemma', name: 'Gemma 4', purpose: 'voice', start: 18.5, still: 31.2 },
-  { id: 'image', model: 'bonsai', name: 'Bonsai', purpose: 'media store', start: 34.5, still: 48 },
+  { id: 'image', model: 'bonsai', name: 'Bonsai', purpose: 'multimodal', start: 34.5, still: 48 },
   { id: 'enrich', model: 'glm', name: 'GLM 5.2', purpose: 'spreadsheet', start: 50, still: 65 },
 ];
 export const RESEARCH_QUESTION = 'Compare these notes with the brief.';

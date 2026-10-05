@@ -134,6 +134,8 @@
 .chrome[data-title-alignment='start'] .windowTitle { flex: 1; min-width: 0; max-width: none; }
 .chrome[data-title-alignment='start'] .windowAction { position: static; flex: none; margin-left: auto; color: inherit; }
 .offlineIndicator { display: inline-flex; flex: none; align-items: center; color: #b5b5bf; }
+.docsLink { color: #bfc0c8; text-decoration: none; white-space: nowrap; }
+.docsLink:hover { color: #f1f1f5; text-decoration: underline; text-underline-offset: 3px; }
 .windowBody { position: relative; display: flex; flex: 1; min-width: 0; min-height: 0; }
 .sidebar { position: relative; flex: 0 0 var(--sp-sidebar-width, 124px); width: var(--sp-sidebar-width, 124px); min-width: 0; border-right: 1px solid #ffffff0c; background: #141416; }
 .windowMain { position: relative; display: flex; flex-direction: column; flex: 1; min-width: 0; min-height: 0; }

@@ -26,6 +26,11 @@ transitions; `EnrichWorkspace` owns the reusable spreadsheet content without
 adding another window or platform chapter. Live control is
 an isolated reducer with a pure frame projection.
 
+`ReasoningLead` shares model selection across all four compositions. Each example
+keeps its own selected lead; changing it preserves the current example and time.
+The tab mark and model-dependent captions follow that selection. The multimodal
+example only offers leads with a paired vision projector.
+
 Within delivery, `ShipTerminal` owns the developer shell and its CSS. It renders
 the existing ship frame as sequential console output, separately from the
 end-user provisioning interface in `DeliveryScenes`.
@@ -76,8 +81,9 @@ measurement and the clock itself.
 - Voice is Whisper → raw text → S1-mini cleanup → reasoning lead. S1-mini is
   not depicted as accepting an audio waveform.
 - Media attachments are content-addressed blobs in an OCI Image Layout. The
-  example labels the store on the attachment, without inventing a digest or
-  implying raw image bytes are passed through commands.
+  multimodal example places OCI, Duplex Content Plane and an illustrative
+  attachment URI over the image. Its digest prefix is an explicit placeholder;
+  raw image bytes are not passed through commands.
 - A projected image enters the reasoning model before forks. Newly admitted
   evidence is inherited only by later descendants of that lineage.
 - Manual pause holds the current state. Cancel targets the existing selected

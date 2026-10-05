@@ -23,20 +23,19 @@
 .projector { position: absolute; right: -10px; top: -16px; display: grid; place-items: center; width: 32px; height: 32px; color: #bbb; background: #202022; border: 1px solid #ffffff29; border-radius: 9px; box-shadow: 0 3px 7px #0008; }
 .modelChooser { position: relative; margin-top: 11px; margin-left: -9px; width: 99px; z-index: 30; }
 .changeModel { display: flex; align-items: center; justify-content: center; gap: 5px; width: 99px; height: 27px; padding: 0 5px; border: 1px solid #ffffff17; border-radius: 7px; background: #111113; font-size: 9px !important; color: #85858c !important; white-space: nowrap; }
-.modelMenu { position: absolute; left: -43px; top: 34px; z-index: 35; width: 170px; padding: 7px; border: 1px solid #ffffff25; border-radius: 12px; background: #202022; box-shadow: 0 15px 40px #000a; }
+.modelMenu { position: absolute; left: 50%; top: 34px; z-index: 35; width: 170px; transform: translateX(-50%); padding: 7px; border: 1px solid #ffffff25; border-radius: 12px; background: #202022; box-shadow: 0 15px 40px #000a; }
 .modelMenu header { padding: 6px 8px 9px; font-size: 9px; color: #999; text-transform: uppercase; letter-spacing: 1px; }
 .modelMenu button { display: flex; align-items: center; gap: 9px; width: 100%; border: 0; border-radius: 7px; background: none; padding: 8px; font-size: 11px !important; text-align: left; }
 .modelMenu button:hover { background: #ffffff0b; }
 .modelMenu img { width: 21px; height: 21px; }
 .modelMenu button > svg { margin-left: auto; color: var(--sp-orchestration); }
 .modelMenu small { display: block; margin: 6px 7px; font-size: 9px; color: #727278; }
-.toolOperation, .imageTool, .codeLabel { position: absolute; left: 35px; top: 299px; width: 107px; min-height: 37px; padding: 6px 3px; border: 1px solid #ffffff24; border-radius: 8px; background: #19191b; text-align: center; font-size: 10px; box-shadow: 0 3px 8px #0007; }
+.toolOperation, .imageTool { position: absolute; left: 35px; top: 299px; width: 107px; min-height: 37px; padding: 6px 3px; border: 1px solid #ffffff24; border-radius: 8px; background: #19191b; text-align: center; font-size: 10px; box-shadow: 0 3px 8px #0007; }
 .toolOperation small, .imageTool small { display: block; margin-bottom: 1px; font-size: 8px; letter-spacing: 0.7px; color: #7b7b80; }
-.imageTool { left: 33px; width: 111px; padding: 7px 0; }
+.imageTool { left: 33px; top: 308px; width: 111px; padding: 7px 0; }
 .imageTool small { margin-bottom: 3px; font-size: 8px; letter-spacing: 0.6px; }
 .toolOperation[data-active="true"], .imageTool[data-active="true"] { border-color: var(--sp-orchestration-line); background: linear-gradient(var(--sp-orchestration-soft), var(--sp-orchestration-soft)), #19191b; }
-.codeLabel { left: 26px; top: 254px; width: 124px; font-size: 9px; padding: 7px 2px; box-shadow: none; }
-.codeLabel small { display: block; color: #777782; font-size: 8px; margin-top: 3px; }
+.pipelineNote { position: absolute; left: 14px; top: 87px; width: 148px; color: #9b9ba0; font-size: 10px; line-height: 16px; text-align: center; }
 .routes { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
 .candidateGroup { position: absolute; left: -15px; top: 139px; width: 110px; }
 .candidateStack { position: relative; height: 63px; }
@@ -135,8 +134,12 @@
 .imageContent h2 { margin-bottom: 12px; font-size: 24px; letter-spacing: -0.7px; }
 .cover { position: relative; height: 135px; overflow: hidden; border: 1px solid #ffffff13; border-radius: 7px; background: #252b33; }
 .landscape { position: absolute; inset: 0; width: 100%; height: 100%; }
-.coverTag { position: absolute; left: 10px; top: 10px; z-index: 3; padding: 3px 6px; border: 1px solid #ffffff26; border-radius: 4px; background: #14161cbc; color: #d0d2da; font-size: 8px; }
-.coverCheck { position: absolute; right: 9px; bottom: 8px; z-index: 3; display: flex; align-items: center; gap: 4px; padding: 4px 6px; border: 1px solid #ffffff20; border-radius: 5px; background: #17171cce; color: #dddde4; font-size: 8px; }
+.coverTag, .coverCheck, .coverMetaPill { padding: 3px 6px; border: 1px solid #ffffff26; border-radius: 4px; background: #14161cbc; backdrop-filter: blur(8px); color: #d0d2da; font-size: 8px; line-height: 1.4; white-space: nowrap; }
+.coverTag { position: absolute; left: 9px; top: 9px; z-index: 3; }
+.coverCheck { position: absolute; right: 9px; top: 9px; z-index: 3; display: flex; align-items: center; gap: 4px; }
+.coverMetadata { position: absolute; right: 8px; bottom: 8px; z-index: 3; display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 4px; max-width: calc(100% - 16px); }
+.coverMetaPill { display: inline-flex; align-items: center; }
+code.coverMetaPill { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; letter-spacing: -0.15px; }
 .wikiSummary { max-width: 460px; margin: 13px 0 0; color: #9797a2; font-size: 11px; line-height: 1.7; }
 .generationMask { position: absolute; inset: 0; z-index: 2; border-right: 1px solid #ffffff40; background: linear-gradient(90deg, #a6a6b508, transparent); transform-origin: left; }
 .imageComposer { position: absolute; left: 17px; right: 17px; bottom: 16px; height: 87px; }
@@ -148,9 +151,7 @@
 .imageAbility { padding: 4px 7px; border: 1px solid #ffffff25; border-radius: 5px; background: #ffffff05; font-size: 10px; }
 .miniState { margin-left: auto; color: #797986; font-size: 8px; }
 .imageFooter .send { margin-left: 5px; }
-.imageChip { position: absolute; left: 15px; top: -43px; display: flex; align-items: center; gap: 5px; min-height: 35px; padding: 5px 8px; border: 1px solid #ffffff25; border-radius: 5px; background: #27272c; color: #b8b8c3; font-size: 8px; }
-.imageChip > span { line-height: 1.4; }
-.imageChip small { display: block; margin-top: 2px; color: #90909c; font-size: 8px; }
+.imageChip { position: absolute; left: 15px; top: -34px; display: flex; align-items: center; gap: 5px; height: 26px; padding: 5px 8px; border: 1px solid #ffffff25; border-radius: 5px; background: #27272c; color: #b8b8c3; font-size: 8px; }
 .targets { position: absolute; left: 156px; right: 24px; top: 596px; display: flex; justify-content: center; gap: 24px; color: #696974; font-size: 10px; }
 .targets > span { display: flex; align-items: center; gap: 6px; }
 .targets > span:first-child { color: #b0b0b9; }
@@ -164,7 +165,7 @@
 .compact .choice img { width: 19px; height: 19px; }
 .compact .leadPosition, .compact .rankPosition, .compact .whisperPosition, .compact .s1Position, .compact .imagePosition { width: 68px; }
 .compact .modelChooser { margin-top: 9px; margin-left: -15px; }
-.compact .modelMenu { left: 0; }
+.compact .modelMenu { left: 0; transform: none; }
 .compact .projector { right: -7px; width: 28px; height: 28px; }
 .compact .toolOperation { top: 270px; left: 20px; width: 135px; min-height: 25px; padding: 6px; font-size: 10px; }
 .compact .toolOperation small { display: inline; margin-right: 6px; font-size: 7px; }
@@ -173,8 +174,10 @@
 .compact .candidateResult { display: none; }
 .compact .evidenceReturn { left: 50%; top: 83px; padding: 2px 4px; transform: translateX(-50%); writing-mode: horizontal-tb; background: #131315; font-size: 8px; }
 .compact .returnLabel { left: 50%; top: 85px; transform: translateX(-50%); writing-mode: horizontal-tb; padding: 2px 5px; background: #131315; white-space: nowrap; font-size: 8px; }
-.compact .codeLabel { left: 50%; top: 260px; width: 190px; min-height: 32px; transform: translateX(-50%); }
-.compact .imageTool { left: 50%; top: 262px; width: 150px; transform: translateX(-50%); }
+.compact .pipelineNote { left: 12px; right: 12px; top: 77px; width: auto; }
+.compact .rail[data-composition="voice"] .returnLabel { top: 101px; }
+.compact .imageTool { left: 50%; top: 273px; width: 190px; min-height: 25px; padding: 6px; transform: translateX(-50%); }
+.compact .imageTool small { display: inline; margin-right: 6px; font-size: 7px; }
 .compact .railNote { display: none; }
 .compact .appWindow { top: 306px; left: 8px; width: calc(100% - 16px); height: 498px; }
 .compact .targets { left: 8px; right: 8px; top: 822px; }
@@ -218,4 +221,4 @@
 }
 .enrichSources { position: absolute; left: 27px; top: 500px; width: 122px; display: grid; justify-items: center; gap: 9px; color: #a8a8b2; font-size: 10px; }
 .compact .enrichSources { display: none; }
-.compact .enrichOperation { left: 50%; top: 265px; width: 190px; transform: translateX(-50%); }
+.compact .enrichOperation { left: 50%; top: 273px; width: 190px; transform: translateX(-50%); }

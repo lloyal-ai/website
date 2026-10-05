@@ -4,6 +4,7 @@ import { ComposeProvider } from './ComposeContext';
 import { useComposeFrame, useComposeUi } from './useCompose';
 import { Sidebar } from './AppPrimitives';
 import { COMPOSITIONS } from './timeline';
+import { REASONING_MODELS } from './composeState';
 import CompositionRail from './CompositionRail';
 import ResearchApp from './ResearchApp';
 import VoiceApp from './VoiceApp';
@@ -21,8 +22,11 @@ const captions = {
 
 function CompositionChoices() {
   const { active } = useComposeFrame();
-  const { dispatch, playback, reducedMotion } = useComposeUi();
-  return <div className={styles.choices} role="group" aria-label="Example model compositions">{COMPOSITIONS.map((composition) => <button key={composition.id} type="button" className={`${styles.choice} ${active === composition.id ? styles.choiceActive : ''}`} aria-pressed={active === composition.id} onClick={() => { dispatch({ type: 'new-example' }); playback.seek(reducedMotion ? composition.still : composition.start); playback.play(); }}><ModelMark model={composition.model} /><span>{composition.name}<em> · {composition.purpose}</em></span></button>)}</div>;
+  const { state, dispatch, playback, reducedMotion } = useComposeUi();
+  return <div className={styles.choices} role="group" aria-label="Example model compositions">{COMPOSITIONS.map((composition) => {
+    const model = state.leads[composition.id];
+    return <button key={composition.id} type="button" className={`${styles.choice} ${active === composition.id ? styles.choiceActive : ''}`} aria-pressed={active === composition.id} onClick={() => { dispatch({ type: 'new-example' }); playback.seek(reducedMotion ? composition.still : composition.start); playback.play(); }}><ModelMark model={model} /><span>{REASONING_MODELS[model].name}<em> · {composition.purpose}</em></span></button>;
+  })}</div>;
 }
 
 function ComposeStage() {

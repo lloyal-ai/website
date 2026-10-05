@@ -1,25 +1,16 @@
-import { Icon, Landscape, ModelMark, ModelTile, SignalPath } from '../../components';
+import { DocsLink, Icon, Landscape, ModelTile, SignalPath } from '../../components';
 import { useStageLayout } from '../../playback/ShowpieceContext';
 import { getEnrichFrame } from '../enrich/enrichFrame';
 import { pointOnPolyline } from '../../motion/math';
 import { useComposeFrame, useComposeUi } from './useCompose';
 import { COMPOSITIONS, imageFrame, researchFrame, tween, voiceFrame, within } from './timeline';
+import ReasoningLead from './ReasoningLead';
 import styles from './ComposeScene.module.css';
-
-const MODEL_NAMES = Object.fromEntries(COMPOSITIONS.map(({ model, name }) => [model, name]));
 
 /** A packet's presence, route and timing are declared together for each operation. */
 function Route({ time, start, end, points }) {
   const active = within(time, start, end);
   return <SignalPath points={points} active={active} progress={active ? tween(time, start, end) : null} opacity={active ? 1 : 0.28} />;
-}
-
-function ModelChooser() {
-  const { state, dispatch, playback } = useComposeUi();
-  return <div className={styles.modelChooser}>
-    <button className={styles.changeModel} type="button" aria-label="Choose reasoning model" aria-expanded={state.leadMenuOpen} onClick={() => { playback.pause(); dispatch({ type: 'lead-menu' }); }}>Change model <Icon name="chevron" size={10} /></button>
-    {state.leadMenuOpen && <div className={styles.modelMenu}><header>Reasoning model</header>{Object.entries(MODEL_NAMES).map(([model, label]) => <button type="button" key={model} aria-pressed={model === state.lead} onClick={() => { dispatch({ type: 'select-lead', value: model }); playback.seek(0); }}><ModelMark model={model} /><span>{label}</span>{model === state.lead && <Icon name="check" size={12} />}</button>)}<small>One lead model per run.</small></div>}
-  </div>;
 }
 
 function CandidateStack({ time, frame }) {
@@ -32,7 +23,6 @@ function CandidateStack({ time, frame }) {
 
 function ResearchRail() {
   const { research } = useComposeFrame();
-  const { state } = useComposeUi();
   const { compact, width } = useStageLayout();
   const time = research.time;
   const frame = researchFrame(time);
@@ -52,7 +42,7 @@ function ResearchRail() {
   };
   return <>
     <svg className={styles.routes} aria-hidden="true"><Route time={time} start={4.8} end={5.65} points={routes.request} /><Route time={time} start={6.32} end={7.08} points={routes.tool} /><Route time={time} start={9.55} end={10.38} points={routes.result} /><Route time={time} start={11.55} end={12.03} points={routes.output} /></svg>
-    <div className={styles.leadPosition} style={{ left: leadX, top: faceY }}><ModelTile model={state.lead} label={state.lead === 'qwen' ? 'Qwen 3.5 4B' : MODEL_NAMES[state.lead]} role="Reasoning model" status={frame.leadStatus} active={frame.leadActive} small={compact} />{state.lead === 'qwen' && <span className={styles.projector} title="Paired vision projector"><Icon name="projector" size={17} /></span>}<ModelChooser /></div>
+    <ReasoningLead composition="research" x={leadX} y={faceY} status={frame.leadStatus} active={frame.leadActive} compact={compact} projector />
     <div className={styles.toolOperation} data-active={within(time, 6.05, 10.4)} style={{ opacity: frame.tool }}><small>TOOL CALL</small>Find sources</div>
     <div className={styles.rankPosition} style={{ left: rankX, top: compact ? faceY : 347 }}><ModelTile model="qwen" label="Qwen 3 0.6B" role={frame.rankActive ? 'Scoring passages' : 'Reranker · own context'} active={frame.rankActive} small={compact} /><CandidateStack time={time} frame={frame} /></div>
     <span className={styles.evidenceReturn} style={{ opacity: within(time, 9.55, 10.38) ? Math.sin(Math.PI * tween(time, 9.55, 10.38)) : 0 }}>05 · evidence → caller</span>
@@ -81,8 +71,8 @@ function VoiceRail() {
   };
   return <>
     <svg className={styles.routes} aria-hidden="true"><Route time={time} start={2.23} end={2.65} points={routes.audio} /><Route time={time} start={7.35} end={8} points={routes.normalize} /><Route time={time} start={9.25} end={10} points={routes.clean} /><Route time={time} start={11.6} end={11.95} points={routes.output} /></svg>
-    <div className={styles.leadPosition} style={{ left: leadX, top: faceY }}><ModelTile model="gemma" label="Gemma 4" role="Reasoning model" status={frame.leadStatus} active={frame.leadActive} small={compact} /></div>
-    <div className={styles.codeLabel}>Your code · voice intake<small>A custom pipeline</small></div>
+    <ReasoningLead composition="voice" x={leadX} y={faceY} active={frame.leadActive} compact={compact} />
+    <div className={styles.pipelineNote}>{frame.leadActive ? frame.leadStatus : <>Custom pipeline with <DocsLink href="https://docs.lloyal.ai/services">Services</DocsLink></>}</div>
     <div className={styles.whisperPosition} style={{ left: whisperX, top: compact ? faceY : 304 }}><ModelTile model="whisper" label="Whisper" role={frame.transcribing ? 'Transcribing audio' : time >= 7.6 ? 'Transcript returned' : 'Speech → text'} active={frame.transcribing} small /></div>
     <div className={styles.s1Position} style={{ left: s1X, top: compact ? faceY : 450 }}><ModelTile model="s1" label="S1-mini" role={frame.cleaning ? 'Cleaning filler words' : time >= 9.25 ? 'Clean text returned' : 'Text → clean text'} active={frame.cleaning} small /></div>
     <span className={styles.returnLabel} style={{ opacity: tween(time, 9.25, 10) }}>Cleaned instruction → lead</span>
@@ -112,7 +102,7 @@ function ImageRail() {
   const returnedImagePosition = pointOnPolyline(routes.result, tween(time, 9.7, 10.85));
   return <>
     <svg className={styles.routes} aria-hidden="true"><Route time={time} start={3.2} end={4} points={routes.request} /><Route time={time} start={5.4} end={6.1} points={routes.tool} /><Route time={time} start={9.7} end={10.85} points={routes.result} /><Route time={time} start={11.85} end={12.2} points={routes.output} /></svg>
-    <div className={styles.leadPosition} style={{ left: leadX, top: faceY }}><ModelTile model="bonsai" label="Bonsai 2 27B" role="Vision + reasoning" status={compact ? undefined : frame.leadStatus} active={frame.leadActive} small={compact} /><span className={styles.projector} title="Bonsai paired vision projector"><Icon name="projector" size={17} /></span></div>
+    <ReasoningLead composition="image" x={leadX} y={faceY} status={compact ? undefined : frame.leadStatus} active={frame.leadActive} compact={compact} projector />
     <div className={styles.imageTool} data-active={within(time, 5, 10.85)} style={{ opacity: 0.35 + 0.65 * tween(time, 5, 5.4) }}><small>MODEL CHOOSES TOOL</small>edit_image</div>
     <div className={styles.imagePosition} style={{ left: imageX, top: compact ? faceY : 369 }}><ModelTile model="qwen" label="Qwen Image Edit" role={frame.working ? 'Editing the reference' : time >= 9.7 ? 'Result returned' : 'Image specialist'} active={frame.working} small={compact} /></div>
     <span className={styles.returnLabel} style={{ opacity: tween(time, 9.6, 10.2) }}>Result → same live context</span>
@@ -141,11 +131,11 @@ function EnrichRail() {
     <svg className={styles.routes} aria-hidden="true">
       {Object.entries(routes).map(([id, points]) => <SignalPath key={id} points={points} active={frame.routing[id].active} progress={frame.routing[id].active ? frame.routing[id].progress : null} opacity={frame.routing[id].active ? 1 : .28} />)}
     </svg>
-    <div className={styles.leadPosition} style={{ left: leadX, top: faceY }}><ModelTile model="glm" label="GLM 5.2" role="Reasoning model" status={compact ? undefined : frame.leadStatus} active={frame.leadActive} small={compact} /></div>
+    <ReasoningLead composition="enrich" x={leadX} y={faceY} status={compact ? undefined : frame.leadStatus} active={frame.leadActive} compact={compact} />
     <div className={`${styles.toolOperation} ${styles.enrichOperation}`} data-active={frame.enriching}><small>TOOL CALL</small>Find row evidence</div>
     <div className={styles.rankPosition} style={{ left: rankX, top: compact ? faceY : 347 }}><ModelTile model="qwen" label="Qwen 3 0.6B" role={frame.rerankerActive ? 'Scoring passages' : 'Reranker · own context'} active={frame.rerankerActive} small={compact} /></div>
     <div className={styles.enrichSources}><Icon name="document" size={18} /><span>Local sources</span></div>
-    <span className={styles.returnLabel} style={{ opacity: frame.operation.stage === 'return' ? 1 : 0 }}>Ranked evidence → GLM</span>
+    <span className={styles.returnLabel} style={{ opacity: frame.operation.stage === 'return' ? 1 : 0 }}>Ranked evidence → lead</span>
     <div className={styles.railNote}>Example 04 · Spreadsheet template</div>
   </>;
 }
@@ -158,6 +148,6 @@ export default function CompositionRail() {
   return <>{COMPOSITIONS.map(({ id }) => {
     const section = frame[id];
     const Component = rails[id];
-    return section.visible && <div key={id} className={styles.rail} data-composition={id} style={{ opacity: section.opacity, transform: `translateY(${section.railY}px)`, pointerEvents: frame.active === id ? 'auto' : 'none', zIndex: id === 'research' && state.leadMenuOpen ? 20 : undefined }} aria-hidden={frame.active !== id} inert={frame.active !== id}><Component /></div>;
+    return section.visible && <div key={id} className={styles.rail} data-composition={id} style={{ opacity: section.opacity, transform: `translateY(${section.railY}px)`, pointerEvents: frame.active === id ? 'auto' : 'none', zIndex: state.leadMenuOpen === id ? 20 : undefined }} aria-hidden={frame.active !== id} inert={frame.active !== id}><Component /></div>;
   })}</>;
 }

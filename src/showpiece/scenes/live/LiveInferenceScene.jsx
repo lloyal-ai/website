@@ -1,6 +1,6 @@
 import { useReducer } from 'react';
 import { useSceneTime, usePlaybackActions, usePlaybackState, useStageLayout } from '../../playback/ShowpieceContext';
-import { AppWindow, Cursor, Icon, ModelTile } from '../../components';
+import { AppWindow, Cursor, DocsLink, Icon, ModelTile } from '../../components';
 import { ease, lerp, progress } from '../../motion/math';
 import LineageTree from './LineageTree';
 import { getLiveFrame, initialInteraction, liveInteractionReducer } from './liveFrame';
@@ -41,7 +41,7 @@ function WarmComposer({ projected }) {
 function AuthoredCursor({ frame, width, compact }) {
   const pauseX = width - (compact ? 185 : 202);
   const cancelX = width - (compact ? 78 : 101);
-  const actionY = compact ? 581 : 470;
+  const actionY = compact ? 581 + (width > 340 ? 14 : 0) : 470;
   const outside = [width + 20, compact ? 697 : 594];
   const stops = [
     [0, ...outside], [12.7, ...outside], [13.85, pauseX, actionY],
@@ -92,7 +92,7 @@ export default function LiveInferenceScene() {
       <div className={styles.appContent}>
         <header className={styles.heading}>
           <h3>KV Cache Orchestration</h3>
-          <p>A shared starting point. Independent continuations.</p>
+          <p>A shared starting point. Independent continuations. <DocsLink href="https://docs.lloyal.ai/agents">How it works</DocsLink></p>
           <span className={styles.runState} data-state={frame.paused ? 'paused' : time < 3.5 ? 'preparing' : 'live'}>{frame.runState}</span>
         </header>
         <section className={styles.panel} aria-label="Agents share attention state">

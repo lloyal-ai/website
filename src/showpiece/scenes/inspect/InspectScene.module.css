@@ -206,3 +206,8 @@
 .compact .admissionTail { width: 100%; margin-left: 13px; }
 .compact .footer { padding: 0 12px; height: 36px; gap: 8px; font-size: 11px; line-height: 1.4; }
 .compact .footer span:first-child { max-width: 58%; }
+
+@container (max-width: 340px) {
+  .compact .separator { padding-inline: 0; }
+  .compact .barTail { font-size: 10px; }
+}

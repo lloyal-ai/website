@@ -1,6 +1,7 @@
 export { AppWindow, WindowBody } from './AppWindow';
 export { WindowChrome } from './WindowChrome';
 export { Cursor } from './Cursor';
+export { DocsLink } from './DocsLink';
 export { Icon } from './Icon';
 export { Landscape } from './Landscape';
 export { ModelMark } from './ModelMark';

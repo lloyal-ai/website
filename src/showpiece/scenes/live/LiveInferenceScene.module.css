@@ -43,28 +43,28 @@
 .ability{height:15px;padding:1px 5px;border:1px solid #ffffff12;border-radius:3px;display:flex;align-items:center;gap:4px}.ability::before{content:"";width:3px;height:3px;border-radius:50%;background:var(--sp-secondary)}
 .send{position:absolute;right:9px;top:14px;display:grid;place-items:center;width:27px;height:27px;border:1px solid var(--sp-accent);border-radius:6px;background:var(--sp-accent);color:#fff}
 .caption{position:absolute;left:156px;top:592px;display:flex;gap:8px;margin:0;font-size:10px;color:#646470;line-height:1.5}.caption b{color:#9999a4;font-weight:400}.caption>span{color:#42424c}
-.compact{height:716px}
+.compact{height:730px}
 .compact .owner{left:24px;top:19px;width:calc(100% - 48px);height:80px;text-align:left}
 .compact .model{width:68px}
 .compactModelLabel{position:absolute;left:85px;top:15px;font-size:10px;color:#81818c;line-height:1.7;white-space:nowrap}.compactModelLabel strong{display:block;font-size:12px;color:#d0d0d8;font-weight:400}.compactModelLabel span{display:block}
 .compact .projector{left:50px;top:-7px;width:28px;height:28px}
 .compact .ownerRoute{left:36px;top:79px;width:1px;height:19px}.compact .ownerRoute::after{left:-2px;right:auto;top:auto;bottom:-2px}
 .compact .ownerStatus{left:auto;right:0;top:24px;width:130px;font-size:10px;text-align:right}
-.compact .app{left:12px;top:116px;width:calc(100% - 24px);height:552px}
-.compact .appContent{height:518px}
+.compact .app{left:12px;top:116px;width:calc(100% - 24px);height:566px}
+.compact .appContent{height:532px}
 .compact .heading{left:16px;right:16px;top:19px}
-.compact .heading h3{font-size:23px}.compact .heading p{font-size:10px;margin-top:7px;max-width:230px}
+.compact .heading h3{font-size:23px}.compact .heading p{font-size:10px;margin-top:7px}
 .compact .runState{position:static;margin-top:9px;font-size:9px}
-.compact .panel{left:12px;right:12px;top:108px;height:292px}
+.compact .panel{left:12px;right:12px;top:122px;height:292px}
 .compact .panelHeading{left:12px;right:12px;top:12px;gap:8px}.compact .panelHeading h4{font-size:12px}.compact .panelState{font-size:9px}
 .compact .tree{left:8px;top:43px;width:calc(100% - 16px);height:211px}
 .compact .footnote{left:12px;right:12px;bottom:10px;font-size:9px;line-height:1.4;max-width:calc(100% - 24px)}
 .compact .history{right:12px;bottom:47px;font-size:9px}
-.compact .actionBar{left:16px;right:16px;top:410px;height:46px;display:block}
+.compact .actionBar{left:16px;right:16px;top:424px;height:46px;display:block}
 .compact .selected{font-size:9px;margin-bottom:5px}.compact .actions{justify-content:flex-end;margin-top:-8px;gap:6px}.compact .button{min-width:96px;font-size:10px;padding:0 8px;height:29px}.compact .button.runControl{min-width:94px}
-.compact .composer{left:12px;right:12px;top:461px;height:43px;padding:7px 9px}.compact .composerEntry{font-size:10px;height:12px}.compact .abilities{font-size:8px;margin-top:4px;margin-left:23px;gap:4px}.compact .ability{height:13px;padding:0 4px}.compact .send{top:8px;right:7px;width:25px;height:25px}
-.compact .caption{left:24px;right:24px;top:686px;gap:6px;font-size:9px;justify-content:center}
-@media (max-width:380px){.compact .ownerStatus{display:none}.compact .actions{margin-top:4px}.compact .selected{margin-bottom:0}.compact .actionBar{top:405px}.compact .heading p{max-width:205px}.compact .tree{height:205px}.compact .panelState{font-size:8px}}
+.compact .composer{left:12px;right:12px;top:475px;height:43px;padding:7px 9px}.compact .composerEntry{font-size:10px;height:12px}.compact .abilities{font-size:8px;margin-top:4px;margin-left:23px;gap:4px}.compact .ability{height:13px;padding:0 4px}.compact .send{top:8px;right:7px;width:25px;height:25px}
+.compact .caption{left:24px;right:24px;top:700px;gap:6px;font-size:9px;justify-content:center}
+@media (max-width:380px){.compact .ownerStatus{display:none}.compact .actions{margin-top:4px}.compact .selected{margin-bottom:0}.compact .actionBar{top:405px}.compact .tree{height:205px}.compact .panelState{font-size:8px}}
 
 /* The orchestration title wraps naturally on narrow phones; reserve its row. */
 @container (max-width: 340px) {

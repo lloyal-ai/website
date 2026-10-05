@@ -1,6 +1,7 @@
 import { Cursor, Icon } from '../../components';
 import { useStageLayout } from '../../playback/ShowpieceContext';
 import { useComposeFrame, useComposeUi } from './useCompose';
+import { REASONING_MODELS } from './composeState';
 import { AppToolbar, Findings, ReportHeading, ReportRow } from './AppPrimitives';
 import { cursorPosition, RAW_TRANSCRIPT, RESEARCH_QUESTION, tween, typeText, voiceFrame, within } from './timeline';
 import styles from './ComposeScene.module.css';
@@ -32,12 +33,12 @@ function Waveform({ time, recording }) {
 }
 
 function VoiceComposer({ frame, time }) {
-  const { playback, reducedMotion } = useComposeUi();
+  const { state, playback, reducedMotion } = useComposeUi();
   const startIllustration = () => { playback.seek(reducedMotion ? 31.2 : 20.45); playback.play(); };
   return <div className={styles.voiceComposer} data-recording={frame.recording}>
     <div className={styles.transcript}><Transcript time={time} /></div>
     <button type="button" className={styles.mic} data-recording={frame.recording} aria-label="Play the illustrated voice recording" onClick={startIllustration} style={{ transform: `scale(${within(time, 2.05, 2.23) ? 0.93 : 1})` }}>{frame.recording ? <span className={styles.micStop} /> : <Icon name="mic" size={19} />}</button>
-    <div className={styles.pipelinePill} data-complete={time >= 10}><i /><span>{time >= 10 ? 'Clean instruction received by Gemma 4' : 'Voice · Whisper + S1-mini'}</span><span className={styles.cleanBadge} style={{ opacity: tween(time, 8.9, 9.3) }}>Cleaned</span></div>
+    <div className={styles.pipelinePill} data-complete={time >= 10}><i /><span>{time >= 10 ? `Clean instruction received by ${REASONING_MODELS[state.leads.voice].name}` : 'Voice · Whisper + S1-mini'}</span><span className={styles.cleanBadge} style={{ opacity: tween(time, 8.9, 9.3) }}>Cleaned</span></div>
     <div className={styles.recordingTrack}><span className={styles.recordingDot} style={{ opacity: frame.recording ? 1 : 0.3 }} /><span className={styles.recordingClock}>00:{String(Math.min(4, Math.floor(Math.max(0, time - 2.2)))).padStart(2, '0')}</span><Waveform time={time} recording={frame.recording} /><span className={styles.recordingLabel}>{frame.recordingLabel}</span></div>
   </div>;
 }
