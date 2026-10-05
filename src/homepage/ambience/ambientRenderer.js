@@ -50,7 +50,7 @@ function compileShader(gl, type, source) {
 }
 
 /** GPU resources only. React owns visibility, playback, loading and the clock. */
-export function createAmbientRenderer(canvas, { onContextLost, onContextRestored, onError } = {}) {
+export function createAmbientRenderer(canvas, { onContextLost, onContextRestored, onError, onFrame } = {}) {
   let gl;
   let contextMessage = '';
   const creationFailed = (event) => { contextMessage = event.statusMessage || ''; };
@@ -180,6 +180,9 @@ export function createAmbientRenderer(canvas, { onContextLost, onContextRestored
       checkError('first draw');
       firstDraw = false;
     }
+    // Opt-in diagnostics read pixels before the non-preserved drawing buffer
+    // is presented. Normal browsing supplies no observer.
+    onFrame?.(gl, elapsed);
     return true;
   }
 

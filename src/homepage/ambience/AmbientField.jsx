@@ -1,9 +1,10 @@
-import { useEffect, useRef } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { usePlaybackState } from '../../showpiece/playback/ShowpieceContext.js';
 import { createAmbientRenderer } from './ambientRenderer.js';
 import styles from './AmbientField.module.css';
 
 const FRAME_INTERVAL = 1000 / 30;
+const AmbientDiagnostics = lazy(() => import('./AmbientDiagnostics.jsx'));
 
 /** One material beneath stationary frost, sharing the showpiece's pause control. */
 export default function AmbientField() {
@@ -11,6 +12,9 @@ export default function AmbientField() {
   const rootRef = useRef(null);
   const imageRef = useRef(null);
   const canvasRef = useRef(null);
+  const frostRef = useRef(null);
+  const frameObserverRef = useRef(null);
+  const [diagnosticsEnabled] = useState(() => new URLSearchParams(window.location.search).has('ambient-check'));
   const controllerRef = useRef(null);
   const elapsedRef = useRef(0);
   const playbackRef = useRef({ running, reducedMotion });
@@ -31,9 +35,10 @@ export default function AmbientField() {
     }
     const root = rootRef.current;
     const image = imageRef.current;
-    const debug = new URLSearchParams(window.location.search).has('ambient-debug');
+    const debug = diagnosticsEnabled || new URLSearchParams(window.location.search).has('ambient-debug');
     canvas.dataset.renderer = 'initializing';
     delete canvas.dataset.rendererError;
+    delete canvas.dataset.diagnosticError;
     let frameId = null;
     let previousTimestamp = null;
     let lastRenderTimestamp = null;
@@ -80,6 +85,15 @@ export default function AmbientField() {
         }
       },
       onError: reportFailure,
+      onFrame: diagnosticsEnabled ? (gl, elapsed) => {
+        try {
+          frameObserverRef.current?.(gl, elapsed);
+        } catch (error) {
+          // A failed check must never be reported as a failed liquid renderer.
+          frameObserverRef.current = null;
+          canvas.dataset.diagnosticError = error.message || String(error);
+        }
+      } : undefined,
     });
     if (!renderer) return;
     canvas.dataset.renderer = 'waiting-image';
@@ -164,12 +178,16 @@ export default function AmbientField() {
       delete canvas.dataset.renderCount;
       renderer.dispose();
     };
-  }, [reducedMotion]);
+  }, [reducedMotion, diagnosticsEnabled]);
 
-  return <div className={styles.environment} ref={rootRef} aria-hidden="true">
+  return <><div className={styles.environment} ref={rootRef} aria-hidden="true">
     <img ref={imageRef} className={styles.material} src="/assets/homepage/liquid-field.webp" alt="" decoding="async" fetchPriority="high" />
     <canvas ref={canvasRef} className={`${styles.material} ${styles.canvas}`} data-playback={reducedMotion ? 'reduced-motion' : running ? 'running' : 'paused'} />
-    <div className={styles.frost} />
+    <div className={styles.frost} ref={frostRef} />
     <div className={styles.grain} />
-  </div>;
+  </div>
+    {diagnosticsEnabled && <Suspense fallback={null}>
+      <AmbientDiagnostics canvasRef={canvasRef} frostRef={frostRef} observerRef={frameObserverRef} />
+    </Suspense>}
+  </>;
 }

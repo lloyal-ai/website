@@ -40,6 +40,16 @@ values confirm that the renderer is advancing. These counters are absent in
 normal browsing. Context, shader, image, texture-upload and first-draw failures
 retain the still-image fallback. No telemetry is sent.
 
+For a console-free check on a phone or Mac, use `?ambient-check`. This loads a
+temporary diagnostic panel separately from the normal hero. It compares two
+actual WebGL frames five seconds apart, reading pixels immediately after drawing
+and before browser presentation can discard the drawing buffer. A separate,
+explicit visual test adds a broad moving band to the same canvas, beneath the
+existing frost. The panel can temporarily hide the frost to isolate compositing.
+Pixel changes establish GPU output, while the visible band checks presentation;
+neither is inferred from frame counters alone. Exiting the check restores the
+ordinary page. The shader, artwork and static fallback are unchanged.
+
 Compose aligns its application window with the hero and journey on wide
 screens, allowing the model rail into the left gutter. Its shared composition
 offset reduces when the outer gutter cannot safely contain labels and menus;
