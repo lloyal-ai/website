@@ -1,6 +1,6 @@
 import { useReducer } from 'react';
 import { useSceneTime, usePlaybackActions, usePlaybackState, useStageLayout } from '../../playback/ShowpieceContext';
-import { AppWindow, Cursor, DocsLink, Icon, ModelTile } from '../../components';
+import { AppCenteredScene, AppWindow, Cursor, DocsLink, Icon, ModelTile } from '../../components';
 import { ease, lerp, progress } from '../../motion/math';
 import LineageTree from './LineageTree';
 import { getLiveFrame, initialInteraction, liveInteractionReducer } from './liveFrame';
@@ -86,7 +86,7 @@ export default function LiveInferenceScene() {
     if (frame.paused) pause();
   }
 
-  return <div className={`${styles.scene} ${compact ? styles.compact : ''}`} data-scene="live" data-inference-paused={frame.paused} data-agent-cancelled={frame.cancelled} data-manual-control={frame.manual}>
+  return <AppCenteredScene className={`${styles.scene} ${compact ? styles.compact : ''}`} data-scene="live" data-inference-paused={frame.paused} data-agent-cancelled={frame.cancelled} data-manual-control={frame.manual}>
     <ModelOwner compact={compact} />
     <AppWindow title="Your App" connection="offline" className={styles.app}>
       <div className={styles.appContent}>
@@ -107,5 +107,5 @@ export default function LiveInferenceScene() {
     </AppWindow>
     <AuthoredCursor frame={frame} width={width} compact={compact} />
     <p className={styles.caption}><b>liblloyal</b><span aria-hidden="true">·</span>GPU-native agents from live KV state.</p>
-  </div>;
+  </AppCenteredScene>;
 }

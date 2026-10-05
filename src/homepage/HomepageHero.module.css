@@ -6,7 +6,7 @@
   padding: 28px 0 42px;
   color: #eeedef;
   background: #070708;
-  font-family: ShowpieceInter, Inter, Arial, sans-serif;
+  font-family: var(--sans);
   -webkit-font-smoothing: antialiased;
 }
 

@@ -14,6 +14,7 @@ no-JavaScript fallback; `entry.jsx` mounts the hero. The former imperative hero 
 | Chapter order, duration, reduced-motion still and accessible description | `config.js` |
 | Playback, seek, visibility, automatic chapter advance | `playback/` |
 | Window chrome, model marks, icons, cursor, angular signals | `components/` |
+| App-centred scene alignment and outer-gutter allowance | `components/AppCenteredScene` |
 | Shared functional colour tokens | `Showpiece.module.css` |
 | A scene's choreography and interaction state | That scene's folder in `scenes/` |
 | Interpolation and path mathematics | `motion/math.js` |
@@ -31,6 +32,13 @@ an isolated reducer with a pure frame projection.
 keeps its own selected lead; changing it preserves the current example and time.
 The tab mark and model-dependent captions follow that selection. The multimodal
 example only offers leads with a paired vision projector.
+
+`AppCenteredScene` anchors Compose, In-App Agents, Inspect and First Launch on
+their primary app window, moving the entire scene coordinate space together.
+The shared gutter policy leaves model rails and menus visible on narrower
+screens and applies no offset to compact layouts. Inspect anchors its foreground
+DevTools window; its rear app retains the layered placement. Ship keeps its own
+centred-terminal-to-DMG choreography.
 
 Within delivery, `ShipTerminal` owns the developer shell and its CSS. It renders
 the existing ship frame as sequential console output, separately from the

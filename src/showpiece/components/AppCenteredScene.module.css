@@ -1,0 +1,8 @@
+/* Let the model rail extend into the outer gutter while preserving room for
+   its labels and menus. Scene height and internal geometry remain scene-owned. */
+.scene {
+  --sp-scene-center-shift: clamp(0px, calc((100vw / var(--sp-stage-scale, 1) - 100%) / 2 - 32px), var(--sp-app-center-offset));
+  position: relative;
+  width: 100%;
+  left: calc(-1 * var(--sp-scene-center-shift));
+}

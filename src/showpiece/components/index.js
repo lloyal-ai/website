@@ -1,4 +1,5 @@
 export { AppWindow, WindowBody } from './AppWindow';
+export { AppCenteredScene } from './AppCenteredScene';
 export { WindowChrome } from './WindowChrome';
 export { Cursor } from './Cursor';
 export { DocsLink } from './DocsLink';

@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'Readex Pro Variable';
+  src: url('/assets/fonts/readex-pro-latin-variable.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 160 700;
+  font-display: swap;
+}
 
 :root {
   --bg: #080808;
@@ -12,7 +19,7 @@
   --black: #080808;
   --max: 1360px;
   --gutter: clamp(20px, 4.2vw, 72px);
-  --sans: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --sans: 'Readex Pro Variable', 'Readex Pro', ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
   --mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
 }
 

@@ -32,6 +32,10 @@ The atmosphere is the approved dim mercury/plasma/silk field, diffused through
 stationary frost. The renderer deforms its coordinates without recolouring it.
 The original image remains available beneath the canvas for graceful fallback.
 
+Site and hero typography use the shared `--sans` token: the self-hosted Readex
+Pro variable font. The showpiece deliberately keeps Inter for its illustrated
+UI and architecture. Terminal commands and code retain their monospace font.
+
 To diagnose a browser without changing the atmosphere, add `?ambient-debug` to
 the page URL. The ambient canvas exposes `data-renderer`, `data-playback`, and
 any original driver error in `data-renderer-error`. Debug mode additionally
