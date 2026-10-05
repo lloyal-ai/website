@@ -79,7 +79,6 @@ export function LaunchScene() {
   const frame = getLaunchFrame(time)
   return (
     <div className={`${styles.scene} ${styles.launchScene} ${compact ? styles.compact : ''}`} data-scene="launch">
-      <p className={styles.caption}>One install. Intelligence inside the app.</p>
       <div className={styles.appIdentity}><span className={styles.appIcon}><Icon name="panel" size={34} /></span><p>Your App</p><small>{frame.allVerified ? 'Ready to use' : 'First launch'}</small></div>
       <AppWindow title="Your App" connection={frame.workspace === 1 ? 'offline' : undefined} className={styles.launchWindow}>
         <div className={styles.provisioning} style={{ opacity: 1 - frame.workspace, transform: `translateY(${-8 * frame.workspace}px)`, visibility: frame.workspace === 1 ? 'hidden' : 'visible' }} aria-hidden={frame.workspace === 1}>

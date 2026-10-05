@@ -1,5 +1,4 @@
 .scene { position: relative; width: 100%; min-height: 610px; color: #e4e4e9; font: inherit; }
-.caption { position: absolute; top: 27px; left: 156px; margin: 0; font-size: 12px; letter-spacing: .025em; color: #9999a1; }
 .shipScene {
   --ship-terminal-width: min(610px, calc(100% - 318px));
   --ship-terminal-top: 40px;
@@ -85,7 +84,6 @@
 .sendIcon { width: 23px; height: 23px; flex: none; display: inline-flex; align-items: center; justify-content: center; border: 1px solid #ffffff0d; border-radius: 5px; color: #73737f; background: #ffffff06; }
 .emptyNote { position: absolute; bottom: 19px; left: 17px; right: 17px; text-align: center; font-size: 9px; color: #777784; }
 .compact { padding: 12px 0 20px; min-height: 0; }
-.compact .caption { position: static; margin: 0 14px 20px; font-size: 12px; }
 .compact .terminalGroup { position: relative; inset: auto; transform: none; width: calc(100% - 16px); margin: 0 8px; }
 .compact .terminal { height: 405px; }
 .compact .launchFooter { min-height: 44px; padding: 0 14px; font-size: 9px; gap: 6px; }
