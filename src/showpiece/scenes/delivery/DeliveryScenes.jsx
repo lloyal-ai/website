@@ -39,7 +39,6 @@ export function ShipScene() {
   }
   return (
     <div className={`${styles.scene} ${styles.shipScene} ${compact ? styles.compact : ''}`} data-scene="ship" style={deliveryPosition}>
-      <p className={styles.caption}>From your code to their Applications folder</p>
       <div className={styles.terminalGroup}>
         <ShipTerminal frame={frame} time={time} className={styles.terminal} replay={<ReplayButton label="build" />} />
         <p className={styles.qualifier}>Illustrated macOS build · signing configured</p>

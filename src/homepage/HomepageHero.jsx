@@ -15,7 +15,6 @@ export default function HomepageHero() {
         <AmbientField />
         <HeroIntro />
         <div className={styles.showpiece}><Showpiece /></div>
-        <p className={styles.placement}>On your device. On your infrastructure. At frontier scale.</p>
       </ShowpieceProvider>
     </section>
   );

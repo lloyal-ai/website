@@ -1,7 +1,7 @@
 .terminal {
   --sp-app-surface: #060708;
   --sp-window-border: #ffffff30;
-  font: 12px/1.65 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font: 13px/1.65 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
 
 .terminal [data-slot="chrome"] {
@@ -13,7 +13,7 @@
 
 .body { padding: 23px 25px 18px; }
 .directory { margin: 0 0 8px; color: #81878b; font-size: 11px; }
-.command { display: flex; align-items: baseline; gap: 11px; min-height: 24px; margin-bottom: 22px; color: #eeeff0; font-size: 14px; white-space: nowrap; letter-spacing: -.025em; }
+.command { display: flex; align-items: baseline; gap: 11px; min-height: 24px; margin-bottom: 22px; color: #eeeff0; font-size: 15px; white-space: nowrap; letter-spacing: -.025em; }
 .command code { font: inherit; }
 .options { color: var(--sp-secondary); }
 .prompt { color: var(--sp-success); }
