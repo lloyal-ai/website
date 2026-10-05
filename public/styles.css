@@ -90,7 +90,20 @@ main > section.featured-quotes { min-height: 0; }
 .video-carousel h3 { margin: 0; font-size: clamp(18px, 2vw, 24px); line-height: 1.3; font-weight: 600; letter-spacing: -.035em; }
 .video-carousel { --carousel-arrow-top: clamp(78px, calc((100vw - 2 * var(--gutter) - 152px) * .28125 - 22px), 248px); }
 .video-command { max-width: 960px; margin: 24px auto 0; }
-.video-command .build-command { margin-top: 0; }
+/* Selectable command while the React islands load, and when JS is disabled. */
+.command-fallback {
+  width: 400px;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 15px 22px;
+  border: 1px solid #ffffff30;
+  border-radius: 8px;
+  background: #080808;
+  text-align: left;
+}
+.command-fallback code { color: #efeff2; font: 15px/20px var(--mono); white-space: nowrap; }
+.command-fallback .command-prompt { color: #47d57b; }
+.command-fallback .command-runner { color: #92929b; }
 @media (max-width: 680px) {
   .video-play { width: 52px; height: 46px; }
 }
