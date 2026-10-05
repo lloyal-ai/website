@@ -1,4 +1,4 @@
-import { AppWindow, WindowBody, ModelMark } from '../../components';
+import { AppCenteredScene, AppWindow, WindowBody, ModelMark } from '../../components';
 import { useStageLayout } from '../../playback/ShowpieceContext';
 import { ComposeProvider } from './ComposeContext';
 import { useComposeFrame, useComposeUi } from './useCompose';
@@ -26,7 +26,7 @@ function CompositionChoices() {
 function ComposeStage() {
   const frame = useComposeFrame();
   const { compact } = useStageLayout();
-  return <div className={`${styles.scene} ${compact ? styles.compact : ''}`} data-compose-example={frame.active}>
+  return <AppCenteredScene className={`${styles.scene} ${compact ? styles.compact : ''}`} data-compose-example={frame.active}>
     <CompositionChoices />
     <CompositionRail />
     <AppWindow title="Your App" connection={frame.active === 'enrich' ? 'connected' : 'offline'} className={styles.appWindow} aria-label="Your App — illustrated composition examples">
@@ -36,7 +36,7 @@ function ComposeStage() {
         return phase.visible && <div key={id} className={styles.appExample} data-app-example={id} style={{ transform: `translateY(${phase.bodyY}px)`, opacity: id === 'research' ? phase.opacity : 1, pointerEvents: frame.active === id ? 'auto' : 'none' }} aria-hidden={frame.active !== id} inert={frame.active !== id}><WindowBody sidebar={!compact && id !== 'enrich' && <Sidebar wiki={id === 'image'} />}><Component /></WindowBody></div>;
       })}</div>
     </AppWindow>
-  </div>;
+  </AppCenteredScene>;
 }
 
 export default function ComposeScene() {

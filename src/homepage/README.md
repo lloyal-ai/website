@@ -32,6 +32,19 @@ The atmosphere is the approved dim mercury/plasma/silk field, diffused through
 stationary frost. The renderer deforms its coordinates without recolouring it.
 The original image remains available beneath the canvas for graceful fallback.
 
+Site and hero typography use the shared `--sans` token: the self-hosted Readex
+Pro variable font. The showpiece deliberately keeps Inter for its illustrated
+UI and architecture. Terminal commands and code retain their monospace font.
+
+Context, shader, image, texture-upload and first-draw failures retain the
+still-image fallback. Failed renderers stop scheduling frames; a restored WebGL
+context can resume rendering with the original image.
+
+Compose aligns its application window with the hero and journey on wide
+screens, allowing the model rail into the left gutter. Its shared composition
+offset reduces when the outer gutter cannot safely contain labels and menus;
+compact layouts retain the models-above-app arrangement.
+
 ## Iterating without drift
 
 Edit these hero files to change the surrounding composition. Do not target

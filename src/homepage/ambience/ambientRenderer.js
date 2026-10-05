@@ -42,22 +42,32 @@ function compileShader(gl, type, source) {
   gl.shaderSource(shader, source);
   gl.compileShader(shader);
   if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+    const detail = gl.getShaderInfoLog(shader) || 'No driver message.';
     gl.deleteShader(shader);
-    throw new Error('Ambient shader unavailable.');
+    throw new Error(`Ambient ${type === gl.VERTEX_SHADER ? 'vertex' : 'fragment'} shader failed: ${detail}`);
   }
   return shader;
 }
 
 /** GPU resources only. React owns visibility, playback, loading and the clock. */
-export function createAmbientRenderer(canvas, { onContextLost, onContextRestored } = {}) {
-  const gl = canvas.getContext('webgl', {
-    alpha: false,
-    antialias: false,
-    depth: false,
-    stencil: false,
-    powerPreference: 'low-power',
-  });
-  if (!gl) return null;
+export function createAmbientRenderer(canvas, { onContextLost, onContextRestored, onError } = {}) {
+  let gl;
+  try {
+    gl = canvas.getContext('webgl', {
+      alpha: false,
+      antialias: false,
+      depth: false,
+      stencil: false,
+      powerPreference: 'low-power',
+    });
+  } catch (error) {
+    onError?.(`WebGL context creation failed: ${error.message}`);
+    return null;
+  }
+  if (!gl) {
+    onError?.('WebGL context unavailable.');
+    return null;
+  }
 
   let resources = null;
   let sourceImage = null;
@@ -66,7 +76,13 @@ export function createAmbientRenderer(canvas, { onContextLost, onContextRestored
   let width = 1;
   let height = 1;
   let pixelRatio = 1;
+  let firstDraw = true;
   const sizeLimit = Math.min(gl.getParameter(gl.MAX_TEXTURE_SIZE), gl.getParameter(gl.MAX_RENDERBUFFER_SIZE));
+
+  function checkError(operation) {
+    const error = gl.getError();
+    if (error !== gl.NO_ERROR) throw new Error(`Ambient ${operation} failed: WebGL error 0x${error.toString(16)}.`);
+  }
 
   function release() {
     if (!resources) return;
@@ -86,7 +102,7 @@ export function createAmbientRenderer(canvas, { onContextLost, onContextRestored
       gl.attachShader(program, vertex);
       gl.attachShader(program, fragment);
       gl.linkProgram(program);
-      if (!gl.getProgramParameter(program, gl.LINK_STATUS)) throw new Error('Ambient program unavailable.');
+      if (!gl.getProgramParameter(program, gl.LINK_STATUS)) throw new Error(`Ambient shader link failed: ${gl.getProgramInfoLog(program) || 'No driver message.'}`);
     } catch (error) {
       if (program) gl.deleteProgram(program);
       throw error;
@@ -112,6 +128,8 @@ export function createAmbientRenderer(canvas, { onContextLost, onContextRestored
       aspect: gl.getUniformLocation(program, 'u_aspect'),
       time: gl.getUniformLocation(program, 'u_time'),
     };
+    firstDraw = true;
+    checkError('initialization');
   }
 
   function load(image) {
@@ -120,6 +138,7 @@ export function createAmbientRenderer(canvas, { onContextLost, onContextRestored
     gl.bindTexture(gl.TEXTURE_2D, resources.texture);
     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+    checkError('texture upload');
     return true;
   }
 
@@ -152,6 +171,10 @@ export function createAmbientRenderer(canvas, { onContextLost, onContextRestored
     gl.uniform1f(resources.aspect, aspect);
     gl.uniform1f(resources.time, elapsed);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    if (firstDraw) {
+      checkError('first draw');
+      firstDraw = false;
+    }
     return true;
   }
 
@@ -170,15 +193,18 @@ export function createAmbientRenderer(canvas, { onContextLost, onContextRestored
       if (sourceImage) load(sourceImage);
       resize(width, height, pixelRatio);
       onContextRestored?.();
-    } catch {
+    } catch (error) {
       release();
       onContextLost?.();
+      onError?.(error.message);
     }
   }
 
   try {
     initialize();
-  } catch {
+  } catch (error) {
+    release();
+    onError?.(error.message);
     return null;
   }
   canvas.addEventListener('webglcontextlost', handleLost);

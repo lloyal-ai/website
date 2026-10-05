@@ -6,7 +6,7 @@
   padding: 28px 0 42px;
   color: #eeedef;
   background: #070708;
-  font-family: ShowpieceInter, Inter, Arial, sans-serif;
+  font-family: var(--sans);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -74,16 +74,17 @@
 .targets svg { flex: none; opacity: .8; }
 
 .showpiece {
+  --sp-stage-scale: 1.075;
   position: relative;
   width: 1000px;
-  max-width: calc((100% - 100px) / 1.075);
+  max-width: calc((100% - 100px) / var(--sp-stage-scale));
   margin: 20px auto 53.4px;
-  transform: scale(1.075);
+  transform: scale(var(--sp-stage-scale));
   transform-origin: center top;
 }
 
 @media (max-width: 1100px) {
-  .showpiece { width: min(1000px, calc(100% - 48px)); max-width: none; margin-bottom: 0; transform: none; }
+  .showpiece { --sp-stage-scale: 1; width: min(1000px, calc(100% - 48px)); max-width: none; margin-bottom: 0; transform: none; }
 }
 
 @media (max-width: 760px) {

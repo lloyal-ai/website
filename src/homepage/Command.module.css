@@ -47,7 +47,7 @@
   margin-top: 7px;
   width: 100%;
   color: #b8b7c1;
-  font: 11px/1.5 ShowpieceInter, Arial, sans-serif;
+  font: 11px/1.5 var(--sans);
   text-align: center;
 }
 .feedback code { font-family: ShowpieceMono, monospace; user-select: all; }

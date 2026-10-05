@@ -1,4 +1,4 @@
-import { AppWindow, Icon } from '../../components'
+import { AppCenteredScene, AppWindow, Icon } from '../../components'
 import { usePlaybackActions, useSceneTime, useStageLayout } from '../../playback/ShowpieceContext'
 import { getLaunchFrame, getShipFrame } from './deliveryFrame'
 import { ShipTerminal } from './ShipTerminal'
@@ -78,7 +78,7 @@ export function LaunchScene() {
   const { compact } = useStageLayout()
   const frame = getLaunchFrame(time)
   return (
-    <div className={`${styles.scene} ${styles.launchScene} ${compact ? styles.compact : ''}`} data-scene="launch">
+    <AppCenteredScene className={`${styles.scene} ${styles.launchScene} ${compact ? styles.compact : ''}`} data-scene="launch">
       <div className={styles.appIdentity}><span className={styles.appIcon}><Icon name="panel" size={34} /></span><p>Your App</p><small>{frame.allVerified ? 'Ready to use' : 'First launch'}</small></div>
       <AppWindow title="Your App" connection={frame.workspace === 1 ? 'offline' : undefined} className={styles.launchWindow}>
         <div className={styles.provisioning} style={{ opacity: 1 - frame.workspace, transform: `translateY(${-8 * frame.workspace}px)`, visibility: frame.workspace === 1 ? 'hidden' : 'visible' }} aria-hidden={frame.workspace === 1}>
@@ -91,6 +91,6 @@ export function LaunchScene() {
         <div className={styles.workspaceReveal} style={{ opacity: frame.workspace, transform: `translateY(${12 * (1 - frame.workspace)}px)`, visibility: frame.workspace === 0 ? 'hidden' : 'visible' }} aria-hidden={frame.workspace === 0}><FreshWorkspace caret={frame.caret} /></div>
         <div className={styles.launchFooter}><span>{frame.workspace > 0 ? 'Ready to work offline' : 'Preparing your configured models'}</span><ReplayButton label="first launch" /></div>
       </AppWindow>
-    </div>
+    </AppCenteredScene>
   )
 }

@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import { useSceneTime, usePlaybackActions, useStageLayout } from '../../playback/ShowpieceContext';
-import { ModelMark, Icon, Cursor, DocsLink, NetworkIndicator, WindowChrome } from '../../components';
+import { AppCenteredScene, ModelMark, Icon, Cursor, DocsLink, NetworkIndicator, WindowChrome } from '../../components';
 import { progress, ease, lerp } from '../../motion/math';
 import TrajectoryPanel from './TrajectoryPanel';
 import ContextAdmission from './ContextAdmission';
@@ -126,7 +126,7 @@ export default function InspectScene() {
     (selected === 'context' ? contextTab : trajectoriesTab).current?.focus();
   };
 
-  return <div ref={sceneRef} className={`${styles.scene} ${compact ? styles.compact : ''}`} data-inspect-tab={tab} aria-label="Lloyal DevTools: agent timelines, epistemics, tool calls, and what enters context">
+  return <AppCenteredScene ref={sceneRef} centerOffset={61} className={`${styles.scene} ${compact ? styles.compact : ''}`} data-inspect-tab={tab} aria-label="Lloyal DevTools: agent timelines, epistemics, tool calls, and what enters context">
     <ModelRail />
     <section className={styles.app} aria-label="Your App research workspace"><WindowBar /><div className={styles.appBody}>Research brief<small>Finding primary evidence from your documents</small></div></section>
     <section className={styles.inspector} aria-label="Your App developer tools">
@@ -143,5 +143,5 @@ export default function InspectScene() {
       <footer className={styles.footer}><span>{tab === 'context' ? 'Query + original task · focal lens' : 'Generation signals · not factual confidence'}</span><span>{time >= 16.9 ? 'Evidence becomes context' : tab === 'context' ? 'Research 01 / fetch_page' : 'Inspect a running agent'}</span></footer>
     </section>
     <DemonstrationCursor sceneRef={sceneRef} />
-  </div>;
+  </AppCenteredScene>;
 }

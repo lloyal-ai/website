@@ -72,7 +72,7 @@ function VoiceRail() {
   return <>
     <svg className={styles.routes} aria-hidden="true"><Route time={time} start={2.23} end={2.65} points={routes.audio} /><Route time={time} start={7.35} end={8} points={routes.normalize} /><Route time={time} start={9.25} end={10} points={routes.clean} /><Route time={time} start={11.6} end={11.95} points={routes.output} /></svg>
     <ReasoningLead composition="voice" x={leadX} y={faceY} active={frame.leadActive} compact={compact} />
-    <div className={styles.pipelineNote}>{frame.leadActive ? frame.leadStatus : <>Custom pipeline with <DocsLink href="https://docs.lloyal.ai/services">Services</DocsLink></>}</div>
+    <div className={styles.pipelineNote}>{frame.leadActive ? frame.leadStatus : <><span>Custom pipeline</span><span>with <DocsLink href="https://docs.lloyal.ai/services">Services</DocsLink></span></>}</div>
     <div className={styles.whisperPosition} style={{ left: whisperX, top: compact ? faceY : 304 }}><ModelTile model="whisper" label="Whisper" role={frame.transcribing ? 'Transcribing audio' : time >= 7.6 ? 'Transcript returned' : 'Speech → text'} active={frame.transcribing} small /></div>
     <div className={styles.s1Position} style={{ left: s1X, top: compact ? faceY : 450 }}><ModelTile model="s1" label="S1-mini" role={frame.cleaning ? 'Cleaning filler words' : time >= 9.25 ? 'Clean text returned' : 'Text → clean text'} active={frame.cleaning} small /></div>
     <span className={styles.returnLabel} style={{ opacity: tween(time, 9.25, 10) }}>Cleaned instruction → lead</span>
