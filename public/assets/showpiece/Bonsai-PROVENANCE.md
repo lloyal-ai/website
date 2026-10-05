@@ -13,8 +13,11 @@ Apache-2.0 does not grant trademark rights. No separate logo usage guide is
 provided in the source model card.
 
 The original SVG uses a 24 × 15 view box and supplies black and white variants
-through `prefers-color-scheme`. Render it with `color-scheme: dark` in this dark
-showpiece so the source's white variant remains legible; do not recolour its paths.
+through `prefers-color-scheme`. `bonsai-dark.svg` pins that existing white variant
+for the permanently dark showpiece: the media query is removed and each path
+has an explicit white fill. Path geometry, view box and proportions are unchanged.
+This avoids relying on embedded SVG colour-scheme inheritance in iOS Safari.
+The shared `ModelMark` component uses this asset for tiles, tabs and model menus.
 
 The model card documents the separate, optional Q8_0 vision projection pack for
 image input. Its ternary weights require Prism ML's custom runtime kernels; the
