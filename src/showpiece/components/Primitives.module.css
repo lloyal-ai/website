@@ -86,6 +86,16 @@
 .small .modelFace[data-model='s1'] .modelMark { width: 44px; height: 44px; }
 .small .modelLabel { font-size: 11px; margin-top: 9px; }
 .small .modelRole { font-size: 9px; }
+
+@container (max-width: 699px) {
+  .responsive { width: 68px; }
+  .responsive .modelFace { height: 68px; border-radius: 18px; }
+  .responsive .modelMark { width: 34px; height: 34px; }
+  .responsive .modelFace[data-model='s1'] .modelMark { width: 44px; height: 44px; }
+  .responsive .modelLabel { font-size: 11px; margin-top: 9px; }
+  .responsive .modelRole { font-size: 9px; }
+}
+
 .small .modelStatus { left: -41px; }
 
 .appWindow {

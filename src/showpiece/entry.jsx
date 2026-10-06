@@ -1,10 +1,15 @@
 import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
+import { createRoot, hydrateRoot } from 'react-dom/client';
 import HomepageHero from '../homepage/HomepageHero.jsx';
 import Command from '../homepage/Command.jsx';
 
-const element = document.getElementById('lloyal-showpiece');
-if (element) createRoot(element).render(<StrictMode><HomepageHero/></StrictMode>);
+function mountIsland(id, component) {
+  const element = document.getElementById(id);
+  if (!element) return;
+  const content = <StrictMode>{component}</StrictMode>;
+  if (element.dataset.prerendered === 'true') hydrateRoot(element, content);
+  else createRoot(element).render(content);
+}
 
-const closingCommand = document.getElementById('lloyal-closing-command');
-if (closingCommand) createRoot(closingCommand).render(<StrictMode><Command animate={false}/></StrictMode>);
+mountIsland('lloyal-showpiece', <HomepageHero />);
+mountIsland('lloyal-closing-command', <Command animate={false} />);

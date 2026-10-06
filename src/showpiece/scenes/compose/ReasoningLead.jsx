@@ -28,8 +28,8 @@ export default function ReasoningLead({ composition, x, y, status, active, compa
   const { state } = useComposeUi();
   const model = state.leads[composition];
   const { label, vision } = REASONING_MODELS[model];
-  return <div className={styles.leadPosition} data-reasoning-lead={composition} style={{ left: x, top: y }}>
-    <ModelTile model={model} label={label} role={composition === 'image' ? 'Vision + reasoning' : 'Reasoning model'} status={status} active={active} small={compact} />
+  return <div className={styles.leadPosition} data-reasoning-lead={composition} style={{ '--model-x': `${x}px`, '--model-y': `${y}px` }}>
+    <ModelTile model={model} label={label} role={composition === 'image' ? 'Vision + reasoning' : 'Reasoning model'} status={status} active={active} small={compact} responsive />
     {projector && vision && <span className={styles.projector} title={`${label} paired vision projector`}><Icon name="projector" size={17} /></span>}
     <ModelChooser composition={composition} />
   </div>;

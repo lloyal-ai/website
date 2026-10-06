@@ -7,10 +7,9 @@
  * The headline is the claim, not the title - the title goes in the dek. Keep it
  * short; it is set at 92px and shrinks a step at a time to fit two lines.
  *
- * networkidle0 and a settle delay both matter: the display face is fetched from
- * a CDN, and screenshotting before it lands gives you the fallback in Arial.
+ * Wait for the local display face before fitting the headline or capturing it.
  */
-import { dirname, resolve } from 'node:path';
+import { resolve } from 'node:path';
 import puppeteer from 'puppeteer';
 
 const [out, lead, dek, kicker, foot] = process.argv.slice(2);
@@ -23,6 +22,7 @@ const b = await puppeteer.launch({ headless: 'shell', args: ['--hide-scrollbars'
 const p = await b.newPage();
 await p.setViewport({ width: 1200, height: 630, deviceScaleFactor: 1 });
 await p.goto(`file://${resolve('tools/og-card.html')}`, { waitUntil: 'networkidle0' });
+await p.evaluate(() => document.fonts.ready);
 await p.evaluate(([lead, dek, kicker, foot]) => {
   document.getElementById('lead').textContent = lead;
   document.getElementById('dek').textContent = dek;
