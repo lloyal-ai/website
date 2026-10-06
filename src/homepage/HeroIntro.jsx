@@ -12,7 +12,10 @@ export default function HeroIntro() {
   return (
     <div className={styles.intro}>
       <h1 id="hero-title">Agents without an API</h1>
-      <p className={styles.subtitle}>We deleted the HTTP boundary between the harness and the model, so your typescript code can program live inference.</p>
+      <p className={styles.subtitle}>
+        We deleted the HTTP boundary between the harness and the model.<br />
+        So your TypeScript code can program live inference alongside application state.
+      </p>
       <div className={styles.commandRow}>
         <Command />
         <ul className={styles.targets} role="list" aria-label="Supported app targets">
