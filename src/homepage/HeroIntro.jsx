@@ -12,7 +12,10 @@ export default function HeroIntro() {
   return (
     <div className={styles.intro}>
       <h1 id="hero-title">Models in. Apps out.</h1>
-      <p className={styles.subtitle}>The in-app intelligence runtime for TypeScript - Compose models. Program their working memory. Ship inside your application.</p>
+      <p className={styles.subtitle}>
+        The complete in-app intelligence runtime for TypeScript.<br />
+        Compose models. Program their working memory. Ship inside your application.
+      </p>
       <div className={styles.commandRow}>
         <Command />
         <ul className={styles.targets} role="list" aria-label="Supported app targets">
