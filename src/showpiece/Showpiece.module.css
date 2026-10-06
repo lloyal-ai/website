@@ -33,7 +33,10 @@
 .root *{box-sizing:border-box}.root :where(button,input){font-family:inherit}.root button{cursor:pointer}.root button:disabled{cursor:default}.root svg{flex-shrink:0}.root button:focus-visible,.root a:focus-visible,.stage:focus-visible{outline:2px solid #d9d9df;outline-offset:5px}.root button{touch-action:manipulation}.root h1,.root h2,.root h3,.root p{text-wrap:pretty}
 .visual { width: 100%; min-width: 0; position: relative; }
 .stage { position: relative; min-height: 610px; isolation: isolate; container-type: inline-size; }
+.stage[data-compact='true'] { min-height: 840px; }
+/* The stacked terminal and DMG already reserve their full mobile height. */
+.stage[data-compact='true'][data-scene='ship'] { min-height: 0; }
 .srOnly{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
 
-@media(max-width:760px){.stage{min-height:0}.root button:not(:disabled):hover{filter:brightness(1.05)}}
+@media(max-width:760px){.root button:not(:disabled):hover{filter:brightness(1.05)}}
 @media(prefers-reduced-motion:reduce){.root *{animation:none!important;transition:none!important}}

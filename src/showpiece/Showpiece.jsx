@@ -26,7 +26,7 @@ function SceneStage() {
   const layout = useMemo(() => ({ width, compact: width < 700 }), [width]);
   return <div className={styles.visual} ref={measureRef} data-running={running} onFocusCapture={(event) => { if (event.target.matches(':focus-visible')) pause(); }}>
     <StageLayoutContext value={layout}>
-      <div className={styles.stage} style={{ minHeight: layout.compact ? 840 : 610 }} id={`sp-panel-${sceneId}`} role="tabpanel" aria-labelledby={`sp-tab-${sceneId}`} tabIndex={0} key={sceneId} data-scene={sceneId}>
+      <div className={styles.stage} data-compact={layout.compact} id={`sp-panel-${sceneId}`} role="tabpanel" aria-labelledby={`sp-tab-${sceneId}`} tabIndex={0} key={sceneId} data-scene={sceneId}>
         <p className={styles.srOnly}>{scene.description}</p><Scene/>
       </div>
     </StageLayoutContext>
