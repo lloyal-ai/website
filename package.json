@@ -5,11 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && node tools/prerender-homepage.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
     "og:card": "node tools/og-card.mjs",
-    "go:build": "node tools/go-links.mjs"
+    "go:build": "node tools/go-links.mjs",
+    "check:homepage": "node tools/check-homepage.mjs"
   },
   "dependencies": {
     "@tanstack/react-router": "^1.150.0",

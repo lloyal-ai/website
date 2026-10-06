@@ -9,7 +9,7 @@ MVC colours, navigation, quotes, films and contact flow.
 | Concern | Owner |
 | --- | --- |
 | Composition, spacing and responsive proportions | `HomepageHero.jsx`, `HomepageHero.module.css` |
-| Headline, single-line desktop subtitle and command placement | `HeroIntro.jsx` |
+| Headline, subtitle line breaks and command placement | `HeroIntro.jsx` |
 | Shared hero/closing terminal command, one-shot typewriter, copying and feedback | `Command.jsx`, `Command.module.css` |
 | Frost, texture, liquid rendering and GPU lifecycle | `ambience/` |
 | Chapters, product UI, interactions and choreography | `../showpiece/` |
@@ -50,7 +50,7 @@ compact layouts retain the models-above-app arrangement.
 Edit these hero files to change the surrounding composition. Do not target
 scene internals from hero CSS. Edit a scene inside its own folder and follow the
 showpiece README for its product invariants and deterministic timeline checks.
-Keep original model marks and preserve the single-line desktop subtitle; allow
+Keep original model marks and preserve the approved subtitle breaks; allow
 natural wrapping on smaller screens. No secondary CTA shares the command row.
 
 ```sh
@@ -63,3 +63,22 @@ node --test src/showpiece/playback/playbackStore.test.mjs \
 
 Review desktop and compact layouts, typewriter/copy states, all five chapters,
 pause/replay, reduced motion, offscreen resumption and WebGL-unavailable fallback.
+
+## First paint and social previews
+
+`npm run build` renders the hero and closing command into `dist/index.html`
+from their React components. The browser hydrates these existing nodes rather
+than replacing a differently sized placeholder. The initial composition uses
+CSS container queries and percentage-based routes so its mobile layout is
+already correct before JavaScript measures the stage. The approved liquid
+still and local WOFF2 fonts are preloaded; motion is added after hydration.
+
+Keep prerendered markup generated, not hand-maintained. `prerender.jsx` and
+`../showpiece/entry.jsx` must wrap the same component trees. The simplified
+source HTML fallback is only used by the development server.
+
+`tools/social-preview.mjs` gives the social image a content hash, and uses the
+Cloudflare branch preview origin when `WORKERS_CI_BRANCH` is not `main`.
+Production builds use `https://lloyal.ai`. Each headline variant owns its
+`public/assets/home-og.png` and matching image alt text. Regenerate that card
+when changing the hero copy.
