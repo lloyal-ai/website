@@ -2,7 +2,7 @@
 <!--
   Source for a blog OG card. The existing cards are Figma exports with no source
   in the repo, so this one is built from the site's own tokens instead - same
-  Readex Pro Variable off the same CDN, the same mono stack, the same lockup.
+  self-hosted Readex Pro Variable, the same mono stack, the same lockup.
 
   Edit the h1 and .dek, then:
     node tools/og-card.mjs public/blog/assets/<slug>-og.png
@@ -14,7 +14,7 @@
 <style>
   @font-face {
     font-family: 'Readex Pro Variable';
-    src: url('https://cdn.jsdelivr.net/fontsource/fonts/readex-pro:vf@5.3.0/latin-wght-normal.woff2') format('woff2-variations');
+    src: url('../public/assets/fonts/readex-pro-latin-variable.woff2') format('woff2');
     font-weight: 100 900; font-display: block;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -35,7 +35,7 @@
   .mid { margin-bottom: 34px; }
   h1 { color: #fff; font-size: 92px; line-height: .92; letter-spacing: -.055em; font-weight: 600;  text-wrap: balance;}
   .dek { margin-top: 26px; color: #86847f; font-family: 'SFMono-Regular', Consolas, monospace;
-         font-size: 19px; letter-spacing: -.01em; }
+         font-size: 19px; line-height: 1.5; letter-spacing: -.01em; white-space: pre-line; }
   .foot { color: #6a6a6a; font-family: 'SFMono-Regular', Consolas, monospace;
           font-size: 13px; letter-spacing: .16em; text-transform: uppercase; }
 </style></head>

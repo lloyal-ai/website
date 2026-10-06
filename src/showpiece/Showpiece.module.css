@@ -1,5 +1,5 @@
-@font-face{font-family:ShowpieceInter;src:url('/assets/showpiece/Inter-450-opsz17.ttf') format('truetype');font-display:swap;font-weight:100 900}
-@font-face{font-family:ShowpieceMono;src:url('/assets/showpiece/LiberationMono-Regular.ttf') format('truetype');font-display:swap}
+@font-face{font-family:ShowpieceInter;src:url('/assets/showpiece/Inter-450-opsz17.woff2') format('woff2');font-display:swap;font-weight:100 900}
+@font-face{font-family:ShowpieceMono;src:url('/assets/showpiece/LiberationMono-Regular.woff2') format('woff2');font-display:swap}
 .root {
   --sp-font: ShowpieceInter, Inter, Arial, sans-serif;
   --sp-mono: ShowpieceMono, monospace;
