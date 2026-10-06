@@ -13,8 +13,7 @@ export default function HeroIntro() {
     <div className={styles.intro}>
       <h1 id="hero-title">Agents without an API</h1>
       <p className={styles.subtitle}>
-        We deleted the HTTP boundary between the harness and the model.<br />
-        So your TypeScript code can program live inference alongside application state.
+        The complete intelligence runtime you can ship inside your app.
       </p>
       <div className={styles.commandRow}>
         <Command />
