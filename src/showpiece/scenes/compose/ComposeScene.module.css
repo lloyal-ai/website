@@ -17,7 +17,7 @@
 .choice img { width: 17px; height: 17px; }
 .choice em { color: #85858f; font-style: normal; }
 .rail { position: absolute; inset: 0; z-index: 2; }
-.leadPosition, .rankPosition, .whisperPosition, .s1Position, .imagePosition { position: absolute; width: 80px; }
+.leadPosition, .rankPosition, .whisperPosition, .s1Position, .imagePosition { position: absolute; width: 80px; left: var(--model-x); top: var(--model-y); }
 .whisperPosition, .s1Position { width: 68px; }
 .projector { position: absolute; right: -10px; top: -16px; display: grid; place-items: center; width: 32px; height: 32px; color: #bbb; background: #202022; border: 1px solid #ffffff29; border-radius: 9px; box-shadow: 0 3px 7px #0008; }
 .modelChooser { position: relative; margin-top: 11px; margin-left: -9px; width: 99px; z-index: 30; }
@@ -152,60 +152,70 @@ code.coverMetaPill { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, C
 .imageFooter .send { margin-left: 5px; }
 .imageChip { position: absolute; left: 15px; top: -34px; display: flex; align-items: center; gap: 5px; height: 26px; padding: 5px 8px; border: 1px solid #ffffff25; border-radius: 5px; background: #27272c; color: #b8b8c3; font-size: 8px; }
 
-/* Small screens use real layout changes, with readable app controls and text. */
-.compact { min-height: 840px; height: 840px; }
-.compact .choices { left: 8px; right: 8px; top: 42px; justify-content: center; gap: 2px; }
-.compact .choice { gap: 4px; padding: 0 4px; font-size: 11px !important; }
-.compact .choice em { display: none; }
-.compact .choice img { width: 19px; height: 19px; }
-.compact .leadPosition, .compact .rankPosition, .compact .whisperPosition, .compact .s1Position, .compact .imagePosition { width: 68px; }
-.compact .modelChooser { margin-top: 9px; margin-left: -15px; }
-.compact .modelMenu { left: 0; transform: none; }
-.compact .projector { right: -7px; width: 28px; height: 28px; }
-.compact .toolOperation { top: 270px; left: 20px; width: 135px; min-height: 25px; padding: 6px; font-size: 10px; }
-.compact .toolOperation small { display: inline; margin-right: 6px; font-size: 7px; }
-.compact .candidateGroup { top: 119px; left: -21px; }
-.compact .candidateStack { height: 63px; }
-.compact .candidateResult { display: none; }
-.compact .evidenceReturn { left: 50%; top: 83px; padding: 2px 4px; transform: translateX(-50%); writing-mode: horizontal-tb; background: #131315; font-size: 8px; }
-.compact .returnLabel { left: 50%; top: 85px; transform: translateX(-50%); writing-mode: horizontal-tb; padding: 2px 5px; background: #131315; white-space: nowrap; font-size: 8px; }
-.compact .pipelineNote { left: 12px; right: 12px; top: 73px; width: auto; }
-.compact .rail[data-composition="voice"] .returnLabel { top: 108px; }
-.compact .imageTool { left: 50%; top: 273px; width: 190px; min-height: 25px; padding: 6px; transform: translateX(-50%); }
-.compact .imageTool small { display: inline; margin-right: 6px; font-size: 7px; }
-.compact .appWindow { top: 306px; left: 8px; width: calc(100% - 16px); height: 498px; }
-.compact .toolbar { padding: 0 16px; font-size: 11px; }
-.compact .runState { font-size: 10px; }
-.compact .researchContent, .compact .voiceContent { padding: 22px 18px 0; }
-.compact .reportHeading h2 { font-size: 25px; }
-.compact .reportHeading p, .compact .reportRow p { font-size: 12px; }
-.compact .reportRow h3 { font-size: 16px; }
-.compact .sourcePill { font-size: 9px; padding: 0 5px; gap: 3px; }
-.compact .sourcePills { gap: 4px; }
-.compact .reportRow { gap: 11px; }
-.compact .composerArea { padding-left: 11px; padding-right: 11px; }
-.compact .composerEntry { padding-left: 8px; padding-right: 8px; }
-.compact .composerInput { font-size: 12px !important; }
-.compact .composerBottom { gap: 4px; margin-left: 8px; margin-right: 8px; }
-.compact .ability { font-size: 10px !important; gap: 4px; padding: 0 5px; }
-.compact .ability > svg { display: none; }
-.compact .requestState { right: 13px; top: 42px; }
-.compact .voiceComposer, .compact .imageComposer { left: 11px; right: 11px; }
-.compact .transcript { left: 12px; right: 64px; font-size: 12px; }
-.compact .mic { right: 12px; }
-.compact .pipelinePill { left: 12px; font-size: 8px; gap: 4px; }
-.compact .cleanBadge { margin-left: 0; padding: 2px 4px; }
-.compact .recordingLabel { max-width: 95px; overflow: hidden; font-size: 8px; }
-.compact .voiceAnswer { margin-top: 13px; padding-top: 10px; }
-.compact .imageContent { padding-left: 18px; padding-right: 18px; }
-.compact .wikiSummary { font-size: 12px; }
-.compact .imageEntry { font-size: 12px; gap: 7px; }
-.compact .imageChip { left: 10px; }
-.compact .miniState { max-width: 135px; text-align: right; }
+.compactRoutes { display: none; }
+
+/* CSS lays out the prerendered first frame before JavaScript loads. */
+@container (max-width: 699px) {
+  .scene { min-height: 840px; height: 840px; }
+  .scene .choices { left: 8px; right: 8px; top: 42px; justify-content: center; gap: 2px; }
+  .scene .choice { gap: 4px; padding: 0 4px; font-size: 11px !important; }
+  .scene .choice em { display: none; }
+  .scene .choice img { width: 19px; height: 19px; }
+  .scene .leadPosition, .scene .rankPosition, .scene .whisperPosition, .scene .s1Position, .scene .imagePosition { width: 68px; }
+  .scene .modelChooser { margin-top: 9px; margin-left: -15px; }
+  .scene .modelMenu { left: 0; transform: none; }
+  .scene .projector { right: -7px; width: 28px; height: 28px; }
+  .scene .toolOperation { top: 270px; left: 20px; width: 135px; min-height: 25px; padding: 6px; font-size: 10px; }
+  .scene .toolOperation small { display: inline; margin-right: 6px; font-size: 7px; }
+  .scene .candidateGroup { top: 119px; left: -21px; }
+  .scene .candidateStack { height: 63px; }
+  .scene .candidateResult { display: none; }
+  .scene .evidenceReturn { left: 50%; top: 83px; padding: 2px 4px; transform: translateX(-50%); writing-mode: horizontal-tb; background: #131315; font-size: 8px; }
+  .scene .returnLabel { left: 50%; top: 85px; transform: translateX(-50%); writing-mode: horizontal-tb; padding: 2px 5px; background: #131315; white-space: nowrap; font-size: 8px; }
+  .scene .pipelineNote { left: 12px; right: 12px; top: 73px; width: auto; }
+  .scene .rail[data-composition="voice"] .returnLabel { top: 108px; }
+  .scene .imageTool { left: 50%; top: 273px; width: 190px; min-height: 25px; padding: 6px; transform: translateX(-50%); }
+  .scene .imageTool small { display: inline; margin-right: 6px; font-size: 7px; }
+  .scene .appWindow { top: 306px; left: 8px; width: calc(100% - 16px); height: 498px; }
+  .scene .toolbar { padding: 0 16px; font-size: 11px; }
+  .scene .runState { font-size: 10px; }
+  .scene .researchContent, .scene .voiceContent { padding: 22px 18px 0; }
+  .scene .reportHeading h2 { font-size: 25px; }
+  .scene .reportHeading p, .scene .reportRow p { font-size: 12px; }
+  .scene .reportRow h3 { font-size: 16px; }
+  .scene .sourcePill { font-size: 9px; padding: 0 5px; gap: 3px; }
+  .scene .sourcePills { gap: 4px; }
+  .scene .reportRow { gap: 11px; }
+  .scene .composerArea { padding-left: 11px; padding-right: 11px; }
+  .scene .composerEntry { padding-left: 8px; padding-right: 8px; }
+  .scene .composerInput { font-size: 12px !important; }
+  .scene .composerBottom { gap: 4px; margin-left: 8px; margin-right: 8px; }
+  .scene .ability { font-size: 10px !important; gap: 4px; padding: 0 5px; }
+  .scene .ability > svg { display: none; }
+  .scene .requestState { right: 13px; top: 42px; }
+  .scene .voiceComposer, .scene .imageComposer { left: 11px; right: 11px; }
+  .scene .transcript { left: 12px; right: 64px; font-size: 12px; }
+  .scene .mic { right: 12px; }
+  .scene .pipelinePill { left: 12px; font-size: 8px; gap: 4px; }
+  .scene .cleanBadge { margin-left: 0; padding: 2px 4px; }
+  .scene .recordingLabel { max-width: 95px; overflow: hidden; font-size: 8px; }
+  .scene .voiceAnswer { margin-top: 13px; padding-top: 10px; }
+  .scene .imageContent { padding-left: 18px; padding-right: 18px; }
+  .scene .wikiSummary { font-size: 12px; }
+  .scene .imageEntry { font-size: 12px; gap: 7px; }
+  .scene .imageChip { left: 10px; }
+  .scene .miniState { max-width: 135px; text-align: right; }
+
+  .appExample [data-slot="sidebar"] { display: none; }
+  .rail[data-composition="research"] .leadPosition { left: calc(27% - 34px); top: 113px; }
+  .rail[data-composition="research"] .rankPosition { left: calc(73% - 34px); top: 113px; }
+  .desktopRoutes { display: none; }
+  .compactRoutes { display: block; }
+}
 
 @container (max-width: 340px) {
-  .compact .choice { padding: 0 3px; font-size: 10px !important; }
-  .compact .choice img { width: 17px; height: 17px; }
+  .scene .choice { padding: 0 3px; font-size: 10px !important; }
+  .scene .choice img { width: 17px; height: 17px; }
 }
 @container (min-width: 700px) and (max-width: 900px) {
   .choice { padding: 0 5px; gap: 5px; }
@@ -213,5 +223,7 @@ code.coverMetaPill { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, C
   .choice em { display: none; }
 }
 .enrichSources { position: absolute; left: 27px; top: 500px; width: 122px; display: grid; justify-items: center; gap: 9px; color: #a8a8b2; font-size: 10px; }
-.compact .enrichSources { display: none; }
-.compact .enrichOperation { left: 50%; top: 273px; width: 190px; transform: translateX(-50%); }
+@container (max-width: 699px) {
+  .scene .enrichSources { display: none; }
+  .scene .enrichOperation { left: 50%; top: 273px; width: 190px; transform: translateX(-50%); }
+}

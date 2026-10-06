@@ -6,3 +6,8 @@
   width: 100%;
   left: calc(-1 * var(--sp-scene-center-shift));
 }
+
+/* The initial HTML follows the container before React measures the stage. */
+@container (max-width: 699px) {
+  .scene { --sp-scene-center-shift: 0px; }
+}

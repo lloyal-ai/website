@@ -11,8 +11,10 @@ const targets = [
 export default function HeroIntro() {
   return (
     <div className={styles.intro}>
-      <h1 id="hero-title">Ship apps that think and act.</h1>
-      <p className={styles.subtitle}>Compose open-weight models in TypeScript. Ship intelligence inside your application.</p>
+      <h1 id="hero-title">Agents without an API</h1>
+      <p className={styles.subtitle}>
+        The complete intelligence runtime you can ship inside your app.
+      </p>
       <div className={styles.commandRow}>
         <Command />
         <ul className={styles.targets} role="list" aria-label="Supported app targets">
