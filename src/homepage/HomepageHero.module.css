@@ -44,6 +44,35 @@
   text-wrap: pretty;
 }
 
+.description {
+  max-width: 720px;
+  margin: 16px 0 0;
+  color: #a0a0aa;
+  font-size: 15px;
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+.description a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: #a0a0aa80;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.description a:hover,
+.description a:focus-visible {
+  color: #f1f0f2;
+  text-decoration-color: currentColor;
+}
+
+.description a:focus-visible {
+  outline: 2px solid #81818a;
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
 .commandRow {
   position: relative;
   display: flex;
