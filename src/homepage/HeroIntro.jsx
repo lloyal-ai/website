@@ -16,7 +16,7 @@ export default function HeroIntro() {
         The complete intelligence runtime you can ship inside your app.
       </p>
       <p className={styles.description}>
-        Write your app in TypeScript. Have it compose local models, spawn agents that share attention state, and use turnkey abilities to perform real-world tasks. Ship it like a regular desktop app that works offline or a web app that serves multiple users.
+        Write your app in <a href="https://docs.lloyal.ai/build-your-first-harness" target="_blank" rel="noreferrer">TypeScript</a>. Have it <a href="https://docs.lloyal.ai/services" target="_blank" rel="noreferrer">compose local models</a>, spawn agents that <a href="https://docs.lloyal.ai/continuous-context" target="_blank" rel="noreferrer">share attention state</a>, and use turnkey <a href="https://docs.lloyal.ai/abilities" target="_blank" rel="noreferrer">abilities</a> to perform <a href="https://docs.lloyal.ai/tools" target="_blank" rel="noreferrer">real-world tasks</a>. Ship it like a regular <a href="https://docs.lloyal.ai/ship" target="_blank" rel="noreferrer">desktop app</a> that works offline or a <a href="https://docs.lloyal.ai/serve" target="_blank" rel="noreferrer">web app</a> that serves multiple users.
       </p>
       <div className={styles.commandRow}>
         <Command />
