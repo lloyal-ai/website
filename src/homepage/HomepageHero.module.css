@@ -44,6 +44,15 @@
   text-wrap: pretty;
 }
 
+.description {
+  max-width: 720px;
+  margin: 16px 0 0;
+  color: #a0a0aa;
+  font-size: 15px;
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
 .commandRow {
   position: relative;
   display: flex;

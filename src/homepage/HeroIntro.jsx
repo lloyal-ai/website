@@ -15,6 +15,9 @@ export default function HeroIntro() {
       <p className={styles.subtitle}>
         The complete intelligence runtime you can ship inside your app.
       </p>
+      <p className={styles.description}>
+        Write your app in TypeScript. Have it compose local models, spawn agents that share attention state, and use turnkey abilities to perform real-world tasks. Ship it like a regular desktop app that works offline or a web app that serves multiple users.
+      </p>
       <div className={styles.commandRow}>
         <Command />
         <ul className={styles.targets} role="list" aria-label="Supported app targets">
